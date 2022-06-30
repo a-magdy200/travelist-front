@@ -129,6 +129,12 @@ const headCells: readonly HeadCell[] = [
     disablePadding: false,
     label: 'Status',
   },
+  {
+    id: 'id',
+    numeric: true,
+    disablePadding: false,
+    label: 'Actions',
+  },
 ];
 
 interface EnhancedTableProps {
@@ -154,9 +160,9 @@ function EnhancedTableHead(props: EnhancedTableProps) {
           {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
+            align="center"
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -258,12 +264,17 @@ export default function ListPrograms() {
                   return (
                 
                     <TableRow>
-                      <TableCell >{row.id}</TableCell>
-                      <TableCell align="right">{row.program_name}</TableCell>
-                      <TableCell align="right">{row.company_name}</TableCell>
-                      <TableCell align="right">{row.country}</TableCell>
-                      <TableCell align="right">{row.status}</TableCell>
-                    </TableRow>
+                      <TableCell align="center">{row.id}</TableCell>
+                      <TableCell align="center">{row.program_name}</TableCell>
+                      <TableCell align="center">{row.company_name}</TableCell>
+                      <TableCell align="center">{row.country}</TableCell>
+                      <TableCell align="center">{row.status}</TableCell>
+                      <TableCell align="center">
+                        <Button className="createButton" variant="contained" color="success">Show</Button> 
+                        <Button className="createButton" variant="contained">Edit</Button> 
+                        <Button className="createButton" variant="contained" color="error">Delete</Button> 
+                      </TableCell>
+                     </TableRow>
                   
                   );
                 })}
