@@ -1,0 +1,41 @@
+.createButton.a
+{
+    margin: 10px;
+    color: white;
+}
+.listPrograms
+{
+    margin:1%;
+}
+.inputText
+{
+    width: 50%;
+}
+.container
+{
+    display:flex;
+}
+.left
+{
+    width: 50%;
+}
+.right
+{
+    width:50%;
+}
+.leftContainer
+{
+    margin: 3%;
+    line-height: 25%;
+}
+.inputText
+{
+    width:80%;
+    display: block;
+    margin-bottom: 20px;
+}
+.programImage
+{
+    width:100%;
+    margin-top: 20%;
+}
