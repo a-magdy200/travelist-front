@@ -11,26 +11,19 @@ function Register() {
   const [email, setEmail] = useState("")
   const [password, setPass] = useState("")
 
-  // const[nameError, setNameError] = useState("")
-  // const[emailError, setEmailError] = useState("")
-  // const[passwordError, setPasswordError] = useState("")
-
   async function sendData(e:any) {
     e.preventDefault();
     let checkSubmit = true;
 
     if (name === "") {
-      // setNameError('User Name is required');
       checkSubmit = false;
     }
 
     if (email === "") {
-      // setEmailError('Email is required');
       checkSubmit = false;
     }
 
     if (password === "") {
-      // setPasswordError('Password is required');
       checkSubmit = false;
     }
 
@@ -46,9 +39,7 @@ function Register() {
         if (response.ok){
           console.log(response.status);
           console.log('register done');
-          // let USER_TOKEN = await response.text();
-          // let token =  JSON.parse(USER_TOKEN).token;
-          // localStorage.setItem('TOKEN', token);
+          // redirect to login
         }
 
       }catch(error){

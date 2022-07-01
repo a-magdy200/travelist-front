@@ -10,20 +10,15 @@ function Login() {
   const [name, setName] = useState("")
   const [password, setPass] = useState("")
 
-  const[nameError, setNameError] = useState("")
-  const[passwordError, setPasswordError] = useState("")
-
   async function sendData(e:any) {
     e.preventDefault();
     let checkSubmit = true;
 
     if (name === "") {
-      setNameError('User Name is required');
       checkSubmit = false;
     }
 
     if (password === "") {
-      setPasswordError('Password is required');
       checkSubmit = false;
     }
 
@@ -37,8 +32,8 @@ function Login() {
         });
 
         if (response.ok){
-          console.log(response.status);
-          console.log('loggind done');
+          // console.log(response.status);
+          // console.log('loggind done');
           let USER_TOKEN = await response.text();
           let token =  JSON.parse(USER_TOKEN).token;
           localStorage.setItem('TOKEN', token);
