@@ -12,6 +12,8 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import Stack from '@mui/material/Stack';
+import {  NavLink } from "react-router-dom";
+
 let Create=()=> {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
@@ -135,7 +137,7 @@ let Create=()=> {
         />
         </CardContent>
         <CardActions>
-      <Button variant="contained">Back</Button>
+        <NavLink to={`/`}> <Button variant="contained">Back</Button></NavLink>
       <Button variant="contained"type="submit">Create</Button>
       </CardActions>
         </Card>
