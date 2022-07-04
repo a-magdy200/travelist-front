@@ -6,6 +6,7 @@ import Create from './components/programs/create';
 import Create2 from './components/programs/create2';
 import Show from './components/programs/show';
 import CreateCycle from './components/cycles/create';
+import Profile from './components/Profile'
 
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -20,14 +21,13 @@ function App() {
          <Route path="/create" element={<Create/>}/>
          <Route path="/create2" element={<Create2/>}/>
          <Route path="/show" element={<Show/>}/>
-
+        <Route path="/profile"  element= {<Profile/>}/>
          <Route path="/cycle/create" element={<CreateCycle/>}/>
 
 
       </Routes>
-      </BrowserRouter>  
+      </BrowserRouter>
   );
 }
 
 export default App;
-
