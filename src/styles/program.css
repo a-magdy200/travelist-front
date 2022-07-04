@@ -1,0 +1,72 @@
+.createButton
+{
+    margin-left: 20px;
+    color: white;
+}
+.listPrograms
+{
+    margin:1%;
+}
+.inputText
+{
+    width: 50%;
+}
+.container
+{
+    display:flex;
+}
+.left
+{
+    width: 50%;
+}
+.right
+{
+    width:50%;
+}
+.leftContainer
+{
+    margin: 3%;
+    line-height: 25%;
+}
+.inputText
+{
+    width:80%;
+    display: block;
+    margin-bottom: 20px;
+}
+.programImage
+{
+    width:100%;
+    margin-top: 20%;
+}
+.createContainer
+{
+    height:800px;
+}
+.bottomHeader
+{
+    display: flex;
+    justify-content: space-between;
+}
+.bottom
+{
+    background-color: #e8eef7;
+    height: 80%;
+    padding: 2%;
+}
+.Top
+{
+    height:20%;
+    padding: 2%;
+
+
+}
+.TopCycle
+{
+    height:32%;
+    padding: 2%;
+}
+.bottomContent
+{
+    padding: 100px;
+}
