@@ -7,14 +7,14 @@ import { useState } from 'react';
 
 function Login() {
 
-  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPass] = useState("")
 
   async function sendData(e:any) {
     e.preventDefault();
     let checkSubmit = true;
 
-    if (name === "") {
+    if (email === "") {
       checkSubmit = false;
     }
 
@@ -28,7 +28,7 @@ function Login() {
         const response = await fetch ('http://localhost:4000/auth/login', {
           method: "POST",
           headers: {"content-Type":"application/json"},
-          body: JSON.stringify({name:name, password:password})
+          body: JSON.stringify({email: email, password: password})
         });
 
         if (response.ok){
@@ -57,7 +57,7 @@ function Login() {
               
               <div>
                 <TextField required fullWidth id="name" label="username" onChange={(e) => {
-                  setName(e.target.value)
+                  setEmail(e.target.value)
                 }}/>
               </div><br/>
               

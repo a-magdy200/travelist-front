@@ -22,7 +22,7 @@ function ForgetPassword() {
 
             if (response.ok) {
                 console.log(response.status);
-                console.log('register done');
+                console.log('Email sent');
             }
 
         } catch (error) {
