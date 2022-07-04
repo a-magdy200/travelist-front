@@ -15,10 +15,11 @@ import Stack from '@mui/material/Stack';
 import {  NavLink } from "react-router-dom";
 
 let Create=()=> {
+    const [id, setId] = useState("");
     const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [maxnum, setMaxNum] = useState("");
-    const [description, setDescription] = useState("");
     const [country, setCountry] = useState("");
     const [hotel, setHotel] = useState("");
     const [transportation, setTrans] = useState("");

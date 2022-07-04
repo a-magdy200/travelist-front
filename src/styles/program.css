@@ -1,6 +1,6 @@
 .createButton
 {
-    margin-left: 10px;
+    margin-left: 20px;
     color: white;
 }
 .listPrograms
@@ -38,4 +38,35 @@
 {
     width:100%;
     margin-top: 20%;
+}
+.createContainer
+{
+    height:800px;
+}
+.bottomHeader
+{
+    display: flex;
+    justify-content: space-between;
+}
+.bottom
+{
+    background-color: #e8eef7;
+    height: 80%;
+    padding: 2%;
+}
+.Top
+{
+    height:20%;
+    padding: 2%;
+
+
+}
+.TopCycle
+{
+    height:32%;
+    padding: 2%;
+}
+.bottomContent
+{
+    padding: 100px;
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useContext, useEffect, useState} from "react";
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,44 +16,38 @@ import {  NavLink } from "react-router-dom";
 
 interface Data {
     id: number;
-    program_name: string;
-    company_name: string;
-    country: string;
-    status: string;
+    name: string;
+    companyId: string;
+    price: number;
 }
 
-function createData(
+/*function createData(
     id: number,
     program_name: string,
     company_name: string,
-    country: string,
-    status: string
+    price: number
 ): Data {
   return {
     id,
     program_name,
     company_name,
-    country,
-    status
+    price,
 
   };
 }
 
 const rows = [
-  createData(1,"p1","c1","Egypt","open"),
-  createData(2,"p2","c2","Egypt","open"),
-  createData(3,"p3","c3","Egypt","closed"),
-  createData(4,"p4","c4","Egypt","closed"),
-  createData(5,"p5","c5","Egypt","open"),
-  createData(6,"p6","c6","Egypt","open"),
-  createData(7,"p7","c7","Egypt","closed"),
-  createData(8,"p8","c8","Egypt","open"),
-  createData(9,"p9","c9","Egypt","open"),
-  createData(10,"p10","c10","Egypt","closed"),
-  createData(11,"p11","c11","Egypt","open"),
-  createData(12,"p12","c12","Egypt","open"),
-];
+  createData(1,"p1","c1",100),
+  createData(2,"p2","c2",100),
+  createData(3,"p3","c3",100),
+  createData(4,"p4","c4",100),
+  createData(5,"p5","c5",100),
+  createData(6,"p6","c6",100),
+  createData(7,"p7","c7",100),
 
+ 
+];
+*/
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -106,29 +101,24 @@ const headCells: readonly HeadCell[] = [
     label: 'ID ',
   },
   {
-    id: 'program_name',
+    id: 'name',
     numeric: true,
     disablePadding: false,
     label: 'Program Name',
   },
   {
-    id: 'company_name',
+    id: 'companyId',
     numeric: true,
     disablePadding: false,
     label: 'Company Name',
   },
   {
-    id: 'country',
+    id: 'price',
     numeric: true,
     disablePadding: false,
-    label: 'Destination',
+    label: 'Price',
   },
-  {
-    id: 'status',
-    numeric: true,
-    disablePadding: false,
-    label: 'Status',
-  },
+ 
   {
     id: 'id',
     numeric: true,
@@ -185,11 +175,26 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 
 export default function ListPrograms() {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('program_name');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [order, setOrder] = useState<Order>('asc');
+  const [orderBy, setOrderBy] = useState<keyof Data>('name');
+  const [selected, setSelected] = useState<readonly string[]>([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [programs, setPrograms] = useState([]);
+
+
+   useEffect(()=>{
+     fetch("http://localhost:4000/programs/all")
+    .then(response => {
+      return response.json()
+    })
+    .then(res => {
+     setPrograms(res.data)
+    })
+    .catch(e=>{
+      console.log(e)
+    })
+   },[]);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -200,10 +205,10 @@ export default function ListPrograms() {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+ const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.program_name);
-      setSelected(newSelecteds);
+     // const newSelecteds = programs.map((n) => n.program_name);
+     // setSelected(newSelecteds);
       return;
     }
     setSelected([]);
@@ -224,7 +229,7 @@ export default function ListPrograms() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - programs.length) : 0;
 
   return (
     <div>
@@ -234,7 +239,7 @@ export default function ListPrograms() {
       <TablePagination
           rowsPerPageOptions={[10, 20, 30]}
           component="div"
-          count={rows.length}
+          count={programs.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -251,24 +256,23 @@ export default function ListPrograms() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={programs.length}
             />
             
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(programs, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+                .map((program, index) => {
 
                   return (
                 
                     <TableRow>
-                      <TableCell align="center">{row.id}</TableCell>
-                      <TableCell align="center">{row.program_name}</TableCell>
-                      <TableCell align="center">{row.company_name}</TableCell>
-                      <TableCell align="center">{row.country}</TableCell>
-                      <TableCell align="center">{row.status}</TableCell>
+                      <TableCell align="center">{program.id}</TableCell>
+                      <TableCell align="center">{program.name}</TableCell>
+                      <TableCell align="center">{program.companyId}</TableCell>
+                      <TableCell align="center">{program.price}</TableCell>
                       <TableCell align="center">
                         <Button className="createButton" variant="contained" color="success">Show</Button> 
                         <Button className="createButton" variant="contained">Edit</Button> 
