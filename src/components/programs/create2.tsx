@@ -76,25 +76,39 @@ let Create2=()=> {
           target: { value },
         } = event;
         setHotel(
-          typeof value === 'string' ? value.split(',') : value,
-        );
+          typeof value === 'string' ? value.split(','): value,);
       };
-
 
       async function sendData(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault(); 
         const formData = new FormData();
         formData.append('name', name);
         formData.append('description', description);
-        formData.append('cover_picture', cover_picture as  Blob);
-        formData.append('price', price);
+        formData.append('cover_picture', cover_picture as File);
+        formData.append('price', price );
         formData.append('is_Recurring', is_Recurring.toString());
         formData.append('companyId', '1');
         for (let item of hotel) {
-          formData.append("hotel", item);
+          formData.append("hotels", item);
+          console.log(item)
         }
         console.log(formData);
-        console.log(name);
+
+        const response= await fetch("http://localhost:4000/programs/create",{
+            mode: 'no-cors',
+            method:"POST",
+            body: formData  
+        })
+     
+        if(response.ok)
+        {
+          let data = await response.json();
+          console.log(data);
+        }   
+        else{
+  
+          console.log("error");
+        }  
 
       }
       
@@ -117,23 +131,22 @@ let Create2=()=> {
         </div>
         <hr/>
          <div className='bottomContent'>
-         <Grid container direction='column'>
+         <Grid container direction='column' spacing={2}>
          <Grid item xs={8}>
-         <Item>
-            <TextField className='inputText' label="Program Price" variant="outlined" required value={price} onChange={(e)=>{
+         
+            <TextField className='inputText' type="number" label="Program Price" variant="outlined" required value={price} onChange={(e)=>{
              setPrice(e.target.value);
              console.log((e.target.value))}}/> <br/>
-         </Item>
+        
          </Grid>
          <Grid item xs={8}>
-         <Item>
          <TextareaAutosize aria-label="Description" minRows={3} placeholder="Description" style={{ width: 400 }}required value={description} onChange={(e)=>{
                 setDescription(e.target.value);
                 console.log(e.target.value)}}  /><br/>
-         </Item>
+         
          </Grid>
          <Grid item xs={8}>
-         <Item>
+     
         <FormControl sx={{ m: 1, width: 300 }}>
         <InputLabel id="demo-multiple-hotel-label">Hotels</InputLabel>
         <Select
@@ -163,16 +176,12 @@ let Create2=()=> {
           ))}
         </Select>
       </FormControl><br/>
-      </Item>
       </Grid>
       <Grid item xs={8}>
-      <Item>
       <Checkbox checked={is_Recurring} onChange={changeRecurring} inputProps={{ 'aria-label': 'controlled' }}/>is_Recurring      
-      </Item>
       </Grid>
 
       <Grid item xs={2}>
-      <Item>
       <Button variant="contained" component="label"><input type="file" accept="image/*" onChange={(e) => {
                      if(e.target.files)
                   {  setCoverPicture(e.target.files[0]);
@@ -180,12 +189,9 @@ let Create2=()=> {
                   }
                      }} />
                      </Button>
-      </Item>
       </Grid>
       <Grid item xs={8}>
-      <Item>
       <Button variant="contained" type="submit">Create</Button>
-      </Item>
       </Grid>
       </Grid>
       </div>

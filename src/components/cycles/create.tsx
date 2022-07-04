@@ -30,18 +30,8 @@ let CreateCycle=()=> {
     const [returnArrivalDate, setReturnArrivalDate] = useState<string|null>("");
 
     //styles
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#e8eef7',
-        padding: theme.spacing(1),
-        color: theme.palette.text.secondary,
-      }));
-
-      const Item2 = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#fff',
-        padding: theme.spacing(1),
-        color: theme.palette.text.secondary,
-      }));  
-      
+   
+          
      const ITEM_HEIGHT = 48;
      const ITEM_PADDING_TOP = 8;
      const MenuProps = {
@@ -75,17 +65,13 @@ let CreateCycle=()=> {
      <div className="createContainer"> 
      <div className='TopCycle'>
         <h1>Create Cycle</h1>
-        <Grid container direction='column'>
+        <Grid container direction='column' spacing={2}>
         <Grid item xs={8}>
-         <Item2>
           <TextField className='inputText'  label="Cycle Name" variant="outlined" required value={name} onChange={(e)=>{
                 setName(e.target.value)}}/> 
-        </Item2>
         </Grid>
         <Grid item xs={4}>
-         <Item2>
-         <Grid container> 
-         <Item2>
+         <Grid container > 
       <LocalizationProvider dateAdapter={AdapterLuxon}>
       <DatePicker
         label="Departure Date"
@@ -97,9 +83,7 @@ let CreateCycle=()=> {
         renderInput={(params) => <TextField {...params} />}
       />
       </LocalizationProvider>
-      </Item2>
 
-      <Item2>
       <LocalizationProvider dateAdapter={AdapterLuxon}>
       <DatePicker
         label="Arrival Date"
@@ -111,9 +95,7 @@ let CreateCycle=()=> {
         renderInput={(params) => <TextField {...params} />}
       />
       </LocalizationProvider>
-      </Item2>
 
-      <Item2>
       <LocalizationProvider dateAdapter={AdapterLuxon}>
       <DatePicker
         label="Return Date"
@@ -125,9 +107,7 @@ let CreateCycle=()=> {
         renderInput={(params) => <TextField {...params} />}
       />
       </LocalizationProvider>
-      </Item2>
 
-      <Item2>
       <LocalizationProvider dateAdapter={AdapterLuxon}>
       <DatePicker
         label="Return Arrival Date"
@@ -139,10 +119,8 @@ let CreateCycle=()=> {
         renderInput={(params) => <TextField {...params} />}
       />
       </LocalizationProvider>
-      </Item2>
 
       </Grid> 
-      </Item2>
       </Grid>
       </Grid>
      </div>
@@ -150,10 +128,9 @@ let CreateCycle=()=> {
             <h2>Cycle Details</h2>
         <hr/>
          <div className='bottomContent'>
-         <Grid container direction='column'>
+         <Grid container direction='column' spacing={2}>
 
          <Grid item xs={8}>
-         <Item>
          <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Departure Location</InputLabel>
@@ -169,11 +146,9 @@ let CreateCycle=()=> {
         </Select>
       </FormControl>
     </Box>
-         </Item>
          </Grid>
 
          <Grid item xs={8}>
-         <Item>
          <Box sx={{ minWidth: 120 }}>
          <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Arrival Location</InputLabel>
@@ -189,11 +164,9 @@ let CreateCycle=()=> {
         </Select>
         </FormControl>
         </Box>
-         </Item>
          </Grid>
 
          <Grid item xs={8}>
-         <Item>
          <Box sx={{ minWidth: 120 }}>
          <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Return Location</InputLabel>
@@ -209,11 +182,9 @@ let CreateCycle=()=> {
         </Select>
       </FormControl>
     </Box>
-         </Item>
       </Grid>
       
       <Grid item xs={8}>
-         <Item>
          <Box sx={{ minWidth: 120 }}>
          <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">Return Arrival Location</InputLabel>
@@ -229,7 +200,6 @@ let CreateCycle=()=> {
         </Select>
       </FormControl>
       </Box>
-      </Item>
       </Grid>
 
       </Grid>

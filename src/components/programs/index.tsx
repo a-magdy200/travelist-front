@@ -17,10 +17,15 @@ import {  NavLink } from "react-router-dom";
 interface Data {
     id: number;
     name: string;
-    companyId: string;
+    company:Company ;
     price: number;
 }
 
+interface Company {
+  id: number;
+  name: string;
+  
+}
 /*function createData(
     id: number,
     program_name: string,
@@ -48,7 +53,7 @@ const rows = [
  
 ];
 */
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
   }
@@ -60,12 +65,13 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
 
 type Order = 'asc' | 'desc';
 
-function getComparator<Key extends keyof any>(
+function getComparator<Key extends keyof Data>(
   order: Order,
   orderBy: Key,
 ): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
+  //a: { [key in Key]: number | string },
+  //b: { [key in Key]: number | string },
+  a:Data,b:Data
 ) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -74,8 +80,8 @@ function getComparator<Key extends keyof any>(
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+function stableSort<Data>(array: readonly Data[], comparator: (a: Data, b: Data) => number) {
+  const stabilizedThis = array.map((el, index) => [el, index] as [Data, number]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
@@ -107,7 +113,7 @@ const headCells: readonly HeadCell[] = [
     label: 'Program Name',
   },
   {
-    id: 'companyId',
+    id: 'company',
     numeric: true,
     disablePadding: false,
     label: 'Company Name',
@@ -189,7 +195,8 @@ export default function ListPrograms() {
       return response.json()
     })
     .then(res => {
-     setPrograms(res.data)
+     setPrograms(res.data);
+     console.log(res.data)
     })
     .catch(e=>{
       console.log(e)
@@ -264,14 +271,14 @@ export default function ListPrograms() {
               rows.slice().sort(getComparator(order, orderBy)) */}
               {stableSort(programs, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((program, index) => {
+                .map((program:Data, index) => {
 
                   return (
                 
                     <TableRow>
                       <TableCell align="center">{program.id}</TableCell>
                       <TableCell align="center">{program.name}</TableCell>
-                      <TableCell align="center">{program.companyId}</TableCell>
+                      <TableCell align="center">{program.company?.name}</TableCell>
                       <TableCell align="center">{program.price}</TableCell>
                       <TableCell align="center">
                         <Button className="createButton" variant="contained" color="success">Show</Button> 
