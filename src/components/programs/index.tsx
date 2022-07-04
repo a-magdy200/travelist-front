@@ -1,30 +1,29 @@
-import * as React from 'react';
-import {useContext, useEffect, useState} from "react";
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Paper from '@mui/material/Paper';
-import { visuallyHidden } from '@mui/utils';
-import Button from '@mui/material/Button';
-import {  NavLink } from "react-router-dom";
+import * as React from "react";
+import { useContext, useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import Paper from "@mui/material/Paper";
+import { visuallyHidden } from "@mui/utils";
+import Button from "@mui/material/Button";
+import { NavLink } from "react-router-dom";
 
 interface Data {
-    id: number;
-    name: string;
-    company:Company ;
-    price: number;
+  id: number;
+  name: string;
+  company: Company;
+  price: number;
 }
 
 interface Company {
   id: number;
   name: string;
-  
 }
 /*function createData(
     id: number,
@@ -63,25 +62,31 @@ function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
   return 0;
 }
 
-type Order = 'asc' | 'desc';
+type Order = "asc" | "desc";
 
 function getComparator<Key extends keyof Data>(
   order: Order,
-  orderBy: Key,
+  orderBy: Key
 ): (
   //a: { [key in Key]: number | string },
   //b: { [key in Key]: number | string },
-  a:Data,b:Data
+  a: Data,
+  b: Data
 ) => number {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 // This method is created for cross-browser compatibility, if you don't
 // need to support IE11, you can use Array.prototype.sort() directly
-function stableSort<Data>(array: readonly Data[], comparator: (a: Data, b: Data) => number) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [Data, number]);
+function stableSort<Data>(
+  array: readonly Data[],
+  comparator: (a: Data, b: Data) => number
+) {
+  const stabilizedThis = array.map(
+    (el, index) => [el, index] as [Data, number]
+  );
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
     if (order !== 0) {
@@ -101,41 +106,44 @@ interface HeadCell {
 
 const headCells: readonly HeadCell[] = [
   {
-    id:'id',
+    id: "id",
     numeric: true,
     disablePadding: false,
-    label: 'ID ',
+    label: "ID ",
   },
   {
-    id: 'name',
+    id: "name",
     numeric: true,
     disablePadding: false,
-    label: 'Program Name',
+    label: "Program Name",
   },
   {
-    id: 'company',
+    id: "company",
     numeric: true,
     disablePadding: false,
-    label: 'Company Name',
+    label: "Company Name",
   },
   {
-    id: 'price',
+    id: "price",
     numeric: true,
     disablePadding: false,
-    label: 'Price',
+    label: "Price",
   },
- 
+
   {
-    id: 'id',
+    id: "id",
     numeric: true,
     disablePadding: false,
-    label: 'Actions',
+    label: "Actions",
   },
 ];
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (
+    event: React.MouseEvent<unknown>,
+    property: keyof Data
+  ) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -143,8 +151,7 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
-  const {order, orderBy, onRequestSort } =
-    props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler =
     (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
@@ -153,22 +160,22 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   return (
     <TableHead>
       <TableRow>
-          {headCells.map((headCell) => (
+        {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
+            padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
             align="center"
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
             </TableSortLabel>
@@ -179,60 +186,56 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   );
 }
 
-
 export default function ListPrograms() {
-  const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<keyof Data>('name');
+  const [order, setOrder] = useState<Order>("asc");
+  const [orderBy, setOrderBy] = useState<keyof Data>("name");
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [programs, setPrograms] = useState([]);
 
-
-   useEffect(()=>{
-     fetch("http://localhost:4000/programs/all")
-    .then(response => {
-      return response.json()
-    })
-    .then(res => {
-     setPrograms(res.data);
-     console.log(res.data)
-    })
-    .catch(e=>{
-      console.log(e)
-    })
-   },[]);
+  useEffect(() => {
+    fetch("http://localhost:4000/programs/all")
+      .then((response) => {
+        return response.json();
+      })
+      .then((res) => {
+        setPrograms(res.data);
+        console.log(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: keyof Data
   ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
- const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-     // const newSelecteds = programs.map((n) => n.program_name);
-     // setSelected(newSelecteds);
+      // const newSelecteds = programs.map((n) => n.program_name);
+      // setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  
-
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -240,66 +243,76 @@ export default function ListPrograms() {
 
   return (
     <div>
-   <NavLink to={`/create`}> <Button className="createButton" variant="contained">Create</Button></NavLink>
-    <Box className="listPrograms" sx={{ width: '97%' }}>
-      <Paper sx={{ width: '100%', mb: 1 }}>
-      <TablePagination
-          rowsPerPageOptions={[10, 20, 30]}
-          component="div"
-          count={programs.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={programs.length}
-            />
-            
-            <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(programs, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((program:Data, index) => {
+      <NavLink to={`/create`}>
+        {" "}
+        <Button className="createButton" variant="contained">
+          Create
+        </Button>
+      </NavLink>
+      <Box className="listPrograms" sx={{ width: "97%" }}>
+        <Paper sx={{ width: "100%", mb: 1 }}>
+          <TablePagination
+            rowsPerPageOptions={[10, 20, 30]}
+            component="div"
+            count={programs.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          <TableContainer>
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={programs.length}
+              />
 
-                  return (
-                
-                    <TableRow>
-                      <TableCell align="center">{program.id}</TableCell>
-                      <TableCell align="center">{program.name}</TableCell>
-                      <TableCell align="center">{program.company?.name}</TableCell>
-                      <TableCell align="center">{program.price}</TableCell>
-                      <TableCell align="center">
-                        <Button className="createButton" variant="contained" color="success">Show</Button> 
-                        <Button className="createButton" variant="contained">Edit</Button> 
-                        <Button className="createButton" variant="contained" color="error">Delete</Button> 
-                      </TableCell>
-                     </TableRow>
-                  
-                  );
-                })}
-              {emptyRows > 0 && (
-               
-                  <TableCell colSpan={6} />
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        
-      </Paper>
-     
-    </Box>
+              <TableBody>
+                {/* if you don't need to support IE11, you can replace the `stableSort` call with:
+              rows.slice().sort(getComparator(order, orderBy)) */}
+                {stableSort(programs, getComparator(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((program: Data, index) => {
+                    return (
+                      <TableRow>
+                        <TableCell align="center">{program.id}</TableCell>
+                        <TableCell align="center">{program.name}</TableCell>
+                        <TableCell align="center">
+                          {program.company?.name}
+                        </TableCell>
+                        <TableCell align="center">{program.price}</TableCell>
+                        <TableCell align="center">
+                          <Button
+                            className="createButton"
+                            variant="contained"
+                            color="success"
+                          >
+                            Show
+                          </Button>
+                          <Button className="createButton" variant="contained">
+                            Edit
+                          </Button>
+                          <Button
+                            className="createButton"
+                            variant="contained"
+                            color="error"
+                          >
+                            Delete
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && <TableCell colSpan={6} />}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Box>
     </div>
   );
 }
