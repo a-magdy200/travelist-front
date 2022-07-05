@@ -14,45 +14,24 @@ import { visuallyHidden } from '@mui/utils';
 import Button from '@mui/material/Button';
 import {  NavLink } from "react-router-dom";
 
-interface Data {
+interface Cycle {
     id: number;
-    name: string;
-    company:Company ;
-    price: number;
+    name:string;
+    departure_date:string;
+    arrival_date:string;
+    departure_location:Country;
+    arrival_location:Country;
+   
 }
 
-interface Company {
+interface Country {
   id: number;
   name: string;
   
 }
-/*function createData(
-    id: number,
-    program_name: string,
-    company_name: string,
-    price: number
-): Data {
-  return {
-    id,
-    program_name,
-    company_name,
-    price,
 
-  };
-}
 
-const rows = [
-  createData(1,"p1","c1",100),
-  createData(2,"p2","c2",100),
-  createData(3,"p3","c3",100),
-  createData(4,"p4","c4",100),
-  createData(5,"p5","c5",100),
-  createData(6,"p6","c6",100),
-  createData(7,"p7","c7",100),
 
- 
-];
-*/
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -65,13 +44,11 @@ function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 
 type Order = 'asc' | 'desc';
 
-function getComparator<Key extends keyof Data>(
+function getComparator<Key extends keyof Cycle>(
   order: Order,
   orderBy: Key,
 ): (
-  //a: { [key in Key]: number | string },
-  //b: { [key in Key]: number | string },
-  a:Data,b:Data
+    a:Cycle,b:Cycle
 ) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
@@ -94,7 +71,7 @@ function stableSort<Data>(array: readonly Data[], comparator: (a: Data, b: Data)
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: keyof Cycle;
   label: string;
   numeric: boolean;
 }
@@ -110,19 +87,31 @@ const headCells: readonly HeadCell[] = [
     id: 'name',
     numeric: true,
     disablePadding: false,
-    label: 'Program Name',
+    label: 'Cycle Name',
   },
   {
-    id: 'company',
+    id: 'departure_date',
     numeric: true,
     disablePadding: false,
-    label: 'Company Name',
+    label: 'Departure Date',
   },
   {
-    id: 'price',
+    id: 'arrival_date',
     numeric: true,
     disablePadding: false,
-    label: 'Price',
+    label: 'Arrival Date',
+  },
+  {
+    id: 'departure_location',
+    numeric: true,
+    disablePadding: false,
+    label: 'Departure Location',
+  },
+  {
+    id: 'arrival_location',
+    numeric: true,
+    disablePadding: false,
+    label: 'Arrival Location',
   },
  
   {
@@ -135,7 +124,7 @@ const headCells: readonly HeadCell[] = [
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Cycle) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -146,57 +135,57 @@ function EnhancedTableHead(props: EnhancedTableProps) {
   const {order, orderBy, onRequestSort } =
     props;
   const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof Cycle) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 
-  return (
-    <TableHead>
-      <TableRow>
-          {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            padding={headCell.disablePadding ? 'none' : 'normal'}
-            sortDirection={orderBy === headCell.id ? order : false}
-            align="center"
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={createSortHandler(headCell.id)}
+    return (
+      <TableHead>
+        <TableRow>
+            {headCells.map((headCell) => (
+            <TableCell
+              key={headCell.id}
+              padding={headCell.disablePadding ? 'none' : 'normal'}
+              sortDirection={orderBy === headCell.id ? order : false}
+              align="center"
             >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : 'asc'}
+                onClick={createSortHandler(headCell.id)}
+                >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+    );
 }
 
 
-export default function ListPrograms() {
+export default function ListCycles() {
   const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<keyof Data>('name');
+  const [orderBy, setOrderBy] = useState<keyof Cycle>('name');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [programs, setPrograms] = useState([]);
+  const [cycles, setCycles] = useState([]);
 
 
 
    useEffect(()=>{
-     fetch("http://localhost:4000/programs/all")
+     fetch("http://localhost:4000/cycles/all")
     .then(response => {
       return response.json()
     })
     .then(res => {
-     setPrograms(res.data);
+     setCycles(res.data);
      console.log(res.data)
     })
     .catch(e=>{
@@ -205,10 +194,10 @@ export default function ListPrograms() {
 
    
    },[]);
-   const removeProgram = (id:number) => {
+   const removeCycle = (id:number) => {
     if (window.confirm("Are you sure?")) {
         console.log(id)
-        fetch('http://localhost:4000/programs/delete/'+id,
+        fetch('http://localhost:4000/cycles/delete/'+id,
             {
                 method: 'DELETE',
             })
@@ -218,7 +207,7 @@ export default function ListPrograms() {
     }}
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
-    property: keyof Data,
+    property: keyof Cycle,
   ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -249,7 +238,7 @@ export default function ListPrograms() {
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - programs.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cycles.length) : 0;
 
   return (
     <div>
@@ -259,44 +248,43 @@ export default function ListPrograms() {
       <TablePagination
           rowsPerPageOptions={[10, 20, 30]}
           component="div"
-          count={programs.length}
+          count={cycles.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
         <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-          >
+          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={programs.length}
+              rowCount={cycles.length}
             />
             
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
               rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(programs, getComparator(order, orderBy))
+              {stableSort(cycles, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((program:Data, index) => {
+                .map((cycle:Cycle, index) => {
 
                   return (
                 
                     <TableRow>
-                      <TableCell align="center">{program.id}</TableCell>
-                      <TableCell align="center">{program.name}</TableCell>
-                      <TableCell align="center">{program.company?.name}</TableCell>
-                      <TableCell align="center">{program.price}</TableCell>
+                      <TableCell align="center">{cycle.id}</TableCell>
+                      <TableCell align="center">{cycle.name}</TableCell>
+                      <TableCell align="center">{cycle.departure_date}</TableCell>
+                      <TableCell align="center">{cycle.arrival_date}</TableCell>
+                      <TableCell align="center">{cycle.departure_location?.name}</TableCell>
+                      <TableCell align="center">{cycle.arrival_location?.name}</TableCell>
                       <TableCell align="center">
-                      <NavLink to={`/program/show/${program.id}`}><Button className="createButton" variant="contained" color="success">Show</Button></NavLink>
-                      <NavLink to={`/program/edit/${program.id}`}>  <Button className="createButton" variant="contained">Edit</Button></NavLink>
-                        <Button className="createButton" variant="contained" color="error" onClick={()=>{removeProgram(program.id)}}>Delete</Button> 
+                      <NavLink to={`/program/show/${cycle.id}`}><Button className="createButton" variant="contained" color="success">Show</Button></NavLink>
+                      <NavLink to={`/program/edit/${cycle.id}`}>  <Button className="createButton" variant="contained">Edit</Button></NavLink>
+                        <Button className="createButton" variant="contained" color="error" onClick={()=>{removeCycle(cycle.id)}}>Delete</Button> 
                       </TableCell>
                      </TableRow>
                   

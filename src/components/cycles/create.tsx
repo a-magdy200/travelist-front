@@ -1,4 +1,5 @@
 import  { useState } from 'react';
+import { DateTime } from 'luxon';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Theme, useTheme } from '@mui/material/styles';
@@ -19,7 +20,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 let CreateCycle=()=> {
     const [name, setName] = useState<string>("");
-    const [maxSeats, setMaxSeats] = useState<number>();
+    const [maxSeats, setMaxSeats] = useState<number>(0);
     const [departureLocation, setDepartureLocation] = useState<string>("");
     const [arrivalLocation, setArrivalLocation] = useState<string>("");
     const [returnLocation, setReturnLocation] = useState<string>("");
@@ -48,6 +49,7 @@ let CreateCycle=()=> {
 
    const changeDepartureLocation = (event: SelectChangeEvent) => {
        setDepartureLocation(event.target.value as string);
+       console.log(event.target.value as string)
        };    
     
    const changeArrivalLocation = (event: SelectChangeEvent) => {
@@ -60,9 +62,55 @@ let CreateCycle=()=> {
     const changeReturnArrivalLocation = (event: SelectChangeEvent) => {
         setReturnArrivalLocation(event.target.value as string);
         };    
+      const formatDate=(date:string)=> {
+          let d = new Date(date),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+  
+          if (month.length < 2) month = '0' + month;
+          if (day.length < 2) day = '0' + day;
+  
+          return [year, month, day].join('-');
+      }
+
+
+      async function sendData(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault(); 
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('programId', '7');
+        formData.append('max_seats', maxSeats.toString() );
+        formData.append('departureLocationId', departureLocation.toString() );
+        formData.append('arrivalLocationId', arrivalLocation.toString() );
+        formData.append('returnArrivalLocationId', returnArrivalLocation.toString() );
+        formData.append('returnLocationId', returnLocation.toString() );
+        formData.append('arrival_date', arrivalDate as string );
+        formData.append('return_date', returnDate as string );
+        formData.append('departure_date', departureDate as string );
+        formData.append('return_arrival_date', returnArrivalDate  as string);
+       
+        console.log(formData);
+
+        const response= await fetch("http://localhost:4000/cycles/create",{
+            mode: 'no-cors',
+            method:"POST",
+            body: formData  
+        })
+        .then(response => {
+         console.log (response)
+        })
+       
+        .catch(e=>{
+          console.log(e)
+        })
+             
+      }
+
 
     return(
      <div className="createContainer"> 
+     <form onSubmit={sendData} >
      <div className='TopCycle'>
         <h1>Create Cycle</h1>
         <Grid container direction='column' spacing={2}>
@@ -77,8 +125,11 @@ let CreateCycle=()=> {
         label="Departure Date"
         value={departureDate }
         onChange={(newValue) => {
-          setDepartureDate(newValue);console.log(newValue);
-
+          if(newValue){
+            setDepartureDate(formatDate(newValue))
+            console.log(departureDate);
+            }
+  
         }}
         renderInput={(params) => <TextField {...params} />}
       />
@@ -89,7 +140,10 @@ let CreateCycle=()=> {
         label="Arrival Date"
         value={arrivalDate }
         onChange={(newValue) => {
-          setArrivalDate(newValue);console.log(newValue);
+          if(newValue){
+          setArrivalDate(formatDate(newValue))
+          console.log(arrivalDate);
+          }
 
         }}
         renderInput={(params) => <TextField {...params} />}
@@ -101,8 +155,11 @@ let CreateCycle=()=> {
         label="Return Date"
         value={returnDate }
         onChange={(newValue) => {
-          setReturnDate(newValue);console.log(newValue);
-
+          if(newValue){
+            setReturnDate(formatDate(newValue))
+            console.log(returnDate);
+            }
+  
         }}
         renderInput={(params) => <TextField {...params} />}
       />
@@ -113,8 +170,11 @@ let CreateCycle=()=> {
         label="Return Arrival Date"
         value={returnArrivalDate }
         onChange={(newValue) => {
-          setReturnArrivalDate(newValue);console.log(newValue);
-
+          if(newValue){
+            setReturnArrivalDate(formatDate(newValue))
+            console.log(formatDate(newValue));
+            }
+  
         }}
         renderInput={(params) => <TextField {...params} />}
       />
@@ -191,7 +251,7 @@ let CreateCycle=()=> {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={returnLocation}
+          value={returnArrivalLocation}
           label="Return Arrival Location"
           onChange={changeReturnArrivalLocation}
         >
@@ -201,11 +261,15 @@ let CreateCycle=()=> {
       </FormControl>
       </Box>
       </Grid>
+      <Grid item xs={8}>
+      <Button variant="contained" type="submit">Create</Button>
+      </Grid>
 
       </Grid>
 
-         </div>
-     </div>
+      </div>
+    </div>
+     </form>
      </div>  
     );
   }
