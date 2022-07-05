@@ -8,6 +8,7 @@ import CreateProgram from './components/programs/create2';
 import CreateCycle from './components/cycles/create';
 import ShowCycle from './components/cycles/show';
 import ListCycles from './components/cycles/index';
+import EditCycle from './components/cycles/edit';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
@@ -22,6 +23,8 @@ function App() {
          <Route path="/cycle/create" element={<CreateCycle/>}/>
          <Route path="/cycle/list" element={<ListCycles/>}/>
          <Route path="/cycle/show/:id" element={<ShowCycle/>}/>
+         <Route path="/cycle/edit/:id" element={<EditCycle/>}/>
+
       </Routes>
       </BrowserRouter>  
   );

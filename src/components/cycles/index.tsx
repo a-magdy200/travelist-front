@@ -242,7 +242,7 @@ export default function ListCycles() {
 
   return (
     <div>
-   <NavLink to={`/program/create`}> <Button className="createButton" variant="contained">Create</Button></NavLink>
+   <NavLink to={`/cycle/create`}> <Button className="createButton" variant="contained">Create</Button></NavLink>
     <Box className="listPrograms" sx={{ width: '97%' }}>
       <Paper sx={{ width: '100%', mb: 1 }}>
       <TablePagination
@@ -282,8 +282,8 @@ export default function ListCycles() {
                       <TableCell align="center">{cycle.departure_location?.name}</TableCell>
                       <TableCell align="center">{cycle.arrival_location?.name}</TableCell>
                       <TableCell align="center">
-                      <NavLink to={`/program/show/${cycle.id}`}><Button className="createButton" variant="contained" color="success">Show</Button></NavLink>
-                      <NavLink to={`/program/edit/${cycle.id}`}>  <Button className="createButton" variant="contained">Edit</Button></NavLink>
+                      <NavLink to={`/cycle/show/${cycle.id}`}><Button className="createButton" variant="contained" color="success">Show</Button></NavLink>
+                      <NavLink to={`/cycle/edit/${cycle.id}`}>  <Button className="createButton" variant="contained">Edit</Button></NavLink>
                         <Button className="createButton" variant="contained" color="error" onClick={()=>{removeCycle(cycle.id)}}>Delete</Button> 
                       </TableCell>
                      </TableRow>
