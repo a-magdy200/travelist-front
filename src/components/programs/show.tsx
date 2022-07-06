@@ -1,24 +1,51 @@
-import { useState, useEffect } from 'react'
+import  { useState , useEffect } from 'react';
+import { useParams } from "react-router-dom";
 
-const Show = () => {
-	const [program, setProgram] = useState()
-	useEffect(() => {
-		fetch('http://localhost:4000/programs/show/1')
-			.then((res) => {
-				return res.json()
-			})
-			.then((res) => {
-				setProgram(res.data)
-				console.log(res.data)
-			})
-			.catch((e) => {
-				console.log(e)
-			})
-	}, [])
-	return (
-		<div>
-			<h1>{program}</h1>
-		</div>
-	)
+const ShowProgram=()=>{
+    const [program, setProgram] = useState<Data>();
+    let {id} = useParams();
+    interface Data {
+      id: number;
+      name: string;
+      company:Company ;
+      price: number;
+      is_Recurring:boolean;
+      transportation:Transportation;
+  }
+  
+  interface Company {
+    id: number;
+    name: string;
+    
+  }
+
+  interface Transportation {
+    id: number;
+    name: string;
+    
+  }
+    useEffect(() => {
+      fetch('http://localhost:4000/programs/show/'+id)
+      .then(res => {
+        return ( res.json());
+      })
+      .then(res => {
+        console.log(res.data)
+        setProgram(res.data)
+
+       })
+       .catch(e=>{
+         console.log(e)
+       })    },[])
+    return(
+   <div>
+
+     <h1>{program?.name}</h1>
+     <h1>{program?.id}</h1>
+
+      
+     </div>
+    );
+    
 }
-export default Show
+export default ShowProgram;

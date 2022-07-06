@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -16,11 +16,13 @@ import Paper from '@mui/material/Paper';
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useParams } from "react-router-dom";
 
 
-let CreateCycle=()=> {
+let EditCycle=()=> {
+    let {id} = useParams();
     const [name, setName] = useState<string>("");
-    const [maxSeats, setMaxSeats] = useState<string>("0");
+    const [maxSeats, setMaxSeats] = useState<number>(0);
     const [departureLocation, setDepartureLocation] = useState<string>("");
     const [arrivalLocation, setArrivalLocation] = useState<string>("");
     const [returnLocation, setReturnLocation] = useState<string>("");
@@ -29,8 +31,45 @@ let CreateCycle=()=> {
     const [arrivalDate, setArrivalDate] = useState<string|null>("");
     const [returnDate, setReturnDate] = useState<string|null>("");
     const [returnArrivalDate, setReturnArrivalDate] = useState<string|null>("");
+  //  const [cycle, setCycle] = useState<Cycle>();
 
-    //styles
+    interface Cycle {
+        id: number;
+        name:string;
+        departure_date:string;
+        arrival_date:string;
+        departure_location:Country;
+        arrival_location:Country;
+       
+    }
+   
+    interface Country {
+      id: number;
+      name: string;
+      
+    } 
+        useEffect(() => {
+        fetch('http://localhost:4000/cycles/show/'+id)
+        .then(res => {
+          return ( res.json());
+        })
+        .then(res => {
+          console.log(res.data)
+          setName(res.data.name)
+          setMaxSeats(res.data.max_seats)
+          setDepartureLocation(res.data.departure_location.id)
+          setArrivalLocation(res.data.arrival_location.id)
+          setReturnLocation(res.data.return_location.id)
+          setReturnArrivalLocation(res.data.return_arrival_location.id)
+          setDepartureDate(res.data.departure_date)
+          setArrivalDate(res.data.arrival_date)
+          setReturnArrivalDate(res.data.return_arrival_date)
+          setReturnDate(res.data.return_date)
+          
+         })
+         .catch(e=>{
+           console.log(e)
+         })    },[])
    
           
      const ITEM_HEIGHT = 48;
@@ -92,19 +131,13 @@ let CreateCycle=()=> {
        
         console.log(formData);
 
-        
-        const response= await fetch("http://localhost:4000/cycles/create",{
+        const response= await fetch("http://localhost:4000/cycles/update"+id,{
             mode: 'no-cors',
-            method:"POST",
+            method:"PUT",
             body: formData  
         })
-        .then(response => {
-         console.log (response)
-        })
-       
-        .catch(e=>{
-          console.log(e)
-        })
+        .then(res => res.json())
+        .then(data => console.log(data));
              
       }
 
@@ -118,11 +151,6 @@ let CreateCycle=()=> {
         <Grid item xs={8}>
           <TextField className='inputText'  label="Cycle Name" variant="outlined" required value={name} onChange={(e)=>{
                 setName(e.target.value)}}/> 
-        </Grid>
-        <Grid item xs={8}>
-        <TextField className='inputText' type="number" label="Max Seats" variant="outlined" required value={maxSeats} onChange={(e)=>{
-             setMaxSeats(e.target.value);
-             console.log((e.target.value))}}/>
         </Grid>
         <Grid item xs={4}>
          <Grid container > 
@@ -280,5 +308,5 @@ let CreateCycle=()=> {
     );
   }
   
-  export default CreateCycle;
+  export default EditCycle;
   

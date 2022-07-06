@@ -18,8 +18,11 @@ import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
+import { useParams } from "react-router-dom";
 
-let CreateProgram=()=> {
+
+let EditProgram=()=> {
+    let {id} = useParams();
     const [name, setName] = useState<string>("");
     const [description, setDescription] = useState<string>("");
     const [price, setPrice] = useState<string>("");
@@ -27,8 +30,17 @@ let CreateProgram=()=> {
     const [companyId, setcompanyId] = useState<number>(1);
     const [hotel, setHotel] = React.useState<string[]>([]);
     const [cover_picture, setCoverPicture] = React.useState<File>();
+    const [program, setProgram] = React.useState<Data>();
 
-   
+    interface Data {
+        id: number;
+        name: string;
+        price: number;
+        hotel:string[];
+        description:string
+    }
+    
+      
       const hotels = 
     [  {id:1,value:'h1'},
        {id:2,value:'h2'},
@@ -94,26 +106,16 @@ let CreateProgram=()=> {
         }
         console.log(formData);
 
-        const response= await fetch("http://localhost:4000/programs/create",{
+        const response= await fetch("http://localhost:4000/programs/update"+id,{
             mode: 'no-cors',
-            method:"POST",
+            method:"PUT",
             body: formData  
         })
-        .then(response => {
-          return response.json()
-        })
-        .then(res => {
-         console.log(res.data)
-        })
-        .catch(e=>{
-          console.log(e)
-        })
-        
-
-      }
-      
+      .then(res => res.json())
+      .then(data => console.log(data));
 
 
+    }
 
     return(
      <div className="createContainer"> 
@@ -201,5 +203,5 @@ let CreateProgram=()=> {
     );
   }
   
-  export default CreateProgram;
+  export default EditProgram;
   
