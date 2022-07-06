@@ -41,8 +41,10 @@ function Register() {
         if (response.ok) {
           console.log(response.status);
           console.log("register done");
-
-          // redirect to login
+          const USER_TOKEN = await response.text();
+          const token = JSON.parse(USER_TOKEN).token;
+          localStorage.setItem("TOKEN", token);
+          // redirect to home
         }
       } catch (error) {
         console.log(error);

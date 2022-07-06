@@ -24,7 +24,7 @@ function VerifyCode() {
             if (response.ok) {
                 console.log(response.status);
                 console.log('Code verified');
-                navigate('/reset_password', );
+                navigate('/reset_password',);
             }
 
         } catch (error) {
