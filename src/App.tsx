@@ -18,10 +18,10 @@ import CreateCycle from './components/cycles/create'
 import ShowCycle from './components/cycles/show'
 import ListCycles from './components/cycles/index'
 import EditCycle from './components/cycles/edit'
-import EditPassword from './Components/EditPassword'
-import EditUser from './Components/EditUser'
-import Traveler from './Components/Traveler'
-import TravelerProfile from './Components/TravelerProfile'
+import EditPassword from './components/EditPassword'
+import EditUser from './components/EditUser'
+import Traveler from './components/Traveler'
+import TravelerProfile from './components/TravelerProfile'
 
 function App() {
 	return (
