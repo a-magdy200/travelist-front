@@ -14,7 +14,7 @@ const Profile = () => {
       spacing={2}
       display="flex"
       alignItems="center"
-      minHeight="100vh"
+      
     >
       <Typography variant="h3" component="div" gutterBottom>
         Profile

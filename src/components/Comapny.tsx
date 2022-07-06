@@ -18,7 +18,7 @@ const Company = () => {
 			display="flex"
 			// justifyContent="center"
 			alignItems="center"
-			minHeight="100vh"
+			
 		>
 			<Grid container spacing={2} xs={10} lg={8} mb={3}>
 				<Grid item xs={6}>
