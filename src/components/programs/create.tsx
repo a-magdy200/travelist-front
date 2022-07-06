@@ -1,185 +1,243 @@
+import { useState } from 'react'
 import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import TextareaAutosize from '@mui/material/TextareaAutosize'
+import Checkbox from '@mui/material/Checkbox'
+import { Theme, useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Chip from '@mui/material/Chip'
+import React from 'react'
+import Grid from '@mui/material/Grid'
+import { styled } from '@mui/material/styles'
+import Paper from '@mui/material/Paper'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
-import { useState } from 'react'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
-import Stack from '@mui/material/Stack'
-import { NavLink } from 'react-router-dom'
 
-let Create = () => {
-	const [id, setId] = useState('')
-	const [name, setName] = useState('')
-	const [description, setDescription] = useState('')
-	const [price, setPrice] = useState('')
-	const [maxnum, setMaxNum] = useState('')
-	const [country, setCountry] = useState('')
-	const [hotel, setHotel] = useState('')
-	const [transportation, setTrans] = useState('')
-	const [start_date, setStartDate] = useState<Date | null>(new Date())
-	const [end_date, setEndtDate] = useState<Date | null>(new Date())
+let CreateProgram = () => {
+	const [name, setName] = useState<string>('')
+	const [description, setDescription] = useState<string>('')
+	const [price, setPrice] = useState<string>('')
+	const [is_Recurring, setis_Recurring] = useState(true)
+	const [companyId, setcompanyId] = useState<number>(1)
+	const [hotel, setHotel] = React.useState<string[]>([])
+	const [cover_picture, setCoverPicture] = React.useState<File>()
+
+	const hotels = [
+		{ id: 1, value: 'h1' },
+		{ id: 2, value: 'h2' },
+	]
+
+	/// styling
+	const theme2 = useTheme()
+	const Item = styled(Paper)(({ theme }) => ({
+		backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#e8eef7',
+		padding: theme.spacing(1),
+		color: theme.palette.text.secondary,
+	}))
+
+	const ITEM_HEIGHT = 48
+	const ITEM_PADDING_TOP = 8
+	const MenuProps = {
+		PaperProps: {
+			style: {
+				maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+				width: 250,
+			},
+		},
+	}
+
+	function getStyles(
+		name: string,
+		personName: readonly string[],
+		theme: Theme
+	) {
+		return {
+			fontWeight:
+				personName.indexOf(name) === -1
+					? theme.typography.fontWeightRegular
+					: theme.typography.fontWeightMedium,
+		}
+	}
 
 	///change methods
 
-	const changeStartDate = (startdate: Date | null) => {
-		setStartDate(startdate)
-	}
-	const changeEndDate = (enddate: Date | null) => {
-		setEndtDate(enddate)
+	const changeRecurring = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setis_Recurring(!is_Recurring)
+		console.log(is_Recurring)
 	}
 
-	const changeCountry = (event: SelectChangeEvent) => {
-		setCountry(event.target.value as string)
+	const changeHotel = (event: SelectChangeEvent<typeof hotel>) => {
+		console.log(event.target.value)
+		const {
+			target: { value },
+		} = event
+		setHotel(typeof value === 'string' ? value.split(',') : value)
 	}
 
-	const changeHotel = (event: SelectChangeEvent) => {
-		setHotel(event.target.value as string)
-	}
+	async function sendData(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault()
+		const formData = new FormData()
+		formData.append('name', name)
+		formData.append('description', description)
+		formData.append('cover_picture', cover_picture as File)
+		formData.append('price', price)
+		formData.append('is_Recurring', is_Recurring.toString())
+		formData.append('companyId', '1')
+		for (let item of hotel) {
+			formData.append('hotels', item.toString())
+			console.log(item)
+		}
+		console.log(formData)
 
-	const changeTransporation = (event: SelectChangeEvent) => {
-		setTrans(event.target.value as string)
+		const response = await fetch('http://localhost:4000/programs/create', {
+			mode: 'no-cors',
+			method: 'POST',
+			body: formData,
+		})
+			.then((response) => {
+				return response.json()
+			})
+			.then((res) => {
+				console.log(res.data)
+			})
+			.catch((e) => {
+				console.log(e)
+			})
 	}
 
 	return (
-		<div className="container">
-			<div className="left">
-				<div className="leftContainer">
-					<form>
-						<Card sx={{ maxWidth: 575 }} style={{ height: '140vh' }}>
-							<CardContent>
+		<div className="createContainer">
+			<form onSubmit={sendData}>
+				<div className="Top">
+					<h1>Create Program</h1>
+					<TextField
+						className="inputText"
+						label="Program Name"
+						variant="outlined"
+						required
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value)
+							console.log(e.target.value)
+						}}
+					/>{' '}
+					<br />
+				</div>
+				<div className="bottom">
+					<div className="bottomHeader">
+						<h2>Program Details</h2>
+						<Button variant="contained" type="submit">
+							Create Cycle
+						</Button>
+					</div>
+					<hr />
+					<div className="bottomContent">
+						<Grid container direction="column" spacing={2}>
+							<Grid item xs={8}>
 								<TextField
 									className="inputText"
-									label="Program Name"
-									variant="outlined"
-									required
-									value={name}
-									onChange={(e) => {
-										setName(e.target.value)
-									}}
-								/>{' '}
-								<br />
-								<TextField
-									className="inputText"
-									label="Price"
+									type="number"
+									label="Program Price"
 									variant="outlined"
 									required
 									value={price}
 									onChange={(e) => {
 										setPrice(e.target.value)
+										console.log(e.target.value)
 									}}
-								/>
+								/>{' '}
 								<br />
-								<TextField
-									className="inputText"
-									label="Max Number"
-									variant="outlined"
-									required
-									value={price}
-									onChange={(e) => {
-										setMaxNum(e.target.value)
-									}}
-								/>
-								<br />
-								<InputLabel id="country-label">Destination Country</InputLabel>
-								<Select
-									required
-									className="inputText"
-									labelId="country-label"
-									value={country}
-									label="Country"
-									onChange={changeCountry}
-								>
-									<MenuItem value={1}>Egypt</MenuItem>
-									<MenuItem value={2}>Europe</MenuItem>
-									<MenuItem value={3}>Asia</MenuItem>
-								</Select>
-								<br />
-								<InputLabel id="hotel-label">Destination Hotel</InputLabel>
-								<Select
-									required
-									className="inputText"
-									labelId="hotel-label"
-									value={hotel}
-									label="Hotel"
-									onChange={changeCountry}
-								>
-									<MenuItem value={1}>Hotel 1</MenuItem>
-									<MenuItem value={2}>Hotel 2</MenuItem>
-									<MenuItem value={3}>Hotel 3</MenuItem>
-								</Select>
-								<br />
-								<InputLabel id="trans-label">Transportation Type</InputLabel>
-								<Select
-									required
-									className="inputText"
-									labelId="trans-label"
-									value={transportation}
-									label="Transportation"
-									onChange={changeTransporation}
-								>
-									<MenuItem value={1}>plane</MenuItem>
-									<MenuItem value={2}>bus</MenuItem>
-									<MenuItem value={3}>ship</MenuItem>
-								</Select>
-								<br />
-								<LocalizationProvider dateAdapter={AdapterDateFns}>
-									<Stack className="inputText" spacing={3}>
-										<DesktopDatePicker
-											label="Start Date "
-											inputFormat="MM/dd/yyyy"
-											value={start_date}
-											onChange={changeStartDate}
-											renderInput={(params) => <TextField {...params} />}
-										/>
-									</Stack>
-									<br />
-
-									<Stack className="inputText" spacing={3}>
-										<DesktopDatePicker
-											label="End Date"
-											inputFormat="MM/dd/yyyy"
-											value={end_date}
-											onChange={changeEndDate}
-											renderInput={(params) => <TextField {...params} />}
-										/>
-									</Stack>
-								</LocalizationProvider>
-								<TextField
-									className="inputText"
-									label="Description"
-									multiline
-									maxRows={4}
+							</Grid>
+							<Grid item xs={8}>
+								<TextareaAutosize
+									aria-label="Description"
+									minRows={3}
+									placeholder="Description"
+									style={{ width: 400 }}
 									required
 									value={description}
 									onChange={(e) => {
 										setDescription(e.target.value)
+										console.log(e.target.value)
 									}}
 								/>
-							</CardContent>
-							<CardActions>
-								<NavLink to={`/`}>
-									{' '}
-									<Button variant="contained">Back</Button>
-								</NavLink>
+								<br />
+							</Grid>
+							<Grid item xs={8}>
+								<FormControl sx={{ m: 1, width: 300 }}>
+									<InputLabel id="demo-multiple-hotel-label">Hotels</InputLabel>
+									<Select
+										labelId="demo-multiple-hotel-label"
+										id="demo-multiple-hotel"
+										multiple
+										value={hotel}
+										onChange={changeHotel}
+										input={
+											<OutlinedInput id="select-multiple-chip" label="Chip" />
+										}
+										renderValue={(selected) => (
+											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+												{selected.map((value) => (
+													<Chip key={value} label={value} />
+												))}
+											</Box>
+										)}
+										MenuProps={MenuProps}
+									>
+										{hotels.map((hotelItem) => (
+											<MenuItem
+												key={hotelItem.id}
+												value={hotelItem.id}
+												style={getStyles(hotelItem.value, hotel, theme2)}
+											>
+												{hotelItem.value}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								<br />
+							</Grid>
+							<Grid item xs={8}>
+								<Checkbox
+									checked={is_Recurring}
+									onChange={changeRecurring}
+									inputProps={{ 'aria-label': 'controlled' }}
+								/>
+								is_Recurring
+							</Grid>
+
+							<Grid item xs={2}>
+								<Button variant="contained" component="label">
+									<input
+										name="cover_picture"
+										type="file"
+										accept="image/*"
+										onChange={(e) => {
+											if (e.target.files) {
+												setCoverPicture(e.target.files[0])
+												console.log(e.target.files[0])
+											}
+										}}
+									/>
+								</Button>
+							</Grid>
+							<Grid item xs={8}>
 								<Button variant="contained" type="submit">
 									Create
 								</Button>
-							</CardActions>
-						</Card>
-					</form>
+							</Grid>
+						</Grid>
+					</div>
 				</div>
-			</div>
-			<div className="right">
-				<img className="programImage" src="/assets/travel.png" />
-			</div>
+			</form>
 		</div>
 	)
 }
 
-export default Create
+export default CreateProgram
