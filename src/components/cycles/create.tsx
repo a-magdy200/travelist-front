@@ -92,6 +92,7 @@ let CreateCycle=()=> {
        
         console.log(formData);
 
+        
         const response= await fetch("http://localhost:4000/cycles/create",{
             mode: 'no-cors',
             method:"POST",
