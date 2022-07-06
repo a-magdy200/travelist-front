@@ -8,52 +8,45 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ProfilePictureChanger from './ProfilePictureChanger';
 import EditMenu from './EditMenu';
+import Profile from './Profile';
 
-  const Profile=()=>{
+  const Company=()=>{
       return (
-        <Stack direction="column" spacing={2}
+        <Stack direction="column" spacing={2} 
         display="flex"
        // justifyContent="center"
         alignItems="center"
         minHeight="100vh">
-            <Typography variant="h3" component="div" gutterBottom>Profile</Typography>
-       
-        <ProfilePictureChanger/>
-        <Grid container spacing={2} xs={10} lg={8} mb={3}>
+            <Grid container spacing={2} xs={10} lg={8} mb={3}>
         <Grid item xs={6}>
-         Name:
+        Description:
         </Grid>
         <Grid item xs={6}>
-       Dina Farouk
+         ghhhghgsjjaahjjjjjjhbb
+         </Grid>
+        <Grid item xs={6}>
+         Rate:
         </Grid>
         <Grid item xs={6}>
-          Email:
+         3.8
+         </Grid>
+        <Grid item xs={6}>
+         Phone:
         </Grid>
         <Grid item xs={6}>
-         dinaharb46@gmail.com
+         1234567
         </Grid>
-        <Grid item xs={6}>
-         Type:
-         </Grid>
-         <Grid item xs={6}>
-          Traveler
-         </Grid>
-         <Grid item xs={6}>
-         Location:
-         </Grid>
-         <Grid item xs={6}>
-          Alexandria 
-         </Grid>
         
        </Grid>
      
-
+            <EditMenu/>
+            
       </Stack>
  
       );
     }
     
-export default Profile;
+export default Company;
 
 
 

@@ -7,63 +7,59 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import ProfilePictureChanger from './ProfilePictureChanger';
-import TextField from '@mui/material/TextField';
+import EditMenu from './EditMenu';
+import Profile from './Profile';
 
-
-  const EditUser=()=>{
+  const Traveler=()=>{
       return (
-        <Stack direction="column" spacing={2}
+        <Stack direction="column" spacing={2} 
         display="flex"
        // justifyContent="center"
         alignItems="center"
         minHeight="100vh">
-            <Typography variant="h3" component="div" gutterBottom>Edit</Typography>
-       
-        <ProfilePictureChanger/>
-        <Grid container spacing={2} xs={10} lg={8} mb={3}>
+            <Grid container spacing={2} xs={10} lg={8} mb={3}>
         <Grid item xs={6}>
-         Name:
+        Gender:
         </Grid>
         <Grid item xs={6}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Required"
-          defaultValue=""
-        />
+         Female
         </Grid>
         <Grid item xs={6}>
-          Email:
+         Date of Bith:
         </Grid>
         <Grid item xs={6}>
-        <TextField
-          required
-          id="outlined-required"
-          label="Required"
-          defaultValue=""
-        />
+         24-11-1996
         </Grid>
-         <Grid item xs={6}>
-         Location:
+        <Grid item xs={6}>
+         Natioal Id:
          </Grid>
          <Grid item xs={6}>
-         <TextField
-          required
-          id="outlined-required"
-          label="Required"
-          defaultValue=""
-        />
+        12345678912345
          </Grid>
-        
+         <Grid item xs={6}>
+         Guide:
+         </Grid>
+         <Grid item xs={6}>
+         No
+         </Grid>
        </Grid>
-        
-
+     
+            <EditMenu/>
+            
       </Stack>
  
       );
     }
     
-export default EditUser;
+export default Traveler;
+
+
+
+
+
+
+
+
 
 
 
