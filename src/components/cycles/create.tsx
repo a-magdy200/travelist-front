@@ -20,7 +20,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 let CreateCycle=()=> {
     const [name, setName] = useState<string>("");
-    const [maxSeats, setMaxSeats] = useState<number>(0);
+    const [maxSeats, setMaxSeats] = useState<string>("0");
     const [departureLocation, setDepartureLocation] = useState<string>("");
     const [arrivalLocation, setArrivalLocation] = useState<string>("");
     const [returnLocation, setReturnLocation] = useState<string>("");
@@ -117,6 +117,11 @@ let CreateCycle=()=> {
         <Grid item xs={8}>
           <TextField className='inputText'  label="Cycle Name" variant="outlined" required value={name} onChange={(e)=>{
                 setName(e.target.value)}}/> 
+        </Grid>
+        <Grid item xs={8}>
+        <TextField className='inputText' type="number" label="Max Seats" variant="outlined" required value={maxSeats} onChange={(e)=>{
+             setMaxSeats(e.target.value);
+             console.log((e.target.value))}}/>
         </Grid>
         <Grid item xs={4}>
          <Grid container > 
