@@ -19,7 +19,7 @@ const Profile = () => {
       <Typography variant="h3" component="div" gutterBottom>
         Profile
       </Typography>
-      <Avatar alt="" src={image} sx={{ width: 112, height: 112 }} />
+      <Avatar alt="" src="" sx={{ width: 112, height: 112 }} />
       <ProfilePictureChanger />
       <Grid container spacing={2} xs={10} lg={8} mb={3}>
         <Grid item xs={6}>
