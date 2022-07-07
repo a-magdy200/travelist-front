@@ -4,7 +4,7 @@ import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-//import image from '../assets/avatar2.jpeg'
+import image from '../assets/avatar.png'
 import ProfilePictureChanger from "./ProfilePictureChanger";
 
 const Profile = () => {
@@ -14,7 +14,7 @@ const Profile = () => {
       spacing={2}
       display="flex"
       alignItems="center"
-      minHeight="100vh"
+      
     >
       <Typography variant="h3" component="div" gutterBottom>
         Profile
