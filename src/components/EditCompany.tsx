@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import ProfilePictureChanger from './ProfilePictureChanger'
 import TextField from '@mui/material/TextField'
 
-const EditUser = () => {
+const EditCompany = () => {
 	return (
 		<Stack
 			direction="column"
@@ -20,7 +20,7 @@ const EditUser = () => {
 			
 		>
 			<Typography variant="h3" component="div" gutterBottom>
-				Edit Account
+				Edit Traveler
 			</Typography>
 
 			<ProfilePictureChanger />
@@ -65,4 +65,4 @@ const EditUser = () => {
 	)
 }
 
-export default EditUser
+export default EditCompany

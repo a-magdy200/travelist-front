@@ -2,7 +2,6 @@ import React from 'react'
 import './App.css'
 import './styles/program.css'
 import ListPrograms from './components/programs/index'
-import CreateProgram from './components/programs/create'
 import Show from './components/programs/show'
 import Profile from './components/Profile'
 import Login from './components/Login'
@@ -14,6 +13,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import ShowProgram from './components/programs/show'
 import EditProgram from './components/programs/edit'
 import CreateCycle from './components/cycles/create'
+import CreateProgram from './components/programs/create'
 import ShowCycle from './components/cycles/show'
 import ListCycles from './components/cycles/index'
 import EditCycle from './components/cycles/edit'
@@ -21,6 +21,7 @@ import EditPassword from './components/EditPassword'
 import EditUser from './components/EditUser'
 import Traveler from './components/Traveler'
 import TravelerProfile from './components/TravelerProfile'
+import CompanyProfile from './components/CompanyProfile'
 
 function App() {
 	return (
@@ -39,7 +40,7 @@ function App() {
 				<Route path="/travelerprofile" element={<TravelerProfile />} />
 				<Route path="/editpassword" element={<EditPassword />} />
 				<Route path="/edituser" element={<EditUser />} />
-				<Route path="/cycle/create" element={<CreateCycle />} />
+				<Route path="/companyprofile" element={<CompanyProfile />} />
 				<Route path="/program/list" element={<ListPrograms />} />
 				<Route path="/program/create" element={<CreateProgram />} />
 				<Route path="/program/show/:id" element={<ShowProgram />} />

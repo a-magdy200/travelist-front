@@ -13,13 +13,13 @@ import Profile from './Profile'
 const Traveler = () => {
 	return (
 		<Stack
-			direction="column"
-			spacing={2}
-			display="flex"
-			// justifyContent="center"
-			alignItems="center"
-			
-		>
+		direction="column"
+		spacing={2}
+		display="flex"
+		// justifyContent="center"
+		alignItems="center"
+
+	>
 			<Grid container spacing={2} xs={10} lg={8} mb={3}>
 				<Grid item xs={6}>
 					Gender:
@@ -28,7 +28,7 @@ const Traveler = () => {
 					Female
 				</Grid>
 				<Grid item xs={6}>
-					Date of Bith:
+					Date of Birth:
 				</Grid>
 				<Grid item xs={6}>
 					24-11-1996
@@ -48,7 +48,8 @@ const Traveler = () => {
 			</Grid>
 
 			<EditMenu />
-		</Stack>
+			</Stack>
+		
 	)
 }
 

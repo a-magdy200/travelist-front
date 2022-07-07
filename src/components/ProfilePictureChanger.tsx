@@ -4,7 +4,8 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import PhotoCamera from '@mui/icons-material/PhotoCamera'
 import Stack from '@mui/material/Stack'
-
+import Avatar from '@mui/material/Avatar';
+import image from '../assets/avatar.png';
 const ProfilePictureChanger = () => {
   const Input = styled('input')({
     display: 'none',
@@ -12,18 +13,11 @@ const ProfilePictureChanger = () => {
 
   return (
     <div>
-      <Stack direction="row" alignItems="center" spacing={2}>
-        <label htmlFor="contained-button-file">
-          <Input
-            accept="image/*"
-            id="contained-button-file"
-            multiple
-            type="file"
-          />
-          <Button variant="contained" component="span">
-            Change Profile Picture
-          </Button>
-        </label>
+     <Avatar
+          alt=""
+          src={image}
+          sx={{ width: 112, height: 112}}
+        />
         <label htmlFor="icon-button-file">
           <Input accept="image/*" id="icon-button-file" type="file" />
           <IconButton
@@ -34,7 +28,7 @@ const ProfilePictureChanger = () => {
             <PhotoCamera />
           </IconButton>
         </label>
-      </Stack>
+     
     </div>
   )
 }

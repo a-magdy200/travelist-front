@@ -1,5 +1,5 @@
 import Profile from './Profile'
-import Traveler from './Traveler'
+import Company from './Company'
 import Stack from '@mui/material/Stack'
 
 const TravelerProfile = () => {
@@ -14,7 +14,7 @@ const TravelerProfile = () => {
 		>
 			<>
 				<Profile />
-				<Traveler />
+				<Company />
 			</>
 		</Stack>
 	)
