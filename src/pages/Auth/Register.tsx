@@ -13,6 +13,7 @@ import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import Checkbox from '@mui/material/Checkbox';
 
 import { useNavigate } from "react-router-dom";
+import api from "../../config/api";
 
 function Register() {
   const [name, setName] = useState("");
@@ -40,11 +41,29 @@ function Register() {
 
     if (checkSubmit) {
       try {
+
+
+        // const response: IResponseInterface<IUserAuthenticationResponse> = await api<IUserAuthenticationResponse>({
+        //   url: "/auth/register",
+        //   method: "POST",
+        //   body: JSON.stringify(requestBody),
+        // });
+
+
         const response = await fetch("http://localhost:4000/auth/register", {
           method: "POST",
           headers: { "content-Type": "application/json" },
           body: JSON.stringify({ name, email, password, address, type, national_id: nationalId, gender, dateOfBirth, isGuide }),
         });
+
+
+        // if (response.success) {
+        //   navigatetohome
+        // }else{
+        //   setPass("");
+        //   setPassConfirm("");
+        // }
+
 
         if (response.ok) {
           console.log(response.status);
