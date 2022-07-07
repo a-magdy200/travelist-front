@@ -66,7 +66,7 @@ let CreateProgram = () => {
 
 	const changeRecurring = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setis_Recurring(!is_Recurring)
-		console.log(is_Recurring)
+		console.log(String(is_Recurring))
 	}
 
 	const changeHotel = (event: SelectChangeEvent<typeof hotel>) => {
@@ -90,7 +90,8 @@ let CreateProgram = () => {
 			formData.append('hotels', item.toString())
 			console.log(item)
 		}
-		console.log(formData)
+		console.log("value")
+		console.log(is_Recurring)
 
 		const response = await fetch('http://localhost:4000/programs/create', {
 			mode: 'no-cors',

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -40,17 +40,6 @@ interface Company {
   };
 }
 
-const rows = [
-  createData(1,"p1","c1",100),
-  createData(2,"p2","c2",100),
-  createData(3,"p3","c3",100),
-  createData(4,"p4","c4",100),
-  createData(5,"p5","c5",100),
-  createData(6,"p6","c6",100),
-  createData(7,"p7","c7",100),
-
- 
-];
 */
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
@@ -68,8 +57,6 @@ function getComparator<Key extends keyof Data>(
 	order: Order,
 	orderBy: Key
 ): (
-	//a: { [key in Key]: number | string },
-	//b: { [key in Key]: number | string },
 	a: Data,
 	b: Data
 ) => number {

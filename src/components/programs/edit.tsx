@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
@@ -29,20 +29,52 @@ let EditProgram = () => {
 	const [companyId, setcompanyId] = useState<number>(1)
 	const [hotel, setHotel] = React.useState<string[]>([])
 	const [cover_picture, setCoverPicture] = React.useState<File>()
-	const [program, setProgram] = React.useState<Data>()
+	const [program, setProgram] = React.useState<EditProgram>()
 
-	interface Data {
+	interface EditProgram {
 		id: number
 		name: string
 		price: number
 		hotel: string[]
 		description: string
+		is_Recurring:boolean
+		company:Company
+		hotels:Hotel
+	}
+	interface Company {
+		id: number
+		name: string
 	}
 
+	interface Hotel {
+		id: number
+		name: string
+	}
 	const hotels = [
 		{ id: 1, value: 'h1' },
 		{ id: 2, value: 'h2' },
 	]
+
+	useEffect(() => {
+		fetch('http://localhost:4000/programs/show/' + id)
+			.then((res) => {
+				return res.json()
+			})
+			.then((res) => {
+				console.log(res.data)
+				setName(res.data.name)
+				setDescription(res.data.description)
+				setPrice(res.data.price)
+				setis_Recurring(res.data.is_Recurring)
+				setCoverPicture(res.data.cover_picture)
+				
+			})
+			.catch((e) => {
+				console.log(e)
+			})
+	}, [])
+
+
 
 	/// styling
 	const theme2 = useTheme()
@@ -98,8 +130,6 @@ let EditProgram = () => {
 		formData.append('description', description)
 		formData.append('cover_picture', cover_picture as File)
 		formData.append('price', price)
-		formData.append('is_Recurring', is_Recurring.toString())
-		formData.append('companyId', '1')
 		for (let item of hotel) {
 			formData.append('hotels', item)
 			console.log(item)
@@ -213,7 +243,6 @@ let EditProgram = () => {
 								/>
 								is_Recurring
 							</Grid>
-
 							<Grid item xs={2}>
 								<Button variant="contained" component="label">
 									<input
@@ -231,7 +260,7 @@ let EditProgram = () => {
 							</Grid>
 							<Grid item xs={8}>
 								<Button variant="contained" type="submit">
-									Create
+									Edit
 								</Button>
 							</Grid>
 						</Grid>

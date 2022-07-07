@@ -1,18 +1,13 @@
 import { useState } from 'react'
-import { DateTime } from 'luxon'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import { Theme, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import FormControl from '@mui/material/FormControl'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import React from 'react'
 import Grid from '@mui/material/Grid'
-import { styled } from '@mui/material/styles'
-import Paper from '@mui/material/Paper'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
@@ -31,16 +26,7 @@ let CreateCycle = () => {
 
 	//styles
 
-	const ITEM_HEIGHT = 48
-	const ITEM_PADDING_TOP = 8
-	const MenuProps = {
-		PaperProps: {
-			style: {
-				maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-				width: 250,
-			},
-		},
-	}
+	
 
 	///change methods
 
@@ -94,9 +80,10 @@ let CreateCycle = () => {
 			body: formData,
 		})
 			.then((response) => {
-				console.log(response)
+				response.json()
+				console.log(response.json())
 			})
-
+			.then(data => console.log(data))
 			.catch((e) => {
 				console.log(e)
 			})
