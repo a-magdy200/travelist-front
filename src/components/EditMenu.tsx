@@ -90,7 +90,7 @@ const EditMenu = () => {
 				open={open}
 				onClose={handleClose}
 			>
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => navigateToRoute("/edituser")} disableRipple>
 					<EditIcon />
 					Edit Account
 				</MenuItem>
@@ -98,9 +98,8 @@ const EditMenu = () => {
 					<EditIcon />
 					Edit Profile
 				</MenuItem>
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => navigateToRoute("/editpassword")}disableRipple>
 					<KeyIcon />
-					<Link href="/editpassword"></Link>
 					Change Passowrd
 				</MenuItem>
 			</StyledMenu>
