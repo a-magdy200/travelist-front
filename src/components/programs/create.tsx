@@ -15,9 +15,6 @@ import React from 'react'
 import Grid from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
 
 let CreateProgram = () => {
 	const [name, setName] = useState<string>('')
@@ -132,9 +129,7 @@ let CreateProgram = () => {
 				<div className="bottom">
 					<div className="bottomHeader">
 						<h2>Program Details</h2>
-						<Button variant="contained" type="submit">
-							Create Cycle
-						</Button>
+						
 					</div>
 					<hr />
 					<div className="bottomContent">
