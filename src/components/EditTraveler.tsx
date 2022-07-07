@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import ProfilePictureChanger from './ProfilePictureChanger'
 import TextField from '@mui/material/TextField'
 
-const EditUser = () => {
+const EditTraveler = () => {
 	return (
 		<Stack
 			direction="column"
@@ -65,4 +65,4 @@ const EditUser = () => {
 	)
 }
 
-export default EditUser
+export default EditTraveler;

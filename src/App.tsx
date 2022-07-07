@@ -22,6 +22,7 @@ import EditPassword from './components/EditPassword'
 import EditUser from './components/EditUser'
 import Traveler from './components/Traveler'
 import TravelerProfile from './components/TravelerProfile'
+import CompanyProfile from './components/CompanyProfile'
 
 function App() {
 	return (
@@ -42,7 +43,7 @@ function App() {
 				<Route path="/travelerprofile" element={<TravelerProfile />} />
 				<Route path="/editpassword" element={<EditPassword />} />
 				<Route path="/edituser" element={<EditUser />} />
-		
+				<Route path="/companyprofile" element={<CompanyProfile />} />
 				<Route path="/" element={<ListPrograms />} />
 				<Route path="/program/list" element={<ListPrograms />} />
 				<Route path="/program/create" element={<CreateProgram />} />
