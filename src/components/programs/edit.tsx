@@ -119,7 +119,7 @@ let EditProgram = () => {
 		<div className="createContainer">
 			<form onSubmit={sendData}>
 				<div className="Top">
-					<h1>Create Program</h1>
+					<h1>Edit Program</h1>
 					<TextField
 						className="inputText"
 						label="Program Name"
@@ -136,9 +136,7 @@ let EditProgram = () => {
 				<div className="bottom">
 					<div className="bottomHeader">
 						<h2>Program Details</h2>
-						<Button variant="contained" type="submit">
-							Create Cycle
-						</Button>
+						
 					</div>
 					<hr />
 					<div className="bottomContent">

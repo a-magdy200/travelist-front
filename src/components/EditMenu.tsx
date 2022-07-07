@@ -5,12 +5,9 @@ import Menu, { MenuProps } from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import EditIcon from '@mui/icons-material/Edit'
 import KeyIcon from '@mui/icons-material/Key'
-import Divider from '@mui/material/Divider'
-import ArchiveIcon from '@mui/icons-material/Archive'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import Link from '@mui/material/Link'
+import {useNavigate} from "react-router-dom";
 
 const StyledMenu = styled((props: MenuProps) => (
 	<Menu
@@ -64,7 +61,11 @@ const EditMenu = () => {
 	const handleClose = () => {
 		setAnchorEl(null)
 	}
-
+	const navigate = useNavigate();
+	const navigateToRoute = (route: string) => {
+		handleClose();
+		navigate(route);
+	}
 	return (
 		<div>
 			<Button
@@ -93,7 +94,7 @@ const EditMenu = () => {
 					<EditIcon />
 					Edit Account
 				</MenuItem>
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => navigateToRoute("/edit")} disableRipple>
 					<EditIcon />
 					Edit Profile
 				</MenuItem>

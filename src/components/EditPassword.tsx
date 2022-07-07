@@ -13,7 +13,7 @@ const EditPassword = () => {
 			display="flex"
 			// justifyContent="center"
 			alignItems="center"
-			minHeight="100vh"
+			
 		>
 			<Typography variant="h4" component="div" gutterBottom>
 				Change Password
