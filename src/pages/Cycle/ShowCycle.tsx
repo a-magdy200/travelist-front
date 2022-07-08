@@ -1,9 +1,9 @@
 import ShowCycleComponent from '../../components/cycles/show'
-import {useEffect, useState} from "react";
-import {ICycleInterface} from "../../config/interfaces/ICycle.interface";
-import {useParams} from "react-router-dom";
-import {IResponseInterface} from "../../config/interfaces/IResponse.interface";
-import api from "../../config/api";
+import { useEffect, useState } from 'react'
+import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
+import { useParams } from 'react-router-dom'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import api from '../../config/api'
 
 const ShowCycle = () => {
 	const [cycle, setCycle] = useState<ICycleInterface>()
@@ -28,8 +28,10 @@ const ShowCycle = () => {
 	useEffect(() => {
 		getCycle()
 	}, [])
-	return(
-     <ShowCycleComponent cycle={cycle}/>
+	return (
+		<div>
+			{cycle ? <ShowCycleComponent cycle={cycle} /> : <div>not found</div>}
+		</div>
 	)
 }
 export default ShowCycle
