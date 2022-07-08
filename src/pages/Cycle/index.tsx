@@ -5,4 +5,4 @@ const ListCycles = () => {
      <ListCycleComponent/>
 	)
 }
-export default ListCycleComponent
+export default ListCycles

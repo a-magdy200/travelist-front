@@ -1,5 +1,5 @@
 export interface ICompanyInterface {
-    id?:string;
+    id?:number;
     description?:string;
     rate?:string;
     cover_picture?:string;

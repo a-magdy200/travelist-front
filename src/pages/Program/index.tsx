@@ -5,4 +5,4 @@ const ListPrograms = () => {
      <ListProgramComponent/>
 	)
 }
-export default ListProgramComponent
+export default ListPrograms

@@ -1,5 +1,5 @@
 export interface ICountryInterface {
-    id?:string;
+    id?:number;
     name?:string;
  }
   
