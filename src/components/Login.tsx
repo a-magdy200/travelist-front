@@ -35,6 +35,7 @@ function Login() {
           const USER_TOKEN = await response.text();
           const token = JSON.parse(USER_TOKEN).token;
           localStorage.setItem("TOKEN", token);
+          // redirect to home
         }
       } catch (error) {
         console.log(error);
