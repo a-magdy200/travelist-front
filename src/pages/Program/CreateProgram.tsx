@@ -16,6 +16,7 @@ import Grid from '@mui/material/Grid'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
 import CustomInputField from "../../components/Form/CustomInputField";
+import api from "../../config/api";
 // View/stateless component
 // Logic/stateful component
 const CreateProgram = () => {
@@ -84,9 +85,11 @@ const CreateProgram = () => {
 		const formData = new FormData()
 		formData.append('name', name)
 		formData.append('description', description)
-		formData.append('cover_picture', cover_picture as File)
+		if (cover_picture) {
+			formData.append('cover_picture', cover_picture)
+		}
 		formData.append('price', price)
-		formData.append('is_Recurring', is_Recurring.toString())
+		formData.append('is_Recurring', is_Recurring ? "1" : "0");
 		formData.append('companyId', '1')
 		for (let item of hotel) {
 			formData.append('hotels', item.toString())
@@ -94,21 +97,13 @@ const CreateProgram = () => {
 		}
 		console.log("value")
 		console.log(is_Recurring)
-
-		const response = await fetch('http://localhost:4000/programs/create', {
-			mode: 'no-cors',
+		// const form: HTMLFormElement = e.target;
+		const response = await api({
+			url: '/programs/create',
 			method: 'POST',
 			body: formData,
 		})
-			.then((response) => {
-				return response.json()
-			})
-			.then((res) => {
-				console.log(res.data)
-			})
-			.catch((e) => {
-				console.log(e)
-			})
+		console.log(response);
 	}
 
 	return (
