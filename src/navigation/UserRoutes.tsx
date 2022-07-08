@@ -1,5 +1,5 @@
 import {Route, Routes} from "react-router-dom";
-import ListPrograms from "../pages/Program";
+import ListPrograms from "../pages/Program/index";
 import CreateProgram from "../pages/Program/CreateProgram";
 import Show from "../pages/Program/show";
 import Profile from "../components/Profile/Profile";
