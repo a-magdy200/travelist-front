@@ -1,33 +1,9 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import api from '../../config/api'
-import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
-import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Loader from '../Loader'
-
-const ShowCycleComponent = () => {
-	const [cycle, setCycle] = useState<ICycleInterface>()
-	const { id } = useParams()
-	const getCycle = async () => {
-		try {
-			const response: IResponseInterface<ICycleInterface> =
-				await api<ICycleInterface>({
-					url: `/cycles/show/${id}`,
-				})
-
-			if (response.success) {
-				if (response.data) {
-					setCycle(response.data)
-					console.log(response.data)
-				}
-			}
-		} catch (error: any) {
-			console.log(error)
-		}
-	}
-	useEffect(() => {
-		getCycle()
-	}, [])
+import {ICycleInterface} from "../../config/interfaces/ICycle.interface";
+interface ICycleShowProps {
+	cycle: ICycleInterface;
+}
+const ShowCycleComponent = ({cycle}: ICycleShowProps) => {
 	return (
 		<div className="createContainer">
 			{cycle ?
