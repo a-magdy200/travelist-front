@@ -1,5 +1,5 @@
 import {Route, Routes} from "react-router-dom";
-import ListPrograms from "../pages/Program";
+import ListPrograms from "../pages/Program/index";
 import CreateProgram from "../pages/Program/CreateProgram";
 import Show from "../pages/Program/show";
 import Profile from "../components/Profile/Profile";
@@ -12,7 +12,7 @@ import ShowProgram from "../pages/Program/show";
 import EditProgram from "../pages/Program/edit";
 import CreateCycle from "../pages/Cycle/create";
 import ListCycles from "../pages/Cycle";
-import ShowCycle from "../pages/Cycle/show";
+import ShowCycle from "../pages/Cycle/ShowCycle";
 import EditCycle from "../pages/Cycle/edit";
 import React from "react";
 import Home from "../pages/Home";
