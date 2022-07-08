@@ -25,12 +25,12 @@ const EditCycle = () => {
   const [arrivalLocation, setArrivalLocation] = useState<string>('1')
   const [returnLocation, setReturnLocation] = useState<string>('1')
   const [returnArrivalLocation, setReturnArrivalLocation] = useState<string>('1')
-  const [departureDate, setDepartureDate] = useState<string >(String(new Date))
-  const [arrivalDate, setArrivalDate] = useState<string >(String(new Date))
-  const [returnDate, setReturnDate] = useState<string >(String(new Date))
-  const [returnArrivalDate, setReturnArrivalDate] = useState<string >(String(new Date))
+  const [departureDate, setDepartureDate] = useState<string >(String(new Date()))
+  const [arrivalDate, setArrivalDate] = useState<string >(String(new Date()))
+  const [returnDate, setReturnDate] = useState<string >(String(new Date()))
+  const [returnArrivalDate, setReturnArrivalDate] = useState<string >(String(new Date()))
   const [cycle, setCycle] = useState<ICycleInterface>();
-  
+
   const getCycle = async () => {
 		try {
 			const response: IResponseInterface<ICycleInterface> =
@@ -125,10 +125,9 @@ const EditCycle = () => {
           await api<ICycleInterface>({
             url: `/cycles/update/${id}`,
             method:'PUT',
-            headers: { "Content-Type": "multipart/form-data"},
             body:formData
           })
-  
+
           if (response.success) {
           if (response.data) {
             setCycle(response.data)
@@ -162,7 +161,7 @@ const EditCycle = () => {
 						  setValue={setMaxSeats}
 						/>
             </Grid>
-            
+
             <Grid item xs={4}>
               <Grid container>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>

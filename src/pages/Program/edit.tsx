@@ -19,6 +19,7 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import { useParams } from 'react-router-dom'
+import api from "../../config/api";
 
 let EditProgram = () => {
 	let { id } = useParams()
@@ -66,8 +67,7 @@ let EditProgram = () => {
 				setDescription(res.data.description)
 				setPrice(res.data.price)
 				setis_Recurring(res.data.is_Recurring)
-				setCoverPicture(res.data.cover_picture)
-				
+				setHotel(res.data.hotels.map((h: Hotel) => h.id));
 			})
 			.catch((e) => {
 				console.log(e)
@@ -128,7 +128,9 @@ let EditProgram = () => {
 		const formData = new FormData()
 		formData.append('name', name)
 		formData.append('description', description)
-		formData.append('cover_picture', cover_picture as File)
+		if (cover_picture) {
+			formData.append('cover_picture', cover_picture)
+		}
 		formData.append('price', price)
 		for (let item of hotel) {
 			formData.append('hotels', item)
@@ -136,13 +138,15 @@ let EditProgram = () => {
 		}
 		console.log(formData)
 
-		const response = await fetch('http://localhost:4000/programs/update' + id, {
-			mode: 'no-cors',
+		const response = await api({
+			url: `/programs/update/${id}`,
 			method: 'PUT',
 			body: formData,
-		})
-			.then((res) => res.json())
-			.then((data) => console.log(data))
+			headers: {
+				"Content-Type": "multipart/form-data",
+			}
+		});
+		console.log(response);
 	}
 
 	return (
@@ -166,7 +170,7 @@ let EditProgram = () => {
 				<div className="bottom">
 					<div className="bottomHeader">
 						<h2>Program Details</h2>
-						
+
 					</div>
 					<hr />
 					<div className="bottomContent">

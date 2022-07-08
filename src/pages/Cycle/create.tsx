@@ -23,29 +23,14 @@ const CreateCycle = () => {
   const [arrivalLocation, setArrivalLocation] = useState<string>('')
   const [returnLocation, setReturnLocation] = useState<string>('')
   const [returnArrivalLocation, setReturnArrivalLocation] = useState<string>('')
-  const [departureDate, setDepartureDate] = useState<string | null>('')
-  const [arrivalDate, setArrivalDate] = useState<string | null>('')
-  const [returnDate, setReturnDate] = useState<string | null>('')
-  const [returnArrivalDate, setReturnArrivalDate] = useState<string | null>('')
+  const [departureDate, setDepartureDate] = useState<string>('')
+  const [arrivalDate, setArrivalDate] = useState<string>('')
+  const [returnDate, setReturnDate] = useState<string>('')
+  const [returnArrivalDate, setReturnArrivalDate] = useState<string>('')
 
-  //styles
-
-  const ITEM_HEIGHT = 48
-  const ITEM_PADDING_TOP = 8
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-        width: 250,
-      },
-    },
-  }
-
-  ///change methods
 
   const changeDepartureLocation = (event: SelectChangeEvent) => {
     setDepartureLocation(event.target.value as string)
-    console.log(event.target.value as string)
   }
 
   const changeArrivalLocation = (event: SelectChangeEvent) => {
@@ -59,10 +44,10 @@ const CreateCycle = () => {
     setReturnArrivalLocation(event.target.value as string)
   }
   const formatDate = (date: string) => {
-    let d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear()
+    const d = new Date(date)
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
 
     if (month.length < 2) month = '0' + month
     if (day.length < 2) day = '0' + day
@@ -80,50 +65,33 @@ const CreateCycle = () => {
     formData.append('arrivalLocationId', arrivalLocation.toString())
     formData.append('returnArrivalLocationId', returnArrivalLocation.toString())
     formData.append('returnLocationId', returnLocation.toString())
-    formData.append('arrival_date', arrivalDate as string)
-    formData.append('return_date', returnDate as string)
-    formData.append('departure_date', departureDate as string)
-    formData.append('return_arrival_date', returnArrivalDate as string)
+    formData.append('arrival_date', arrivalDate)
+    formData.append('return_date', returnDate)
+    formData.append('departure_date', departureDate)
+    formData.append('return_arrival_date', returnArrivalDate)
 
-    console.log(formData)
 
   try
   {
     const response: IResponseInterface<ICycleCreateResponse> = await api<ICycleCreateResponse>({
       url: "/cycles/create",
       method: "POST",
-      headers:
-       { "Content-Type": "multipart/form-data"}
-      ,
       body: formData,
-     
+
     });
 
     if (response.success) {
       if (response.data) {
-        const {cycle} = response.data;
-        console.log(cycle)
+        // handle
       }
     }
 
   }
   catch (error: any) {
-    console.log(error);
+      // handle
   }
 
-   /* const response = await fetch('http://localhost:4000/cycles/create', {
-      mode: 'no-cors',
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => {
-        console.log(response)
-      })
 
-      .catch((e) => {
-        console.log(e)
-      })
-      */
   }
 
   return (
@@ -139,9 +107,9 @@ const CreateCycle = () => {
 						  value={name}
 						  setValue={setName}
 						/>
-          
+
             </Grid>
-            
+
             <Grid item xs={8}>
             <CustomInputField
              	type={"number"}
@@ -159,7 +127,6 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setDepartureDate(formatDate(newValue))
-                        console.log(departureDate)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -173,7 +140,6 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setArrivalDate(formatDate(newValue))
-                        console.log(arrivalDate)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -187,7 +153,6 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setReturnDate(formatDate(newValue))
-                        console.log(returnDate)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -201,7 +166,6 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setReturnArrivalDate(formatDate(newValue))
-                        console.log(formatDate(newValue))
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
