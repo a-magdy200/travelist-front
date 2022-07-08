@@ -12,56 +12,48 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { useParams } from 'react-router-dom'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import api from '../../config/api'
+import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import CustomInputField from '../../components/Form/CustomInputField'
 
 const EditCycle = () => {
   const { id } = useParams()
-  const [name, setName] = useState<string>('')
-  const [maxSeats, setMaxSeats] = useState<number>(0)
-  const [departureLocation, setDepartureLocation] = useState<string>('')
-  const [arrivalLocation, setArrivalLocation] = useState<string>('')
-  const [returnLocation, setReturnLocation] = useState<string>('')
-  const [returnArrivalLocation, setReturnArrivalLocation] = useState<string>('')
-  const [departureDate, setDepartureDate] = useState<string | null>('')
-  const [arrivalDate, setArrivalDate] = useState<string | null>('')
-  const [returnDate, setReturnDate] = useState<string | null>('')
-  const [returnArrivalDate, setReturnArrivalDate] = useState<string | null>('')
-  //  const [cycle, setCycle] = useState<Cycle>();
+  const [name, setName] = useState<string>(' ')
+  const [maxSeats, setMaxSeats] = useState<string>('0')
+  const [departureLocation, setDepartureLocation] = useState<string>('1')
+  const [arrivalLocation, setArrivalLocation] = useState<string>('1')
+  const [returnLocation, setReturnLocation] = useState<string>('1')
+  const [returnArrivalLocation, setReturnArrivalLocation] = useState<string>('1')
+  const [departureDate, setDepartureDate] = useState<string >(String(new Date))
+  const [arrivalDate, setArrivalDate] = useState<string >(String(new Date))
+  const [returnDate, setReturnDate] = useState<string >(String(new Date))
+  const [returnArrivalDate, setReturnArrivalDate] = useState<string >(String(new Date))
+  const [cycle, setCycle] = useState<ICycleInterface>();
+  
+  const getCycle = async () => {
+		try {
+			const response: IResponseInterface<ICycleInterface> =
+				await api<ICycleInterface>({
+					url: `/cycles/show/${id}`,
+				})
 
-  interface Cycle {
-    id: number
-    name: string
-    departure_date: string
-    arrival_date: string
-    departure_location: Country
-    arrival_location: Country
-  }
+			if (response.success) {
+				if (response.data) {
+          setCycle(response.data)
+        //  setName(response.data.name)
+       console.log("res",response.data)
+          console.log("cycle",cycle)
+         	}
+			}
 
-  interface Country {
-    id: number
-    name: string
-  }
-  useEffect(() => {
-    fetch('http://localhost:4000/cycles/show/' + id)
-      .then((res) => {
-        return res.json()
-      })
-      .then((res) => {
-        console.log(res.data)
-        setName(res.data.name)
-        setMaxSeats(res.data.max_seats)
-        setDepartureLocation(res.data.departure_location.id)
-        setArrivalLocation(res.data.arrival_location.id)
-        setReturnLocation(res.data.return_location.id)
-        setReturnArrivalLocation(res.data.return_arrival_location.id)
-        setDepartureDate(res.data.departure_date)
-        setArrivalDate(res.data.arrival_date)
-        setReturnArrivalDate(res.data.return_arrival_date)
-        setReturnDate(res.data.return_date)
-      })
-      .catch((e) => {
-        console.log(e)
-      })
-  }, [])
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	useEffect(() => {
+		getCycle()
+	}, [])
 
   const ITEM_HEIGHT = 48
   const ITEM_PADDING_TOP = 8
@@ -120,13 +112,32 @@ const EditCycle = () => {
 
     console.log(formData)
 
-    const response = await fetch('http://localhost:4000/cycles/update' + id, {
+   /* const response = await fetch('http://localhost:4000/cycles/update' + id, {
       mode: 'no-cors',
       method: 'PUT',
       body: formData,
     })
       .then((res) => res.json())
       .then((data) => console.log(data))
+      */
+      try {
+        const response: IResponseInterface<ICycleInterface> =
+          await api<ICycleInterface>({
+            url: `/cycles/update/${id}`,
+            method:'PUT',
+            headers: { "Content-Type": "multipart/form-data"},
+            body:formData
+          })
+  
+          if (response.success) {
+          if (response.data) {
+            setCycle(response.data)
+            console.log(response.data)
+          }
+        }
+      } catch (error: any) {
+        console.log(error)
+      }
   }
 
   return (
@@ -136,17 +147,22 @@ const EditCycle = () => {
           <h1>Create Cycle</h1>
           <Grid container direction="column" spacing={2}>
             <Grid item xs={8}>
-              <TextField
-                className="inputText"
-                label="Cycle Name"
-                variant="outlined"
-                required
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value)
-                }}
-              />
+            <CustomInputField
+					  	type={"text"}
+						  label={"Cycle Name"}
+						  value={name}
+						  setValue={setName}
+						/>
             </Grid>
+            <Grid item xs={8}>
+            <CustomInputField
+             	type={"number"}
+						  label={"Max Seats"}
+						  value={maxSeats}
+						  setValue={setMaxSeats}
+						/>
+            </Grid>
+            
             <Grid item xs={4}>
               <Grid container>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>

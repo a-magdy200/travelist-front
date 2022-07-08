@@ -11,8 +11,9 @@ import Grid from '@mui/material/Grid'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import CustomInputField from '../Form/CustomInputField'
 
-let CreateCycle = () => {
+let CreateCycleComponent = () => {
 	const [name, setName] = useState<string>('')
 	const [maxSeats, setMaxSeats] = useState<string>('0')
 	const [departureLocation, setDepartureLocation] = useState<string>('')
@@ -96,6 +97,13 @@ let CreateCycle = () => {
 					<h1>Create Cycle</h1>
 					<Grid container direction="column" spacing={2}>
 						<Grid item xs={8}>
+						<CustomInputField
+						type={"text"}
+						  label={"Cycle Name"}
+						  value={name}
+						  setValue={setName}
+
+						/>
 							<TextField
 								className="inputText"
 								label="Cycle Name"
@@ -279,4 +287,4 @@ let CreateCycle = () => {
 	)
 }
 
-export default CreateCycle
+export default CreateCycleComponent

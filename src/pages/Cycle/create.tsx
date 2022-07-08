@@ -11,6 +11,10 @@ import Grid from '@mui/material/Grid'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import CustomInputField from '../../components/Form/CustomInputField'
+import {IResponseInterface} from "../../config/interfaces/IResponse.interface";
+import { ICycleCreateResponse } from '../../config/interfaces/ICycleCreateResponse.iterface'
+import api from "../../config/api";
 
 const CreateCycle = () => {
   const [name, setName] = useState<string>('')
@@ -83,7 +87,31 @@ const CreateCycle = () => {
 
     console.log(formData)
 
-    const response = await fetch('http://localhost:4000/cycles/create', {
+  try
+  {
+    const response: IResponseInterface<ICycleCreateResponse> = await api<ICycleCreateResponse>({
+      url: "/cycles/create",
+      method: "POST",
+      headers:
+       { "Content-Type": "multipart/form-data"}
+      ,
+      body: formData,
+     
+    });
+
+    if (response.success) {
+      if (response.data) {
+        const {cycle} = response.data;
+        console.log(cycle)
+      }
+    }
+
+  }
+  catch (error: any) {
+    console.log(error);
+  }
+
+   /* const response = await fetch('http://localhost:4000/cycles/create', {
       mode: 'no-cors',
       method: 'POST',
       body: formData,
@@ -95,6 +123,7 @@ const CreateCycle = () => {
       .catch((e) => {
         console.log(e)
       })
+      */
   }
 
   return (
@@ -104,30 +133,22 @@ const CreateCycle = () => {
           <h1>Create Cycle</h1>
           <Grid container direction="column" spacing={2}>
             <Grid item xs={8}>
-              <TextField
-                className="inputText"
-                label="Cycle Name"
-                variant="outlined"
-                required
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value)
-                }}
-              />
+            <CustomInputField
+					  	type={"text"}
+						  label={"Cycle Name"}
+						  value={name}
+						  setValue={setName}
+						/>
+          
             </Grid>
+            
             <Grid item xs={8}>
-              <TextField
-                className="inputText"
-                type="number"
-                label="Max Seats"
-                variant="outlined"
-                required
-                value={maxSeats}
-                onChange={(e) => {
-                  setMaxSeats(e.target.value)
-                  console.log(e.target.value)
-                }}
-              />
+            <CustomInputField
+             	type={"number"}
+						  label={"Max Seats"}
+						  value={maxSeats}
+						  setValue={setMaxSeats}
+						/>
             </Grid>
             <Grid item xs={4}>
               <Grid container>
