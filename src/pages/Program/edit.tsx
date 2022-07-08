@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
@@ -19,6 +19,7 @@ import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import { useParams } from 'react-router-dom'
+import api from "../../config/api";
 
 let EditProgram = () => {
 	let { id } = useParams()
@@ -29,20 +30,51 @@ let EditProgram = () => {
 	const [companyId, setcompanyId] = useState<number>(1)
 	const [hotel, setHotel] = React.useState<string[]>([])
 	const [cover_picture, setCoverPicture] = React.useState<File>()
-	const [program, setProgram] = React.useState<Data>()
+	const [program, setProgram] = React.useState<EditProgram>()
 
-	interface Data {
+	interface EditProgram {
 		id: number
 		name: string
 		price: number
 		hotel: string[]
 		description: string
+		is_Recurring:boolean
+		company:Company
+		hotels:Hotel
+	}
+	interface Company {
+		id: number
+		name: string
 	}
 
+	interface Hotel {
+		id: number
+		name: string
+	}
 	const hotels = [
 		{ id: 1, value: 'h1' },
 		{ id: 2, value: 'h2' },
 	]
+
+	useEffect(() => {
+		fetch('http://localhost:4000/programs/show/' + id)
+			.then((res) => {
+				return res.json()
+			})
+			.then((res) => {
+				console.log(res.data)
+				setName(res.data.name)
+				setDescription(res.data.description)
+				setPrice(res.data.price)
+				setis_Recurring(res.data.is_Recurring)
+				setHotel(res.data.hotels.map((h: Hotel) => h.id));
+			})
+			.catch((e) => {
+				console.log(e)
+			})
+	}, [])
+
+
 
 	/// styling
 	const theme2 = useTheme()
@@ -96,23 +128,25 @@ let EditProgram = () => {
 		const formData = new FormData()
 		formData.append('name', name)
 		formData.append('description', description)
-		formData.append('cover_picture', cover_picture as File)
+		if (cover_picture) {
+			formData.append('cover_picture', cover_picture)
+		}
 		formData.append('price', price)
-		formData.append('is_Recurring', is_Recurring.toString())
-		formData.append('companyId', '1')
 		for (let item of hotel) {
 			formData.append('hotels', item)
 			console.log(item)
 		}
 		console.log(formData)
 
-		const response = await fetch('http://localhost:4000/programs/update' + id, {
-			mode: 'no-cors',
+		const response = await api({
+			url: `/programs/update/${id}`,
 			method: 'PUT',
 			body: formData,
-		})
-			.then((res) => res.json())
-			.then((data) => console.log(data))
+			headers: {
+				"Content-Type": "multipart/form-data",
+			}
+		});
+		console.log(response);
 	}
 
 	return (
@@ -136,7 +170,7 @@ let EditProgram = () => {
 				<div className="bottom">
 					<div className="bottomHeader">
 						<h2>Program Details</h2>
-						
+
 					</div>
 					<hr />
 					<div className="bottomContent">
@@ -213,7 +247,6 @@ let EditProgram = () => {
 								/>
 								is_Recurring
 							</Grid>
-
 							<Grid item xs={2}>
 								<Button variant="contained" component="label">
 									<input
@@ -231,7 +264,7 @@ let EditProgram = () => {
 							</Grid>
 							<Grid item xs={8}>
 								<Button variant="contained" type="submit">
-									Create
+									Edit
 								</Button>
 							</Grid>
 						</Grid>

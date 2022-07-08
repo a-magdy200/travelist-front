@@ -1,4 +1,4 @@
-import {ComponentProps, useState} from "react";
+import {ComponentProps, useEffect, useState} from "react";
 import AuthContext from "../contexts/AuthContext";
 import {IUserInterface} from "../config/interfaces/IUser.interface";
 import {ACCESS_TOKEN} from "../config/helpers/constants";
@@ -23,6 +23,18 @@ const AuthContextProvider = ({children}: ComponentProps<any>) => {
       navigate("/");
     }
   };
+  useEffect(() => {
+    const token = localStorage.getItem(ACCESS_TOKEN) ?? '';
+    if (token !== '') {
+      setIsLoggedIn(true);
+      // TODO:: call refresh token
+      setUserDetails({
+        name: "User",
+        profile_picture: '',
+        role: "traveler",
+      });
+    }
+  }, []);
   return (
     <AuthContext.Provider value={authContextValue}>
       {children}
