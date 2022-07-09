@@ -10,9 +10,9 @@ export interface ICycleInterface {
     arrival_date:string;
     return_date:string;
     return_arrival_date:string;
-    departureLocationId:ICountryInterface;
-    returnLocationId:ICountryInterface;
-    arrivalLocationId:ICountryInterface;
-    returnArrivalLocationId:ICountryInterface;
+    departure_location:ICountryInterface;
+    return_location:ICountryInterface;
+    arrival_location:ICountryInterface;
+    return_arrival_location:ICountryInterface;
   }
   

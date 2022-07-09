@@ -20,6 +20,7 @@ import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 import Loader from '../Loader'
 import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
 
+
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
 		return -1
@@ -58,6 +59,8 @@ function stableSort<Data>(
 	return stabilizedThis.map((el) => el[0])
 }
 
+
+
 const headCells: readonly HeadCellInterface<ICycleInterface>[] = [
 	{
 		id: 'id',
@@ -84,13 +87,13 @@ const headCells: readonly HeadCellInterface<ICycleInterface>[] = [
 		label: 'Arrival Date',
 	},
 	{
-		id: 'departureLocationId',
+		id: 'departure_location',
 		numeric: true,
 		disablePadding: false,
 		label: 'Departure Location',
 	},
 	{
-		id: 'arrivalLocationId',
+		id: 'arrival_location',
 		numeric: true,
 		disablePadding: false,
 		label: 'Arrival Location',
@@ -152,7 +155,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	)
 }
 
-const ListCycleComponent = () => {
+ const ListCycleComponent=()=> {
 	const [order, setOrder] = useState<Order>('asc')
 	const [orderBy, setOrderBy] = useState<keyof ICycleInterface>('name')
 	const [selected, setSelected] = useState<readonly string[]>([])
@@ -180,8 +183,8 @@ const ListCycleComponent = () => {
 	useEffect(() => {
 		getCycles()
 	}, [])
-
-	const removeCycle = async (id: number | undefined) => {
+	
+const removeCycle = async(id: number | undefined) => {
 		if (window.confirm('Are you sure?')) {
 			console.log(id)
 			try {
@@ -190,11 +193,12 @@ const ListCycleComponent = () => {
 						url: `/cycles/delete/${id}`,
 						method: 'DELETE',
 					})
-
+	
 				if (response.success) {
-					alert('deleted successfuly')
+					alert("deleted successfuly")
+					}
 				}
-			} catch (error: any) {
+			 catch (error: any) {
 				console.log(error)
 			}
 		}
@@ -211,7 +215,7 @@ const ListCycleComponent = () => {
 
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			return
+				return
 		}
 		setSelected([])
 	}
@@ -232,102 +236,101 @@ const ListCycleComponent = () => {
 
 	return (
 		<div>
-			{cycles ? (
-				<div>
-					<NavLink to={`/cycle/create`}>
-						{' '}
-						<Button className="createButton" variant="contained">
-							Create
-						</Button>
-					</NavLink>
-					<Box className="listPrograms" sx={{ width: '97%' }}>
-						<Paper sx={{ width: '100%', mb: 1 }}>
-							<TablePagination
-								rowsPerPageOptions={[10, 20, 30]}
-								component="div"
-								count={cycles.length}
-								rowsPerPage={rowsPerPage}
-								page={page}
-								onPageChange={handleChangePage}
-								onRowsPerPageChange={handleChangeRowsPerPage}
+			{
+			cycles?
+			<div>
+			<NavLink to={`/cycle/create`}>
+				{' '}
+				<Button className="createButton" variant="contained">
+					Create
+				</Button>
+			</NavLink>
+			<Box className="listPrograms" sx={{ width: '97%' }}>
+				<Paper sx={{ width: '100%', mb: 1 }}>
+					<TablePagination
+						rowsPerPageOptions={[10, 20, 30]}
+						component="div"
+						count={cycles.length}
+						rowsPerPage={rowsPerPage}
+						page={page}
+						onPageChange={handleChangePage}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+					/>
+					<TableContainer>
+						<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+							<EnhancedTableHead
+								numSelected={selected.length}
+								order={order}
+								orderBy={orderBy}
+								onSelectAllClick={handleSelectAllClick}
+								onRequestSort={handleRequestSort}
+								rowCount={cycles.length}
 							/>
-							<TableContainer>
-								<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-									<EnhancedTableHead
-										numSelected={selected.length}
-										order={order}
-										orderBy={orderBy}
-										onSelectAllClick={handleSelectAllClick}
-										onRequestSort={handleRequestSort}
-										rowCount={cycles.length}
-									/>
 
-									<TableBody>
-										{stableSort(cycles, getComparator(order, orderBy))
-											.slice(
-												page * rowsPerPage,
-												page * rowsPerPage + rowsPerPage
-											)
-											.map((cycle: ICycleInterface, index) => {
-												return (
-													<TableRow>
-														<TableCell align="center">{cycle.id}</TableCell>
-														<TableCell align="center">{cycle.name}</TableCell>
-														<TableCell align="center">
-															{cycle.departure_date}
-														</TableCell>
-														<TableCell align="center">
-															{cycle.arrival_date}
-														</TableCell>
-														<TableCell align="center">
-															{cycle.departureLocationId?.name}
-														</TableCell>
-														<TableCell align="center">
-															{cycle.arrivalLocationId?.name}
-														</TableCell>
-														<TableCell align="center">
-															<NavLink to={`/cycle/show/${cycle.id}`}>
-																<Button
-																	className="createButton"
-																	variant="contained"
-																	color="success"
-																>
-																	Show
-																</Button>
-															</NavLink>
-															<NavLink to={`/cycle/edit/${cycle.id}`}>
-																{' '}
-																<Button
-																	className="createButton"
-																	variant="contained"
-																>
-																	Edit
-																</Button>
-															</NavLink>
-															<Button
-																className="createButton"
-																variant="contained"
-																color="error"
-																onClick={() => {
-																	removeCycle(cycle.id)
-																}}
-															>
-																Delete
-															</Button>
-														</TableCell>
-													</TableRow>
-												)
-											})}
-										{emptyRows > 0 && <TableCell colSpan={6} />}
-									</TableBody>
-								</Table>
-							</TableContainer>
-						</Paper>
-					</Box>
-				</div>
-			) : (
-				<Loader />
-			)}
+							<TableBody>
+								
+								{stableSort(cycles, getComparator(order, orderBy))
+									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+									.map((cycle: ICycleInterface, index) => {
+										return (
+											<TableRow>
+												<TableCell align="center">{cycle.id}</TableCell>
+												<TableCell align="center">{cycle.name}</TableCell>
+												<TableCell align="center">
+													{cycle.departure_date}
+												</TableCell>
+												<TableCell align="center">
+													{cycle.arrival_date}
+												</TableCell>
+												<TableCell align="center">
+													{cycle.departure_location?.name}
+												</TableCell>
+												<TableCell align="center">
+												{cycle.arrival_location?.name}
+											</TableCell>
+									          	<TableCell align="center">
+													<NavLink to={`/cycle/show/${cycle.id}`}>
+														<Button
+															className="createButton"
+															variant="contained"
+															color="success"
+														>
+															Show
+														</Button>
+													</NavLink>
+													<NavLink to={`/cycle/edit/${cycle.id}`}>
+														{' '}
+														<Button
+															className="createButton"
+															variant="contained"
+														>
+															Edit
+														</Button>
+													</NavLink>
+													<Button
+														className="createButton"
+														variant="contained"
+														color="error"
+														onClick={() => {
+															removeCycle(cycle.id)
+														}}
+													>
+														Delete
+													</Button>
+												</TableCell>
+											</TableRow>
+										)
+									})}
+								{emptyRows > 0 && <TableCell colSpan={6} />}
+							</TableBody>
+						</Table>
+					</TableContainer>
+				</Paper>
+			</Box>
+			</div>
+			:
+			<Loader/>
+			}
 		</div>
 	)
 }
