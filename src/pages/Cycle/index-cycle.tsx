@@ -1,4 +1,4 @@
-import ListCycleComponent from '../../components/cycles/index'
+import ListCycleComponent from '../../components/cycles/IndexCycle'
 
 const ListCycles = () => {
 	return(

@@ -1,4 +1,4 @@
-import ListProgramComponent from '../../components/programs/index'
+import ListProgramComponent from '../../components/programs/IndexProgram'
 
 const ListPrograms = () => {
 	return(

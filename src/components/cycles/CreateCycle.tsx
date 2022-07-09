@@ -12,39 +12,45 @@ import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import CustomInputField from '../Form/CustomInputField'
+import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import api from '../../config/api'
+import { ICycleCreateInterface } from '../../config/interfaces/ICycleCreate.interface'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
 
 let CreateCycleComponent = () => {
+	let { id } = useParams()
+	let programId = Number(useParams().id)
 	const [name, setName] = useState<string>('')
-	const [maxSeats, setMaxSeats] = useState<string>('0')
-	const [departureLocation, setDepartureLocation] = useState<string>('')
-	const [arrivalLocation, setArrivalLocation] = useState<string>('')
-	const [returnLocation, setReturnLocation] = useState<string>('')
-	const [returnArrivalLocation, setReturnArrivalLocation] = useState<string>('')
-	const [departureDate, setDepartureDate] = useState<string | null>('')
-	const [arrivalDate, setArrivalDate] = useState<string | null>('')
-	const [returnDate, setReturnDate] = useState<string | null>('')
-	const [returnArrivalDate, setReturnArrivalDate] = useState<string | null>('')
-
-	//styles
-
-	
+	const [max_seats, setMaxSeats] = useState<number>()
+	const [departureLocationId, setDepartureLocation] = useState<number>()
+	const [arrivalLocationId, setArrivalLocation] = useState<number>()
+	const [returnLocationId, setReturnLocation] = useState<number>()
+	const [returnArrivalLocationId, setReturnArrivalLocation] = useState<number>()
+	const [departure_date, setDepartureDate] = useState<string | undefined>('')
+	const [arrival_date, setArrivalDate] = useState<string | undefined>('')
+	const [return_date, setReturnDate] = useState<string | undefined>('')
+	const [return_arrival_date, setReturnArrivalDate] = useState<
+		string | undefined
+	>('')
+	const navigate = useNavigate()
 
 	///change methods
 
 	const changeDepartureLocation = (event: SelectChangeEvent) => {
-		setDepartureLocation(event.target.value as string)
-		console.log(event.target.value as string)
+		setDepartureLocation(Number(event.target.value))
+		console.log(event.target.value)
 	}
 
 	const changeArrivalLocation = (event: SelectChangeEvent) => {
-		setArrivalLocation(event.target.value as string)
+		setArrivalLocation(Number(event.target.value))
 	}
 
 	const changeReturnLocation = (event: SelectChangeEvent) => {
-		setReturnLocation(event.target.value as string)
+		setReturnLocation(Number(event.target.value))
 	}
 	const changeReturnArrivalLocation = (event: SelectChangeEvent) => {
-		setReturnArrivalLocation(event.target.value as string)
+		setReturnArrivalLocation(Number(event.target.value))
 	}
 	const formatDate = (date: string) => {
 		let d = new Date(date),
@@ -60,34 +66,36 @@ let CreateCycleComponent = () => {
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const formData = new FormData()
-		formData.append('name', name)
-		formData.append('programId', '7')
-		formData.append('max_seats', maxSeats.toString())
-		formData.append('departureLocationId', departureLocation.toString())
-		formData.append('arrivalLocationId', arrivalLocation.toString())
-		formData.append('returnArrivalLocationId', returnArrivalLocation.toString())
-		formData.append('returnLocationId', returnLocation.toString())
-		formData.append('arrival_date', arrivalDate as string)
-		formData.append('return_date', returnDate as string)
-		formData.append('departure_date', departureDate as string)
-		formData.append('return_arrival_date', returnArrivalDate as string)
+		const requestBody: ICycleCreateInterface = {
+			name,
+			programId,
+			max_seats,
+			departureLocationId,
+			arrivalLocationId,
+			returnArrivalLocationId,
+			returnLocationId,
+			arrival_date,
+			return_date,
+			departure_date,
+			return_arrival_date,
+		}
 
-		console.log(formData)
+		try {
+			const response: IResponseInterface<ICycleInterface> =
+				await api<ICycleInterface>({
+					url: '/cycles/create',
+					method: 'POST',
+					body: JSON.stringify(requestBody),
+				})
 
-		const response = await fetch('http://localhost:4000/cycles/create', {
-			mode: 'no-cors',
-			method: 'POST',
-			body: formData,
-		})
-			.then((response) => {
-				response.json()
-				console.log(response.json())
-			})
-			.then(data => console.log(data))
-			.catch((e) => {
-				console.log(e)
-			})
+			if (response.success) {
+				if (response.data) {
+					navigate('/cycle/list')
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
 	}
 
 	return (
@@ -97,22 +105,11 @@ let CreateCycleComponent = () => {
 					<h1>Create Cycle</h1>
 					<Grid container direction="column" spacing={2}>
 						<Grid item xs={8}>
-						<CustomInputField
-						type={"text"}
-						  label={"Cycle Name"}
-						  value={name}
-						  setValue={setName}
-
-						/>
-							<TextField
-								className="inputText"
-								label="Cycle Name"
-								variant="outlined"
-								required
+							<CustomInputField
+								type={'text'}
+								label={'Cycle Name'}
 								value={name}
-								onChange={(e) => {
-									setName(e.target.value)
-								}}
+								setValue={setName}
 							/>
 						</Grid>
 						<Grid item xs={8}>
@@ -122,10 +119,9 @@ let CreateCycleComponent = () => {
 								label="Max Seats"
 								variant="outlined"
 								required
-								value={maxSeats}
+								value={max_seats}
 								onChange={(e) => {
-									setMaxSeats(e.target.value)
-									console.log(e.target.value)
+									setMaxSeats(Number(e.target.value))
 								}}
 							/>
 						</Grid>
@@ -134,11 +130,10 @@ let CreateCycleComponent = () => {
 								<LocalizationProvider dateAdapter={AdapterLuxon}>
 									<DatePicker
 										label="Departure Date"
-										value={departureDate}
+										value={departure_date}
 										onChange={(newValue) => {
 											if (newValue) {
 												setDepartureDate(formatDate(newValue))
-												console.log(departureDate)
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
@@ -148,11 +143,10 @@ let CreateCycleComponent = () => {
 								<LocalizationProvider dateAdapter={AdapterLuxon}>
 									<DatePicker
 										label="Arrival Date"
-										value={arrivalDate}
+										value={arrival_date}
 										onChange={(newValue) => {
 											if (newValue) {
 												setArrivalDate(formatDate(newValue))
-												console.log(arrivalDate)
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
@@ -162,11 +156,10 @@ let CreateCycleComponent = () => {
 								<LocalizationProvider dateAdapter={AdapterLuxon}>
 									<DatePicker
 										label="Return Date"
-										value={returnDate}
+										value={return_date}
 										onChange={(newValue) => {
 											if (newValue) {
 												setReturnDate(formatDate(newValue))
-												console.log(returnDate)
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
@@ -176,11 +169,10 @@ let CreateCycleComponent = () => {
 								<LocalizationProvider dateAdapter={AdapterLuxon}>
 									<DatePicker
 										label="Return Arrival Date"
-										value={returnArrivalDate}
+										value={return_arrival_date}
 										onChange={(newValue) => {
 											if (newValue) {
 												setReturnArrivalDate(formatDate(newValue))
-												console.log(formatDate(newValue))
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
@@ -204,7 +196,7 @@ let CreateCycleComponent = () => {
 										<Select
 											labelId="demo-simple-select-label"
 											id="demo-simple-select"
-											value={departureLocation}
+											value={departureLocationId?.toString()}
 											label="Departure Location"
 											onChange={changeDepartureLocation}
 										>
@@ -224,7 +216,7 @@ let CreateCycleComponent = () => {
 										<Select
 											labelId="demo-simple-select-label"
 											id="demo-simple-select"
-											value={arrivalLocation}
+											value={arrivalLocationId?.toString()}
 											label="Arrival Location"
 											onChange={changeArrivalLocation}
 										>
@@ -244,7 +236,7 @@ let CreateCycleComponent = () => {
 										<Select
 											labelId="demo-simple-select-label"
 											id="demo-simple-select"
-											value={returnLocation}
+											value={returnLocationId?.toString()}
 											label="Return Location"
 											onChange={changeReturnLocation}
 										>
@@ -264,7 +256,7 @@ let CreateCycleComponent = () => {
 										<Select
 											labelId="demo-simple-select-label"
 											id="demo-simple-select"
-											value={returnArrivalLocation}
+											value={returnArrivalLocationId?.toString()}
 											label="Return Arrival Location"
 											onChange={changeReturnArrivalLocation}
 										>
@@ -275,9 +267,18 @@ let CreateCycleComponent = () => {
 								</Box>
 							</Grid>
 							<Grid item xs={8}>
-								<Button variant="contained" type="submit">
-									Create
-								</Button>
+								<NavLink to={`/cycle/list`}>
+									{' '}
+									<Button className="createButton" variant="contained">
+										Back
+									</Button>
+								</NavLink>
+								<NavLink to={`/cycle/list`}>
+									{' '}
+									<Button variant="contained" type="submit">
+										Create
+									</Button>
+								</NavLink>
 							</Grid>
 						</Grid>
 					</div>
