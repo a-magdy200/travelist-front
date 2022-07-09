@@ -12,6 +12,7 @@ export interface IProgramInterface {
     total_rating_value :number                 
     total_rating_users :number              
     average_rating:number
+    cover_picture:string
     transportation: ITransportationInterface
     hotels:IHotelInterface|IHotelInterface[]
 }

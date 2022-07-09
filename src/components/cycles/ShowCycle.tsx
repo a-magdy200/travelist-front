@@ -2,17 +2,10 @@ import Loader from '../Loader'
 import {ICycleShowProps} from "../../config/interfaces/ICycleShowProps.interface";
 import { NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import React from 'react';
 import Grid from '@mui/material/Grid'
 
 
 const ShowCycleComponent = ({cycle}: ICycleShowProps) => {
-	console.log(cycle)
 	
 	return (
 		<div className="createContainer">
