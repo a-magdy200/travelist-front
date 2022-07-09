@@ -85,7 +85,8 @@ const CreateProgramComponent = () => {
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const formData = new FormData()
-		formData.append('name', name)
+		if(!isDisabled)
+		{formData.append('name', name)
 		formData.append('description', description)
 		if (cover_picture) {
 			formData.append('cover_picture', cover_picture)
@@ -110,7 +111,14 @@ const CreateProgramComponent = () => {
 
 		navigate('/program/list')
 	}
-
+	else
+	{
+		alert("error validation")
+	}
+	}
+	const isDisabled = (): boolean => {
+		return name==='' || description === '' || price === ''|| companyId===0|| hotels.length===0;
+	  };
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
