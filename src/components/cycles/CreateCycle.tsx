@@ -79,8 +79,8 @@ let CreateCycleComponent = () => {
 			departure_date,
 			return_arrival_date,
 		}
-
-		try {
+        if(!isDisabled)
+		{try {
 			const response: IResponseInterface<ICycleInterface> =
 				await api<ICycleInterface>({
 					url: '/cycles/create',
@@ -97,7 +97,16 @@ let CreateCycleComponent = () => {
 			console.log(error)
 		}
 	}
-
+	else
+	{
+      alert("validation error")
+	}
+	}
+	const isDisabled = (): boolean => {
+		return name==='' || max_seats === 0 || departureLocationId === 0|| arrivalLocationId===0
+		|| returnLocationId===0 || returnArrivalLocationId===0|| departure_date===''
+		|| arrival_date===''|| return_date==='' ||return_arrival_date==='';
+	  };
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
