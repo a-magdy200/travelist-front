@@ -13,12 +13,12 @@ import Paper from '@mui/material/Paper'
 import { visuallyHidden } from '@mui/utils'
 import Button from '@mui/material/Button'
 import { NavLink } from 'react-router-dom'
-import { ICycleCreateResponse } from '../../config/interfaces/ICycleCreateResponse.iterface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 import Loader from '../Loader'
-
+import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
 
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
@@ -58,14 +58,7 @@ function stableSort<Data>(
 	return stabilizedThis.map((el) => el[0])
 }
 
-interface HeadCell {
-	disablePadding: boolean
-	id: keyof ICycleInterface
-	label: string
-	numeric: boolean
-}
-
-const headCells: readonly HeadCell[] = [
+const headCells: readonly HeadCellInterface<ICycleInterface>[] = [
 	{
 		id: 'id',
 		numeric: true,
@@ -159,7 +152,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	)
 }
 
- const ListCycleComponent=()=> {
+const ListCycleComponent = () => {
 	const [order, setOrder] = useState<Order>('asc')
 	const [orderBy, setOrderBy] = useState<keyof ICycleInterface>('name')
 	const [selected, setSelected] = useState<readonly string[]>([])
@@ -178,7 +171,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 			if (response.success) {
 				if (response.data) {
 					setCycles(response.data)
-					console.log(response.data)
 				}
 			}
 		} catch (error: any) {
@@ -188,20 +180,8 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	useEffect(() => {
 		getCycles()
 	}, [])
-	
-	/* fetch('http://localhost:4000/cycles/all')
-			.then((response) => {
-				return response.json()
-			})
-			.then((res) => {
-				setCycles(res.data)
-				console.log(res.data)
-			})
-			.catch((e) => {
-				console.log(e)
-			})
-	*/
-	const removeCycle = async(id: number | undefined) => {
+
+	const removeCycle = async (id: number | undefined) => {
 		if (window.confirm('Are you sure?')) {
 			console.log(id)
 			try {
@@ -210,12 +190,11 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 						url: `/cycles/delete/${id}`,
 						method: 'DELETE',
 					})
-	
+
 				if (response.success) {
-					alert("deleted successfuly")
-					}
+					alert('deleted successfuly')
 				}
-			 catch (error: any) {
+			} catch (error: any) {
 				console.log(error)
 			}
 		}
@@ -232,8 +211,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			// const newSelecteds = programs.map((n) => n.program_name);
-			// setSelected(newSelecteds);
 			return
 		}
 		setSelected([])
@@ -250,104 +227,107 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 		setPage(0)
 	}
 
-	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cycles.length) : 0
 
 	return (
 		<div>
-			cycles?
-			<NavLink to={`/cycle/create`}>
-				{' '}
-				<Button className="createButton" variant="contained">
-					Create
-				</Button>
-			</NavLink>
-			<Box className="listPrograms" sx={{ width: '97%' }}>
-				<Paper sx={{ width: '100%', mb: 1 }}>
-					<TablePagination
-						rowsPerPageOptions={[10, 20, 30]}
-						component="div"
-						count={cycles.length}
-						rowsPerPage={rowsPerPage}
-						page={page}
-						onPageChange={handleChangePage}
-						onRowsPerPageChange={handleChangeRowsPerPage}
-					/>
-					<TableContainer>
-						<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-							<EnhancedTableHead
-								numSelected={selected.length}
-								order={order}
-								orderBy={orderBy}
-								onSelectAllClick={handleSelectAllClick}
-								onRequestSort={handleRequestSort}
-								rowCount={cycles.length}
+			{cycles ? (
+				<div>
+					<NavLink to={`/cycle/create`}>
+						{' '}
+						<Button className="createButton" variant="contained">
+							Create
+						</Button>
+					</NavLink>
+					<Box className="listPrograms" sx={{ width: '97%' }}>
+						<Paper sx={{ width: '100%', mb: 1 }}>
+							<TablePagination
+								rowsPerPageOptions={[10, 20, 30]}
+								component="div"
+								count={cycles.length}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								onPageChange={handleChangePage}
+								onRowsPerPageChange={handleChangeRowsPerPage}
 							/>
+							<TableContainer>
+								<Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+									<EnhancedTableHead
+										numSelected={selected.length}
+										order={order}
+										orderBy={orderBy}
+										onSelectAllClick={handleSelectAllClick}
+										onRequestSort={handleRequestSort}
+										rowCount={cycles.length}
+									/>
 
-							<TableBody>
-								{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
-								{stableSort(cycles, getComparator(order, orderBy))
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((cycle: ICycleInterface, index) => {
-										return (
-											<TableRow>
-												<TableCell align="center">{cycle.id}</TableCell>
-												<TableCell align="center">{cycle.name}</TableCell>
-												<TableCell align="center">
-													{cycle.departure_date}
-												</TableCell>
-												<TableCell align="center">
-													{cycle.arrival_date}
-												</TableCell>
-												<TableCell align="center">
-													{cycle.departureLocationId?.name}
-												</TableCell>
-												<TableCell align="center">
-													{cycle.arrivalLocationId?.name}
-												</TableCell>
-												<TableCell align="center">
-													<NavLink to={`/cycle/show/${cycle.id}`}>
-														<Button
-															className="createButton"
-															variant="contained"
-															color="success"
-														>
-															Show
-														</Button>
-													</NavLink>
-													<NavLink to={`/cycle/edit/${cycle.id}`}>
-														{' '}
-														<Button
-															className="createButton"
-															variant="contained"
-														>
-															Edit
-														</Button>
-													</NavLink>
-													<Button
-														className="createButton"
-														variant="contained"
-														color="error"
-														onClick={() => {
-															removeCycle(cycle.id)
-														}}
-													>
-														Delete
-													</Button>
-												</TableCell>
-											</TableRow>
-										)
-									})}
-								{emptyRows > 0 && <TableCell colSpan={6} />}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Paper>
-			</Box>
-			:
-			<Loader/>
+									<TableBody>
+										{stableSort(cycles, getComparator(order, orderBy))
+											.slice(
+												page * rowsPerPage,
+												page * rowsPerPage + rowsPerPage
+											)
+											.map((cycle: ICycleInterface, index) => {
+												return (
+													<TableRow>
+														<TableCell align="center">{cycle.id}</TableCell>
+														<TableCell align="center">{cycle.name}</TableCell>
+														<TableCell align="center">
+															{cycle.departure_date}
+														</TableCell>
+														<TableCell align="center">
+															{cycle.arrival_date}
+														</TableCell>
+														<TableCell align="center">
+															{cycle.departureLocationId?.name}
+														</TableCell>
+														<TableCell align="center">
+															{cycle.arrivalLocationId?.name}
+														</TableCell>
+														<TableCell align="center">
+															<NavLink to={`/cycle/show/${cycle.id}`}>
+																<Button
+																	className="createButton"
+																	variant="contained"
+																	color="success"
+																>
+																	Show
+																</Button>
+															</NavLink>
+															<NavLink to={`/cycle/edit/${cycle.id}`}>
+																{' '}
+																<Button
+																	className="createButton"
+																	variant="contained"
+																>
+																	Edit
+																</Button>
+															</NavLink>
+															<Button
+																className="createButton"
+																variant="contained"
+																color="error"
+																onClick={() => {
+																	removeCycle(cycle.id)
+																}}
+															>
+																Delete
+															</Button>
+														</TableCell>
+													</TableRow>
+												)
+											})}
+										{emptyRows > 0 && <TableCell colSpan={6} />}
+									</TableBody>
+								</Table>
+							</TableContainer>
+						</Paper>
+					</Box>
+				</div>
+			) : (
+				<Loader />
+			)}
 		</div>
 	)
 }
