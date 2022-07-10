@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -13,8 +13,12 @@ import Paper from '@mui/material/Paper'
 import { visuallyHidden } from '@mui/utils'
 import Button from '@mui/material/Button'
 import { NavLink } from 'react-router-dom'
-import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import api from '../../config/api'
+import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 import Loader from '../Loader'
+import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
 
 
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
@@ -29,13 +33,10 @@ function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 
 type Order = 'asc' | 'desc'
 
-function getComparator<Key extends keyof IProgramInterface>(
+function getComparator<Key extends keyof ICycleInterface>(
 	order: Order,
 	orderBy: Key
-): (
-	a: IProgramInterface,
-	b: IProgramInterface
-) => number {
+): (a: ICycleInterface, b: ICycleInterface) => number {
 	return order === 'desc'
 		? (a, b) => descendingComparator(a, b, orderBy)
 		: (a, b) => -descendingComparator(a, b, orderBy)
@@ -58,14 +59,9 @@ function stableSort<Data>(
 	return stabilizedThis.map((el) => el[0])
 }
 
-interface HeadCell {
-	disablePadding: boolean
-	id: keyof IProgramInterface
-	label: string
-	numeric: boolean
-}
 
-const headCells: readonly HeadCell[] = [
+
+const headCells: readonly HeadCellInterface<ICycleInterface>[] = [
 	{
 		id: 'id',
 		numeric: true,
@@ -76,19 +72,31 @@ const headCells: readonly HeadCell[] = [
 		id: 'name',
 		numeric: true,
 		disablePadding: false,
-		label: 'Program Name',
+		label: 'Cycle Name',
 	},
 	{
-		id: 'company',
+		id: 'departure_date',
 		numeric: true,
 		disablePadding: false,
-		label: 'Company Name',
+		label: 'Departure Date',
 	},
 	{
-		id: 'price',
+		id: 'arrival_date',
 		numeric: true,
 		disablePadding: false,
-		label: 'Price',
+		label: 'Arrival Date',
+	},
+	{
+		id: 'departure_location',
+		numeric: true,
+		disablePadding: false,
+		label: 'Departure Location',
+	},
+	{
+		id: 'arrival_location',
+		numeric: true,
+		disablePadding: false,
+		label: 'Arrival Location',
 	},
 
 	{
@@ -103,7 +111,7 @@ interface EnhancedTableProps {
 	numSelected: number
 	onRequestSort: (
 		event: React.MouseEvent<unknown>,
-		property: keyof IProgramInterface
+		property: keyof ICycleInterface
 	) => void
 	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
 	order: Order
@@ -114,7 +122,7 @@ interface EnhancedTableProps {
 function EnhancedTableHead(props: EnhancedTableProps) {
 	const { order, orderBy, onRequestSort } = props
 	const createSortHandler =
-		(property: keyof IProgramInterface) => (event: React.MouseEvent<unknown>) => {
+		(property: keyof ICycleInterface) => (event: React.MouseEvent<unknown>) => {
 			onRequestSort(event, property)
 		}
 
@@ -147,40 +155,58 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	)
 }
 
-const ListProgramComponent=()=> {
+ const ListCycleComponent=()=> {
 	const [order, setOrder] = useState<Order>('asc')
-	const [orderBy, setOrderBy] = useState<keyof IProgramInterface>('name')
+	const [orderBy, setOrderBy] = useState<keyof ICycleInterface>('name')
 	const [selected, setSelected] = useState<readonly string[]>([])
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
-	const [programs, setPrograms] = useState([])
+	const [cycles, setCycles] = useState<ICycleInterface[]>([])
 
-	useEffect(() => {
-		fetch('http://localhost:4000/programs/all')
-			.then((response) => {
-				return response.json()
+	const getCycles = async () => {
+		try {
+			const response: IResponseInterface<ICycleInterface[]> = await api<
+				ICycleInterface[]
+			>({
+				url: '/cycles/all',
 			})
-			.then((res) => {
-				setPrograms(res.data)
-				console.log(res.data)
-			})
-			.catch((e) => {
-				console.log(e)
-			})
-	}, [])
-	const removeProgram = (id: number) => {
-		if (window.confirm('Are you sure?')) {
-			console.log(id)
-			fetch('http://localhost:4000/programs/delete/' + id, {
-				method: 'DELETE',
-			})
-				.then((res) => console.log(res))
-				.catch((err) => console.log(err))
+
+			if (response.success) {
+				if (response.data) {
+					setCycles(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
 		}
 	}
+	useEffect(() => {
+		getCycles()
+	}, [])
+	
+const removeCycle = async(id: number | undefined) => {
+		if (window.confirm('Are you sure?')) {
+			console.log(id)
+			try {
+				const response: IResponseInterface<ICycleInterface> =
+					await api<ICycleInterface>({
+						url: `/cycles/delete/${id}`,
+						method: 'DELETE',
+					})
+	
+				if (response.success) {
+					alert("deleted successfuly")
+					}
+				}
+			 catch (error: any) {
+				console.log(error)
+			}
+		}
+	}
+
 	const handleRequestSort = (
 		event: React.MouseEvent<unknown>,
-		property: keyof IProgramInterface
+		property: keyof ICycleInterface
 	) => {
 		const isAsc = orderBy === property && order === 'asc'
 		setOrder(isAsc ? 'desc' : 'asc')
@@ -189,9 +215,7 @@ const ListProgramComponent=()=> {
 
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			// const newSelecteds = programs.map((n) => n.program_name);
-			// setSelected(newSelecteds);
-			return
+				return
 		}
 		setSelected([])
 	}
@@ -207,14 +231,15 @@ const ListProgramComponent=()=> {
 		setPage(0)
 	}
 
-	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
-		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - programs.length) : 0
+		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cycles.length) : 0
 
 	return (
 		<div>
-            programs?
-			<NavLink to={`/program/create`}>
+			{
+			cycles?
+			<div>
+			<NavLink to={`/cycle/create`}>
 				{' '}
 				<Button className="createButton" variant="contained">
 					Create
@@ -225,7 +250,7 @@ const ListProgramComponent=()=> {
 					<TablePagination
 						rowsPerPageOptions={[10, 20, 30]}
 						component="div"
-						count={programs.length}
+						count={cycles.length}
 						rowsPerPage={rowsPerPage}
 						page={page}
 						onPageChange={handleChangePage}
@@ -239,25 +264,32 @@ const ListProgramComponent=()=> {
 								orderBy={orderBy}
 								onSelectAllClick={handleSelectAllClick}
 								onRequestSort={handleRequestSort}
-								rowCount={programs.length}
+								rowCount={cycles.length}
 							/>
 
 							<TableBody>
-								{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
-								{stableSort(programs, getComparator(order, orderBy))
+								
+								{stableSort(cycles, getComparator(order, orderBy))
 									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((program: IProgramInterface, index) => {
+									.map((cycle: ICycleInterface, index) => {
 										return (
 											<TableRow>
-												<TableCell align="center">{program.id}</TableCell>
-												<TableCell align="center">{program.name}</TableCell>
+												<TableCell align="center">{cycle.id}</TableCell>
+												<TableCell align="center">{cycle.name}</TableCell>
 												<TableCell align="center">
-													{program.company?.id}
+													{cycle.departure_date}
 												</TableCell>
-												<TableCell align="center">{program.price}</TableCell>
 												<TableCell align="center">
-													<NavLink to={`/program/show/${program.id}`}>
+													{cycle.arrival_date}
+												</TableCell>
+												<TableCell align="center">
+													{cycle.departure_location?.name}
+												</TableCell>
+												<TableCell align="center">
+												{cycle.arrival_location?.name}
+											</TableCell>
+									          	<TableCell align="center">
+													<NavLink to={`/cycle/show/${cycle.id}`}>
 														<Button
 															className="createButton"
 															variant="contained"
@@ -266,7 +298,7 @@ const ListProgramComponent=()=> {
 															Show
 														</Button>
 													</NavLink>
-													<NavLink to={`/program/edit/${program.id}`}>
+													<NavLink to={`/cycle/edit/${cycle.id}`}>
 														{' '}
 														<Button
 															className="createButton"
@@ -280,7 +312,7 @@ const ListProgramComponent=()=> {
 														variant="contained"
 														color="error"
 														onClick={() => {
-															removeProgram(program.id)
+															removeCycle(cycle.id)
 														}}
 													>
 														Delete
@@ -295,9 +327,11 @@ const ListProgramComponent=()=> {
 					</TableContainer>
 				</Paper>
 			</Box>
-            :
-            <Loader/>
+			</div>
+			:
+			<Loader/>
+			}
 		</div>
 	)
 }
-export default ListProgramComponent;
+export default ListCycleComponent

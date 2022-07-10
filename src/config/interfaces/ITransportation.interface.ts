@@ -1,5 +1,5 @@
 export interface ITransportationInterface {
-    id?:string;
+    id?:number;
     name?:string;
  }
   

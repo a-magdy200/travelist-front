@@ -10,10 +10,10 @@ import EditUser from "../pages/Profile/EditUser";
 import CompanyProfile from "../pages/Profile/CompanyProfile";
 import ShowProgram from "../pages/Program/show";
 import EditProgram from "../pages/Program/edit";
-import CreateCycle from "../pages/Cycle/create";
-import ListCycles from "../pages/Cycle";
-import ShowCycle from "../pages/Cycle/ShowCycle";
-import EditCycle from "../pages/Cycle/edit";
+import CreateCycle from "../pages/Cycle/create-cycle";
+import ListCycles from "../pages/Cycle/index-cycle";
+import ShowCycle from "../pages/Cycle/show-cycle";
+import EditCycle from "../pages/Cycle/edit-cycle";
 import React from "react";
 import Home from "../pages/Home";
 
@@ -33,7 +33,7 @@ const UserRoutes = () => {
       <Route path="/program/create" element={<CreateProgram />} />
       <Route path="/program/show/:id" element={<ShowProgram />} />
       <Route path="/program/edit/:id" element={<EditProgram />} />
-      <Route path="/cycle/create" element={<CreateCycle />} />
+      <Route path="/cycle/create/:id" element={<CreateCycle />} />
       <Route path="/cycle/list" element={<ListCycles />} />
       <Route path="/cycle/show/:id" element={<ShowCycle />} />
       <Route path="/cycle/edit/:id" element={<EditCycle />} />

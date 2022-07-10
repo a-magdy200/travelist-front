@@ -1,8 +1,8 @@
-import ListProgramComponent from '../../components/programs/index'
+import ListProgramComponent from '../../components/programs/IndexProgram'
 
 const ListPrograms = () => {
 	return(
      <ListProgramComponent/>
 	)
 }
-export default ListProgramComponent
+export default ListPrograms
