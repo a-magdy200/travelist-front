@@ -283,10 +283,10 @@ const removeCycle = async(id: number | undefined) => {
 													{cycle.arrival_date}
 												</TableCell>
 												<TableCell align="center">
-													{cycle.departure_location?.name}
+													{cycle.departure_location}
 												</TableCell>
 												<TableCell align="center">
-												{cycle.arrival_location?.name}
+												{cycle.arrival_location}
 											</TableCell>
 									          	<TableCell align="center">
 													<NavLink to={`/cycle/show/${cycle.id}`}>

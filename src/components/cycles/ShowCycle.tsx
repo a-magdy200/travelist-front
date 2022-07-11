@@ -42,19 +42,19 @@ const ShowCycleComponent = ({cycle}: ICycleShowProps) => {
 			     	    </Grid>
 
 						 <Grid item xs={6}>
-						Departure Location : {cycle.departure_location.name}
+						Departure Location : {cycle.departure_location}
 			     	    </Grid>
 
 						 <Grid item xs={6}>
-						Arrival Location : {cycle.arrival_location.name}
+						Arrival Location : {cycle.arrival_location}
 			     	    </Grid>
 
 						 <Grid item xs={6}>
-						Return Location : {cycle.return_location.name}
+						Return Location : {cycle.return_location}
 			     	    </Grid>
 
 						 <Grid item xs={6}>
-						Return Arrival Location : {cycle.return_arrival_location.name}
+						Return Arrival Location : {cycle.return_arrival_location}
 			     	    </Grid>
 
                         </Grid>	
