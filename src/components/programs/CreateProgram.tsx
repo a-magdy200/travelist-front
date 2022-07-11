@@ -30,8 +30,8 @@ const CreateProgramComponent = () => {
 	const [countryId, setCountryId] = useState<string>('')
 	const [transportationId, setTransportationId] = useState<string>('1')
 	const [hotel, setHotel] = React.useState<string[]>([])
-	const [destination, setDestination] = React.useState<string[]>([])
-	const [cover_picture, setCoverPicture] = React.useState<File>()
+	const [destination, setDestination] = useState<string[]>([])
+	const [cover_picture, setCoverPicture] = useState<File>()
 	const navigate = useNavigate()
 	const hotels = [
 		{ id: 1, value: 'h1' },
@@ -45,7 +45,7 @@ const CreateProgramComponent = () => {
 
 	/// styling
 	const theme2 = useTheme()
-	
+
 	const ITEM_HEIGHT = 48
 	const ITEM_PADDING_TOP = 8
 	const MenuProps = {
@@ -75,8 +75,8 @@ const CreateProgramComponent = () => {
 	const changeRecurring = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setis_Recurring(!is_Recurring)
 	}
-	const changeDepartureCountry= (event: SelectChangeEvent) => {
-		setCountryId((event.target.value))
+	const changeDepartureCountry = (event: SelectChangeEvent) => {
+		setCountryId(event.target.value)
 	}
 	const changeHotel = (event: SelectChangeEvent<typeof hotel>) => {
 		const {
@@ -93,15 +93,31 @@ const CreateProgramComponent = () => {
 	}
 
 	const isDisabled = (): boolean => {
-		console.log(name,description,price,companyId,hotels.length,destination.length,countryId,companyId)
-		return (name==="" || description === "" || price === "" || companyId=== ""|| hotels.length===0
-		|| destination.length===0 || countryId==="");
-	  };
+		console.log(
+			name,
+			description,
+			price,
+			companyId,
+			hotels.length,
+			destination.length,
+			countryId,
+			companyId
+		)
+		return (
+			name === '' ||
+			description === '' ||
+			price === '' ||
+			companyId === '' ||
+			hotels.length === 0 ||
+			destination.length === 0 ||
+			countryId === ''
+		)
+	}
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const formData = new FormData()
-		
+
 		formData.append('name', name)
 		formData.append('description', description)
 		if (cover_picture) {
@@ -119,25 +135,22 @@ const CreateProgramComponent = () => {
 		for (let item of destination) {
 			formData.append('destinations', item.toString())
 			console.log(item)
-
 		}
-		if(!isDisabled())
-	    {const response: IResponseInterface<IProgramInterface> =
-			await api<IProgramInterface>({
-				url: '/programs/create',
-				method: 'POST',
-				body: formData,
-			})
-		console.log(response)
+		if (!isDisabled()) {
+			const response: IResponseInterface<IProgramInterface> =
+				await api<IProgramInterface>({
+					url: '/programs/create',
+					method: 'POST',
+					body: formData,
+				})
+			console.log(response)
 
-		navigate('/program/list')
+			navigate('/program/list')
+		} else {
+			alert('error in validation')
+		}
 	}
-	else
-	{
-		alert("error in validation")
-	}
-	}
-	
+
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -234,14 +247,15 @@ const CreateProgramComponent = () => {
 											<MenuItem value={1}>Egypt</MenuItem>
 											<MenuItem value={2}>London</MenuItem>
 											<MenuItem value={3}>Japan</MenuItem>
-
 										</Select>
 									</FormControl>
 								</Box>
 							</Grid>
 							<Grid item xs={8}>
 								<FormControl sx={{ m: 1, width: 300 }}>
-									<InputLabel id="demo-multiple-destination-label">Destinations</InputLabel>
+									<InputLabel id="demo-multiple-destination-label">
+										Destinations
+									</InputLabel>
 									<Select
 										labelId="demo-multiple-destination-label"
 										id="demo-multiple-destination"
@@ -264,7 +278,11 @@ const CreateProgramComponent = () => {
 											<MenuItem
 												key={destinationItem.id}
 												value={destinationItem.id}
-												style={getStyles(destinationItem.value, destination, theme2)}
+												style={getStyles(
+													destinationItem.value,
+													destination,
+													theme2
+												)}
 											>
 												{destinationItem.value}
 											</MenuItem>
