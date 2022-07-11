@@ -28,7 +28,7 @@ const ShowProgramComponent = ({ program }: IProgramShowProps) => {
 					:
 					<></>
 					}
-					<Card sx={{ maxWidth: 345 }}>
+					<Card sx={{ maxWidth: 645 }}>
       <CardMedia
         component="img"
         height="140"
@@ -40,7 +40,7 @@ const ShowProgramComponent = ({ program }: IProgramShowProps) => {
 			{program.name}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-		<Grid container direction="column" spacing={2} xs={10} lg={8} mb={3}>
+		<Grid container direction="column" spacing={2} xs={12} lg={8} m={3}>
 				<Grid item xs={6}>
 				  ID : {program.id}
 				</Grid>
@@ -57,11 +57,15 @@ const ShowProgramComponent = ({ program }: IProgramShowProps) => {
 				  is_Recurring : {program.is_Recurring}
 				</Grid>
 				<Grid item xs={6}>
-				  total_rating_value : {program.total_rating_value}
+				  total_rate_value : {program.total_rate}
 				</Grid>
 				<Grid item xs={6}>
-				  total_rating_users : {program.total_rating_users}
+				  average_rate : {program.average_rate}
 				</Grid>
+				<Grid item xs={6}>
+				  Departure Country : {program.country.name}
+				</Grid>
+				
 				<Grid item xs={6}>
 				  Transportation : {program.transportation.name}
 				</Grid>

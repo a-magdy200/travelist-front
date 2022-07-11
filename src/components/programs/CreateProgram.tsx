@@ -26,8 +26,11 @@ const CreateProgramComponent = () => {
 	const [description, setDescription] = useState<string>('')
 	const [price, setPrice] = useState<string>('')
 	const [is_Recurring, setis_Recurring] = useState(true)
-	const [companyId, setcompanyId] = useState<number>(1)
+	const [companyId, setCompanyId] = useState<string>('1')
+	const [countryId, setCountryId] = useState<string>('')
+	const [transportationId, setTransportationId] = useState<string>('1')
 	const [hotel, setHotel] = React.useState<string[]>([])
+	const [destination, setDestination] = React.useState<string[]>([])
 	const [cover_picture, setCoverPicture] = React.useState<File>()
 	const navigate = useNavigate()
 	const hotels = [
@@ -35,14 +38,14 @@ const CreateProgramComponent = () => {
 		{ id: 2, value: 'h2' },
 	]
 
+	const countries = [
+		{ id: 1, value: 'c1' },
+		{ id: 2, value: 'c2' },
+	]
+
 	/// styling
 	const theme2 = useTheme()
-	const Item = styled(Paper)(({ theme }) => ({
-		backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#e8eef7',
-		padding: theme.spacing(1),
-		color: theme.palette.text.secondary,
-	}))
-
+	
 	const ITEM_HEIGHT = 48
 	const ITEM_PADDING_TOP = 8
 	const MenuProps = {
@@ -71,37 +74,55 @@ const CreateProgramComponent = () => {
 
 	const changeRecurring = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setis_Recurring(!is_Recurring)
-		console.log(String(is_Recurring))
 	}
-
+	const changeDepartureCountry= (event: SelectChangeEvent) => {
+		setCountryId((event.target.value))
+	}
 	const changeHotel = (event: SelectChangeEvent<typeof hotel>) => {
-		console.log(event.target.value)
 		const {
 			target: { value },
 		} = event
 		setHotel(typeof value === 'string' ? value.split(',') : value)
 	}
 
+	const changeDestination = (event: SelectChangeEvent<typeof destination>) => {
+		const {
+			target: { value },
+		} = event
+		setDestination(typeof value === 'string' ? value.split(',') : value)
+	}
+
+	const isDisabled = (): boolean => {
+		console.log(name,description,price,companyId,hotels.length,destination.length,countryId,companyId)
+		return (name==="" || description === "" || price === "" || companyId=== ""|| hotels.length===0
+		|| destination.length===0 || countryId==="");
+	  };
+
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const formData = new FormData()
-		if(!isDisabled)
-		{formData.append('name', name)
+		
+		formData.append('name', name)
 		formData.append('description', description)
 		if (cover_picture) {
 			formData.append('cover_picture', cover_picture)
 		}
-
 		formData.append('price', price)
 		formData.append('is_Recurring', is_Recurring ? '1' : '0')
 		formData.append('companyId', '1')
+		formData.append('transportationId', '1')
+		formData.append('countryId', countryId)
 		for (let item of hotel) {
 			formData.append('hotels', item.toString())
 			console.log(item)
 		}
-		console.log('value')
-		console.log(is_Recurring)
-		const response: IResponseInterface<IProgramInterface> =
+		for (let item of destination) {
+			formData.append('destinations', item.toString())
+			console.log(item)
+
+		}
+		if(!isDisabled())
+	    {const response: IResponseInterface<IProgramInterface> =
 			await api<IProgramInterface>({
 				url: '/programs/create',
 				method: 'POST',
@@ -113,12 +134,10 @@ const CreateProgramComponent = () => {
 	}
 	else
 	{
-		alert("error validation")
+		alert("error in validation")
 	}
 	}
-	const isDisabled = (): boolean => {
-		return name==='' || description === '' || price === ''|| companyId===0|| hotels.length===0;
-	  };
+	
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -199,6 +218,62 @@ const CreateProgramComponent = () => {
 								</FormControl>
 								<br />
 							</Grid>
+							<Grid item xs={8}>
+								<Box sx={{ minWidth: 120 }}>
+									<FormControl sx={{ m: 1, width: 300 }}>
+										<InputLabel id="demo-simple-select-label">
+											Departure Location
+										</InputLabel>
+										<Select
+											labelId="demo-simple-select-label"
+											id="demo-simple-select"
+											value={countryId?.toString()}
+											label="Arrival Location"
+											onChange={changeDepartureCountry}
+										>
+											<MenuItem value={1}>Egypt</MenuItem>
+											<MenuItem value={2}>London</MenuItem>
+											<MenuItem value={3}>Japan</MenuItem>
+
+										</Select>
+									</FormControl>
+								</Box>
+							</Grid>
+							<Grid item xs={8}>
+								<FormControl sx={{ m: 1, width: 300 }}>
+									<InputLabel id="demo-multiple-destination-label">Destinations</InputLabel>
+									<Select
+										labelId="demo-multiple-destination-label"
+										id="demo-multiple-destination"
+										multiple
+										value={destination}
+										onChange={changeDestination}
+										input={
+											<OutlinedInput id="select-multiple-chip" label="Chip" />
+										}
+										renderValue={(selected) => (
+											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+												{selected.map((value) => (
+													<Chip key={value} label={value} />
+												))}
+											</Box>
+										)}
+										MenuProps={MenuProps}
+									>
+										{countries.map((destinationItem) => (
+											<MenuItem
+												key={destinationItem.id}
+												value={destinationItem.id}
+												style={getStyles(destinationItem.value, destination, theme2)}
+											>
+												{destinationItem.value}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								<br />
+							</Grid>
+
 							<Grid item xs={8}>
 								<Checkbox
 									checked={is_Recurring}

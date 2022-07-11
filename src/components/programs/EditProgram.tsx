@@ -26,7 +26,9 @@ let EditProgramComponent = () => {
 	const [description, setDescription] = useState<string>('')
 	const [price, setPrice] = useState<string>('')
 	const [is_Recurring, setis_Recurring] = useState(true)
-	const [companyId, setcompanyId] = useState<number>(1)
+	const [companyId, setcompanyId] = useState<string>('1')
+	const [countryId, setCountryId] = useState<string>('')
+	const [transportationId, setTransportationId] = useState<string>('1')
 	const [hotel, setHotel] = React.useState<string[]>([])
 	const [cover_picture, setCoverPicture] = React.useState<File>()
 	const [program, setProgram] = React.useState<IProgramInterface>()
@@ -149,7 +151,7 @@ let EditProgramComponent = () => {
 	}
 	}
 	const isDisabled = (): boolean => {
-		return name==='' || description === '' || price === ''|| companyId===0|| hotels.length===0;
+		return name==='' || description === '' || price === ''|| companyId===''|| hotels.length===0;
 	  };
 	return (
 		<div className="createContainer">
