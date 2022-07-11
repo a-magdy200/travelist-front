@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { SelectChangeEvent } from '@mui/material/Select'
 import React from 'react'
 import Grid from '@mui/material/Grid'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
@@ -15,7 +11,6 @@ import CustomInputField from '../Form/CustomInputField'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
-import { ICycleCreateInterface } from '../../config/interfaces/ICycleCreate.interface'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 
 let CreateCycleComponent = () => {
@@ -26,10 +21,11 @@ let CreateCycleComponent = () => {
 	const [departure_location, setDepartureLocation] = useState<string>('')
 	const [arrival_location, setArrivalLocation] = useState<string>('')
 	const [return_location, setReturnLocation] = useState<string>('')
-	const [return_arrival_location, setReturnArrivalLocation] = useState<string>('')
+	const [return_arrival_location, setReturnArrivalLocation] =
+		useState<string>('')
 	const [departure_date, setDepartureDate] = useState<string>('')
-	const [arrival_date, setArrivalDate] = useState<string >('')
-	const [return_date, setReturnDate] = useState<string >('')
+	const [arrival_date, setArrivalDate] = useState<string>('')
+	const [return_date, setReturnDate] = useState<string>('')
 	const [return_arrival_date, setReturnArrivalDate] = useState<string>('')
 	const navigate = useNavigate()
 
@@ -76,35 +72,41 @@ let CreateCycleComponent = () => {
 			departure_date,
 			return_arrival_date,
 		}
-        if(!isDisabled())
-		{
+		if (!isDisabled()) {
 			try {
-			const response: IResponseInterface<ICycleInterface> =
-				await api<ICycleInterface>({
-					url: '/cycles/create',
-					method: 'POST',
-					body: JSON.stringify(requestBody),
-				})
+				const response: IResponseInterface<ICycleInterface> =
+					await api<ICycleInterface>({
+						url: '/cycles/create',
+						method: 'POST',
+						body: JSON.stringify(requestBody),
+					})
 
-			if (response.success) {
-				if (response.data) {
-					navigate('/cycle/list')
+				if (response.success) {
+					if (response.data) {
+						navigate('/cycle/list')
+					}
 				}
+			} catch (error: any) {
+				console.log(error)
 			}
-		} catch (error: any) {
-			console.log(error)
+		} else {
+			alert('validation error')
 		}
 	}
-	else
-	{
-      alert("validation error")
-	}
-	}
 	const isDisabled = (): boolean => {
-		return name==='' || max_seats === 0 || departure_location === ''|| arrival_location===''
-		|| return_location==='' || return_arrival_location===''|| departure_date===''
-		|| arrival_date===''|| return_date==='' ||return_arrival_date==='';
-	  };
+		return (
+			name === '' ||
+			max_seats === 0 ||
+			departure_location === '' ||
+			arrival_location === '' ||
+			return_location === '' ||
+			return_arrival_location === '' ||
+			departure_date === '' ||
+			arrival_date === '' ||
+			return_date === '' ||
+			return_arrival_date === ''
+		)
+	}
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -194,43 +196,42 @@ let CreateCycleComponent = () => {
 					<hr />
 					<div className="bottomContent">
 						<Grid container direction="column" spacing={2}>
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Departure Location'}
-								value={departure_location}
-								setValue={setDepartureLocation}
-							/>
-						</Grid>
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Departure Location'}
+									value={departure_location}
+									setValue={setDepartureLocation}
+								/>
+							</Grid>
 
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Return Location'}
-								value={return_location}
-								setValue={setReturnLocation}
-							/>
-						</Grid>
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Return Location'}
+									value={return_location}
+									setValue={setReturnLocation}
+								/>
+							</Grid>
 
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Arrival Location'}
-								value={arrival_location}
-								setValue={setArrivalLocation}
-							/>
-						</Grid>	
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Arrival Location'}
+									value={arrival_location}
+									setValue={setArrivalLocation}
+								/>
+							</Grid>
 
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Return Arrival Location'}
-								value={return_arrival_location}
-								setValue={setReturnArrivalLocation}
-							/>
-						</Grid>	
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Return Arrival Location'}
+									value={return_arrival_location}
+									setValue={setReturnArrivalLocation}
+								/>
+							</Grid>
 
-							
 							<Grid item xs={8}>
 								<NavLink to={`/cycle/list`}>
 									{' '}
@@ -238,10 +239,10 @@ let CreateCycleComponent = () => {
 										Back
 									</Button>
 								</NavLink>
-								
-									<Button variant="contained" type="submit">
-										Create
-									</Button>
+
+								<Button variant="contained" type="submit">
+									Create
+								</Button>
 							</Grid>
 						</Grid>
 					</div>

@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { SelectChangeEvent } from '@mui/material/Select'
 import React from 'react'
 import Grid from '@mui/material/Grid'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -16,7 +12,6 @@ import api from '../../config/api'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import CustomInputField from '../Form/CustomInputField'
-import { ICycleCreateInterface } from '../../config/interfaces/ICycleCreate.interface'
 
 const EditCycleComponent = () => {
 	const { id } = useParams()
@@ -26,11 +21,12 @@ const EditCycleComponent = () => {
 	const [departure_location, setDepartureLocation] = useState<string>('')
 	const [arrival_location, setArrivalLocation] = useState<string>('')
 	const [return_location, setReturnLocation] = useState<string>('')
-	const [return_arrival_location, setReturnArrivalLocation] = useState<string>('')
+	const [return_arrival_location, setReturnArrivalLocation] =
+		useState<string>('')
 	const [departure_date, setDepartureDate] = useState<string>('')
 	const [arrival_date, setArrivalDate] = useState<string>('')
 	const [return_date, setReturnDate] = useState<string>('')
-	const [return_arrival_date, setReturnArrivalDate] = useState<string >('')
+	const [return_arrival_date, setReturnArrivalDate] = useState<string>('')
 	const [cycle, setCycle] = useState<ICycleInterface>()
 	const navigate = useNavigate()
 
@@ -109,38 +105,55 @@ const EditCycleComponent = () => {
 			departure_date,
 			return_arrival_date,
 		}
-       if(!isDisabled())
-	{	try {
-		console.log(departure_date)
-			const response: IResponseInterface<ICycleInterface> =
-				await api<ICycleInterface>({
-					url: `/cycles/update/${id}`,
-					method: 'PUT',
-					body: JSON.stringify(requestBody),
-				})
+		if (!isDisabled()) {
+			try {
+				console.log(departure_date)
+				const response: IResponseInterface<ICycleInterface> =
+					await api<ICycleInterface>({
+						url: `/cycles/update/${id}`,
+						method: 'PUT',
+						body: JSON.stringify(requestBody),
+					})
 
-			if (response.success) {
-				if (response.data) {
-					setCycle(response.data)
-					navigate('/cycle/list')
+				if (response.success) {
+					if (response.data) {
+						setCycle(response.data)
+						navigate('/cycle/list')
+					}
 				}
+			} catch (error: any) {
+				console.log(error)
 			}
-		} catch (error: any) {
-			console.log(error)
+		} else {
+			alert('validation error')
 		}
 	}
-	else
-	{
-		alert("validation error")
-	}
-	}
 	const isDisabled = (): boolean => {
-		console.log(name,max_seats,departure_location,arrival_location,return_location,return_arrival_location,departure_date
-			,arrival_date,return_date,return_arrival_date)
-		return name==='' || max_seats === 0 || departure_location === ''|| arrival_location===''
-		|| return_location===''|| return_arrival_location===''|| departure_date===''
-		|| arrival_date===''|| return_date==='' ||return_arrival_date==='';
-	  };
+		console.log(
+			name,
+			max_seats,
+			departure_location,
+			arrival_location,
+			return_location,
+			return_arrival_location,
+			departure_date,
+			arrival_date,
+			return_date,
+			return_arrival_date
+		)
+		return (
+			name === '' ||
+			max_seats === 0 ||
+			departure_location === '' ||
+			arrival_location === '' ||
+			return_location === '' ||
+			return_arrival_location === '' ||
+			departure_date === '' ||
+			arrival_date === '' ||
+			return_date === '' ||
+			return_arrival_date === ''
+		)
+	}
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -193,7 +206,6 @@ const EditCycleComponent = () => {
 											if (newValue) {
 												setArrivalDate(formatDate(newValue))
 												console.log(arrival_date)
-
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
@@ -234,40 +246,40 @@ const EditCycleComponent = () => {
 					<hr />
 					<div className="bottomContent">
 						<Grid container direction="column" spacing={2}>
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Departure Location'}
-								value={departure_location}
-								setValue={setDepartureLocation}
-							/>
-						</Grid>
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Departure Location'}
+									value={departure_location}
+									setValue={setDepartureLocation}
+								/>
+							</Grid>
 
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Return Location'}
-								value={return_location}
-								setValue={setReturnLocation}
-							/>
-						</Grid>
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Return Location'}
+									value={return_location}
+									setValue={setReturnLocation}
+								/>
+							</Grid>
 
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Arrival Location'}
-								value={arrival_location}
-								setValue={setArrivalLocation}
-							/>
-						</Grid>	
-						<Grid item xs={8}>
-							<CustomInputField
-								type={'text'}
-								label={'Return Arrival Location'}
-								value={return_arrival_location}
-								setValue={setReturnArrivalLocation}
-							/>
-						</Grid>	
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Arrival Location'}
+									value={arrival_location}
+									setValue={setArrivalLocation}
+								/>
+							</Grid>
+							<Grid item xs={8}>
+								<CustomInputField
+									type={'text'}
+									label={'Return Arrival Location'}
+									value={return_arrival_location}
+									setValue={setReturnArrivalLocation}
+								/>
+							</Grid>
 							<Grid item xs={8}>
 								<NavLink to={`/cycle/list`}>
 									{' '}
@@ -275,10 +287,10 @@ const EditCycleComponent = () => {
 										Back
 									</Button>
 								</NavLink>
-								
-									<Button variant="contained" type="submit">
-										Edit
-									</Button>
+
+								<Button variant="contained" type="submit">
+									Edit
+								</Button>
 							</Grid>
 						</Grid>
 					</div>
