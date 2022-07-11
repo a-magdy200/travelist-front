@@ -1,4 +1,4 @@
-import { useState } from 'react'
+/*import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Box from '@mui/material/Box'
@@ -10,27 +10,67 @@ import React from 'react'
 import Grid from '@mui/material/Grid'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { useParams } from 'react-router-dom'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import api from '../../config/api'
+import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import CustomInputField from '../../components/Form/CustomInputField'
-import {IResponseInterface} from "../../config/interfaces/IResponse.interface";
-import { ICycleCreateResponse } from '../../config/interfaces/ICycleCreateResponse.iterface'
-import api from "../../config/api";
 
-const CreateCycle = () => {
-  const [name, setName] = useState<string>('')
+const EditCycle = () => {
+  const { id } = useParams()
+  const [name, setName] = useState<string>(' ')
   const [maxSeats, setMaxSeats] = useState<string>('0')
-  const [departureLocation, setDepartureLocation] = useState<string>('')
-  const [arrivalLocation, setArrivalLocation] = useState<string>('')
-  const [returnLocation, setReturnLocation] = useState<string>('')
-  const [returnArrivalLocation, setReturnArrivalLocation] = useState<string>('')
-  const [departureDate, setDepartureDate] = useState<string>('')
-  const [arrivalDate, setArrivalDate] = useState<string>('')
-  const [returnDate, setReturnDate] = useState<string>('')
-  const [returnArrivalDate, setReturnArrivalDate] = useState<string>('')
+  const [departureLocation, setDepartureLocation] = useState<string>('1')
+  const [arrivalLocation, setArrivalLocation] = useState<string>('1')
+  const [returnLocation, setReturnLocation] = useState<string>('1')
+  const [returnArrivalLocation, setReturnArrivalLocation] = useState<string>('1')
+  const [departureDate, setDepartureDate] = useState<string >(String(new Date()))
+  const [arrivalDate, setArrivalDate] = useState<string >(String(new Date()))
+  const [returnDate, setReturnDate] = useState<string >(String(new Date()))
+  const [returnArrivalDate, setReturnArrivalDate] = useState<string >(String(new Date()))
+  const [cycle, setCycle] = useState<ICycleInterface>();
 
+  const getCycle = async () => {
+		try {
+			const response: IResponseInterface<ICycleInterface> =
+				await api<ICycleInterface>({
+					url: `/cycles/show/${id}`,
+				})
+
+			if (response.success) {
+				if (response.data) {
+          setCycle(response.data)
+        //  setName(response.data.name)
+       console.log("res",response.data)
+          console.log("cycle",cycle)
+         	}
+			}
+
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	useEffect(() => {
+		getCycle()
+	}, [])
+
+  const ITEM_HEIGHT = 48
+  const ITEM_PADDING_TOP = 8
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  }
+
+  /// change methods
 
   const changeDepartureLocation = (event: SelectChangeEvent) => {
     setDepartureLocation(event.target.value as string)
+    console.log(event.target.value as string)
   }
 
   const changeArrivalLocation = (event: SelectChangeEvent) => {
@@ -44,10 +84,10 @@ const CreateCycle = () => {
     setReturnArrivalLocation(event.target.value as string)
   }
   const formatDate = (date: string) => {
-    const d = new Date(date)
-    let month = '' + (d.getMonth() + 1);
-    let day = '' + d.getDate();
-    const year = d.getFullYear();
+    let d = new Date(date),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
+      year = d.getFullYear()
 
     if (month.length < 2) month = '0' + month
     if (day.length < 2) day = '0' + day
@@ -65,33 +105,38 @@ const CreateCycle = () => {
     formData.append('arrivalLocationId', arrivalLocation.toString())
     formData.append('returnArrivalLocationId', returnArrivalLocation.toString())
     formData.append('returnLocationId', returnLocation.toString())
-    formData.append('arrival_date', arrivalDate)
-    formData.append('return_date', returnDate)
-    formData.append('departure_date', departureDate)
-    formData.append('return_arrival_date', returnArrivalDate)
+    formData.append('arrival_date', arrivalDate as string)
+    formData.append('return_date', returnDate as string)
+    formData.append('departure_date', departureDate as string)
+    formData.append('return_arrival_date', returnArrivalDate as string)
 
+    console.log(formData)
 
-  try
-  {
-    const response: IResponseInterface<ICycleCreateResponse> = await api<ICycleCreateResponse>({
-      url: "/cycles/create",
-      method: "POST",
+   /* const response = await fetch('http://localhost:4000/cycles/update' + id, {
+      mode: 'no-cors',
+      method: 'PUT',
       body: formData,
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+     
+      try {
+        const response: IResponseInterface<ICycleInterface> =
+          await api<ICycleInterface>({
+            url: `/cycles/update/${id}`,
+            method:'PUT',
+            body:formData
+          })
 
-    });
-
-    if (response.success) {
-      if (response.data) {
-        // handle
+          if (response.success) {
+          if (response.data) {
+            setCycle(response.data)
+            console.log(response.data)
+          }
+        }
+      } catch (error: any) {
+        console.log(error)
       }
-    }
-
-  }
-  catch (error: any) {
-      // handle
-  }
-
-
   }
 
   return (
@@ -107,9 +152,7 @@ const CreateCycle = () => {
 						  value={name}
 						  setValue={setName}
 						/>
-
             </Grid>
-
             <Grid item xs={8}>
             <CustomInputField
              	type={"number"}
@@ -118,6 +161,7 @@ const CreateCycle = () => {
 						  setValue={setMaxSeats}
 						/>
             </Grid>
+
             <Grid item xs={4}>
               <Grid container>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -127,6 +171,7 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setDepartureDate(formatDate(newValue))
+                        console.log(departureDate)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -140,6 +185,7 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setArrivalDate(formatDate(newValue))
+                        console.log(arrivalDate)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -153,6 +199,7 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setReturnDate(formatDate(newValue))
+                        console.log(returnDate)
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -166,6 +213,7 @@ const CreateCycle = () => {
                     onChange={(newValue) => {
                       if (newValue) {
                         setReturnArrivalDate(formatDate(newValue))
+                        console.log(formatDate(newValue))
                       }
                     }}
                     renderInput={(params) => <TextField {...params} />}
@@ -272,4 +320,13 @@ const CreateCycle = () => {
   )
 }
 
-export default CreateCycle
+export default EditCycle*/
+
+import EditCycleComponent from '../../components/cycles/EditCycle'
+
+const EditCycle = () => {
+	return(
+     <EditCycleComponent/>
+	)
+}
+export default EditCycle
