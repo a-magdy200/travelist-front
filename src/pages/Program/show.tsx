@@ -1,47 +1,42 @@
-import { useState, useEffect } from 'react'
+import ShowProgramComponent from '../../components/programs/ShowProgram'
+import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { useParams } from 'react-router-dom'
-import Button from '@mui/material/Button'
+import { useState, useEffect } from 'react'
+import api from '../../config/api'
+
+
 
 const ShowProgram = () => {
-	const [program, setProgram] = useState<Data>()
-	let { id } = useParams()
-	interface Data {
-		id: number
-		name: string
-		company: Company
-		price: number
-		is_Recurring: boolean
-		transportation: Transportation
-	}
-
-	interface Company {
-		id: number
-		name: string
-	}
-
-	interface Transportation {
-		id: number
-		name: string
+	const [program, setProgram] = useState<IProgramInterface>()
+    const { id } = useParams()
+	const getProgram = async () => {
+		try {
+			const response: IResponseInterface<IProgramInterface> =
+				await api<IProgramInterface>({
+					url: `/programs/show/${id}`,
+				})
+	
+			if (response.success) {
+				if (response.data) {
+					setProgram(response.data)
+					console.log(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
 	}
 	useEffect(() => {
-		fetch('http://localhost:4000/programs/show/' + id)
-			.then((res) => {
-				return res.json()
-			})
-			.then((res) => {
-				console.log(res.data)
-				setProgram(res.data)
-			})
-			.catch((e) => {
-				console.log(e)
-			})
+		getProgram()
 	}, [])
-	return (
-		<div>
-			<Button variant="contained" type="submit">Create Cycle</Button>
-			<h1>{program?.name}</h1>
-			<h1>{program?.id}</h1>
-		</div>
-	)
+	return <div>
+		{
+		program ? 
+		<ShowProgramComponent program={program} /> 
+		:
+		 <div>not found</div>
+	    }
+		 </div>
 }
 export default ShowProgram
