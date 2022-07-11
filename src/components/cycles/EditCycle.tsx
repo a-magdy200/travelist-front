@@ -50,10 +50,10 @@ const EditCycleComponent = () => {
 					setArrivalLocation(response.data.arrival_location)
 					setReturnLocation(response.data.return_location)
 					setReturnArrivalLocation(response.data.return_arrival_location)
-					setDepartureDate(response.data.departure_date)
-					setArrivalDate(response.data.arrival_date)
-					setReturnDate(response.data.return_date)
-					setReturnArrivalDate(response.data.return_arrival_date)
+					setDepartureDate(formatDate(response.data.departure_date))
+					setArrivalDate(formatDate(response.data.arrival_date))
+					setReturnDate(formatDate(response.data.return_date))
+					setReturnArrivalDate(formatDate(response.data.return_arrival_date))
 					console.log('res', response.data)
 				}
 			}
@@ -192,6 +192,8 @@ const EditCycleComponent = () => {
 										onChange={(newValue) => {
 											if (newValue) {
 												setArrivalDate(formatDate(newValue))
+												console.log(arrival_date)
+
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
