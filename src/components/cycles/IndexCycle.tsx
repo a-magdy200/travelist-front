@@ -13,20 +13,13 @@ import Paper from '@mui/material/Paper'
 import { visuallyHidden } from '@mui/utils'
 import Button from '@mui/material/Button'
 import { NavLink } from 'react-router-dom'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import api from '../../config/api'
+import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
+import Loader from '../Loader'
+import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
 
-interface Cycle {
-	id: number
-	name: string
-	departure_date: string
-	arrival_date: string
-	departure_location: Country
-	arrival_location: Country
-}
-
-interface Country {
-	id: number
-	name: string
-}
 
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
@@ -40,10 +33,10 @@ function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 
 type Order = 'asc' | 'desc'
 
-function getComparator<Key extends keyof Cycle>(
+function getComparator<Key extends keyof ICycleInterface>(
 	order: Order,
 	orderBy: Key
-): (a: Cycle, b: Cycle) => number {
+): (a: ICycleInterface, b: ICycleInterface) => number {
 	return order === 'desc'
 		? (a, b) => descendingComparator(a, b, orderBy)
 		: (a, b) => -descendingComparator(a, b, orderBy)
@@ -66,14 +59,9 @@ function stableSort<Data>(
 	return stabilizedThis.map((el) => el[0])
 }
 
-interface HeadCell {
-	disablePadding: boolean
-	id: keyof Cycle
-	label: string
-	numeric: boolean
-}
 
-const headCells: readonly HeadCell[] = [
+
+const headCells: readonly HeadCellInterface<ICycleInterface>[] = [
 	{
 		id: 'id',
 		numeric: true,
@@ -123,7 +111,7 @@ interface EnhancedTableProps {
 	numSelected: number
 	onRequestSort: (
 		event: React.MouseEvent<unknown>,
-		property: keyof Cycle
+		property: keyof ICycleInterface
 	) => void
 	onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void
 	order: Order
@@ -134,7 +122,7 @@ interface EnhancedTableProps {
 function EnhancedTableHead(props: EnhancedTableProps) {
 	const { order, orderBy, onRequestSort } = props
 	const createSortHandler =
-		(property: keyof Cycle) => (event: React.MouseEvent<unknown>) => {
+		(property: keyof ICycleInterface) => (event: React.MouseEvent<unknown>) => {
 			onRequestSort(event, property)
 		}
 
@@ -167,40 +155,58 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	)
 }
 
-export default function ListCycles() {
+ const ListCycleComponent=()=> {
 	const [order, setOrder] = useState<Order>('asc')
-	const [orderBy, setOrderBy] = useState<keyof Cycle>('name')
+	const [orderBy, setOrderBy] = useState<keyof ICycleInterface>('name')
 	const [selected, setSelected] = useState<readonly string[]>([])
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
-	const [cycles, setCycles] = useState([])
+	const [cycles, setCycles] = useState<ICycleInterface[]>([])
 
-	useEffect(() => {
-		fetch('http://localhost:4000/cycles/all')
-			.then((response) => {
-				return response.json()
+	const getCycles = async () => {
+		try {
+			const response: IResponseInterface<ICycleInterface[]> = await api<
+				ICycleInterface[]
+			>({
+				url: '/cycles/all',
 			})
-			.then((res) => {
-				setCycles(res.data)
-				console.log(res.data)
-			})
-			.catch((e) => {
-				console.log(e)
-			})
-	}, [])
-	const removeCycle = (id: number) => {
-		if (window.confirm('Are you sure?')) {
-			console.log(id)
-			fetch('http://localhost:4000/cycles/delete/' + id, {
-				method: 'DELETE',
-			})
-				.then((res) => console.log(res))
-				.catch((err) => console.log(err))
+
+			if (response.success) {
+				if (response.data) {
+					setCycles(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
 		}
 	}
+	useEffect(() => {
+		getCycles()
+	}, [])
+	
+const removeCycle = async(id: number | undefined) => {
+		if (window.confirm('Are you sure?')) {
+			console.log(id)
+			try {
+				const response: IResponseInterface<ICycleInterface> =
+					await api<ICycleInterface>({
+						url: `/cycles/delete/${id}`,
+						method: 'DELETE',
+					})
+	
+				if (response.success) {
+					alert("deleted successfuly")
+					}
+				}
+			 catch (error: any) {
+				console.log(error)
+			}
+		}
+	}
+
 	const handleRequestSort = (
 		event: React.MouseEvent<unknown>,
-		property: keyof Cycle
+		property: keyof ICycleInterface
 	) => {
 		const isAsc = orderBy === property && order === 'asc'
 		setOrder(isAsc ? 'desc' : 'asc')
@@ -209,9 +215,7 @@ export default function ListCycles() {
 
 	const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
 		if (event.target.checked) {
-			// const newSelecteds = programs.map((n) => n.program_name);
-			// setSelected(newSelecteds);
-			return
+				return
 		}
 		setSelected([])
 	}
@@ -227,12 +231,14 @@ export default function ListCycles() {
 		setPage(0)
 	}
 
-	// Avoid a layout jump when reaching the last page with empty rows.
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cycles.length) : 0
 
 	return (
 		<div>
+			{
+			cycles?
+			<div>
 			<NavLink to={`/cycle/create`}>
 				{' '}
 				<Button className="createButton" variant="contained">
@@ -262,11 +268,10 @@ export default function ListCycles() {
 							/>
 
 							<TableBody>
-								{/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
+								
 								{stableSort(cycles, getComparator(order, orderBy))
 									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((cycle: Cycle, index) => {
+									.map((cycle: ICycleInterface, index) => {
 										return (
 											<TableRow>
 												<TableCell align="center">{cycle.id}</TableCell>
@@ -281,9 +286,9 @@ export default function ListCycles() {
 													{cycle.departure_location?.name}
 												</TableCell>
 												<TableCell align="center">
-													{cycle.arrival_location?.name}
-												</TableCell>
-												<TableCell align="center">
+												{cycle.arrival_location?.name}
+											</TableCell>
+									          	<TableCell align="center">
 													<NavLink to={`/cycle/show/${cycle.id}`}>
 														<Button
 															className="createButton"
@@ -322,6 +327,11 @@ export default function ListCycles() {
 					</TableContainer>
 				</Paper>
 			</Box>
+			</div>
+			:
+			<Loader/>
+			}
 		</div>
 	)
 }
+export default ListCycleComponent

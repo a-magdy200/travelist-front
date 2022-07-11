@@ -4,7 +4,6 @@ import ForgetPassword from "../pages/Auth/ForgetPassword";
 import VerifyCode from "../pages/Auth/VerifyCode";
 import ResetPassword from "../pages/Auth/ResetPassword";
 import Login from "../pages/Auth/Login";
-
 import React from "react";
 
 const GuestRoutes = () => {
