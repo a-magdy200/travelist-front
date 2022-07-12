@@ -53,7 +53,7 @@ const ProfilePictureChanger = ({profile_picture}:IUserInterface) => {
     <div>
      <Avatar
           alt=""
-          src='/home/nagwa/Documents/new/travelist-backend/uploads/users/1657645987035-382067366-b.png'
+          src={profile_picture}
           sx={{ width: 112, height: 112}}
         />
         <label htmlFor="icon-button-file">
