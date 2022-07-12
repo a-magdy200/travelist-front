@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -11,48 +10,31 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import Checkbox from '@mui/material/Checkbox';
+import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
 
 import { useNavigate } from "react-router-dom";
 
-function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPass] = useState("");
-  const [confirmPassword, setPassConfirm] = useState("");
-  const [address, setAddress] = useState("");
-  const [type, setType] = useState("traveler");
-  const [gender, setGender] = useState("");
-  const [nationalId, setNationalId] = useState("");
-  const [isGuide, setIsGuide] = useState(false);
-  const [dateOfBirth, setDateOfBirth] = useState("");
-
+const EditCompany=()=> {
+  
   const [description, setDescription] = useState("");
-
   const navigate = useNavigate();
+
 
   async function sendData(e: any) {
     e.preventDefault();
     let checkSubmit = true;
-
-    if (password !== confirmPassword) {
-      checkSubmit = false;
-    }
-
     if (checkSubmit) {
       try {
-        const response = await fetch("http://localhost:4000/auth/register", {
+        const response = await fetch("http://localhost:4000/", {
           method: "POST",
           headers: { "content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password, address, type, national_id: nationalId, gender, dateOfBirth, isGuide }),
+          body: JSON.stringify({ description}),
         });
 
         if (response.ok) {
           console.log(response.status);
-          console.log("register done");
-          const USER_TOKEN = await response.text();
-          const token = JSON.parse(USER_TOKEN).token;
-          localStorage.setItem("TOKEN", token);
-          // redirect to home
+          console.log("done");
+     
           // navigate('/profile',);
         }
       } catch (error) {
@@ -62,178 +44,19 @@ function Register() {
   }
 
   return (
-    <div className="container">
+    <div className="container" style={{
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+	}}>
       <div className="left">
         <Card sx={{ maxWidth: 700 }} style={{ minHeight: "150vh" }}>
           <form onSubmit={sendData}>
             <CardContent>
-              <h2>Register Now</h2>
-
-              <div>
-                <TextField
-                  required
-                  fullWidth
-                  id="name"
-                  label="username"
-                  size="small"
-                  onChange={(e) => {
-                    setName(e.target.value);
-                  }}
-                />
-              </div>
-              <br />
-
-              <div>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  type="email"
-                  label="email"
-                  size="small"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                />
-              </div>
-              <br />
-
-              <div>
-                <TextField
-                  required
-                  fullWidth
-                  id="password"
-                  type="password"
-                  label="password"
-                  size="small"
-                  onChange={(e) => {
-                    setPass(e.target.value);
-                  }}
-                />
-              </div>
-              <br />
-
-              <div>
-                <TextField
-                  required
-                  fullWidth
-                  id="confirmpassword"
-                  type="password"
-                  label="confirm password"
-                  size="small"
-                  onChange={(e) => {
-                    setPassConfirm(e.target.value);
-                  }}
-                />
-              </div>
-              <br />
-              <div>
-                <TextField
-                  required
-                  fullWidth
-                  id="address"
-                  label="address"
-                  size="small"
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
-                />
-              </div>
-              <br />
-
-              <FormControl>
-                <FormLabel id="demo-row-radio-buttons-group-label type">
-                  User Type
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                  defaultValue="traveler"
-                  onChange={(e) => {
-                    setType(e.target.value);
-                  }}
-                >
-                  <FormControlLabel
-                    value="traveler"
-                    control={<Radio />}
-                    label="Traveler"
-                  />
-                  <FormControlLabel
-                    value="company"
-                    control={<Radio />}
-                    label="Company"
-                  />
-                </RadioGroup>
-              </FormControl>
-              <div>
-                  {/* profile picture */}
-                </div>
-              {type === "traveler" ? (
-                <div>
-                  <div>
-                    <TextField
-                      id="outlined-multiline-flexible"
-                      label="National ID"
-                      size="small"
-                      fullWidth
-                      maxRows={4}
-                      onChange={(e) => {
-                        setNationalId(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <FormControl>
-                    <FormLabel id="demo-row-radio-buttons-group-label gender">
-                      Gender
-                    </FormLabel>
-                    <RadioGroup
-                      row
-                      value={gender}
-                      aria-labelledby="demo-row-radio-buttons-group-label"
-                      name="row-radio-buttons-group"
-                      onChange={(e) => {
-                        setGender(e.target.value);
-                      }}
-                    >
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                    </RadioGroup>
-                  </FormControl>
-                <div>
-                  {/* dateof birth */}
-
-                  <TextField
-                      id="outlined-flexible"
-                      size="small"
-                      label="Date of Birth"
-                      fullWidth
-                      maxRows={4}
-                      onChange={(e) => {
-                        setDateOfBirth(e.target.value);
-                        console.log(dateOfBirth);
-                      }}
-                    />
-                </div>
-                <div>
-                  <FormControlLabel control={<Checkbox defaultChecked/>} label="Is Guide" onChange={(e) => {
-                    setIsGuide(!isGuide)
-                    console.log(isGuide)
-                  }}/>
-                </div>
-            </div>
-
-              ) : (
-                <div>
-                  <TextField
+              <h2>Edit Details</h2>
+			  <ProfilePictureChanger />
+        <div>
+        <TextField
                     id="outlined-multiline-flexible"
                     label="Description"
                     size="small"
@@ -245,23 +68,21 @@ function Register() {
                     }}
                   />
                 </div>
-              )}
+           
+              
             </CardContent>
 
             <CardActions>
               <Button variant="contained" type="submit">
-                Register
+                Save Changes
               </Button>
             </CardActions>
           </form>
         </Card>
       </div>
 
-      {/* <div className="right">
-        <img className="register" src="/register.png"/>
-      </div> */}
     </div>
   );
 }
 
-export default Register;
+export default EditCompany;

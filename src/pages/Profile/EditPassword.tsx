@@ -1,18 +1,11 @@
 import { useState } from "react";
-import Stack from '@mui/material/Stack'
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField/TextField";
 import Typography from '@mui/material/Typography'
 import Button from "@mui/material/Button";
-import Radio from "@mui/material/Radio";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
-import Checkbox from '@mui/material/Checkbox';
-import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
+
 import { useNavigate } from "react-router-dom";
 const EditPassword = () => {
 
@@ -30,7 +23,7 @@ const EditPassword = () => {
     if (checkSubmit) {
       try {
         const response = await fetch("http://localhost:4000/", {
-          method: "POST",
+          method: "PUT",
           headers: { "content-Type": "application/json" },
           body: JSON.stringify({ password}),
         });
