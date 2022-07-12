@@ -31,7 +31,7 @@ const AuthContextProvider = ({children}: ComponentProps<any>) => {
       setUserDetails({
         name: "User",
         // profile_picture: '',
-        role: "traveler",
+        type: "traveler",
       });
     }
   }, []);

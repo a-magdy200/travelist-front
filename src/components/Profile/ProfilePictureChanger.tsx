@@ -7,6 +7,7 @@ import Stack from '@mui/material/Stack'
 import Avatar from '@mui/material/Avatar';
 import image from '../../assets/avatar.png';
 const ProfilePictureChanger = () => {
+  const [cover_picture, setCoverPicture] = React.useState<File>()
   const Input = styled('input')({
     display: 'none',
   })

@@ -6,45 +6,16 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import image from '../../assets/avatar.png'
 import ProfilePictureChanger from "./ProfilePictureChanger";
-import {useState} from "react";
-import {IResponseInterface} from "../../config/interfaces/IResponse.interface";
-import api from "../../config/api";
-import {IViewUserRequestBody} from "../../config/interfaces/IViewUserRequestBody.interface";
-import {LoadingButton} from "@mui/lab";
-import useAuth from "../../hooks/useAuth";
+import Loader from '../Loader'
 import {IUserAuthenticationResponse} from "../../config/interfaces/IUserAuthenticationResponse.interface";
+import { IUserShowProps } from '../../config/interfaces/IUserShowProps.interface'
 
 
+const Profile = ({ user }: IUserShowProps) => {
 
-const Profile = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const {login} = useAuth();
-  async function sendData(e: any) {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const requestBody: IViewUserRequestBody = {
-      }
-      const response: IResponseInterface<IUserAuthenticationResponse> = await api<IUserAuthenticationResponse>({
-        url: "/auth/login",
-        method: "POST",
-        body: JSON.stringify(requestBody),
-      });
-
-      if (response.success) {
-        if (response.data) {
-          const {user, access_token} = response.data;
-          login(user, access_token);
-        }
-      }
-    } catch (error: any) {
-      console.log(JSON.stringify(error));
-    }
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-  }
   return (
+    <div>
+    {user ?
     <Stack
     direction="column"
     spacing={2}
@@ -64,7 +35,7 @@ const Profile = () => {
           Name:
         </Grid>
         <Grid item xs={6}>
-          Dina Farouk
+        {user.name}
         </Grid>
         <Grid item xs={6}>
           Email:
@@ -88,6 +59,9 @@ const Profile = () => {
       </Grid>
 
       </Stack>
+      				:
+              <Loader/>}
+          </div>
   )
 }
 

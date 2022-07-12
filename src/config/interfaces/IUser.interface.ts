@@ -3,8 +3,8 @@ export interface IUserInterface {
   email?:string;
   password?:string;
   address?:string;
-  national_id?:number;
-  gender?:string;
-  is_guide?:boolean;
-  role?:string;
+  // national_id?:number;
+  // gender?:string;
+  // is_guide?:boolean;
+  type?:string;
 }

@@ -1,23 +1,23 @@
-import Profile from '../../components/Profile/Profile'
-import Company from '../../components/Profile/Company'
 import Stack from '@mui/material/Stack'
+import UserBaseData from './UserBaseData'
+import CompanyData from './CompanyData'
 
-const TravelerProfile = () => {
+const CompanyProfile = () => {
 	return (
-		<Stack
-			direction="column"
-			spacing={2}
-			display="flex"
-			// justifyContent="center"
-			alignItems="center"
+		// <Stack
+		// 	direction="column"
+		// 	spacing={2}
+		// 	display="flex"
+		// 	// justifyContent="center"
+		// 	alignItems="center"
 
-		>
+		// >
 			<>
-				<Profile />
-				<Company />
+				{/* <UserBaseData /> */}
+				<CompanyData />
 			</>
-		</Stack>
+		// </Stack>
 	)
 }
 
-export default TravelerProfile
+export default CompanyProfile

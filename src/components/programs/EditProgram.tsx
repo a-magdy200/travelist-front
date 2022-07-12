@@ -118,39 +118,42 @@ let EditProgramComponent = () => {
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const formData = new FormData()
-		if(!isDisabled)
-		{
-		formData.append('name', name)
-		formData.append('description', description)
-		if (cover_picture) {
-			formData.append('cover_picture', cover_picture)
-		}
-		formData.append('price', price)
-		for (let item of hotel) {
-			formData.append('hotels', item)
-			console.log(item)
-		}
-		console.log(formData)
+		if (!isDisabled) {
+			formData.append('name', name)
+			formData.append('description', description)
+			if (cover_picture) {
+				formData.append('cover_picture', cover_picture)
+			}
+			formData.append('price', price)
+			for (let item of hotel) {
+				formData.append('hotels', item)
+				console.log(item)
+			}
+			console.log(formData)
 
-		const response: IResponseInterface<IProgramInterface> =
-			await api<IProgramInterface>({
-				url: `/programs/update/${id}`,
-				method: 'PUT',
-				body: formData,
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			})
-		navigate('/program/list')
-	}
-	else
-	{
-		alert("error validation")
-	}
+			const response: IResponseInterface<IProgramInterface> =
+				await api<IProgramInterface>({
+					url: `/programs/update/${id}`,
+					method: 'PUT',
+					body: formData,
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				})
+			navigate('/program/list')
+		} else {
+			alert('error validation')
+		}
 	}
 	const isDisabled = (): boolean => {
-		return name==='' || description === '' || price === ''|| companyId===0|| hotels.length===0;
-	  };
+		return (
+			name === '' ||
+			description === '' ||
+			price === '' ||
+			companyId === 0 ||
+			hotels.length === 0
+		)
+	}
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
