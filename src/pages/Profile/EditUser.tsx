@@ -1,68 +1,116 @@
-import * as React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Stack from '@mui/material/Stack'
-import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
-import TextField from '@mui/material/TextField'
-import image from '../../assets/avatar.png';
+import { useState } from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import TextField from "@mui/material/TextField/TextField";
+import Button from "@mui/material/Button";
+import Radio from "@mui/material/Radio";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
+import Checkbox from '@mui/material/Checkbox';
 
-const EditUser = () => {
-	return (
-		<Stack
-			direction="column"
-			spacing={2}
-			display="flex"
-			// justifyContent="center"
-			alignItems="center"
+import { useNavigate } from "react-router-dom";
 
-		>
-			<Typography variant="h3" component="div" gutterBottom>
-				Edit Account
-			</Typography>
-			<ProfilePictureChanger profile_picture ={image} />
-			<Grid container spacing={2} xs={10} lg={8} mb={3}>
-				<Grid item xs={6}>
-					Name:
-				</Grid>
-				<Grid item xs={6}>
-					<TextField
-						required
-						id="outlined-required"
-						label="Required"
-						defaultValue=""
-					/>
-				</Grid>
-				<Grid item xs={6}>
-					Email:
-				</Grid>
-				<Grid item xs={6}>
-					<TextField
-						required
-						id="outlined-required"
-						label="Required"
-						defaultValue=""
-					/>
-				</Grid>
-				<Grid item xs={6}>
-					Location:
-				</Grid>
-				<Grid item xs={6}>
-					<TextField
-						required
-						id="outlined-required"
-						label="Required"
-						defaultValue=""
-					/>
-				</Grid>
+const EditUser=()=>{
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState("");
+  const [nationalId, setNationalId] = useState("");
+  const [isGuide, setIsGuide] = useState(false);
+  const [dateOfBirth, setDateOfBirth] = useState("");
 
-			</Grid>
-			<Button variant="contained" size="large">Save Changes</Button>
-		</Stack>
-	)
+  const navigate = useNavigate();
+
+  async function sendData(e: any) {
+    e.preventDefault();
+    let checkSubmit = true;
+
+    if (checkSubmit) {
+      try {
+        const response = await fetch("http://localhost:4000/", {
+          method: "POST",
+          headers: { "content-Type": "application/json" },
+          body: JSON.stringify({ name, email, address}),
+        });
+
+        if (response.ok) {
+          console.log(response.status);
+          console.log(" done");
+          
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  return (
+    <div className="container">
+      <div className="left">
+        <Card sx={{ maxWidth: 700 }} style={{ minHeight: "150vh" }}>
+          <form onSubmit={sendData}>
+            <CardContent>
+              <h2>Edit Basic Info</h2>
+
+              <div>
+                <TextField
+                  required
+                  fullWidth
+                  id="name"
+                  label="username"
+                  size="small"
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                />
+              </div>
+              <br />
+
+              <div>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  type="email"
+                  label="email"
+                  size="small"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </div>
+              <br />
+              <div>
+                <TextField
+                  required
+                  fullWidth
+                  id="address"
+                  label="address"
+                  size="small"
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                />
+              </div>
+              <br />
+
+             
+            </CardContent>
+
+            <CardActions>
+              <Button variant="contained" type="submit">
+              Save Changes
+              </Button>
+            </CardActions>
+          </form>
+        </Card>
+      </div>
+
+    </div>
+  );
 }
+export default EditUser;
 
-export default EditUser
