@@ -22,6 +22,7 @@ function Login() {
       const requestBody: ILoginRequestBody = {
         email, password
       }
+      
       const response: IResponseInterface<IUserAuthenticationResponse> = await api<IUserAuthenticationResponse>({
         url: "/auth/login",
         method: "POST",

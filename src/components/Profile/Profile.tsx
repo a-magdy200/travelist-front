@@ -6,9 +6,13 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import image from '../../assets/avatar.png'
 import ProfilePictureChanger from "./ProfilePictureChanger";
+import useAuth from "../../hooks/useAuth";
+import {useEffect, useState} from "react";
+
 
 const Profile = () => {
   return (
+    const {isLoggedIn} = useAuth();
     <Stack
     direction="column"
     spacing={2}
