@@ -12,7 +12,6 @@ import RadioGroup from '@mui/material/RadioGroup/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 
-import { useNavigate } from 'react-router-dom'
 import api from '../../config/api'
 import { ITravelerRegisterRequestBody } from '../../config/interfaces/ITravelerRegisterRequestBody'
 import { UserType } from '../../config/types/user.type'
@@ -22,7 +21,6 @@ import { IUserAuthenticationResponse } from '../../config/interfaces/IUserAuthen
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import React from 'react'
 import useAuth from '../../hooks/useAuth'
 import { ICompanyRegisterRequestBody } from '../../config/interfaces/ICompanyRegisterRequestBody'
 
@@ -36,12 +34,22 @@ function Register() {
 	const [gender, set_gender] = useState<GenderType>('male')
 	const [national_id, set_national_id] = useState('')
 	const [is_guide, set_is_guide] = useState(false)
-	const [date_of_birth, set_date_of_birth] = React.useState<Date | null>(null)
+	const [date_of_birth, set_date_of_birth] = useState("")
 
 	const [description, set_description] = useState('')
 	const { login } = useAuth()
 
-	const navigate = useNavigate()
+  const formatDate = (date: string) => {
+		let d = new Date(date),
+			month = '' + (d.getMonth() + 1),
+			day = '' + d.getDate(),
+			year = d.getFullYear()
+
+		if (month.length < 2) month = '0' + month
+		if (day.length < 2) day = '0' + day
+
+		return [year, month, day].join('-')
+	}
 
 	async function sendData(e: any) {
 		e.preventDefault()
@@ -53,7 +61,7 @@ function Register() {
 
 		if (checkSubmit) {
 			try {
-				if (type == 'traveler') {
+				if (type === 'traveler') {
 					const requestBody: ITravelerRegisterRequestBody = {
 						name,
 						email,
@@ -101,38 +109,12 @@ function Register() {
               const { user, access_token } = response.data
               login(user, access_token)
             }
-          }
+          }    
 				}
-
-				// const response = await fetch("http://localhost:4000/auth/register", {
-				//   method: "POST",
-				//   headers: { "content-Type": "application/json" },
-				//   body: JSON.stringify({requestBody}),
-				// });
-
-				// if (response.success) {
-				//   navigatetohome
-				// }else{
-				//   setPass("");
-				//   setPassConfirm("");
-				// }
-
 
 			} catch (error: any) {
 				console.log(JSON.stringify(error))
 			}
-			//   if (response.ok) {
-			//     console.log(response.status);
-			//     console.log("register done");
-			//     const USER_TOKEN = await response.text();
-			//     const token = JSON.parse(USER_TOKEN).token;
-			//     localStorage.setItem("TOKEN", token);
-			//     // redirect to home
-			//     // navigate('/profile',);
-			//   }
-			// } catch (error) {
-			//   console.log(error);
-			// }
 		}
 	}
 
@@ -285,29 +267,16 @@ function Register() {
 										<LocalizationProvider dateAdapter={AdapterDateFns}>
 											<DatePicker
                        inputFormat="yyyy-MM-dd"
-												label="Basic example"
+												label="Date of Birth"
 												value={date_of_birth}
 												onChange={(newValue) => {
-                          let datevalue = newValue.getFullYear() + "-" + (newValue.getMonth() + 1) + "-" + (newValue.getDay() + 1)
-													set_date_of_birth(datevalue)
+                          if(newValue){
+                           set_date_of_birth(formatDate(newValue))
+                          }
 												}}
 												renderInput={(params) => <TextField {...params} />}
 											/>
 										</LocalizationProvider>
-
-										{/* dateof birth */}
-
-										{/* <TextField
-                      id="outlined-flexible"
-                      size="small"
-                      type="date"
-                      fullWidth
-                      maxRows={4}
-                      onChange={(e) => {
-                        set_date_of_birth(new Date(e.target.value));
-                        console.log(date_of_birth);
-                      }}
-                    /> */}
 									</div>
 									<div>
 										<FormControlLabel
@@ -315,7 +284,6 @@ function Register() {
 											label="Is Guide"
 											onChange={(e) => {
 												set_is_guide(!is_guide)
-												console.log(is_guide)
 											}}
 										/>
 									</div>
