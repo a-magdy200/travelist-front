@@ -6,13 +6,16 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import image from '../../assets/avatar.png'
 import ProfilePictureChanger from "./ProfilePictureChanger";
-import useAuth from "../../hooks/useAuth";
-import {useEffect, useState} from "react";
+import Loader from '../Loader'
+import {IUserAuthenticationResponse} from "../../config/interfaces/IUserAuthenticationResponse.interface";
+import { IUserShowProps } from '../../config/interfaces/IUserShowProps.interface'
 
 
-const Profile = () => {
+const Profile = ({ user }: IUserShowProps) => {
+
   return (
-    const {isLoggedIn} = useAuth();
+    <div>
+    {user ?
     <Stack
     direction="column"
     spacing={2}
@@ -31,7 +34,7 @@ const Profile = () => {
           Name:
         </Grid>
         <Grid item xs={6}>
-          Dina Farouk
+        {user.name}
         </Grid>
         <Grid item xs={6}>
           Email:
@@ -55,6 +58,9 @@ const Profile = () => {
       </Grid>
 
       </Stack>
+      				:
+              <Loader/>}
+          </div>
   )
 }
 

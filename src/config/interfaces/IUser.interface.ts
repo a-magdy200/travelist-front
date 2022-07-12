@@ -1,5 +1,10 @@
 export interface IUserInterface {
   name?:string;
-  profile_picture?:string;
-  role?:string;
+  email?:string;
+  password?:string;
+  address?:string;
+  // national_id?:number;
+  // gender?:string;
+  // is_guide?:boolean;
+  type?:string;
 }
