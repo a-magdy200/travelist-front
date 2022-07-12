@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { SelectChangeEvent } from '@mui/material/Select'
 import React from 'react'
 import Grid from '@mui/material/Grid'
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
@@ -15,42 +11,39 @@ import CustomInputField from '../Form/CustomInputField'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
-import { ICycleCreateInterface } from '../../config/interfaces/ICycleCreate.interface'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 
 let CreateCycleComponent = () => {
 	let { id } = useParams()
 	let programId = Number(useParams().id)
 	const [name, setName] = useState<string>('')
-	const [max_seats, setMaxSeats] = useState<number>()
-	const [departureLocationId, setDepartureLocation] = useState<number>()
-	const [arrivalLocationId, setArrivalLocation] = useState<number>()
-	const [returnLocationId, setReturnLocation] = useState<number>()
-	const [returnArrivalLocationId, setReturnArrivalLocation] = useState<number>()
-	const [departure_date, setDepartureDate] = useState<string | undefined>('')
-	const [arrival_date, setArrivalDate] = useState<string | undefined>('')
-	const [return_date, setReturnDate] = useState<string | undefined>('')
-	const [return_arrival_date, setReturnArrivalDate] = useState<
-		string | undefined
-	>('')
+	const [max_seats, setMaxSeats] = useState<number>(0)
+	const [departure_location, setDepartureLocation] = useState<string>('')
+	const [arrival_location, setArrivalLocation] = useState<string>('')
+	const [return_location, setReturnLocation] = useState<string>('')
+	const [return_arrival_location, setReturnArrivalLocation] =
+		useState<string>('')
+	const [departure_date, setDepartureDate] = useState<string>('')
+	const [arrival_date, setArrivalDate] = useState<string>('')
+	const [return_date, setReturnDate] = useState<string>('')
+	const [return_arrival_date, setReturnArrivalDate] = useState<string>('')
 	const navigate = useNavigate()
 
 	///change methods
-
 	const changeDepartureLocation = (event: SelectChangeEvent) => {
-		setDepartureLocation(Number(event.target.value))
+		setDepartureLocation(event.target.value)
 		console.log(event.target.value)
 	}
 
 	const changeArrivalLocation = (event: SelectChangeEvent) => {
-		setArrivalLocation(Number(event.target.value))
+		setArrivalLocation(event.target.value)
 	}
 
 	const changeReturnLocation = (event: SelectChangeEvent) => {
-		setReturnLocation(Number(event.target.value))
+		setReturnLocation(event.target.value)
 	}
 	const changeReturnArrivalLocation = (event: SelectChangeEvent) => {
-		setReturnArrivalLocation(Number(event.target.value))
+		setReturnArrivalLocation(event.target.value)
 	}
 	const formatDate = (date: string) => {
 		let d = new Date(date),
@@ -66,47 +59,54 @@ let CreateCycleComponent = () => {
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const requestBody: ICycleCreateInterface = {
+		const requestBody: ICycleInterface = {
 			name,
 			programId,
 			max_seats,
-			departureLocationId,
-			arrivalLocationId,
-			returnArrivalLocationId,
-			returnLocationId,
+			departure_location,
+			arrival_location,
+			return_arrival_location,
+			return_location,
 			arrival_date,
 			return_date,
 			departure_date,
 			return_arrival_date,
 		}
-        if(!isDisabled)
-		{try {
-			const response: IResponseInterface<ICycleInterface> =
-				await api<ICycleInterface>({
-					url: '/cycles/create',
-					method: 'POST',
-					body: JSON.stringify(requestBody),
-				})
+		if (!isDisabled()) {
+			try {
+				const response: IResponseInterface<ICycleInterface> =
+					await api<ICycleInterface>({
+						url: '/cycles/create',
+						method: 'POST',
+						body: JSON.stringify(requestBody),
+					})
 
-			if (response.success) {
-				if (response.data) {
-					navigate('/cycle/list')
+				if (response.success) {
+					if (response.data) {
+						navigate('/cycle/list')
+					}
 				}
+			} catch (error: any) {
+				console.log(error)
 			}
-		} catch (error: any) {
-			console.log(error)
+		} else {
+			alert('validation error')
 		}
 	}
-	else
-	{
-      alert("validation error")
-	}
-	}
 	const isDisabled = (): boolean => {
-		return name==='' || max_seats === 0 || departureLocationId === 0|| arrivalLocationId===0
-		|| returnLocationId===0 || returnArrivalLocationId===0|| departure_date===''
-		|| arrival_date===''|| return_date==='' ||return_arrival_date==='';
-	  };
+		return (
+			name === '' ||
+			max_seats === 0 ||
+			departure_location === '' ||
+			arrival_location === '' ||
+			return_location === '' ||
+			return_arrival_location === '' ||
+			departure_date === '' ||
+			arrival_date === '' ||
+			return_date === '' ||
+			return_arrival_date === ''
+		)
+	}
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -197,84 +197,41 @@ let CreateCycleComponent = () => {
 					<div className="bottomContent">
 						<Grid container direction="column" spacing={2}>
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Departure Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={departureLocationId?.toString()}
-											label="Departure Location"
-											onChange={changeDepartureLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Departure Location'}
+									value={departure_location}
+									setValue={setDepartureLocation}
+								/>
 							</Grid>
 
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Arrival Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={arrivalLocationId?.toString()}
-											label="Arrival Location"
-											onChange={changeArrivalLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Return Location'}
+									value={return_location}
+									setValue={setReturnLocation}
+								/>
 							</Grid>
 
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Return Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={returnLocationId?.toString()}
-											label="Return Location"
-											onChange={changeReturnLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Arrival Location'}
+									value={arrival_location}
+									setValue={setArrivalLocation}
+								/>
 							</Grid>
 
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Return Arrival Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={returnArrivalLocationId?.toString()}
-											label="Return Arrival Location"
-											onChange={changeReturnArrivalLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Return Arrival Location'}
+									value={return_arrival_location}
+									setValue={setReturnArrivalLocation}
+								/>
 							</Grid>
+
 							<Grid item xs={8}>
 								<NavLink to={`/cycle/list`}>
 									{' '}
@@ -282,12 +239,10 @@ let CreateCycleComponent = () => {
 										Back
 									</Button>
 								</NavLink>
-								<NavLink to={`/cycle/list`}>
-									{' '}
-									<Button variant="contained" type="submit">
-										Create
-									</Button>
-								</NavLink>
+
+								<Button variant="contained" type="submit">
+									Create
+								</Button>
 							</Grid>
 						</Grid>
 					</div>

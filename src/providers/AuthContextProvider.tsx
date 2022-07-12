@@ -14,6 +14,7 @@ const AuthContextProvider = ({children}: ComponentProps<any>) => {
     logout: () => {
       setIsLoggedIn(false);
       setUserDetails({});
+      localStorage.removeItem(ACCESS_TOKEN);
       navigate("/");
     },
     login: (user: IUserInterface, token: string = '') => {

@@ -24,6 +24,7 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
   const handleLogout = () => {
     handleClose();
     logout();
+    navigateTo('/login')
   };
   return (
     <StyledMenu
