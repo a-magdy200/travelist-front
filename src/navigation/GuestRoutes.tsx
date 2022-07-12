@@ -5,6 +5,8 @@ import VerifyCode from "../pages/Auth/VerifyCode";
 import ResetPassword from "../pages/Auth/ResetPassword";
 import Login from "../pages/Auth/Login";
 import React from "react";
+import EditPassword from "../pages/Profile/EditPassword";
+import EditUser from "../pages/Profile/EditUser";
 
 const GuestRoutes = () => {
   return (
@@ -14,6 +16,8 @@ const GuestRoutes = () => {
       <Route path="/forget_password " element={<ForgetPassword />} />
       <Route path="/verify_code" element={<VerifyCode />} />
       <Route path="/reset_password" element={<ResetPassword />} />
+      <Route path="/editpassword" element={<EditPassword />} />
+      <Route path="/edituser" element={<EditUser />} />
     </Routes>
   )
 }

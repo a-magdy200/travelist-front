@@ -10,7 +10,7 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import Checkbox from '@mui/material/Checkbox';
-
+import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
 import { useNavigate } from "react-router-dom";
 
 const EditUser=()=>{
@@ -48,20 +48,24 @@ const EditUser=()=>{
   }
 
   return (
-    <div className="container">
+    <div className="container"   style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    
+    }}>
       <div className="left">
-        <Card sx={{ maxWidth: 700 }} style={{ minHeight: "150vh" }}>
+        <Card sx={{ maxWidth: 700 }} style={{ minHeight: "100vh" }}>
           <form onSubmit={sendData}>
             <CardContent>
               <h2>Edit Basic Info</h2>
-
+              <ProfilePictureChanger />
               <div>
                 <TextField
                   required
                   fullWidth
                   id="name"
                   label="username"
-                  size="small"
                   onChange={(e) => {
                     setName(e.target.value);
                   }}
@@ -76,7 +80,6 @@ const EditUser=()=>{
                   id="email"
                   type="email"
                   label="email"
-                  size="small"
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -89,13 +92,13 @@ const EditUser=()=>{
                   fullWidth
                   id="address"
                   label="address"
-                  size="small"
                   onChange={(e) => {
                     setAddress(e.target.value);
                   }}
                 />
               </div>
               <br />
+            
 
              
             </CardContent>
