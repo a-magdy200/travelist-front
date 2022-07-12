@@ -32,6 +32,7 @@ function Login() {
         if (response.data) {
           const {user, access_token} = response.data;
           login(user, access_token);
+          console.log(user)
         }
       }
     } catch (error: any) {

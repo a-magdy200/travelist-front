@@ -8,6 +8,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
 import TextField from '@mui/material/TextField'
+import image from '../../assets/avatar.png';
 
 const EditUser = () => {
 	return (
@@ -22,8 +23,7 @@ const EditUser = () => {
 			<Typography variant="h3" component="div" gutterBottom>
 				Edit Account
 			</Typography>
-
-			<ProfilePictureChanger />
+			<ProfilePictureChanger profile_picture ={image} />
 			<Grid container spacing={2} xs={10} lg={8} mb={3}>
 				<Grid item xs={6}>
 					Name:

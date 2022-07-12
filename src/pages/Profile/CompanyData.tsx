@@ -9,11 +9,12 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 const CompanyData = () => {
 	const [company, setCompany] = useState<ICompanyInterface>()
 	const { id } = useParams()
+	console.log(id)
 	const getCompanyProfile = async () => {
 		try {
 			const response: IResponseInterface<ICompanyInterface> =
 				await api<ICompanyInterface>({
-					url: `/api/companies/2`,
+					url: `/api/companies/3`,
 					method: 'GET',
 				})
 

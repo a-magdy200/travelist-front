@@ -19,7 +19,7 @@ const Company = ({ company }: ICompanyShowProps) => {
 					<Typography variant="h3" component="div" gutterBottom>
 						Profile
 					</Typography>
-					<ProfilePictureChanger />
+					<ProfilePictureChanger profile_picture ={company.user.profile_picture} />
 					<Grid container spacing={2} xs={10} lg={8} mb={3}>
 						<Grid item xs={6}>
 							Name:
