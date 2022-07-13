@@ -2,11 +2,7 @@ import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import EditMenu from './EditMenu'
 import Loader from '../Loader'
-import { useEffect, useState } from 'react'
-import Typography from '@mui/material/Typography'
-import ProfilePictureChanger from './ProfilePictureChanger'
 import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
-import { ICompanyInterface } from '../../config/interfaces/ICompany.interface'
 const Company = ({ company }: ICompanyShowProps) => {
 	return (
 		<div>
