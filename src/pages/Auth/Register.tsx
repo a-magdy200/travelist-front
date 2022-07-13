@@ -1,17 +1,14 @@
 import { useState } from 'react'
-
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import TextField from '@mui/material/TextField/TextField'
-import Button from '@mui/material/Button'
 import Radio from '@mui/material/Radio'
 import FormControl from '@mui/material/FormControl'
 import FormLabel from '@mui/material/FormLabel'
 import RadioGroup from '@mui/material/RadioGroup/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
-
 import api from '../../config/api'
 import { ITravelerRegisterRequestBody } from '../../config/interfaces/ITravelerRegisterRequestBody'
 import { UserType } from '../../config/types/user.type'
@@ -23,6 +20,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import useAuth from '../../hooks/useAuth'
 import { ICompanyRegisterRequestBody } from '../../config/interfaces/ICompanyRegisterRequestBody'
+import CustomInputField from '../../components/Form/CustomInputField'
+import { formatDate } from '../../config/helpers/formatDateFunction'
+import { LoadingButton } from '@mui/lab'
 
 function Register() {
 	const [name, set_name] = useState('')
@@ -34,25 +34,14 @@ function Register() {
 	const [gender, set_gender] = useState<GenderType>('male')
 	const [national_id, set_national_id] = useState('')
 	const [is_guide, set_is_guide] = useState(false)
-	const [date_of_birth, set_date_of_birth] = useState("")
-
+	const [date_of_birth, set_date_of_birth] = useState('')
 	const [description, set_description] = useState('')
 	const { login } = useAuth()
-
-  const formatDate = (date: string) => {
-		let d = new Date(date),
-			month = '' + (d.getMonth() + 1),
-			day = '' + d.getDate(),
-			year = d.getFullYear()
-
-		if (month.length < 2) month = '0' + month
-		if (day.length < 2) day = '0' + day
-
-		return [year, month, day].join('-')
-	}
+	const [isLoading, setIsLoading] = useState(false)
 
 	async function sendData(e: any) {
 		e.preventDefault()
+		setIsLoading(true)
 		let checkSubmit = true
 
 		if (password !== confirm_password) {
@@ -74,19 +63,19 @@ function Register() {
 						is_guide,
 					}
 
-          const response: IResponseInterface<IUserAuthenticationResponse> =
-					await api<IUserAuthenticationResponse>({
-						url: '/auth/register',
-						method: 'POST',
-						body: JSON.stringify(requestBody),
-					})
+					const response: IResponseInterface<IUserAuthenticationResponse> =
+						await api<IUserAuthenticationResponse>({
+							url: '/auth/register',
+							method: 'POST',
+							body: JSON.stringify(requestBody),
+						})
 
-          if (response.success) {
-            if (response.data) {
-              const { user, access_token } = response.data
-              login(user, access_token)
-            }
-          }
+					if (response.success) {
+						if (response.data) {
+							const { user, access_token } = response.data
+							login(user, access_token)
+						}
+					}
 				} else {
 					const requestBody: ICompanyRegisterRequestBody = {
 						name,
@@ -97,26 +86,39 @@ function Register() {
 						description,
 					}
 
-          const response: IResponseInterface<IUserAuthenticationResponse> =
-					await api<IUserAuthenticationResponse>({
-						url: '/auth/register',
-						method: 'POST',
-						body: JSON.stringify(requestBody),
-					})
+					const response: IResponseInterface<IUserAuthenticationResponse> =
+						await api<IUserAuthenticationResponse>({
+							url: '/auth/register',
+							method: 'POST',
+							body: JSON.stringify(requestBody),
+						})
 
-          if (response.success) {
-            if (response.data) {
-              const { user, access_token } = response.data
-              login(user, access_token)
-            }
-          }    
+					if (response.success) {
+						if (response.data) {
+							const { user, access_token } = response.data
+							login(user, access_token)
+						}
+					}
 				}
-
 			} catch (error: any) {
 				console.log(JSON.stringify(error))
+				// response.errors - div - display
 			}
+			setTimeout(() => {
+				setIsLoading(false)
+			}, 10000)
 		}
 	}
+
+	// if (type === 'traveler') {
+	// 	const isDisabled = (): boolean => {
+	// 		return isLoading || name === '' || email === '' || password === '' || confirm_password === '' || address === '' || national_id === '' || date_of_birth === ''
+	// 	}
+	// }else{
+	// 	const isDisabled = (): boolean => {
+	// 		return isLoading || name === '' || email === '' || password === '' || confirm_password === '' || address === '' || description === ''
+	// 	}
+	// }
 
 	return (
 		<div className="container">
@@ -127,73 +129,50 @@ function Register() {
 							<h2>Register Now</h2>
 
 							<div>
-								<TextField
-									required
-									fullWidth
-									id="name"
-									label="username"
-									size="small"
-									onChange={(e) => {
-										set_name(e.target.value)
-									}}
+								<CustomInputField
+									type={'text'}
+									label={'Username'}
+									value={name}
+									setValue={set_name}
 								/>
 							</div>
 							<br />
 
 							<div>
-								<TextField
-									required
-									fullWidth
-									id="email"
-									type="email"
-									label="email"
-									size="small"
-									onChange={(e) => {
-										set_email(e.target.value)
-									}}
+								<CustomInputField
+									type={'email'}
+									label={'Email'}
+									value={email}
+									setValue={set_email}
 								/>
 							</div>
 							<br />
 
 							<div>
-								<TextField
-									required
-									fullWidth
-									id="password"
-									type="password"
-									label="password"
-									size="small"
-									onChange={(e) => {
-										set_password(e.target.value)
-									}}
+								<CustomInputField
+									type={'password'}
+									label={'Password'}
+									value={password}
+									setValue={set_password}
 								/>
 							</div>
 							<br />
 
 							<div>
-								<TextField
-									required
-									fullWidth
-									id="confirmpassword"
-									type="password"
-									label="confirm password"
-									size="small"
-									onChange={(e) => {
-										set_confirm_password(e.target.value)
-									}}
+								<CustomInputField
+									type={'password'}
+									label={'Confirm Password'}
+									value={confirm_password}
+									setValue={set_confirm_password}
 								/>
 							</div>
 							<br />
 							<div>
-								<TextField
-									required
-									fullWidth
-									id="address"
-									label="address"
-									size="small"
-									onChange={(e) => {
-										set_address(e.target.value)
-									}}
+								<CustomInputField
+									type={'text'}
+									label={'Address'}
+									value={address}
+									setValue={set_address}
 								/>
 							</div>
 							<br />
@@ -227,15 +206,11 @@ function Register() {
 							{type === 'traveler' ? (
 								<div>
 									<div>
-										<TextField
-											id="outlined-multiline-flexible"
-											label="National ID"
-											size="small"
-											fullWidth
-											maxRows={4}
-											onChange={(e) => {
-												set_national_id(e.target.value)
-											}}
+										<CustomInputField
+											type={'text'}
+											label={'National Id'}
+											value={national_id}
+											setValue={set_national_id}
 										/>
 									</div>
 									<FormControl>
@@ -266,13 +241,13 @@ function Register() {
 									<div>
 										<LocalizationProvider dateAdapter={AdapterDateFns}>
 											<DatePicker
-                       inputFormat="yyyy-MM-dd"
+												inputFormat="yyyy-MM-dd"
 												label="Date of Birth"
 												value={date_of_birth}
 												onChange={(newValue) => {
-                          if(newValue){
-                           set_date_of_birth(formatDate(newValue))
-                          }
+													if (newValue) {
+														set_date_of_birth(formatDate(newValue))
+													}
 												}}
 												renderInput={(params) => <TextField {...params} />}
 											/>
@@ -290,25 +265,25 @@ function Register() {
 								</div>
 							) : (
 								<div>
-									<TextField
-										id="outlined-multiline-flexible"
-										label="Description"
-										size="small"
-										multiline
-										fullWidth
-										maxRows={4}
-										onChange={(e) => {
-											set_description(e.target.value)
-										}}
+									<CustomInputField
+										type={'text'}
+										label={'Description'}
+										value={description}
+										setValue={set_description}
 									/>
 								</div>
 							)}
 						</CardContent>
 
 						<CardActions>
-							<Button variant="contained" type="submit">
+							<LoadingButton
+								// disabled={isDisabled()}
+								loading={isLoading}
+								variant="contained"
+								type="submit"
+							>
 								Register
-							</Button>
+							</LoadingButton>
 						</CardActions>
 					</form>
 				</Card>
