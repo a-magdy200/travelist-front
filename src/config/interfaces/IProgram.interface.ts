@@ -1,4 +1,5 @@
 import { ICompanyInterface } from "./ICompany.interface"
+import { ICountryInterface } from "./ICountry.interface"
 import { IHotelInterface } from "./IHotel.interface"
 import { ITransportationInterface } from "./ITransportation.interface"
 
@@ -9,10 +10,13 @@ export interface IProgramInterface {
     price: number
     description:string
     is_Recurring: boolean
-    total_rating_value :number                 
-    total_rating_users :number              
+    total_rate :number                 
+    average_rate :number              
     average_rating:number
     cover_picture:string
     transportation: ITransportationInterface
+    country:ICountryInterface
     hotels:IHotelInterface|IHotelInterface[]
+    destinations:ICountryInterface|ICountryInterface[]
+
 }

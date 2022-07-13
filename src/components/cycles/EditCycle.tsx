@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
-import Box from '@mui/material/Box'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { SelectChangeEvent } from '@mui/material/Select'
 import React from 'react'
 import Grid from '@mui/material/Grid'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -16,27 +12,21 @@ import api from '../../config/api'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import CustomInputField from '../Form/CustomInputField'
-import { ICycleCreateInterface } from '../../config/interfaces/ICycleCreate.interface'
 
 const EditCycleComponent = () => {
 	const { id } = useParams()
 	const [name, setName] = useState<string>('')
-	const [max_seats, setMaxSeats] = useState<number>()
-	const [programId, setProgramId] = useState<number>()
-	const [departureLocationId, setDepartureLocation] = useState<
-		number | undefined
-	>()
-	const [arrivalLocationId, setArrivalLocation] = useState<number | undefined>()
-	const [returnLocationId, setReturnLocation] = useState<number | undefined>()
-	const [returnArrivalLocationId, setReturnArrivalLocation] = useState<
-		number | undefined
-	>()
-	const [departure_date, setDepartureDate] = useState<string | undefined>('')
-	const [arrival_date, setArrivalDate] = useState<string | undefined>('')
-	const [return_date, setReturnDate] = useState<string | undefined>('')
-	const [return_arrival_date, setReturnArrivalDate] = useState<
-		string | undefined
-	>('')
+	const [max_seats, setMaxSeats] = useState<number>(0)
+	const [programId, setProgramId] = useState<number>(0)
+	const [departure_location, setDepartureLocation] = useState<string>('')
+	const [arrival_location, setArrivalLocation] = useState<string>('')
+	const [return_location, setReturnLocation] = useState<string>('')
+	const [return_arrival_location, setReturnArrivalLocation] =
+		useState<string>('')
+	const [departure_date, setDepartureDate] = useState<string>('')
+	const [arrival_date, setArrivalDate] = useState<string>('')
+	const [return_date, setReturnDate] = useState<string>('')
+	const [return_arrival_date, setReturnArrivalDate] = useState<string>('')
 	const [cycle, setCycle] = useState<ICycleInterface>()
 	const navigate = useNavigate()
 
@@ -52,14 +42,14 @@ const EditCycleComponent = () => {
 					setCycle(response.data)
 					setName(response.data.name)
 					setMaxSeats(response.data.max_seats)
-					//	setDepartureLocation(response.data.departureLocationId)
-					//	setArrivalLocation(response.data.arrivalLocationId)
-					//	setReturnLocation(response.data.returnLocationId)
-					//	setReturnArrivalLocation(response.data.returnArrivalLocationId)
-					setDepartureDate(response.data.departure_date)
-					setArrivalDate(response.data.arrival_date)
-					setReturnDate(response.data.return_date)
-					setReturnArrivalDate(response.data.return_arrival_date)
+					setDepartureLocation(response.data.departure_location)
+					setArrivalLocation(response.data.arrival_location)
+					setReturnLocation(response.data.return_location)
+					setReturnArrivalLocation(response.data.return_arrival_location)
+					setDepartureDate(formatDate(response.data.departure_date))
+					setArrivalDate(formatDate(response.data.arrival_date))
+					setReturnDate(formatDate(response.data.return_date))
+					setReturnArrivalDate(formatDate(response.data.return_arrival_date))
 					console.log('res', response.data)
 				}
 			}
@@ -74,19 +64,19 @@ const EditCycleComponent = () => {
 	/// change methods
 
 	const changeDepartureLocation = (event: SelectChangeEvent) => {
-		setDepartureLocation(Number(event.target.value))
+		setDepartureLocation(event.target.value)
 		console.log(event.target.value)
 	}
 
 	const changeArrivalLocation = (event: SelectChangeEvent) => {
-		setArrivalLocation(Number(event.target.value))
+		setArrivalLocation(event.target.value)
 	}
 
 	const changeReturnLocation = (event: SelectChangeEvent) => {
-		setReturnLocation(Number(event.target.value))
+		setReturnLocation(event.target.value)
 	}
 	const changeReturnArrivalLocation = (event: SelectChangeEvent) => {
-		setReturnArrivalLocation(Number(event.target.value))
+		setReturnArrivalLocation(event.target.value)
 	}
 	const formatDate = (date: string) => {
 		let d = new Date(date),
@@ -102,48 +92,68 @@ const EditCycleComponent = () => {
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const requestBody: ICycleCreateInterface = {
+		const requestBody: ICycleInterface = {
 			name,
 			programId,
 			max_seats,
-			departureLocationId,
-			arrivalLocationId,
-			returnArrivalLocationId,
-			returnLocationId,
+			departure_location,
+			arrival_location,
+			return_arrival_location,
+			return_location,
 			arrival_date,
 			return_date,
 			departure_date,
 			return_arrival_date,
 		}
-       if(!isDisabled)
-	{	try {
-			const response: IResponseInterface<ICycleInterface> =
-				await api<ICycleInterface>({
-					url: `/cycles/update/${id}`,
-					method: 'PUT',
-					body: JSON.stringify(requestBody),
-				})
+		if (!isDisabled()) {
+			try {
+				console.log(departure_date)
+				const response: IResponseInterface<ICycleInterface> =
+					await api<ICycleInterface>({
+						url: `/cycles/update/${id}`,
+						method: 'PUT',
+						body: JSON.stringify(requestBody),
+					})
 
-			if (response.success) {
-				if (response.data) {
-					setCycle(response.data)
-					navigate('/cycle/list')
+				if (response.success) {
+					if (response.data) {
+						setCycle(response.data)
+						navigate('/cycle/list')
+					}
 				}
+			} catch (error: any) {
+				console.log(error)
 			}
-		} catch (error: any) {
-			console.log(error)
+		} else {
+			alert('validation error')
 		}
 	}
-	else
-	{
-		alert("validation error")
-	}
-	}
 	const isDisabled = (): boolean => {
-		return name==='' || max_seats === 0 || departureLocationId === 0|| arrivalLocationId===0
-		|| returnLocationId===0 || returnArrivalLocationId===0|| departure_date===''
-		|| arrival_date===''|| return_date==='' ||return_arrival_date==='';
-	  };
+		console.log(
+			name,
+			max_seats,
+			departure_location,
+			arrival_location,
+			return_location,
+			return_arrival_location,
+			departure_date,
+			arrival_date,
+			return_date,
+			return_arrival_date
+		)
+		return (
+			name === '' ||
+			max_seats === 0 ||
+			departure_location === '' ||
+			arrival_location === '' ||
+			return_location === '' ||
+			return_arrival_location === '' ||
+			departure_date === '' ||
+			arrival_date === '' ||
+			return_date === '' ||
+			return_arrival_date === ''
+		)
+	}
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -181,6 +191,7 @@ const EditCycleComponent = () => {
 										onChange={(newValue) => {
 											if (newValue) {
 												setDepartureDate(formatDate(newValue))
+												console.log(departure_date)
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
@@ -194,6 +205,7 @@ const EditCycleComponent = () => {
 										onChange={(newValue) => {
 											if (newValue) {
 												setArrivalDate(formatDate(newValue))
+												console.log(arrival_date)
 											}
 										}}
 										renderInput={(params) => <TextField {...params} />}
@@ -235,83 +247,38 @@ const EditCycleComponent = () => {
 					<div className="bottomContent">
 						<Grid container direction="column" spacing={2}>
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Departure Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={departureLocationId?.toString()}
-											label="Departure Location"
-											onChange={changeDepartureLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Departure Location'}
+									value={departure_location}
+									setValue={setDepartureLocation}
+								/>
 							</Grid>
 
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Arrival Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={arrivalLocationId?.toString()}
-											label="Arrival Location"
-											onChange={changeArrivalLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Return Location'}
+									value={return_location}
+									setValue={setReturnLocation}
+								/>
 							</Grid>
 
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Return Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={returnLocationId?.toString()}
-											label="Return Location"
-											onChange={changeReturnLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Arrival Location'}
+									value={arrival_location}
+									setValue={setArrivalLocation}
+								/>
 							</Grid>
-
 							<Grid item xs={8}>
-								<Box sx={{ minWidth: 120 }}>
-									<FormControl fullWidth>
-										<InputLabel id="demo-simple-select-label">
-											Return Arrival Location
-										</InputLabel>
-										<Select
-											labelId="demo-simple-select-label"
-											id="demo-simple-select"
-											value={returnArrivalLocationId?.toString()}
-											label="Return Arrival Location"
-											onChange={changeReturnArrivalLocation}
-										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-										</Select>
-									</FormControl>
-								</Box>
+								<CustomInputField
+									type={'text'}
+									label={'Return Arrival Location'}
+									value={return_arrival_location}
+									setValue={setReturnArrivalLocation}
+								/>
 							</Grid>
 							<Grid item xs={8}>
 								<NavLink to={`/cycle/list`}>
@@ -320,12 +287,10 @@ const EditCycleComponent = () => {
 										Back
 									</Button>
 								</NavLink>
-								<NavLink to={`/cycle/list`}>
-									{' '}
-									<Button variant="contained" type="submit">
-										Create
-									</Button>
-								</NavLink>
+
+								<Button variant="contained" type="submit">
+									Edit
+								</Button>
 							</Grid>
 						</Grid>
 					</div>

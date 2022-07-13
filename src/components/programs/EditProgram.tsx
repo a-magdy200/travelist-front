@@ -19,6 +19,8 @@ import { NavLink, useNavigate, useParams } from 'react-router-dom'
 import api from '../../config/api'
 import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 
 let EditProgramComponent = () => {
 	let { id } = useParams()
@@ -26,19 +28,23 @@ let EditProgramComponent = () => {
 	const [description, setDescription] = useState<string>('')
 	const [price, setPrice] = useState<string>('')
 	const [is_Recurring, setis_Recurring] = useState(true)
-	const [companyId, setcompanyId] = useState<number>(1)
-	const [hotel, setHotel] = React.useState<string[]>([])
-	const [cover_picture, setCoverPicture] = React.useState<File>()
-	const [program, setProgram] = React.useState<IProgramInterface>()
+	const [companyId, setCompanyId] = useState<string>('1')
+	const [countryId, setCountryId] = useState<string>('')
+	const [transportationId, setTransportationId] = useState<string>('1')
+	const [hotel, setHotel] = useState<string[]>([])
+	//const [destination, setDestination] = useState<ICountryInterface|ICountryInterface[]>()
+	const [destination, setDestination] = useState<string[]>([])
+	const [cover_picture, setCoverPicture] = useState<File>()
+	const [program, setProgram] = useState<IProgramInterface>()
 	const navigate = useNavigate()
 
-	interface Hotel {
-		id: number
-		name: string
-	}
 	const hotels = [
 		{ id: 1, value: 'h1' },
 		{ id: 2, value: 'h2' },
+	]
+	const countries = [
+		{ id: 1, value: 'c1' },
+		{ id: 2, value: 'c2' },
 	]
 
 	const getProgram = async () => {
@@ -55,7 +61,11 @@ let EditProgramComponent = () => {
 					setDescription(response.data.description)
 					setPrice(response.data.price.toString())
 					setis_Recurring(response.data.is_Recurring)
-					//setHotel(response.data.hotels.map((h: Hotel) => h.id));
+					setCompanyId(response.data.company.id.toString())
+					setCountryId(response.data.country.id.toString())
+					setTransportationId(response.data.transportation.id.toString())
+					//setHotel(response.data.hotels.map((h: IHotelInterface) => h.id))
+					//setDestination(response.data.destinations)
 					console.log('res', response.data)
 					console.log('program', program)
 				}
@@ -114,23 +124,45 @@ let EditProgramComponent = () => {
 		} = event
 		setHotel(typeof value === 'string' ? value.split(',') : value)
 	}
+	const changeDepartureCountry = (event: SelectChangeEvent) => {
+		setCountryId(event.target.value)
+	}
+	const changeDestination = (event: SelectChangeEvent<typeof destination>) => {
+		const {
+			target: { value },
+		} = event
+		setDestination(typeof value === 'string' ? value.split(',') : value)
+	}
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const formData = new FormData()
-		if (!isDisabled) {
-			formData.append('name', name)
-			formData.append('description', description)
-			if (cover_picture) {
-				formData.append('cover_picture', cover_picture)
-			}
-			formData.append('price', price)
-			for (let item of hotel) {
-				formData.append('hotels', item)
-				console.log(item)
-			}
-			console.log(formData)
 
+		formData.append('name', name)
+		formData.append('description', description)
+		if (cover_picture) {
+			formData.append('cover_picture', cover_picture)
+		}
+		formData.append('price', price)
+		formData.append('is_Recurring', is_Recurring ? '1' : '0')
+		formData.append('companyId', companyId)
+		formData.append('transportationId', transportationId)
+		formData.append('countryId', countryId)
+		for (let item of hotel) {
+			formData.append('hotels', item)
+			console.log(item)
+		}
+
+		for (let item of destination) {
+			formData.append('destinations', item)
+			console.log(item)
+		}
+		/*destinations.forEach(function (item:ICountryInterface) {
+			formData.append('destinations', item.id.toString())
+		});*/
+
+		console.log(formData)
+		if (!isDisabled()) {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
 					url: `/programs/update/${id}`,
@@ -146,14 +178,27 @@ let EditProgramComponent = () => {
 		}
 	}
 	const isDisabled = (): boolean => {
+		console.log(
+			name,
+			description,
+			price,
+			companyId,
+			hotels.length,
+			destination.length,
+			countryId,
+			companyId
+		)
 		return (
 			name === '' ||
 			description === '' ||
 			price === '' ||
-			companyId === 0 ||
-			hotels.length === 0
+			companyId === '' ||
+			hotels.length === 0 ||
+			destination.length === 0 ||
+			countryId === ''
 		)
 	}
+
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -166,8 +211,7 @@ let EditProgramComponent = () => {
 						required
 						value={name}
 						onChange={(e) => {
-					    setName(e.target.value)
-						
+							setName(e.target.value)
 						}}
 					/>{' '}
 					<br />
@@ -235,6 +279,66 @@ let EditProgramComponent = () => {
 												style={getStyles(hotelItem.value, hotel, theme2)}
 											>
 												{hotelItem.value}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								<br />
+							</Grid>
+							<Grid item xs={8}>
+								<Box sx={{ minWidth: 120 }}>
+									<FormControl sx={{ m: 1, width: 300 }}>
+										<InputLabel id="demo-simple-select-label">
+											Departure Location
+										</InputLabel>
+										<Select
+											labelId="demo-simple-select-label"
+											id="demo-simple-select"
+											value={countryId?.toString()}
+											label="Arrival Location"
+											onChange={changeDepartureCountry}
+										>
+											<MenuItem value={1}>Egypt</MenuItem>
+											<MenuItem value={2}>London</MenuItem>
+											<MenuItem value={3}>Japan</MenuItem>
+										</Select>
+									</FormControl>
+								</Box>
+							</Grid>
+							<Grid item xs={8}>
+								<FormControl sx={{ m: 1, width: 300 }}>
+									<InputLabel id="demo-multiple-destination-label">
+										Destinations
+									</InputLabel>
+									<Select
+										labelId="demo-multiple-destination-label"
+										id="demo-multiple-destination"
+										multiple
+										value={destination}
+										onChange={changeDestination}
+										input={
+											<OutlinedInput id="select-multiple-chip" label="Chip" />
+										}
+										renderValue={(selected) => (
+											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+												{selected.map((value) => (
+													<Chip key={value} label={value} />
+												))}
+											</Box>
+										)}
+										MenuProps={MenuProps}
+									>
+										{countries.map((destinationItem) => (
+											<MenuItem
+												key={destinationItem.id}
+												value={destinationItem.id}
+												style={getStyles(
+													destinationItem.value,
+													destination,
+													theme2
+												)}
+											>
+												{destinationItem.value}
 											</MenuItem>
 										))}
 									</Select>
