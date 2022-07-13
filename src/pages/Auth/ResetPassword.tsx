@@ -1,84 +1,81 @@
-import { useState } from "react";
-
-import TextField from "@mui/material/TextField/TextField";
-import Button from "@mui/material/Button";
-import { Box } from "@mui/system";
+import { useState } from 'react'
+import Button from '@mui/material/Button'
+import { Box } from '@mui/system'
+import CustomInputField from '../../components/Form/CustomInputField'
+import { useNavigate, useParams } from 'react-router-dom'
+import { IResetPasswordRequestBody } from '../../config/interfaces/IResetPasswordRequestBody.interface'
+import api from '../../config/api'
+import { IForgetPasswordResponse } from '../../config/interfaces/IForgetPasswordResponse.interface'
 
 function ResetPassword() {
-  const [password, setPass] = useState("");
-  const [confirmPassword, setPassConfirm] = useState("");
+	const [password, set_password] = useState('')
+	const [confirm_password, set_confirm_password] = useState('')
+	const navigate = useNavigate()
+	const { token } = useParams()
 
-  async function sendData(e: any) {
-    e.preventDefault();
-    let checkSubmit = true;
+	async function sendData(e: any) {
+		e.preventDefault()
+		let checkSubmit = true
 
-    if (password !== confirmPassword) {
-      checkSubmit = false;
-    }
+		if (password !== confirm_password) {
+			checkSubmit = false
+		}
 
-    if (checkSubmit) {
-      try {
-        const response = await fetch(
-          "http://localhost:4000/auth/reset_password",
-          {
-            method: "POST",
-            headers: { "content-Type": "application/json" },
-            body: JSON.stringify({ password }),
-          }
-        );
+		if (checkSubmit) {
+			try {
+				const requestBody: IResetPasswordRequestBody = {
+					password,
+					token,
+				}
 
-        if (response.ok) {
-          console.log(response.status);
-          console.log("Email sent");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
+				const response: IForgetPasswordResponse = await api({
+					url: `/auth/reset_password`,
+					method: 'POST',
+					body: JSON.stringify(requestBody),
+				})
 
-  return (
-    <div className="container">
-      <h3>Reset Password</h3>
-      <Box sx={{ m: 3 }}>
-        <form onSubmit={sendData}>
-          <div>
-            <TextField
-              required
-              sx={{ width: "25ch" }}
-              id="password"
-              type="password"
-              label="password"
-              size="small"
-              onChange={(e) => {
-                setPass(e.target.value);
-              }}
-            />
-          </div>
-          <br />
+				if (response.success) {
+					console.log('Reset password is successfully done')
+					navigate('/login')
+				}
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}
 
-          <div>
-            <TextField
-              required
-              sx={{ width: "25ch" }}
-              id="confirmPassword"
-              type="password"
-              label="confirm password"
-              size="small"
-              onChange={(e) => {
-                setPassConfirm(e.target.value);
-              }}
-            />
-          </div>
-          <br />
+	return (
+		<div className="container">
+			<h3>Reset Password</h3>
+			<Box sx={{ m: 3 }}>
+				<form onSubmit={sendData}>
+					<div>
+						<CustomInputField
+							type={'password'}
+							label={'Password'}
+							value={password}
+							setValue={set_password}
+						/>
+					</div>
+					<br />
 
-          <Button variant="contained" type="submit">
-            Send Code
-          </Button>
-        </form>
-      </Box>
-    </div>
-  );
+					<div>
+						<CustomInputField
+							type={'password'}
+							label={'Confirm Password'}
+							value={confirm_password}
+							setValue={set_confirm_password}
+						/>
+					</div>
+					<br />
+
+					<Button variant="contained" type="submit">
+						Reset Password
+					</Button>
+				</form>
+			</Box>
+		</div>
+	)
 }
 
-export default ResetPassword;
+export default ResetPassword
