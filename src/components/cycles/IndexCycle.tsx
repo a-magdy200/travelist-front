@@ -195,7 +195,7 @@ const removeCycle = async(id: number | undefined) => {
 					})
 	
 				if (response.success) {
-					alert("deleted successfuly")
+					alert("deleted successfully")
 					}
 				}
 			 catch (error: any) {
@@ -267,64 +267,64 @@ const removeCycle = async(id: number | undefined) => {
 								rowCount={cycles.length}
 							/>
 
-							<TableBody>
-								
-								{stableSort(cycles, getComparator(order, orderBy))
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((cycle: ICycleInterface, index) => {
-										return (
-											<TableRow>
-												<TableCell align="center">{cycle.id}</TableCell>
-												<TableCell align="center">{cycle.name}</TableCell>
-												<TableCell align="center">
-													{cycle.departure_date}
-												</TableCell>
-												<TableCell align="center">
-													{cycle.arrival_date}
-												</TableCell>
-												<TableCell align="center">
-													{cycle.departure_location?.name}
-												</TableCell>
-												<TableCell align="center">
-												{cycle.arrival_location?.name}
-											</TableCell>
-									          	<TableCell align="center">
-													<NavLink to={`/cycle/show/${cycle.id}`}>
-														<Button
-															className="createButton"
-															variant="contained"
-															color="success"
-														>
-															Show
-														</Button>
-													</NavLink>
-													<NavLink to={`/cycle/edit/${cycle.id}`}>
-														{' '}
-														<Button
-															className="createButton"
-															variant="contained"
-														>
-															Edit
-														</Button>
-													</NavLink>
-													<Button
-														className="createButton"
-														variant="contained"
-														color="error"
-														onClick={() => {
-															removeCycle(cycle.id)
-														}}
-													>
-														Delete
-													</Button>
-												</TableCell>
-											</TableRow>
-										)
-									})}
-								{emptyRows > 0 && <TableCell colSpan={6} />}
-							</TableBody>
-						</Table>
-					</TableContainer>
+		<TableBody>
+			
+			{stableSort(cycles, getComparator(order, orderBy))
+				.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+				.map((cycle: ICycleInterface, index) => {
+					return (
+						<TableRow>
+							<TableCell align="center">{cycle.id}</TableCell>
+							<TableCell align="center">{cycle.name}</TableCell>
+							<TableCell align="center">
+								{cycle.departure_date}
+							</TableCell>
+							<TableCell align="center">
+								{cycle.arrival_date}
+							</TableCell>
+							<TableCell align="center">
+								{cycle.departure_location?.name}
+							</TableCell>
+							<TableCell align="center">
+							{cycle.arrival_location?.name}
+						</TableCell>
+							<TableCell align="center">
+								<NavLink to={`/cycle/show/${cycle.id}`}>
+									<Button
+										className="createButton"
+										variant="contained"
+										color="success"
+									>
+										Show
+									</Button>
+								</NavLink>
+								<NavLink to={`/cycle/edit/${cycle.id}`}>
+									{' '}
+									<Button
+										className="createButton"
+										variant="contained"
+									>
+										Edit
+									</Button>
+								</NavLink>
+								<Button
+									className="createButton"
+									variant="contained"
+									color="error"
+									onClick={() => {
+										removeCycle(cycle.id)
+									}}
+								>
+									Delete
+								</Button>
+							</TableCell>
+						</TableRow>
+					)
+				})}
+			{emptyRows > 0 && <TableCell colSpan={6} />}
+		</TableBody>
+		</Table>
+		</TableContainer>
 				</Paper>
 			</Box>
 			</div>

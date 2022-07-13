@@ -166,7 +166,8 @@ let EditProgramComponent = () => {
 						required
 						value={name}
 						onChange={(e) => {
-							setName(e.target.value)
+					    setName(e.target.value)
+						
 						}}
 					/>{' '}
 					<br />

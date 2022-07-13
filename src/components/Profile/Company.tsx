@@ -1,6 +1,7 @@
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import EditMenu from './EditMenu'
+import AuthContext from "../../contexts/AuthContext";
 import Loader from '../Loader'
 import Typography from '@mui/material/Typography'
 import ProfilePictureChanger from "./ProfilePictureChanger";
@@ -57,15 +58,10 @@ const Company = ({ company }: ICompanyShowProps) => {
 						<Grid item xs={6}>
 							{company.average_rate}
 						</Grid>
-						{/* <Grid item xs={6}>
-					Phone:
-				</Grid>
-				<Grid item xs={6}>
-				
-				</Grid> */}
 					</Grid>
 
-					<EditMenu />
+					<EditMenu company = {company}/>
+					
 				</Stack>
 			) : (
 				<Loader />

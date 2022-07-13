@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -10,8 +10,10 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
 import Checkbox from '@mui/material/Checkbox';
-
-import { useNavigate } from "react-router-dom";
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
+import {IUserInterface} from '../../config/interfaces/IUser.interface'
+import { useParams } from "react-router-dom";
+import api from "../../config/api";
 
 const EditUser=()=>{
   const [name, setName] = useState("");
@@ -21,49 +23,72 @@ const EditUser=()=>{
   const [nationalId, setNationalId] = useState("");
   const [isGuide, setIsGuide] = useState(false);
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [userDetails, setUserDetails] = useState<IUserInterface>()
+  const {id} = useParams()
+  const getUserProfileData = async () => {
+		try {
+			const response: IResponseInterface<IUserInterface> =
+				await api<IUserInterface>({
+					url: `/api/users/${id}`,
+					method: 'GET',
+				})
 
-  const navigate = useNavigate();
+			if (response.success) {
+				if (response.data) {
+					setUserDetails(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}	
+  useEffect(() => {
+		getUserProfileData()
+	}, [])
+  console.log('user details',userDetails)
 
-  async function sendData(e: any) {
-    e.preventDefault();
-    let checkSubmit = true;
+  // async function sendData(e: any) {
+  //   e.preventDefault();
+  //   let checkSubmit = true;
 
-    if (checkSubmit) {
-      try {
-        const response = await fetch("http://localhost:4000/", {
-          method: "POST",
-          headers: { "content-Type": "application/json" },
-          body: JSON.stringify({ name, email, address}),
-        });
+  //   if (checkSubmit) {
+  //     try {
+  //       const response = await fetch("http://localhost:4000/", {
+  //         method: "POST",
+  //         headers: { "content-Type": "application/json" },
+  //         body: JSON.stringify({ name, email, address}),
+  //       });
 
-        if (response.ok) {
-          console.log(response.status);
-          console.log(" done");
+  //       if (response.ok) {
+  //         console.log(response.status);
+  //         console.log(" done");
           
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // }
 
   return (
     <div className="container">
       <div className="left">
         <Card sx={{ maxWidth: 700 }} style={{ minHeight: "150vh" }}>
-          <form onSubmit={sendData}>
+          <form>
             <CardContent>
               <h2>Edit Basic Info</h2>
 
               <div>
                 <TextField
+                  className="inputText"
+                  label="Outlined secondary"
+                  variant="outlined"
                   required
-                  fullWidth
-                  id="name"
-                  label="username"
+                  //value ={userDetails?.name}
+                  value='ede'
                   size="small"
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setName(e.target.value)
                   }}
                 />
               </div>
@@ -76,10 +101,12 @@ const EditUser=()=>{
                   id="email"
                   type="email"
                   label="email"
+                  value={userDetails?.email}
                   size="small"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  // onChange={(e) => {
+                  //   setEmail(e.target.value);
+                  // }}
+                  // focused
                 />
               </div>
               <br />
@@ -90,9 +117,11 @@ const EditUser=()=>{
                   id="address"
                   label="address"
                   size="small"
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
+                  value={userDetails?.address}
+                  // onChange={(e) => {
+                  //   setAddress(e.target.value);
+                  // }}
+                  // focused
                 />
               </div>
               <br />

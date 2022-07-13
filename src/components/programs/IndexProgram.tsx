@@ -246,58 +246,58 @@ const ListProgramComponent = () => {
 										rowCount={programs.length}
 									/>
 
-									<TableBody>
-										{stableSort(programs, getComparator(order, orderBy))
-											.slice(
-												page * rowsPerPage,
-												page * rowsPerPage + rowsPerPage
-											)
-											.map((program: IProgramInterface, index) => {
-												return (
-													<TableRow>
-														<TableCell align="center">{program.id}</TableCell>
-														<TableCell align="center">{program.name}</TableCell>
-														<TableCell align="center">
-															{program.company?.id}
-														</TableCell>
-														<TableCell align="center">
-															{program.price}
-														</TableCell>
-														<TableCell align="center">
-															<NavLink to={`/program/show/${program.id}`}>
-																<Button
-																	className="createButton"
-																	variant="contained"
-																	color="success"
-																>
-																	Show
-																</Button>
-															</NavLink>
-															<NavLink to={`/program/edit/${program.id}`}>
-																{' '}
-																<Button
-																	className="createButton"
-																	variant="contained"
-																>
-																	Edit
-																</Button>
-															</NavLink>
-															<Button
-																className="createButton"
-																variant="contained"
-																color="error"
-																onClick={() => {
-																	removeProgram(program.id)
-																}}
-															>
-																Delete
-															</Button>
-														</TableCell>
-													</TableRow>
-												)
-											})}
-										{emptyRows > 0 && <TableCell colSpan={6} />}
-									</TableBody>
+				<TableBody>
+					{stableSort(programs, getComparator(order, orderBy))
+						.slice(
+							page * rowsPerPage,
+							page * rowsPerPage + rowsPerPage
+						)
+						.map((program: IProgramInterface, index) => {
+							return (
+								<TableRow>
+									<TableCell align="center">{program.id}</TableCell>
+									<TableCell align="center">{program.name}</TableCell>
+									<TableCell align="center">
+										{program.company?.id}
+									</TableCell>
+									<TableCell align="center">
+										{program.price}
+									</TableCell>
+									<TableCell align="center">
+										<NavLink to={`/program/show/${program.id}`}>
+											<Button
+												className="createButton"
+												variant="contained"
+												color="success"
+											>
+												Show
+											</Button>
+										</NavLink>
+										<NavLink to={`/program/edit/${program.id}`}>
+											{' '}
+											<Button
+												className="createButton"
+												variant="contained"
+											>
+												Edit
+											</Button>
+										</NavLink>
+										<Button
+											className="createButton"
+											variant="contained"
+											color="error"
+											onClick={() => {
+												removeProgram(program.id)
+											}}
+										>
+											Delete
+										</Button>
+									</TableCell>
+								</TableRow>
+							)
+						})}
+					{emptyRows > 0 && <TableCell colSpan={6} />}
+				</TableBody>
 								</Table>
 							</TableContainer>
 						</Paper>

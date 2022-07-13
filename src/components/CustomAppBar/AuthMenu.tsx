@@ -11,12 +11,14 @@ import {useNavigate} from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import {ICompanyInterface} from "../../config/interfaces/ICompany.interface";
 import {IMenuProps} from "../../config/interfaces/IMenuProps";
-
+import {IResponseInterface} from '../../config/interfaces/IResponse.interface'
+import api from "../../config/api";
 const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
-  const [company, setCompany] = useState<ICompanyInterface>()
+  const [compProfile, setCompProfile] = useState<ICompanyInterface>()
   const navigate = useNavigate();
   const {logout} = useAuth();
   const open = Boolean(anchorEl);
+
   const navigateTo = (to: string) => {
     handleClose();
     navigate(to);
@@ -25,6 +27,26 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
     handleClose();
     logout();
   };
+  const getMyProfile = async () => {
+		try {
+			const response: IResponseInterface<ICompanyInterface> =
+				await api<ICompanyInterface>({
+					url: `/api/companies/profile`,
+					method: 'GET',
+				})
+
+			if (response.success) {
+				if (response.data) {
+					setCompProfile(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}	
+  useEffect(() => {
+		getMyProfile()
+	}, [])
   return (
     <StyledMenu
       anchorEl={anchorEl}
@@ -32,12 +54,12 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
       onClose={handleClose}
     >
     
-      <MenuItem onClick={() => navigate(`/company/${company?.id}`)}>
+      <MenuItem onClick={() => navigate(`/company/${compProfile?.id}`)}>
       <UserIcon />
       My Profile
     </MenuItem>
 
-      <MenuItem onClick={() => navigateTo("/profile/edit")}>
+      <MenuItem onClick={() => navigateTo(`/profile/edit/${compProfile?.id}`)}>
         <EditIcon />
         Edit Profile
       </MenuItem>
