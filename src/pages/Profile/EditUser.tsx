@@ -46,44 +46,64 @@ const EditUser=()=>{
 		getUserProfileData()
 	}, [])
   console.log('user details',userDetails)
+	async function sendData(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault()
+		const requestBody: IUserInterface = {
+			name,
+			email,
+      password,
+      address,
+      type,
+		}
+       if(!isDisabled)
+	{	try {
+			const response: IResponseInterface<IUserInterface> =
+				await api<IUserInterface>({
+					url: `/api/user/${id}`,
+					method: 'PUT',
+					body: JSON.stringify(requestBody),
+				})
 
-  // async function sendData(e: any) {
-  //   e.preventDefault();
-  //   let checkSubmit = true;
-
-  //   if (checkSubmit) {
-  //     try {
-  //       const response = await fetch("http://localhost:4000/", {
-  //         method: "POST",
-  //         headers: { "content-Type": "application/json" },
-  //         body: JSON.stringify({ name, email, address}),
-  //       });
-
-  //       if (response.ok) {
-  //         console.log(response.status);
-  //         console.log(" done");
-          
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // }
-
+			if (response.success) {
+				if (response.data) {
+					setUser(response.data)
+				//	navigate('/')
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	else
+	{
+		alert("validation error")
+	}
+	}
+	const isDisabled = (): boolean => {
+  return  name==='' ||email===''||address=='';
+		
+	  };
   return (
-    <div className="container">
+    <div className="container"   style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    
+    }}>
       <div className="left">
-        <Card sx={{ maxWidth: 700 }} style={{ minHeight: "150vh" }}>
-          <form>
+        <Card sx={{ maxWidth: 700 }} style={{ minHeight: "100vh" }}>
+          <form onSubmit={sendData}>
             <CardContent>
               <h2>Edit Basic Info</h2>
-
+              <ProfilePictureChanger />
               <div>
                 <TextField
                   className="inputText"
-                  label="Outlined secondary"
                   variant="outlined"
                   required
+                  fullWidth
+                  id="name"
+                  label="username"
                   //value ={userDetails?.name}
                   value='ede'
                   size="small"
@@ -101,12 +121,11 @@ const EditUser=()=>{
                   id="email"
                   type="email"
                   label="email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   value={userDetails?.email}
                   size="small"
-                  // onChange={(e) => {
-                  //   setEmail(e.target.value);
-                  // }}
-                  // focused
                 />
               </div>
               <br />
@@ -118,13 +137,10 @@ const EditUser=()=>{
                   label="address"
                   size="small"
                   value={userDetails?.address}
-                  // onChange={(e) => {
-                  //   setAddress(e.target.value);
-                  // }}
-                  // focused
                 />
               </div>
               <br />
+            
 
              
             </CardContent>

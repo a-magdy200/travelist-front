@@ -7,6 +7,10 @@ import Traveler from "../components/Profile/Traveler";
 import TravelerProfile from "../pages/Profile/TravelerProfile";
 import EditPassword from "../pages/Profile/EditPassword";
 import EditUser from "../pages/Profile/EditUser";
+import EditTraveler from "../pages/Profile/EditTraveler";
+import EditCompany from "../pages/Profile/EditCompany";
+
+
 import CompanyProfile from "../pages/Profile/CompanyProfile";
 import UserBaseData from "../pages/Profile/UserBaseData";
 import ShowProgram from "../pages/Program/show";
@@ -28,6 +32,9 @@ const UserRoutes = () => {
       <Route path="/traveler" element={<Traveler />} />
       <Route path="/travelerprofile" element={<TravelerProfile />} />
       <Route path="/editpassword" element={<EditPassword />} />
+      <Route path="/edituser" element={<EditUser />} />
+      <Route path="/edittraveler" element={<EditTraveler />} />
+      <Route path="/editcompany" element={<EditCompany />} />
       <Route path="/editUser/:id" element={<EditUser />} />
       <Route path="/company/:id" element={<CompanyProfile />} />
       <Route path="/program/list" element={<ListPrograms />} />
