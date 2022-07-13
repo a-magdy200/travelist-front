@@ -14,6 +14,7 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import {IUserInterface} from '../../config/interfaces/IUser.interface'
 import { useParams } from "react-router-dom";
 import api from "../../config/api";
+import ProfilePictureChanger from "../../components/Profile/ProfilePictureChanger";
 
 const EditUser=()=>{
   const [name, setName] = useState("");
@@ -48,25 +49,18 @@ const EditUser=()=>{
   console.log('user details',userDetails)
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const requestBody: IUserInterface = {
-			name,
-			email,
-      password,
-      address,
-      type,
-		}
+	
        if(!isDisabled)
 	{	try {
 			const response: IResponseInterface<IUserInterface> =
 				await api<IUserInterface>({
 					url: `/api/user/${id}`,
 					method: 'PUT',
-					body: JSON.stringify(requestBody),
 				})
 
 			if (response.success) {
 				if (response.data) {
-					setUser(response.data)
+					setUserDetails(response.data)
 				//	navigate('/')
 				}
 			}

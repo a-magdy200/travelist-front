@@ -21,6 +21,7 @@ import ShowCycle from "../pages/Cycle/show-cycle";
 import EditCycle from "../pages/Cycle/edit-cycle";
 import React from "react";
 import Home from "../pages/Home";
+import ListCompany from "../pages/Company/list-company";
 
 const UserRoutes = () => {
   return (
@@ -37,6 +38,7 @@ const UserRoutes = () => {
       <Route path="/editcompany" element={<EditCompany />} />
       <Route path="/editUser/:id" element={<EditUser />} />
       <Route path="/company/:id" element={<CompanyProfile />} />
+      <Route path="/company/list" element={< ListCompany />} />
       <Route path="/program/list" element={<ListPrograms />} />
       <Route path="/program/create" element={<CreateProgram />} />
       <Route path="/program/show/:id" element={<ShowProgram />} />
