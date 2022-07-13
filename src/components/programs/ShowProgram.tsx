@@ -8,9 +8,10 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
-
+import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 const ShowProgramComponent = ({ program }: IProgramShowProps) => {
-	console.log(program)
+	
 	return (
 		<div>
 			{program ? (
@@ -31,12 +32,13 @@ const ShowProgramComponent = ({ program }: IProgramShowProps) => {
 							image={`http://localhost:4000/${program.cover_picture}`}
 							alt="green iguana"
 						/>
-						<CardContent>
+						<CardContent >
 							<Typography gutterBottom variant="h5" component="div">
 								{program.name}
 							</Typography>
 							<Typography variant="body2" color="text.secondary">
 								<Grid
+								    id="1"
 									container
 									direction="column"
 									spacing={2}
@@ -66,12 +68,20 @@ const ShowProgramComponent = ({ program }: IProgramShowProps) => {
 										average_rate : {program.average_rate}
 									</Grid>
 									<Grid item xs={6}>
-										Departure Country : {program.country.name}
+										Departure Country : {program.country?.name}
 									</Grid>
 
 									<Grid item xs={6}>
-										Transportation : {program.transportation.name}
+										Transportation : {program.transportation?.name}
 									</Grid>
+									
+									<Grid item xs={6}>
+										Hotels :{program.hotels.map((hotel:IHotelInterface)=>hotel.name )}
+									</Grid>
+									<Grid item xs={6}>
+										Destinations :{program.destinations.map((destination:ICountryInterface)=>destination.name )}
+									</Grid>
+									
 								</Grid>
 							</Typography>
 						</CardContent>
@@ -81,7 +91,9 @@ const ShowProgramComponent = ({ program }: IProgramShowProps) => {
 								<Button className="createButton" variant="contained">
 									Back
 								</Button>
-							</NavLink>
+								</NavLink>
+							
+							
 						</CardActions>
 					</Card>
 				</div>
