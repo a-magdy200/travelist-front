@@ -31,8 +31,8 @@ const AuthContextProvider = ({children}: ComponentProps<any>) => {
       // TODO:: call refresh token
       setUserDetails({
         name: "User",
-        profile_picture: '',
-        role: "traveler",
+        // profile_picture: '',
+        type: "traveler",
       });
     }
   }, []);
