@@ -5,42 +5,81 @@ import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField/TextField";
 import Button from "@mui/material/Button";
 import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import { IUserInterface } from '../../config/interfaces/IUser.interface'
 import { useNavigate } from "react-router-dom";
 
 const EditUser=()=>{
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [gender, setGender] = useState("");
-  const [nationalId, setNationalId] = useState("");
-  const [isGuide, setIsGuide] = useState(false);
-  const [dateOfBirth, setDateOfBirth] = useState("");
-
+  const { id } = useParams()
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [user, setUser] = useState<IUserInterface>()
+  
   const navigate = useNavigate();
 
-  async function sendData(e: any) {
-    e.preventDefault();
-    let checkSubmit = true;
+	
+	const getUser = async () => {
+		try {
+			const response: IResponseInterface<IUserInterface> =
+				await api<IUserInterface>({
+					url: `/api/users/${id}`,
+				})
 
-    if (checkSubmit) {
-      try {
-        const response = await fetch("http://localhost:4000/", {
-          method: "PUT",
-          headers: { "content-Type": "application/json" },
-          body: JSON.stringify({ name, email, address}),
-        });
+			if (response.success) {
+				if (response.data) {
+					setName(response.data)
+					setEmail(response.data.name)
+					setAddress(response.data.max_seats)
+					console.log('res', response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	useEffect(() => {
+		getUser()
+	}, [])
 
-        if (response.ok) {
-          console.log(response.status);
-          console.log(" done");
-          
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }
 
+	async function sendData(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault()
+		const requestBody: IUserInterface = {
+			name,
+			email,
+      password,
+      address,
+      type,
+		}
+       if(!isDisabled)
+	{	try {
+			const response: IResponseInterface<IUserInterface> =
+				await api<IUserInterface>({
+					url: `/api/user/${id}`,
+					method: 'PUT',
+					body: JSON.stringify(requestBody),
+				})
+
+			if (response.success) {
+				if (response.data) {
+					setUser(response.data)
+				//	navigate('/')
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	else
+	{
+		alert("validation error")
+	}
+	}
+	const isDisabled = (): boolean => {
+  return  name==='' ||email===''||address=='';
+		
+	  };
   return (
     <div className="container"   style={{
       display: 'flex',
