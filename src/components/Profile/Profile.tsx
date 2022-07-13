@@ -6,9 +6,16 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import image from '../../assets/avatar.png'
 import ProfilePictureChanger from "./ProfilePictureChanger";
+import Loader from '../Loader'
+import {IUserAuthenticationResponse} from "../../config/interfaces/IUserAuthenticationResponse.interface";
+import { IUserShowProps } from '../../config/interfaces/IUserShowProps.interface'
 
-const Profile = () => {
+
+const Profile = ({ user }: IUserShowProps) => {
+
   return (
+    <div>
+    {user ?
     <Stack
     direction="column"
     spacing={2}
@@ -22,13 +29,12 @@ const Profile = () => {
         Profile
       </Typography>
       <ProfilePictureChanger/>
-
       <Grid container spacing={2} xs={10} lg={8} mb={3}>
         <Grid item xs={6}>
           Name:
         </Grid>
         <Grid item xs={6}>
-          Dina Farouk
+        {user.name}
         </Grid>
         <Grid item xs={6}>
           Email:
@@ -52,6 +58,9 @@ const Profile = () => {
       </Grid>
 
       </Stack>
+      				:
+              <Loader/>}
+          </div>
   )
 }
 

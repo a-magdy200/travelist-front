@@ -1,8 +1,9 @@
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import EditMenu from './EditMenu'
+import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
 
-const Traveler = () => {
+const Traveler = ()  => {
 	return (
 		<Stack
 		direction="column"
@@ -39,7 +40,7 @@ const Traveler = () => {
 				</Grid>
 			</Grid>
 
-			<EditMenu />
+			{/* <EditMenu company = {company}/> */}
 			</Stack>
 
 	)

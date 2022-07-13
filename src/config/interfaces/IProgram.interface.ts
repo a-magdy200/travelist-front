@@ -13,10 +13,10 @@ export interface IProgramInterface {
     total_rate :number                 
     average_rate :number              
     average_rating:number
-    cover_picture:string
+    cover_picture?:string
     transportation: ITransportationInterface
     country:ICountryInterface
-    hotels:IHotelInterface|IHotelInterface[]
-    destinations:ICountryInterface|ICountryInterface[]
+    hotels:IHotelInterface[]
+    destinations:ICountryInterface[]
 
 }

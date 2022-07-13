@@ -1,6 +1,7 @@
 import Profile from '../../components/Profile/Profile'
 import Traveler from '../../components/Profile/Traveler'
 import Stack from '@mui/material/Stack'
+import UserBaseData from './UserBaseData'
 
 const TravelerProfile = () => {
 	return (
@@ -13,7 +14,7 @@ const TravelerProfile = () => {
 
 		>
 			<>
-				<Profile />
+				<UserBaseData />
 				<Traveler />
 			</>
 		</Stack>
