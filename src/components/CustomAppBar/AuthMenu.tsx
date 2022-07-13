@@ -28,26 +28,26 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
     logout();
     navigateTo('/login')
   };
-  const getMyProfile = async () => {
-		try {
-			const response: IResponseInterface<ICompanyInterface> =
-				await api<ICompanyInterface>({
-					url: `/api/companies/profile`,
-					method: 'GET',
-				})
+  // const getMyProfile = async () => {
+	// 	try {
+	// 		const response: IResponseInterface<ICompanyInterface> =
+	// 			await api<ICompanyInterface>({
+	// 				url: `/api/companies/profile`,
+	// 				method: 'GET',
+	// 			})
 
-			if (response.success) {
-				if (response.data) {
-					setCompProfile(response.data)
-				}
-			}
-		} catch (error: any) {
-			console.log(error)
-		}
-	}	
-  useEffect(() => {
-		getMyProfile()
-	}, [])
+	// 		if (response.success) {
+	// 			if (response.data) {
+	// 				setCompProfile(response.data)
+	// 			}
+	// 		}
+	// 	} catch (error: any) {
+	// 		console.log(error)
+	// 	}
+	// }	
+  // useEffect(() => {
+	// 	getMyProfile()
+	// }, [])
   return (
     <StyledMenu
       anchorEl={anchorEl}
@@ -55,12 +55,12 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
       onClose={handleClose}
     >
     
-      <MenuItem onClick={() => navigate(`/company/${compProfile?.id}`)}>
+      <MenuItem onClick={() => navigate(`/company`)}>
       <UserIcon />
       My Profile
     </MenuItem>
 
-      <MenuItem onClick={() => navigateTo(`/profile/edit/${compProfile?.id}`)}>
+      <MenuItem onClick={() => navigateTo(`/editUser`)}>
         <EditIcon />
         Edit Profile
       </MenuItem>

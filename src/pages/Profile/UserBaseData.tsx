@@ -1,25 +1,24 @@
-import Profile from '../../components/Profile/Profile'
 import { useEffect, useState } from 'react'
 import api from '../../config/api'
-import Stack from '@mui/material/Stack'
+import User from '../../components/Profile/User'
 import { useParams } from 'react-router-dom'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { IUserInterface } from '../../config/interfaces/IUser.interface'
+// import { IUserShowProps } from '../../config/interfaces/IUserShowProps.interface'
 const UserBaseData = () => {
 	const [user, setUser] = useState<IUserInterface>()
-	const { id } = useParams()
 	const getUserProfile = async () => {
 		try {
 			const response: IResponseInterface<IUserInterface> =
 				await api<IUserInterface>({
-					url: `/api/users/2`,
+					url: `/api/users/`,
 					method: 'GET',
 				})
 
 			if (response.success) {
 				if (response.data) {
 					setUser(response.data)
-					console.log(response.data)
+					console.log('response data get user',response.data)
 				}
 			}
 		} catch (error: any) {
@@ -29,15 +28,7 @@ const UserBaseData = () => {
 	useEffect(() => {
 		getUserProfile()
 	}, [])
-	return (
-			<>
-				{/* to view company data */}
-
-				<div>
-					{user ? <Profile user={user} /> : <div>not found</div>}
-				</div>
-			</>
-	)
+	return <div>{user ? <User user={user} /> : <div>not found</div>}</div>
 }
 
 export default UserBaseData
