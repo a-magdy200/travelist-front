@@ -1,48 +1,51 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField/TextField";
 import Button from "@mui/material/Button";
-import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
-import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
-import { IUserInterface } from '../../config/interfaces/IUser.interface'
-import { useNavigate } from "react-router-dom";
+import Radio from "@mui/material/Radio";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
+import RadioGroup from "@mui/material/RadioGroup/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel/FormControlLabel";
+import Checkbox from '@mui/material/Checkbox';
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
+import {IUserInterface} from '../../config/interfaces/IUser.interface'
+import { useParams } from "react-router-dom";
+import api from "../../config/api";
 
 const EditUser=()=>{
-  const { id } = useParams()
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [user, setUser] = useState<IUserInterface>()
-  
-  const navigate = useNavigate();
-
-	
-	const getUser = async () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState("");
+  const [nationalId, setNationalId] = useState("");
+  const [isGuide, setIsGuide] = useState(false);
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [userDetails, setUserDetails] = useState<IUserInterface>()
+  const {id} = useParams()
+  const getUserProfileData = async () => {
 		try {
 			const response: IResponseInterface<IUserInterface> =
 				await api<IUserInterface>({
 					url: `/api/users/${id}`,
+					method: 'GET',
 				})
 
 			if (response.success) {
 				if (response.data) {
-					setName(response.data)
-					setEmail(response.data.name)
-					setAddress(response.data.max_seats)
-					console.log('res', response.data)
+					setUserDetails(response.data)
 				}
 			}
 		} catch (error: any) {
 			console.log(error)
 		}
-	}
-	useEffect(() => {
-		getUser()
+	}	
+  useEffect(() => {
+		getUserProfileData()
 	}, [])
-
-
+  console.log('user details',userDetails)
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		const requestBody: IUserInterface = {
@@ -95,12 +98,17 @@ const EditUser=()=>{
               <ProfilePictureChanger />
               <div>
                 <TextField
+                  className="inputText"
+                  variant="outlined"
                   required
                   fullWidth
                   id="name"
                   label="username"
+                  //value ={userDetails?.name}
+                  value='ede'
+                  size="small"
                   onChange={(e) => {
-                    setName(e.target.value);
+                    setName(e.target.value)
                   }}
                 />
               </div>
@@ -116,6 +124,8 @@ const EditUser=()=>{
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
+                  value={userDetails?.email}
+                  size="small"
                 />
               </div>
               <br />
@@ -125,9 +135,8 @@ const EditUser=()=>{
                   fullWidth
                   id="address"
                   label="address"
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                  }}
+                  size="small"
+                  value={userDetails?.address}
                 />
               </div>
               <br />

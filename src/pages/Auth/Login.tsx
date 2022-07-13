@@ -22,7 +22,6 @@ function Login() {
       const requestBody: ILoginRequestBody = {
         email, password
       }
-      
       const response: IResponseInterface<IUserAuthenticationResponse> = await api<IUserAuthenticationResponse>({
         url: "/auth/login",
         method: "POST",
@@ -33,6 +32,7 @@ function Login() {
         if (response.data) {
           const {user, access_token} = response.data;
           login(user, access_token);
+          console.log(user)
         }
       }
     } catch (error: any) {

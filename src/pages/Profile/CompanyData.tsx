@@ -2,33 +2,29 @@ import Profile from '../../components/Profile/Profile'
 import Company from '../../components/Profile/Company'
 import { useEffect, useState } from 'react'
 import api from '../../config/api'
-import Stack from '@mui/material/Stack'
-import { useParams } from 'react-router-dom'
 import { ICompanyInterface } from '../../config/interfaces/ICompany.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 const CompanyData = () => {
-	const [company, setCompany] = useState<ICompanyInterface>()
-	const { id } = useParams()
-	const getCompanyProfile = async () => {
+	const [company, setCompProfile] = useState<ICompanyInterface>()
+	const getMyProfile = async () => {
 		try {
 			const response: IResponseInterface<ICompanyInterface> =
 				await api<ICompanyInterface>({
-					url: `/api/companies/2`,
+					url: `/api/companies/profile`,
 					method: 'GET',
 				})
 
 			if (response.success) {
 				if (response.data) {
-					setCompany(response.data)
-					console.log(response.data)
+					setCompProfile(response.data)
 				}
 			}
 		} catch (error: any) {
 			console.log(error)
 		}
-	}
-	useEffect(() => {
-		getCompanyProfile()
+	}	
+  useEffect(() => {
+		getMyProfile()
 	}, [])
 	return (
 

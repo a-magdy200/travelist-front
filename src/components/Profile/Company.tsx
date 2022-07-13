@@ -1,6 +1,7 @@
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import EditMenu from './EditMenu'
+import AuthContext from "../../contexts/AuthContext";
 import Loader from '../Loader'
 import Typography from '@mui/material/Typography'
 import ProfilePictureChanger from "./ProfilePictureChanger";
@@ -19,7 +20,7 @@ const Company = ({ company }: ICompanyShowProps) => {
 					<Typography variant="h3" component="div" gutterBottom>
 						Profile
 					</Typography>
-					<ProfilePictureChanger />
+					<ProfilePictureChanger profile_picture ={company.user.profile_picture} />
 					<Grid container spacing={2} xs={10} lg={8} mb={3}>
 						<Grid item xs={6}>
 							Name:
@@ -57,15 +58,10 @@ const Company = ({ company }: ICompanyShowProps) => {
 						<Grid item xs={6}>
 							{company.average_rate}
 						</Grid>
-						{/* <Grid item xs={6}>
-					Phone:
-				</Grid>
-				<Grid item xs={6}>
-				
-				</Grid> */}
 					</Grid>
 
-					<EditMenu />
+					<EditMenu company = {company}/>
+					
 				</Stack>
 			) : (
 				<Loader />
