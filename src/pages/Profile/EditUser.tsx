@@ -14,7 +14,8 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import {IUserInterface} from '../../config/interfaces/IUser.interface'
 import { useParams } from "react-router-dom";
 import api from "../../config/api";
-
+import ProfilePictureChanger from "../../components/Profile/ProfilePictureChanger";
+import {IEditUserRequestBodyInterface} from '../../config/interfaces/IEditUserRequestBody.interface';
 const EditUser=()=>{
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +30,7 @@ const EditUser=()=>{
 		try {
 			const response: IResponseInterface<IUserInterface> =
 				await api<IUserInterface>({
-					url: `/api/users/${id}`,
+					url: `/api/users/`,
 					method: 'GET',
 				})
 
@@ -46,39 +47,34 @@ const EditUser=()=>{
 		getUserProfileData()
 	}, [])
   console.log('user details',userDetails)
-	async function sendData(e: React.FormEvent<HTMLFormElement>) {
-		e.preventDefault()
-		const requestBody: IUserInterface = {
-			name,
-			email,
-      password,
-      address,
-      type,
-		}
-       if(!isDisabled)
-	{	try {
-			const response: IResponseInterface<IUserInterface> =
-				await api<IUserInterface>({
-					url: `/api/user/${id}`,
-					method: 'PUT',
-					body: JSON.stringify(requestBody),
-				})
 
-			if (response.success) {
-				if (response.data) {
-					setUser(response.data)
-				//	navigate('/')
-				}
-			}
-		} catch (error: any) {
-			console.log(error)
-		}
-	}
-	else
-	{
-		alert("validation error")
-	}
-	}
+	// async function sendData(e: React.FormEvent<HTMLFormElement>) {
+	// 	e.preventDefault()
+
+  //      if(!isDisabled)
+	// {	try {
+	// 		const response: IResponseInterface<IEditUserRequestBodyInterface> =
+	// 			await api<IEditUserRequestBodyInterface>({
+	// 				url: `/api/user/${id}`,
+	// 				method: 'PUT',
+	// 				// body: JSON.stringify(requestBody),
+	// 			})
+
+	// 		if (response.success) {
+	// 			if (response.data) {
+	// 				setUserDetails(response.data)
+	// 			//	navigate('/')
+	// 			}
+	// 		}
+	// 	} catch (error: any) {
+	// 		console.log(error)
+	// 	}
+	// }
+	// else
+	// {
+	// 	alert("validation error")
+	// }
+	// }
 	const isDisabled = (): boolean => {
   return  name==='' ||email===''||address=='';
 		
@@ -92,7 +88,8 @@ const EditUser=()=>{
     }}>
       <div className="left">
         <Card sx={{ maxWidth: 700 }} style={{ minHeight: "100vh" }}>
-          <form onSubmit={sendData}>
+          {/* <form onSubmit={sendData}> */}
+          <form>
             <CardContent>
               <h2>Edit Basic Info</h2>
               <ProfilePictureChanger />
