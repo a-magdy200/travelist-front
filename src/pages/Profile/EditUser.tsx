@@ -17,8 +17,8 @@ import api from "../../config/api";
 import ProfilePictureChanger from "../../components/Profile/ProfilePictureChanger";
 import {IEditUserRequestBodyInterface} from '../../config/interfaces/IEditUserRequestBody.interface';
 const EditUser=()=>{
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("");
   const [nationalId, setNationalId] = useState("");
@@ -30,13 +30,16 @@ const EditUser=()=>{
 		try {
 			const response: IResponseInterface<IUserInterface> =
 				await api<IUserInterface>({
-					url: `/api/users/`,
+					url: `/api/users/profile`,
 					method: 'GET',
 				})
 
 			if (response.success) {
 				if (response.data) {
-					setUserDetails(response.data)
+          setUserDetails(response.data)
+          setName(response.data.name),
+          setEmail(response.data.email)
+          setAddress(response.data.address)
 				}
 			}
 		} catch (error: any) {
@@ -101,11 +104,10 @@ const EditUser=()=>{
                   fullWidth
                   id="name"
                   label="username"
-                  //value ={userDetails?.name}
-                  value='ede'
+                  value={name}
                   size="small"
                   onChange={(e) => {
-                    setName(e.target.value)
+                    setName(String(e.target.value))
                   }}
                 />
               </div>
