@@ -42,11 +42,11 @@ const Sidebar = () => {
 					icon={<HomeOutlined />}
 					to={'/program/list'}
 				/>
-				{/* <SidebarItem
+				<SidebarItem
 					title={'groups'}
 					icon={<HomeOutlined />}
 					to={'/group/list'}
-				/> */}
+				/>
 			</List>
 		</Drawer>
 	)
