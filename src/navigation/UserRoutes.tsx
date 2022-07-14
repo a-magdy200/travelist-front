@@ -35,7 +35,6 @@ const UserRoutes = () => {
       <Route path="/editUser" element={<EditUser />} />
       <Route path="/edittraveler" element={<EditTraveler />} />
       <Route path="/editcompany" element={<EditCompany />} />
-      <Route path="/editUser/:id" element={<EditUser />} />
       <Route path="/company" element={<CompanyProfile />} />
       <Route path="/program/list" element={<ListPrograms />} />
       <Route path="/program/create" element={<CreateProgram />} />

@@ -7,8 +7,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import {useNavigate} from "react-router-dom";
 import {StyledMenu} from "../styled/header_styled_components";
 import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
+import { IUserShowProps } from '../../config/interfaces/IUserShowProps.interface';
 
-const EditMenu = ({ company }: ICompanyShowProps) => {
+const EditMenu = ({ user }: IUserShowProps) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -46,11 +47,11 @@ const EditMenu = ({ company }: ICompanyShowProps) => {
 				open={open}
 				onClose={handleClose}
 			>
-				<MenuItem onClick={() => navigateToRoute(`/editUser/${company.user.id}`)} disableRipple>
+				<MenuItem onClick={() => navigateToRoute(`/editUser`)} disableRipple>
 					<EditIcon />
 					Edit Account
 				</MenuItem>
-				<MenuItem onClick={() => navigateToRoute(`/editCompany/${company.id}`)} disableRipple>
+				<MenuItem onClick={() => navigateToRoute(`/editCompany`)} disableRipple>
 					<EditIcon />
 					Edit Profile
 				</MenuItem>
