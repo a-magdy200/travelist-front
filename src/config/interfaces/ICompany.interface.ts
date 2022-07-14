@@ -1,3 +1,4 @@
+import { IProgramInterface } from "./IProgram.interface";
 import {IUserInterface} from "./IUser.interface";
 
 export interface ICompanyInterface {
@@ -7,6 +8,7 @@ export interface ICompanyInterface {
     ratings_count:number;
     average_rate?: number
     cover_picture:string;
-    user:IUserInterface
+    user:IUserInterface;
+    programs:IProgramInterface[];
  }
   

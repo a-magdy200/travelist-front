@@ -178,6 +178,7 @@ const ListProgramComponent = () => {
 
 				if (response.success) {
 					alert('deleted successfuly')
+					window.location.reload();
 				}
 			} catch (error: any) {
 				console.log(error)
@@ -258,7 +259,7 @@ const ListProgramComponent = () => {
 									<TableCell align="center">{program.id}</TableCell>
 									<TableCell align="center">{program.name}</TableCell>
 									<TableCell align="center">
-										{program.company?.id}
+										{program.company.user?.name}
 									</TableCell>
 									<TableCell align="center">
 										{program.price}

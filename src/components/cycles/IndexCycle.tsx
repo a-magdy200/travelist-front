@@ -231,12 +231,7 @@ const ListCycleComponent = () => {
 		<div>
 			{cycles ? (
 				<div>
-					<NavLink to={`/cycle/create`}>
-						{' '}
-						<Button className="createButton" variant="contained">
-							Create
-						</Button>
-					</NavLink>
+					
 					<Box className="listPrograms" sx={{ width: '97%' }}>
 						<Paper sx={{ width: '100%', mb: 1 }}>
 							<TablePagination
