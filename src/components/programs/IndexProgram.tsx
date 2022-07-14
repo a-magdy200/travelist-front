@@ -258,7 +258,7 @@ const ListProgramComponent = () => {
 									<TableCell align="center">{program.id}</TableCell>
 									<TableCell align="center">{program.name}</TableCell>
 									<TableCell align="center">
-										{program.company?.id}
+										{program.company.user?.name}
 									</TableCell>
 									<TableCell align="center">
 										{program.price}

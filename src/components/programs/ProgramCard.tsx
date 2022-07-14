@@ -28,8 +28,14 @@ const ProgramCard=({program}:IProgramShowProps)=>{
           <Rating name="read-only" value={program.average_rate} readOnly />           
         </CardContent>
         <CardActions>
-            <Button size="small">Details</Button>
+        <NavLink to={`/program/show/user/${program.id}`}>
+								{' '}
+            <Button size="small">More Details</Button>
+        </NavLink>   
+        <NavLink to={`/program/cycle/list/${program.id}`}>
+								{' '} 
             <Button size="small">Show Cycles</Button>
+            </NavLink>   
 
         </CardActions>
       </Card>

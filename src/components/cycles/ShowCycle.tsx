@@ -63,12 +63,7 @@ const ShowCycleComponent = ({ cycle }: ICycleShowProps) => {
 							</Grid>
 						</Grid>
 					</div>
-					<NavLink to={`/cycle/list`}>
-						{' '}
-						<Button className="createButton" variant="contained">
-							Back
-						</Button>
-					</NavLink>
+				
 				</div>
 			) : (
 				<Loader />

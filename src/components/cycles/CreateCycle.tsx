@@ -83,7 +83,7 @@ let CreateCycleComponent = () => {
 
 				if (response.success) {
 					if (response.data) {
-						navigate('/cycle/list')
+						navigate(`/program/show/${programId}`)
 					}
 				}
 			} catch (error: any) {
