@@ -14,6 +14,7 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import {IUserInterface} from '../../config/interfaces/IUser.interface'
 import { useParams } from "react-router-dom";
 import api from "../../config/api";
+import CustomInputField from '../../components/Form/CustomInputField'
 import ProfilePictureChanger from "../../components/Profile/ProfilePictureChanger";
 import {IEditUserRequestBodyInterface} from '../../config/interfaces/IEditUserRequestBody.interface';
 const EditUser=()=>{
@@ -37,9 +38,10 @@ const EditUser=()=>{
 			if (response.success) {
 				if (response.data) {
           setUserDetails(response.data)
-          setName(response.data.name),
-          setEmail(response.data.email)
-          setAddress(response.data.address)
+          setName(String(response.data.name))
+          setEmail(String(response.data.email))
+          setAddress(String(response.data.address))
+          console.log(setEmail)
 				}
 			}
 		} catch (error: any) {
@@ -49,7 +51,7 @@ const EditUser=()=>{
   useEffect(() => {
 		getUserProfileData()
 	}, [])
-  console.log('user details',userDetails)
+
 
 	// async function sendData(e: React.FormEvent<HTMLFormElement>) {
 	// 	e.preventDefault()
@@ -97,19 +99,15 @@ const EditUser=()=>{
               <h2>Edit Basic Info</h2>
               <ProfilePictureChanger />
               <div>
-                <TextField
-                  className="inputText"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="name"
+              <TextField
+                type="text"
                   label="username"
-                  value={name}
-                  size="small"
-                  onChange={(e) => {
-                    setName(String(e.target.value))
-                  }}
-                />
+                  value={userDetails?.name}
+                  onChange={(newValue) => {
+                    if (newValue) {
+                      setName(String(newValue))
+                    }}}
+                  />
               </div>
               <br />
 

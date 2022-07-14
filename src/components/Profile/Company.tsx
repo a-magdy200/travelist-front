@@ -2,8 +2,12 @@ import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import EditMenu from './EditMenu'
 import Loader from '../Loader'
+import { useState, useEffect } from 'react'
 import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
+import { IUserInterface } from '../../config/interfaces/IUser.interface'
+import { IUserShowProps } from '../../config/interfaces/IUserShowProps.interface'
 const Company = ({ company }: ICompanyShowProps) => {
+	const [user, setUser] = useState<IUserInterface>()
 	return (
 		<div>
 			{company ? (
@@ -34,12 +38,12 @@ const Company = ({ company }: ICompanyShowProps) => {
 							{company.ratings_count}
 						</Grid>
 					</Grid>
-
-					<EditMenu company={company} />
 				</Stack>
 			) : (
-				<Loader />
+				<Loader/>
 			)}
+
+			{user ? <EditMenu user={user} /> : <Loader/>}
 		</div>
 	)
 }
