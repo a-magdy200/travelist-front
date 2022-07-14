@@ -14,9 +14,8 @@ import { IResponseInterface} from '../../config/interfaces/IResponse.interface';
 import {IUserInterface} from '../../config/interfaces/IUser.interface'
 import { useParams } from "react-router-dom";
 import api from "../../config/api";
-import CustomInputField from '../../components/Form/CustomInputField'
 import ProfilePictureChanger from "../../components/Profile/ProfilePictureChanger";
-import {IEditUserRequestBodyInterface} from '../../config/interfaces/IEditUserRequestBody.interface';
+
 const EditUser=()=>{
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>("");
@@ -51,35 +50,33 @@ const EditUser=()=>{
   useEffect(() => {
 		getUserProfileData()
 	}, [])
+  console.log('user details',userDetails)
+	async function sendData(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault()
+	
+       if(!isDisabled)
+	{	try {
+			const response: IResponseInterface<IUserInterface> =
+				await api<IUserInterface>({
+					url: `/api/user/${id}`,
+					method: 'PUT',
+				})
 
-
-	// async function sendData(e: React.FormEvent<HTMLFormElement>) {
-	// 	e.preventDefault()
-
-  //      if(!isDisabled)
-	// {	try {
-	// 		const response: IResponseInterface<IEditUserRequestBodyInterface> =
-	// 			await api<IEditUserRequestBodyInterface>({
-	// 				url: `/api/user/${id}`,
-	// 				method: 'PUT',
-	// 				// body: JSON.stringify(requestBody),
-	// 			})
-
-	// 		if (response.success) {
-	// 			if (response.data) {
-	// 				setUserDetails(response.data)
-	// 			//	navigate('/')
-	// 			}
-	// 		}
-	// 	} catch (error: any) {
-	// 		console.log(error)
-	// 	}
-	// }
-	// else
-	// {
-	// 	alert("validation error")
-	// }
-	// }
+			if (response.success) {
+				if (response.data) {
+					setUserDetails(response.data)
+				//	navigate('/')
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	else
+	{
+		alert("validation error")
+	}
+	}
 	const isDisabled = (): boolean => {
   return  name==='' ||email===''||address=='';
 		

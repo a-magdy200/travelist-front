@@ -24,15 +24,9 @@ const User = ({ user }: IUserShowProps)=> {
 					<Typography variant="h3" component="div" gutterBottom>
 						Profile
 					</Typography>
-				
-					<Grid container spacing={2} xs={10} lg={8} mb={3}>
-					
-					<Grid item xs={6}>
 					<ProfilePictureChanger profile_picture ={user.profile_picture} />
-						</Grid>
-						<Grid item xs={6}>
-						<EditMenu company={company} />
-						</Grid>
+					<Grid container spacing={2} xs={10} lg={8} mb={3}>
+				
 						<Grid item xs={6}>
 							Name:
 						</Grid>

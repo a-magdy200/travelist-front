@@ -21,6 +21,10 @@ import ShowCycle from "../pages/Cycle/show-cycle";
 import EditCycle from "../pages/Cycle/edit-cycle";
 import React from "react";
 import Home from "../pages/Home";
+import ListCompany from "../pages/Company/list-company";
+import CompanyDetails from "../pages/Company/details-company";
+import ShowProgramUser from "../pages/Program/show-program-user";
+import ListProgramCycles from "../pages/Program/list-program-cycles";
 
 const UserRoutes = () => {
   return (
@@ -35,10 +39,15 @@ const UserRoutes = () => {
       <Route path="/editUser" element={<EditUser />} />
       <Route path="/edittraveler" element={<EditTraveler />} />
       <Route path="/editcompany" element={<EditCompany />} />
-      <Route path="/company" element={<CompanyProfile />} />
+      <Route path="/editUser/:id" element={<EditUser />} />
+      <Route path="/company/:id" element={<CompanyProfile />} />
+      <Route path="/company/list" element={< ListCompany />} />
+      <Route path="/company/show/:id" element={< CompanyDetails />} />
       <Route path="/program/list" element={<ListPrograms />} />
+      <Route path="/program/cycle/list/:id" element={<ListProgramCycles />} />
       <Route path="/program/create" element={<CreateProgram />} />
       <Route path="/program/show/:id" element={<ShowProgram />} />
+      <Route path="/program/show/user/:id" element={<ShowProgramUser />} />
       <Route path="/program/edit/:id" element={<EditProgram />} />
       <Route path="/cycle/create/:id" element={<CreateCycle />} />
       <Route path="/cycle/list" element={<ListCycles />} />

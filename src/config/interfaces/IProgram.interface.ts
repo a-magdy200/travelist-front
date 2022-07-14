@@ -1,5 +1,6 @@
 import { ICompanyInterface } from "./ICompany.interface"
 import { ICountryInterface } from "./ICountry.interface"
+import { ICycleInterface } from "./ICycle.interface"
 import { IHotelInterface } from "./IHotel.interface"
 import { ITransportationInterface } from "./ITransportation.interface"
 
@@ -18,5 +19,6 @@ export interface IProgramInterface {
     country:ICountryInterface
     hotels:IHotelInterface[]
     destinations:ICountryInterface[]
+    cycles?:ICycleInterface[]
 
 }
