@@ -32,7 +32,7 @@ const ProgramCard=({program}:IProgramShowProps)=>{
 								{' '}
             <Button size="small">More Details</Button>
         </NavLink>   
-        <NavLink to={`/program/cycle/list/${program.id}`}>
+        <NavLink to={`/program/cycles/list/${program.id}`}>
 								{' '} 
             <Button size="small">Show Cycles</Button>
             </NavLink>   
