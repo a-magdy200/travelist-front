@@ -44,7 +44,7 @@ const UserRoutes = () => {
       <Route path="/company/list" element={< ListCompany />} />
       <Route path="/company/show/:id" element={< CompanyDetails />} />
       <Route path="/program/list" element={<ListPrograms />} />
-      <Route path="/program/cycle/list/:id" element={<ListProgramCycles />} />
+      <Route path="/program/cycles/list/:id" element={<ListProgramCycles />} />
       <Route path="/program/create" element={<CreateProgram />} />
       <Route path="/program/show/:id" element={<ShowProgram />} />
       <Route path="/program/show/user/:id" element={<ShowProgramUser />} />

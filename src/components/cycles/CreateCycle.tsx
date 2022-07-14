@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import { SelectChangeEvent } from '@mui/material/Select'
 import React from 'react'
 import Grid from '@mui/material/Grid'
-import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import CustomInputField from '../Form/CustomInputField'
@@ -136,7 +136,7 @@ let CreateCycleComponent = () => {
 						</Grid>
 						<Grid item xs={4}>
 							<Grid container>
-								<LocalizationProvider dateAdapter={AdapterLuxon}>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
 									<DatePicker
 										label="Departure Date"
 										value={departure_date}
@@ -149,7 +149,7 @@ let CreateCycleComponent = () => {
 									/>
 								</LocalizationProvider>
 
-								<LocalizationProvider dateAdapter={AdapterLuxon}>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
 									<DatePicker
 										label="Arrival Date"
 										value={arrival_date}
@@ -162,7 +162,7 @@ let CreateCycleComponent = () => {
 									/>
 								</LocalizationProvider>
 
-								<LocalizationProvider dateAdapter={AdapterLuxon}>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
 									<DatePicker
 										label="Return Date"
 										value={return_date}
@@ -175,7 +175,7 @@ let CreateCycleComponent = () => {
 									/>
 								</LocalizationProvider>
 
-								<LocalizationProvider dateAdapter={AdapterLuxon}>
+								<LocalizationProvider dateAdapter={AdapterDateFns}>
 									<DatePicker
 										label="Return Arrival Date"
 										value={return_arrival_date}
