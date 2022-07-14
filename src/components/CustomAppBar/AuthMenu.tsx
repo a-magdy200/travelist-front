@@ -32,7 +32,7 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
 		try {
 			const response: IResponseInterface<ICompanyInterface> =
 				await api<ICompanyInterface>({
-					url: `/api/companies/profile`,
+					url: `/api/companies`,
 					method: 'GET',
 				})
 

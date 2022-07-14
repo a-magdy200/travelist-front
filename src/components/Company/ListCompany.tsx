@@ -6,7 +6,7 @@ const ListCompanyComponent=({companies}:ICompanyListProps)=>{
 
 return<div>
     {
-     companies?    
+     companies.length?    
      companies.map((company:ICompanyInterface,index)=>(
         <CompanyCard company={company} key={index}/>
     ))
