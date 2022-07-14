@@ -36,18 +36,18 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
 					method: 'GET',
 				})
 
-	// 		if (response.success) {
-	// 			if (response.data) {
-	// 				setCompProfile(response.data)
-	// 			}
-	// 		}
-	// 	} catch (error: any) {
-	// 		console.log(error)
-	// 	}
-	// }	
-  // useEffect(() => {
-	// 	getMyProfile()
-	// }, [])
+			if (response.success) {
+				if (response.data) {
+					setCompProfile(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}	
+  useEffect(() => {
+		getMyProfile()
+	}, [])
   return (
     <StyledMenu
       anchorEl={anchorEl}
@@ -71,5 +71,6 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
       </MenuItem>
     </StyledMenu>
   )
-}
+  }
+
 export default AuthMenu;
