@@ -178,6 +178,7 @@ const ListProgramComponent = () => {
 
 				if (response.success) {
 					alert('deleted successfuly')
+					window.location.reload();
 				}
 			} catch (error: any) {
 				console.log(error)
