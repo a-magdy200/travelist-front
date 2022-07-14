@@ -35,7 +35,7 @@ const Company = ({ company }: ICompanyShowProps) => {
 						</Grid>
 					</Grid>
 
-					<EditMenu company={company} />
+				
 				</Stack>
 			) : (
 				<Loader />
