@@ -28,13 +28,13 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
     logout();
     navigateTo('/login')
   };
-  // const getMyProfile = async () => {
-	// 	try {
-	// 		const response: IResponseInterface<ICompanyInterface> =
-	// 			await api<ICompanyInterface>({
-	// 				url: `/api/companies/profile`,
-	// 				method: 'GET',
-	// 			})
+  const getMyProfile = async () => {
+		try {
+			const response: IResponseInterface<ICompanyInterface> =
+				await api<ICompanyInterface>({
+					url: `/api/companies`,
+					method: 'GET',
+				})
 
 	// 		if (response.success) {
 	// 			if (response.data) {
