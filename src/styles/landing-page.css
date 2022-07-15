@@ -22,3 +22,25 @@
     position: fixed;
     top:10%;
 }
+.FilterContainer
+{
+    display: flex;
+    justify-content: space-evenly;
+    position: fixed;
+    top:20%;
+    background-color: aliceblue;
+    width: 100%;
+
+}
+.filterTitle
+{
+
+    background-color: blue;
+    width:10%;
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+    padding: auto;
+
+
+}

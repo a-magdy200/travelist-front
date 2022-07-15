@@ -5,6 +5,7 @@ import api from "../../config/api"
 import LandingPageComponent from "../../components/LandingPage"
 import FooterComponent from "../../components/Footer"
 import SearchComponent from "../../components/search.tsx"
+import FilterComponent from "../../components/FilterBar"
 
 const LandingPage = () => {
     const [programs, setPrograms] = useState<IProgramInterface[]>([])
@@ -33,11 +34,14 @@ const LandingPage = () => {
 		programs ? 
         <div>
         <SearchComponent /> 
+        <FilterComponent /> 
         <LandingPageComponent programs={programs} /> 
         <FooterComponent /> 
         </div>
 		:
         <div>
+        <SearchComponent /> 
+        <FilterComponent /> 
 		 <div>not found</div>
          <FooterComponent /> 
         </div> 
