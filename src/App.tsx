@@ -1,5 +1,6 @@
 import React from 'react'
 import './styles/program.css'
+import './styles/landing-page.css'
 import { BrowserRouter} from 'react-router-dom'
 import AppContextProvider from "./providers/AppContextProvider";
 import AuthContextProvider from "./providers/AuthContextProvider";

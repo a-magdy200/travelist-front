@@ -58,3 +58,10 @@
 	margin-left: 40%;
 	color: rgb(27, 27, 245);
 }
+.programsContainer
+{
+	display:flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin-top: 3%;
+}

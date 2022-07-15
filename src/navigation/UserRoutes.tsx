@@ -27,13 +27,13 @@ import ListProgramsPage from '../pages/Program/list_programs'
 import ProgramDetailsPage from '../pages/Program/program_details'
 import ListGroups from '../pages/Group/list_groups'
 import ShowGroup from '../pages/Group/show_group'
+import LandingPage from "../pages/LandingPage";
 import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
-
 const UserRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/create" element={<CreateProgram />} />
       <Route path="/show" element={<Show />} />
       <Route path="/profile" element={<UserBaseData />} />
