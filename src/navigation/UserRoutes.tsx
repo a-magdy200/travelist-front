@@ -23,10 +23,10 @@ import ListCompany from "../pages/Company/list-company";
 import CompanyDetails from "../pages/Company/details-company";
 import ShowProgramUser from "../pages/Program/show-program-user";
 import ListProgramCycles from "../pages/Program/list-program-cycles";
+import ListProgramsPage from '../pages/Program/list_programs'
+import ProgramDetailsPage from '../pages/Program/program_details'
 import ListGroups from '../pages/Group/list_groups'
 import ShowGroup from '../pages/Group/show_group'
-
-
 const UserRoutes = () => {
   return (
     <Routes>
@@ -54,6 +54,8 @@ const UserRoutes = () => {
       <Route path="/cycle/list" element={<ListCycles />} />
       <Route path="/cycle/show/:id" element={<ShowCycle />} />
       <Route path="/cycle/edit/:id" element={<EditCycle />} />
+			<Route path="/program/all" element={<ListProgramsPage />} />
+      <Route path="/program/details/:id" element={<ProgramDetailsPage />} />
       <Route path="/group/list" element={<ListGroups />} />
       <Route path="/group/show/:id" element={<ShowGroup />} />
     </Routes>
