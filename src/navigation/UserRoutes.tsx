@@ -27,6 +27,9 @@ import ListProgramsPage from '../pages/Program/list_programs'
 import ProgramDetailsPage from '../pages/Program/program_details'
 import ListGroups from '../pages/Group/list_groups'
 import ShowGroup from '../pages/Group/show_group'
+import ListHotels from '../pages/Hotel/list_hotels'
+import ShowHotel from '../pages/Hotel/show_hotel'
+
 const UserRoutes = () => {
   return (
     <Routes>
@@ -58,6 +61,8 @@ const UserRoutes = () => {
       <Route path="/program/details/:id" element={<ProgramDetailsPage />} />
       <Route path="/group/list" element={<ListGroups />} />
       <Route path="/group/show/:id" element={<ShowGroup />} />
+      <Route path="/hotel/list" element={<ListHotels />} />
+      <Route path="/hotel/show/:id" element={<ShowHotel />} />
     </Routes>
   )
 }
