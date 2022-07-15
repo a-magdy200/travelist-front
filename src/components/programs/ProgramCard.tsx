@@ -11,12 +11,12 @@ import * as React from 'react';
 const ProgramCard=({program}:IProgramShowProps)=>{
     const [rate, setRate] = React.useState<number>(0);
     return(
-        <Card sx={{ maxWidth: 945 ,m:2}}>
+        <Card sx={{ maxWidth: 945,minWidth:345 ,m:2}}>
         <CardMedia
           component="img"
           height="140"
           image={`http://localhost:4000/${program.cover_picture}`}
-          alt="company Cover"
+          alt="program Cover"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

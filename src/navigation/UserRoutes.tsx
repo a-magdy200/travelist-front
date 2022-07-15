@@ -25,11 +25,12 @@ import ListCompany from "../pages/Company/list-company";
 import CompanyDetails from "../pages/Company/details-company";
 import ShowProgramUser from "../pages/Program/show-program-user";
 import ListProgramCycles from "../pages/Program/list-program-cycles";
+import LandingPage from "../pages/LandingPage";
 
 const UserRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/create" element={<CreateProgram />} />
       <Route path="/show" element={<Show />} />
       <Route path="/profile" element={<UserBaseData />} />
