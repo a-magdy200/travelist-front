@@ -12,7 +12,7 @@ const UserBaseData = () => {
 		try {
 			const response: IResponseInterface<IUserInterface> =
 				await api<IUserInterface>({
-					url: `/api/users/2`,
+					url: `/api/users`,
 					method: 'GET',
 				})
 

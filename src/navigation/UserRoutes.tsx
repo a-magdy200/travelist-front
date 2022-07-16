@@ -27,6 +27,8 @@ import ListProgramsPage from '../pages/Program/list_programs'
 import ProgramDetailsPage from '../pages/Program/program_details'
 import ListGroups from '../pages/Group/list_groups'
 import ShowGroup from '../pages/Group/show_group'
+import ListPosts from '../pages/Post/list_posts'
+import ShowPost from '../pages/Post/show_post'
 import LandingPage from "../pages/LandingPage";
 import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
@@ -43,8 +45,8 @@ const UserRoutes = () => {
       <Route path="/edituser" element={<EditUser />} />
       <Route path="/edittraveler" element={<EditTraveler />} />
       <Route path="/editcompany" element={<EditCompany />} />
-      <Route path="/editUser/:id" element={<EditUser />} />
-      <Route path="/company/:id" element={<CompanyProfile />} />
+      <Route path="/editUser" element={<EditUser />} />
+      <Route path="/company" element={<CompanyProfile />} />
       <Route path="/company/list" element={< ListCompany />} />
       <Route path="/company/show/:id" element={< CompanyDetails />} />
       <Route path="/program/list" element={<ListPrograms />} />
@@ -61,6 +63,8 @@ const UserRoutes = () => {
       <Route path="/program/details/:id" element={<ProgramDetailsPage />} />
       <Route path="/group/list" element={<ListGroups />} />
       <Route path="/group/show/:id" element={<ShowGroup />} />
+      <Route path="/post/list" element={<ListPosts />} />
+      <Route path="/post/show/:id" element={<ShowPost />} />
       <Route path="/hotel/list" element={<ListHotels />} />
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
     </Routes>
