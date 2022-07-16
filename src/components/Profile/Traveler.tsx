@@ -1,9 +1,9 @@
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import EditMenu from './EditMenu'
-import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
+import { ITravelerShowProps } from '../../config/interfaces/ITravelerShowProps.interface'
 
-const Traveler = ()  => {
+const Traveler = ({ traveler }: ITravelerShowProps)   => {
 	return (
 		<Stack
 		direction="column"
@@ -18,25 +18,25 @@ const Traveler = ()  => {
 					Gender:
 				</Grid>
 				<Grid item xs={6}>
-					Female
+					{traveler.gender}
 				</Grid>
 				<Grid item xs={6}>
 					Date of Birth:
 				</Grid>
 				<Grid item xs={6}>
-					24-11-1996
+				{traveler.date_of_birth}
 				</Grid>
 				<Grid item xs={6}>
-					Natioal Id:
+					National Id:
 				</Grid>
 				<Grid item xs={6}>
-					12345678912345
+				{traveler.national_id}
 				</Grid>
 				<Grid item xs={6}>
 					Guide:
 				</Grid>
 				<Grid item xs={6}>
-					No
+				{traveler.is_guide}
 				</Grid>
 			</Grid>
 
