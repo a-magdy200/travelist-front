@@ -40,19 +40,19 @@ const Profile = ({ user }: IUserShowProps) => {
           Email:
         </Grid>
         <Grid item xs={6}>
-          dinaharb46@gmail.com
+        {user.email}
         </Grid>
         <Grid item xs={6}>
           Type:
         </Grid>
         <Grid item xs={6}>
-          Traveler
+        {user.type}
         </Grid>
         <Grid item xs={6}>
           Location:
         </Grid>
         <Grid item xs={6}>
-          Alexandria
+        {user.address}
         </Grid>
 
       </Grid>

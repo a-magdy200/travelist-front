@@ -43,8 +43,8 @@ const UserRoutes = () => {
       <Route path="/edituser" element={<EditUser />} />
       <Route path="/edittraveler" element={<EditTraveler />} />
       <Route path="/editcompany" element={<EditCompany />} />
-      <Route path="/editUser/:id" element={<EditUser />} />
-      <Route path="/company/:id" element={<CompanyProfile />} />
+      <Route path="/editUser" element={<EditUser />} />
+      <Route path="/company" element={<CompanyProfile />} />
       <Route path="/company/list" element={< ListCompany />} />
       <Route path="/company/show/:id" element={< CompanyDetails />} />
       <Route path="/program/list" element={<ListPrograms />} />
