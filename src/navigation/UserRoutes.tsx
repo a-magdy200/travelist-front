@@ -1,16 +1,13 @@
-import {Route, Routes} from "react-router-dom";
-import ListPrograms from "../pages/Program/index";
-import CreateProgram from "../pages/Program/CreateProgram";
-import Show from "../pages/Program/show";
-import Profile from "../components/Profile/Profile";
-import Traveler from "../components/Profile/Traveler";
-import TravelerProfile from "../pages/Profile/TravelerProfile";
-import EditPassword from "../pages/Profile/EditPassword";
-import EditUser from "../pages/Profile/EditUser";
-import EditTraveler from "../pages/Profile/EditTraveler";
-import EditCompany from "../pages/Profile/EditCompany";
-
-
+import { Route, Routes } from 'react-router-dom'
+import ListPrograms from '../pages/Program/index'
+import CreateProgram from '../pages/Program/CreateProgram'
+import Show from '../pages/Program/show'
+import Profile from '../components/Profile/Profile'
+import TravelerProfile from '../pages/Profile/TravelerProfile'
+import EditPassword from '../pages/Profile/EditPassword'
+import EditUser from '../pages/Profile/EditUser'
+import EditTraveler from '../pages/Profile/EditTraveler'
+import EditCompany from '../pages/Profile/EditCompany'
 import CompanyProfile from "../pages/Profile/CompanyProfile";
 import UserBaseData from "../pages/Profile/UserBaseData";
 import ShowProgram from "../pages/Program/show";
@@ -25,22 +22,28 @@ import ListCompany from "../pages/Company/list-company";
 import CompanyDetails from "../pages/Company/details-company";
 import ShowProgramUser from "../pages/Program/show-program-user";
 import ListProgramCycles from "../pages/Program/list-program-cycles";
-
+import ListProgramsPage from '../pages/Program/list_programs'
+import ProgramDetailsPage from '../pages/Program/program_details'
+import ListGroups from '../pages/Group/list_groups'
+import ShowGroup from '../pages/Group/show_group'
+import LandingPage from "../pages/LandingPage";
+import ListHotels from '../pages/Hotel/list_hotels'
+import ShowHotel from '../pages/Hotel/show_hotel'
 const UserRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<LandingPage />} />
       <Route path="/create" element={<CreateProgram />} />
       <Route path="/show" element={<Show />} />
-      <Route path="/profile" element={<UserBaseData />} />
-      <Route path="/traveler" element={<Traveler />} />
-      <Route path="/travelerprofile" element={<TravelerProfile />} />
+     <Route path="/profile" element={<UserBaseData />} />
+     {/* <Route path="/user" element={<Profile />} /> */}
+      <Route path="/traveler" element={<TravelerProfile />} />
       <Route path="/editpassword" element={<EditPassword />} />
       <Route path="/edituser" element={<EditUser />} />
       <Route path="/edittraveler" element={<EditTraveler />} />
       <Route path="/editcompany" element={<EditCompany />} />
-      <Route path="/editUser/:id" element={<EditUser />} />
-      <Route path="/company/:id" element={<CompanyProfile />} />
+      <Route path="/editUser" element={<EditUser />} />
+      <Route path="/company" element={<CompanyProfile />} />
       <Route path="/company/list" element={< ListCompany />} />
       <Route path="/company/show/:id" element={< CompanyDetails />} />
       <Route path="/program/list" element={<ListPrograms />} />
@@ -53,7 +56,13 @@ const UserRoutes = () => {
       <Route path="/cycle/list" element={<ListCycles />} />
       <Route path="/cycle/show/:id" element={<ShowCycle />} />
       <Route path="/cycle/edit/:id" element={<EditCycle />} />
+			<Route path="/program/all" element={<ListProgramsPage />} />
+      <Route path="/program/details/:id" element={<ProgramDetailsPage />} />
+      <Route path="/group/list" element={<ListGroups />} />
+      <Route path="/group/show/:id" element={<ShowGroup />} />
+      <Route path="/hotel/list" element={<ListHotels />} />
+      <Route path="/hotel/show/:id" element={<ShowHotel />} />
     </Routes>
   )
 }
-export default UserRoutes;
+export default UserRoutes
