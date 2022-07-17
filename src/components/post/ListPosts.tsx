@@ -9,6 +9,9 @@ import { IPostInterface } from '../../config/interfaces/IPost.interface'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
 
 const ListPostsComponent = ({ post }: IPostShowProps) => {
+	const traveler = post.traveler
+	const user = traveler.user
+	console.log('post',post)
 	return (
 		<div>
 			{post ? (
@@ -16,8 +19,6 @@ const ListPostsComponent = ({ post }: IPostShowProps) => {
 					<Card >
 
 						<CardContent className="bottom" >
-
-							<h2 className="header">{post.status}</h2>
 
 							<Grid
 							container
@@ -27,13 +28,13 @@ const ListPostsComponent = ({ post }: IPostShowProps) => {
 							lg={8}
 							mb={3}
 							>
-								<Grid item xs={6}>
-									Content : {post.content}
+									<Grid item xs={12}>
+									post creator : {post.traveler.user.name}
 								</Grid>
-
-								<Grid item xs={6}>
-									post creator : {post.travelerId}
-								</Grid>
+								{/* <Grid item xs={12}>
+									status : {post.status}
+								</Grid> */}
+								<h2 className="header">{post.content}</h2>
 							</Grid>
 
 						</CardContent>
