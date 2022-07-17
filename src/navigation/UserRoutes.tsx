@@ -29,6 +29,8 @@ import ShowGroup from '../pages/Group/show_group'
 import LandingPage from "../pages/LandingPage";
 import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
+import ListPosts from '../pages/Post/list_posts'
+import ShowPost from '../pages/Post/show_post'
 const UserRoutes = () => {
   return (
     <Routes>
@@ -36,7 +38,6 @@ const UserRoutes = () => {
       <Route path="/create" element={<CreateProgram />} />
       <Route path="/show" element={<Show />} />
      <Route path="/profile" element={<UserBaseData />} />
-     {/* <Route path="/user" element={<Profile />} /> */}
       <Route path="/traveler" element={<TravelerProfile />} />
       <Route path="/editpassword" element={<EditPassword />} />
       <Route path="/edituser" element={<EditUser />} />
@@ -46,6 +47,8 @@ const UserRoutes = () => {
       <Route path="/company" element={<CompanyProfile />} />
       <Route path="/company/list" element={< ListCompany />} />
       <Route path="/company/show/:id" element={< CompanyDetails />} />
+      <Route path="/posts" element={<ListPosts />} />
+      <Route path="/post/show/:id" element={<ShowPost />} />
       <Route path="/program/list" element={<ListPrograms />} />
       <Route path="/program/cycles/list/:id" element={<ListProgramCycles />} />
       <Route path="/program/create" element={<CreateProgram />} />

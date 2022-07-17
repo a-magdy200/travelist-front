@@ -7,7 +7,6 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { IUserInterface } from '../../config/interfaces/IUser.interface'
 const UserBaseData = () => {
 	const [user, setUser] = useState<IUserInterface>()
-	const { id } = useParams()
 	const getUserProfile = async () => {
 		try {
 			const response: IResponseInterface<IUserInterface> =
