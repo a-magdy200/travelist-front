@@ -30,6 +30,7 @@ import ShowGroup from '../pages/Group/show_group'
 import LandingPage from "../pages/LandingPage";
 import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
+import ListFriends from '../pages/Friend/list_friends'
 const UserRoutes = () => {
   return (
     <Routes>
@@ -43,6 +44,7 @@ const UserRoutes = () => {
       <Route path="/edituser" element={<EditUser />} />
       <Route path="/edittraveler" element={<EditTraveler />} />
       <Route path="/editcompany" element={<EditCompany />} />
+      <Route path="/friends" element={<ListFriends/>} />
       <Route path="/editUser/:id" element={<EditUser />} />
       <Route path="/company/:id" element={<CompanyProfile />} />
       <Route path="/company/list" element={< ListCompany />} />
