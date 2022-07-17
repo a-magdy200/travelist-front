@@ -32,7 +32,7 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
 		try {
 			const response: IResponseInterface<ICompanyInterface> =
 				await api<ICompanyInterface>({
-					url: `/api/companies`,
+					url: `/api/users`,
 					method: 'GET',
 				})
 
@@ -55,12 +55,12 @@ const AuthMenu = ({anchorEl, handleClose}: IMenuProps) => {
       onClose={handleClose}
     >
     
-      <MenuItem onClick={() => navigate(`/company/${compProfile?.id}`)}>
+      <MenuItem onClick={() => navigate(`/company`)}>
       <UserIcon />
       My Profile
     </MenuItem>
 
-      <MenuItem onClick={() => navigateTo(`/profile/edit/${compProfile?.id}`)}>
+      <MenuItem onClick={() => navigateTo(`/editUser`)}>
         <EditIcon />
         Edit Profile
       </MenuItem>

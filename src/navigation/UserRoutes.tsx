@@ -3,7 +3,6 @@ import ListPrograms from '../pages/Program/index'
 import CreateProgram from '../pages/Program/CreateProgram'
 import Show from '../pages/Program/show'
 import Profile from '../components/Profile/Profile'
-import Traveler from '../components/Profile/Traveler'
 import TravelerProfile from '../pages/Profile/TravelerProfile'
 import EditPassword from '../pages/Profile/EditPassword'
 import EditUser from '../pages/Profile/EditUser'
@@ -36,15 +35,15 @@ const UserRoutes = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/create" element={<CreateProgram />} />
       <Route path="/show" element={<Show />} />
-      <Route path="/profile" element={<UserBaseData />} />
-      <Route path="/traveler" element={<Traveler />} />
-      <Route path="/travelerprofile" element={<TravelerProfile />} />
+     <Route path="/profile" element={<UserBaseData />} />
+     {/* <Route path="/user" element={<Profile />} /> */}
+      <Route path="/traveler" element={<TravelerProfile />} />
       <Route path="/editpassword" element={<EditPassword />} />
       <Route path="/edituser" element={<EditUser />} />
       <Route path="/edittraveler" element={<EditTraveler />} />
       <Route path="/editcompany" element={<EditCompany />} />
-      <Route path="/editUser/:id" element={<EditUser />} />
-      <Route path="/company/:id" element={<CompanyProfile />} />
+      <Route path="/editUser" element={<EditUser />} />
+      <Route path="/company" element={<CompanyProfile />} />
       <Route path="/company/list" element={< ListCompany />} />
       <Route path="/company/show/:id" element={< CompanyDetails />} />
       <Route path="/program/list" element={<ListPrograms />} />
