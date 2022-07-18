@@ -1,10 +1,15 @@
 import { GenderType } from "../types/gender.type"
 import { IUserInterface } from "./IUser.interface"
-
-export interface ITravelerInterface {
-	national_id: string
+export interface  ITravelerInterface
+{
+    national_id: string
 	gender: GenderType
 	date_of_birth: string
 	is_guide: boolean
-	user:IUserInterface
+    total_rate:number
+    ratings_count:number
+    average_rate:number
+    userId:number
+    user:IUserInterface
+    
 }
