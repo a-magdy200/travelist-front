@@ -8,16 +8,13 @@ import config from '../../config/app_config/config'
 import ListPosts from '../../pages/post/list_posts'
 const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 	const photoPath = group
-		? `${config.apiUrl}` + '/uploads/programs/' + `${group.cover_picture}`
+		? `${config.apiUrl}` + '/uploads/' + `${group.cover_picture}`
 		: ''
 
 	return (
 		<div>
 			{group ? (
 				<div>
-					<div>
-						<h1>Group Details</h1>
-					</div>
 					<Grid container spacing={2} xs={6} lg={16} mb={3}>
 						<Grid item xs={6}>
 							<NavLink to={`/group/list`}>

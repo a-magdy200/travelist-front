@@ -18,7 +18,6 @@ const Profile = ({ user }: IUserShowProps) => {
 					direction="column"
 					spacing={2}
 					display="flex"
-					// justifyContent="center"
 					alignItems="center"
 				>
 					<Typography variant="h3" component="div" gutterBottom>

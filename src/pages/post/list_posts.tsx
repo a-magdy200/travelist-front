@@ -1,4 +1,3 @@
-import { GroupsOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import ListPostsComponent from '../../components/post/ListPosts'
 import api from '../../config/api'
