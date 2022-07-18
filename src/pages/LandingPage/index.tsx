@@ -33,8 +33,10 @@ const LandingPage = () => {
 		{
 		programs ? 
         <div>
+			<div >
         <SearchComponent /> 
         <FilterComponent /> 
+		   </div>
         <LandingPageComponent programs={programs} /> 
         <FooterComponent /> 
         </div>
