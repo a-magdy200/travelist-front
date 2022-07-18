@@ -4,12 +4,7 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import TextField from '@mui/material/TextField/TextField'
 import Button from '@mui/material/Button'
-import Radio from '@mui/material/Radio'
-import FormControl from '@mui/material/FormControl'
-import FormLabel from '@mui/material/FormLabel'
-import RadioGroup from '@mui/material/RadioGroup/RadioGroup'
-import FormControlLabel from '@mui/material/FormControlLabel/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
+import { useNavigate } from 'react-router-dom'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { IUserRequestBodyInterface } from '../../config/interfaces/IUserRequestBody.interface'
 import { useParams } from 'react-router-dom'
@@ -26,6 +21,7 @@ const EditUser = () => {
 	const [nationalId, setNationalId] = useState('')
 	const [isGuide, setIsGuide] = useState(false)
 	const [dateOfBirth, setDateOfBirth] = useState('')
+	const navigate = useNavigate()
 	const [userDetails, setUserDetails] = useState<IUserRequestBodyInterface>()
 	const { id } = useParams()
 	const getUserProfileData = async () => {
@@ -50,38 +46,33 @@ const EditUser = () => {
 	}
 	useEffect(() => {
 		getUserProfileData()
-		if (userDetails) {
-		}
 	}, [])
-	console.log('user details', userDetails)
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-    const requestBody ={
-      name,
-      email,
-      address
-    }
-    console.log(requestBody)
+		const requestBody = {
+			name,
+			email,
+			address,
+		}
+		console.log(requestBody)
 
-			try {
-				const response: IResponseInterface<IUserRequestBodyInterface> =
-					await api<IUserRequestBodyInterface>({
-						url: `/api/users/`,
-						method: 'PUT',
-            body: JSON.stringify(requestBody),
+		try {
+			const response: IResponseInterface<IUserRequestBodyInterface> =
+				await api<IUserRequestBodyInterface>({
+					url: `/api/users/`,
+					method: 'PUT',
+					body: JSON.stringify(requestBody),
+				})
 
-					})
-
-				if (response.success) {
-					if (response.data) {
-						setUserDetails(response.data)
-						//	navigate('/')
-					}
+			if (response.success) {
+				if (response.data) {
+					setUserDetails(response.data)
+					navigate('/profile')
 				}
-			} catch (error: any) {
-				console.log(error)
 			}
-
+		} catch (error: any) {
+			console.log(error)
+		}
 	}
 	return (
 		<div

@@ -5,7 +5,6 @@ import Grid from '@mui/material/Grid'
 import moment from 'moment'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
 const ShowPostComponent = ({ post }: IPostShowProps) => {
-	console.log('new post', post)
 	return (
 		<div>
 			{post ? (

@@ -16,8 +16,6 @@ import CreateCycle from "../pages/Cycle/create-cycle";
 import ListCycles from "../pages/Cycle/index-cycle";
 import ShowCycle from "../pages/Cycle/show-cycle";
 import EditCycle from "../pages/Cycle/edit-cycle";
-import React from "react";
-import Home from "../pages/Home";
 import ListCompany from "../pages/Company/list-company";
 import CompanyDetails from "../pages/Company/details-company";
 import ShowProgramUser from "../pages/Program/show-program-user";
@@ -31,6 +29,8 @@ import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
 import ListPosts from '../pages/post/list_posts'
 import ShowPost from '../pages/post/show_post'
+import EditPost from '../pages/post/EditPost'
+import CreatePost from '../pages/post/create_post'
 
 const UserRoutes = () => {
   return (
@@ -50,6 +50,8 @@ const UserRoutes = () => {
       <Route path="/company/show/:id" element={< CompanyDetails />} />
       <Route path="/posts" element={<ListPosts />} />
       <Route path="/post/show/:id" element={<ShowPost />} />
+      <Route path="/post/edit/:id" element={<EditPost />} />
+      <Route path="/post/create" element={<CreatePost />} />
       <Route path="/program/list" element={<ListPrograms />} />
       <Route path="/program/cycles/list/:id" element={<ListProgramCycles />} />
       <Route path="/program/create" element={<CreateProgram />} />
