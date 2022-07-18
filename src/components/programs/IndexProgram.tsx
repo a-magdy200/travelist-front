@@ -157,6 +157,7 @@ const ListProgramComponent = () => {
 			if (response.success) {
 				if (response.data) {
 					setPrograms(response.data)
+					console.log(response.data)
 				}
 			}
 		} catch (error: any) {
@@ -259,7 +260,7 @@ const ListProgramComponent = () => {
 									<TableCell align="center">{program.id}</TableCell>
 									<TableCell align="center">{program.name}</TableCell>
 									<TableCell align="center">
-										{program.company.user?.name}
+										{program.company?.user?.name}
 									</TableCell>
 									<TableCell align="center">
 										{program.price}

@@ -12,4 +12,9 @@ export interface IHotelInterface {
 	cover_picture?: string
 	reviews?: IHotelReview[]
 	country?: ICountryInterface
+	countryId?:number
+	countryName?: string;
+	programsCount?: number;
+
+
 }
