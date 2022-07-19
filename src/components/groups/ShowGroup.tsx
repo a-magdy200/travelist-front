@@ -1,22 +1,24 @@
 import Loader from '../Loader'
-import { NavLink ,Link} from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import { IGroupShowProps } from '../../config/interfaces/IGroupShowProps.interface'
-import Avatar from '@mui/material/Avatar'
 import config from '../../config/app_config/config'
 import ListPosts from '../../pages/post/list_posts'
 import { useContext } from 'react'
 import { useState } from 'react'
 import { IUserInterface } from '../../config/interfaces/IUser.interface'
 import AuthContext from '../../contexts/AuthContext'
-const ShowGroupComponent = ({ group }:IGroupShowProps) => {
 
- console.log('group',group)
+import Typography from '@mui/material/Typography'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent/CardContent'
+import CardMedia from '@mui/material/CardMedia'
 
+const ShowGroupComponent = ({ group }: IGroupShowProps) => {
+	console.log('group', group)
 
-    const photoPath = group
-	
+	const photoPath = group
 		? `${config.apiUrl}/uploads/${group.cover_picture}`
 		: ''
 
@@ -24,7 +26,46 @@ const ShowGroupComponent = ({ group }:IGroupShowProps) => {
 		<div>
 			{group ? (
 				<div>
-					<Grid container spacing={2} xs={6} lg={16} mb={3}>
+					<div>
+						<h1>Group Details</h1>
+					</div>
+					<Card sx={{ maxWidth: 945, minWidth: 345, mx: 10, my: 2 }}>
+						<CardMedia
+							component="img"
+							height="140"
+							image={photoPath}
+							alt="program Cover"
+						/>
+						<CardContent className="bottom">
+							<Typography gutterBottom variant="h6" component="div">
+								Country : {group.country.name}
+							</Typography>
+
+							<Typography gutterBottom variant="h6" component="div">
+								Followers Count : {group.followers_count}
+							</Typography>
+
+							{/* <Grid>
+							{group.followers?.map((follower, index) => (
+								<Grid item xs={6} key={index}>
+									Follower: {follower.name}
+								</Grid>
+							))}
+							</Grid> */}
+						</CardContent>
+					</Card>
+
+					<ListPosts />
+
+					<Grid container spacing={2} xs={6} lg={16} mb={3} mx={25}>
+						<Grid item xs={6}>
+							<Link to="/post/create" state={{ id: group.id }}>
+								<Button className="createButton" variant="contained">
+									Create post
+								</Button>
+							</Link>
+							<div></div>
+						</Grid>
 						<Grid item xs={6}>
 							<NavLink to={`/group/list`}>
 								{' '}
@@ -33,53 +74,13 @@ const ShowGroupComponent = ({ group }:IGroupShowProps) => {
 								</Button>
 							</NavLink>
 						</Grid>
-						 {/* if id of user not in followers array */}
+						{/* if id of user not in followers array */}
 						{/* const existedUser = group.followers?.find((obj) => {
 			            return obj.id === userId
 		               }) */}
 						{/* {LoggedInUser.user == 'company' ? (console.log('hi'))
 						:(console.log('hi'))} */}
-						<Grid item xs={6}>
-							<Link to='/post/create' state={{ id: group.id }}>
-							<Button className="createButton" variant="contained">
-									Create post
-								</Button>
-							</Link>
-							<div></div>
-						</Grid>
 					</Grid>
-					<h2 className="header">{group.country.name}</h2>
-					<div>
-						<Avatar
-							className="header"
-							alt=""
-							src={photoPath}
-							sx={{ width: 112, height: 112 }}
-						/>
-
-						<Grid
-							container
-							direction="column"
-							spacing={2}
-							xs={10}
-							lg={8}
-							mb={3}
-						>
-							<Grid item xs={6}>
-								Country : {group.country.name}
-							</Grid>
-
-							<Grid item xs={6}>
-								Followers Count : {group.followers_count}
-							</Grid>
-							{group.followers?.map((follower, index) => (
-								<Grid item xs={6} key={index}>
-									Follower: {follower.name}
-								</Grid>
-							))}
-							<ListPosts />
-						</Grid>
-					</div>
 				</div>
 			) : (
 				<Loader />

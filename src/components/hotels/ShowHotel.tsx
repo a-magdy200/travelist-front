@@ -32,7 +32,7 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 								alt="program Cover"
 							/>
 
-							<CardContent>
+							<CardContent className="bottom">
 								<Typography gutterBottom variant="h6" component="div">
 									Hotel located in Country : {hotel.country?.name}
 								</Typography>
