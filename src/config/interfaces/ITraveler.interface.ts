@@ -1,6 +1,5 @@
 import { GenderType } from "../types/gender.type"
 import { IUserInterface } from "./IUser.interface"
-
 export interface  ITravelerInterface
 {
     national_id: string

@@ -197,8 +197,6 @@ const CreateProgramComponent = () => {
 					method: 'POST',
 					body: formData,
 				})
-			console.log(response)
-
 			navigate('/program/list')
 		} else {
 			alert('error in validation')
