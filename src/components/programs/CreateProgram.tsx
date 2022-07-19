@@ -29,12 +29,16 @@ const CreateProgramComponent = () => {
 	const [is_Recurring, setis_Recurring] = useState(true)
 	const [countryId, setCountryId] = useState<string>('')
 	const [hotels, setHotels] = React.useState<IHotelInterface[]>([])
-	const [filteredHotels, setFilteredHotels] = React.useState<IHotelInterface[]>([])
-	const [countries, setCountries] = React.useState<ICountryInterface []>([])
+	const [filteredHotels, setFilteredHotels] = React.useState<IHotelInterface[]>(
+		[]
+	)
+	const [countries, setCountries] = React.useState<ICountryInterface[]>([])
 	const [selectedHotels, setSelectedHotels] = React.useState<number[]>([])
 	const [destination, setDestination] = useState<number[]>([])
 	const [transportationId, setTransportationId] = useState<string>('')
-	const [transportations, setTransportations] = useState<ITransportationInterface[]>([])
+	const [transportations, setTransportations] = useState<
+		ITransportationInterface[]
+	>([])
 	const [cover_picture, setCoverPicture] = useState<File>()
 	const navigate = useNavigate()
 	const getHotels = async () => {
@@ -54,7 +58,7 @@ const CreateProgramComponent = () => {
 			console.log(error)
 		}
 	}
-	const getCountries= async () => {
+	const getCountries = async () => {
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
 				IHotelInterface[]
@@ -71,13 +75,12 @@ const CreateProgramComponent = () => {
 			console.log(error)
 		}
 	}
-	const getTransportations= async () => {
+	const getTransportations = async () => {
 		try {
-			const response: IResponseInterface<ITransportationInterface[]> = await api<
-			ITransportationInterface[]
-			>({
-				url: '/api/admin/transportations',
-			})
+			const response: IResponseInterface<ITransportationInterface[]> =
+				await api<ITransportationInterface[]>({
+					url: '/api/admin/transportations',
+				})
 
 			if (response.success) {
 				if (response.data) {
@@ -91,11 +94,9 @@ const CreateProgramComponent = () => {
 	useEffect(() => {
 		getHotels()
 		getCountries()
-	    getTransportations()
-
+		getTransportations()
 	}, [])
 
-	
 	/// styling
 	const theme2 = useTheme()
 
@@ -142,11 +143,12 @@ const CreateProgramComponent = () => {
 	const changeDestination = (e: SelectChangeEvent<number[]>) => {
 		const newDestinations = e.target.value as number[]
 		setDestination(newDestinations)
-		setFilteredHotels(hotels.filter((hotelItem) => newDestinations.indexOf(hotelItem?.countryId || 0) !== -1))
-
+		setFilteredHotels(
+			hotels.filter(
+				(hotelItem) => newDestinations.indexOf(hotelItem?.countryId || 0) !== -1
+			)
+		)
 	}
-
-	console.log(destination, filteredHotels)
 
 	const isDisabled = (): boolean => {
 		console.log(
@@ -155,7 +157,7 @@ const CreateProgramComponent = () => {
 			price,
 			hotels.length,
 			destination.length,
-			countryId,
+			countryId
 		)
 		return (
 			name === '' ||
@@ -182,7 +184,7 @@ const CreateProgramComponent = () => {
 		formData.append('countryId', countryId)
 		for (let item of selectedHotels) {
 			formData.append('hotels', item.toString())
-			console.log("items",item)
+			console.log('items', item)
 		}
 		for (let item of destination) {
 			formData.append('destinations', item.toString())
@@ -249,7 +251,7 @@ const CreateProgramComponent = () => {
 								/>
 								<br />
 							</Grid>
-							
+
 							<Grid item xs={8}>
 								<Box sx={{ minWidth: 120 }}>
 									<FormControl sx={{ m: 1, width: 300 }}>
@@ -260,15 +262,14 @@ const CreateProgramComponent = () => {
 											labelId="demo-simple-select-label"
 											id="demo-simple-select"
 											value={countryId?.toString()}
-											label="Arrival Location"
+											label="Departure Location"
 											onChange={changeDepartureCountry}
 										>
 											{countries.map((destinationItem) => (
-
-											<MenuItem value={destinationItem.id}>{destinationItem.name}</MenuItem>
-
-												))}
-											
+												<MenuItem value={destinationItem.id}>
+													{destinationItem.name}
+												</MenuItem>
+											))}
 										</Select>
 									</FormControl>
 								</Box>
@@ -293,7 +294,12 @@ const CreateProgramComponent = () => {
 													const destination = countries.find(
 														(item) => item.id === destinationId
 													)
-													return <Chip key={destinationId} label={destination?.name} />
+													return (
+														<Chip
+															key={destinationId}
+															label={destination?.name}
+														/>
+													)
 												})}
 											</Box>
 										)}
@@ -305,10 +311,8 @@ const CreateProgramComponent = () => {
 											</MenuItem>
 										))}
 									</Select>
-									
 								</FormControl>
 								<br />
-								
 							</Grid>
 							<Grid item xs={8}>
 								<FormControl sx={{ m: 1, width: 300 }}>
@@ -357,11 +361,10 @@ const CreateProgramComponent = () => {
 											onChange={changeTransportation}
 										>
 											{transportations.map((transportationItem) => (
-
-											<MenuItem value={transportationItem.id}>{transportationItem.name}</MenuItem>
-
-												))}
-											
+												<MenuItem value={transportationItem.id}>
+													{transportationItem.name}
+												</MenuItem>
+											))}
 										</Select>
 									</FormControl>
 								</Box>

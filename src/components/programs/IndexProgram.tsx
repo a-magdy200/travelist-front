@@ -157,7 +157,6 @@ const ListProgramComponent = () => {
 			if (response.success) {
 				if (response.data) {
 					setPrograms(response.data)
-					console.log(response.data)
 				}
 			}
 		} catch (error: any) {
