@@ -35,12 +35,12 @@ const ListCountriesReviewsComponent = ({ countryReview }: ICountryReviewShowProp
 						</CardContent>
 
 						<CardActions className="bottom">
-							<NavLink to={`/hotelReview/show/${countryReview.country.id}`}>
+							{/* <NavLink to={`/countryReview/show/${countryReview.country.id}`}>
 								{' '}
 								<Button className="createButton" variant="contained">
 									Show Country Reviews
 								</Button>
-							</NavLink>
+							</NavLink> */}
 						</CardActions>
 					</Card>
 					<div>

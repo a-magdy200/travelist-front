@@ -39,6 +39,7 @@ import ListHotelsReviews from '../pages/HotelReviews/list_hotels_reviews'
 import ListCountriesReviews from '../pages/CountryReviews/list_hotels_reviews'
 import ListCompaniesReviews from '../pages/CompanyReviews/list_companies_reviews'
 import ListGuidesReviews from '../pages/GuideReviews/list_guides_reviews'
+import ListCyclesReviews from '../pages/CycleReviews/list_cycles_reviews'
 
 
 const UserRoutes = () => {
@@ -86,7 +87,8 @@ const UserRoutes = () => {
       <Route path="/countryReview/list" element={<ListCountriesReviews />} />
       <Route path="/companyReview/list" element={<ListCompaniesReviews />} />
       <Route path="/guideReview/list" element={<ListGuidesReviews />} />
-      
+      <Route path="/cycleReview/list" element={<ListCyclesReviews />} />
+
 
     </Routes>
   )

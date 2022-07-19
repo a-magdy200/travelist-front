@@ -35,10 +35,10 @@ const ListGuidesReviewsComponent = ({ guideReview }: IGuideReviewShowProps) => {
 						</CardContent>
 
 						<CardActions className="bottom">
-							{/* <NavLink to={`/hotelReview/show/${guideReview.traveler.user.id}`}>
+							{/* <NavLink to={`/guideReview/show/${guideReview.traveler.user.id}`}>
 								{' '}
 								<Button className="createButton" variant="contained">
-									Show Country Reviews
+									Show Guide Reviews
 								</Button>
 							</NavLink> */}
 						</CardActions>

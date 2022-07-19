@@ -5,16 +5,16 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent/CardContent'
 import CardActions from '@mui/material/CardActions/CardActions'
 import { NavLink } from 'react-router-dom'
-import { IHotelReviewShowProps } from '../../config/interfaces/IHotelReviewShowProps.interface'
+import { ICycleReviewShowProps } from '../../config/interfaces/ICycleReviewShowProps.interface'
 
-const ListHotelsReviewsComponent = ({ hotelReview }: IHotelReviewShowProps) => {
+const ListCyclesReviewsComponent = ({ cycleReview }: ICycleReviewShowProps) => {
 	return (
 		<div>
-			{hotelReview ? (
+			{cycleReview ? (
 				<div>
 					<Card>
 						<CardContent className="bottom">
-							<h2 className="header">{hotelReview.hotel.name}</h2>
+							{/* <h2 className="header">{companyReview.company.user.name}</h2> */}
 
 							<Grid
 								container
@@ -25,20 +25,20 @@ const ListHotelsReviewsComponent = ({ hotelReview }: IHotelReviewShowProps) => {
 								mb={3}
 							>
 								<Grid item xs={6}>
-									Hotel Review : {hotelReview.review}
+									Hotel Review : {cycleReview.review}
 								</Grid>
 
 								<Grid item xs={6}>
-									Review Rating : {hotelReview.rating}
+									Review Rating : {cycleReview.rating}
 								</Grid>
 							</Grid>
 						</CardContent>
 
 						<CardActions className="bottom">
-							{/* <NavLink to={`/hotelReview/show/${hotelReview.hotel.id}`}>
+							{/* <NavLink to={`/cycleReview/show/${cycleReview.cycle.id}`}>
 								{' '}
 								<Button className="createButton" variant="contained">
-									Show Hotel Reviews
+									Show Cycle Reviews
 								</Button>
 							</NavLink> */}
 						</CardActions>
@@ -53,4 +53,4 @@ const ListHotelsReviewsComponent = ({ hotelReview }: IHotelReviewShowProps) => {
 		</div>
 	)
 }
-export default ListHotelsReviewsComponent
+export default ListCyclesReviewsComponent
