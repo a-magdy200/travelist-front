@@ -5,6 +5,8 @@ import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import config from '../../config/app_config/config'
 import { IHotelShowProps } from '../../config/interfaces/IHotelShowProps.interface'
+import ShowHotelReviews from '../../pages/HotelReviews/show_hotel_reviews'
+import CreateHotelReviews from '../../pages/HotelReviews/create_hotel_review'
 
 const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 	const photoPath = hotel
@@ -53,16 +55,19 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 								Hotel Average Rating : {hotel.average_rate}
 							</Grid>
 
-							<Grid item xs={6}>
+							{/* <Grid item xs={6}>
 								{hotel.reviews?.map((review, index) => (
 									<div>
 										<div>Review: {review.review}</div>
 										<div>Review Rating: {review.rating}</div>
 									</div>
 								))}
-							</Grid>
+							</Grid> */}
 						</Grid>
 					</div>
+					{/* <div propName={"myValue"} /> */}
+					<ShowHotelReviews hotelReviews={hotel?.reviews || []} />
+					<CreateHotelReviews hotelId={hotel.id} />
 
 					<NavLink to={`/hotel/list`}>
 						{' '}

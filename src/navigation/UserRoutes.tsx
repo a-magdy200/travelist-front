@@ -30,6 +30,8 @@ import ShowGroup from '../pages/Group/show_group'
 import LandingPage from "../pages/LandingPage";
 import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
+import ListHotelsReviews from '../pages/HotelReviews/list_hotels_reviews'
+
 const UserRoutes = () => {
   return (
     <Routes>
@@ -63,6 +65,7 @@ const UserRoutes = () => {
       <Route path="/group/show/:id" element={<ShowGroup />} />
       <Route path="/hotel/list" element={<ListHotels />} />
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
+      <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
     </Routes>
   )
 }
