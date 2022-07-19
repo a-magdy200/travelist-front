@@ -12,15 +12,12 @@ import useAuth from '../../hooks/useAuth'
 import { ICompanyInterface } from '../../config/interfaces/ICompany.interface'
 import { IMenuProps } from '../../config/interfaces/IMenuProps'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
-import api from '../../config/api'
 import AuthContext from '../../contexts/AuthContext'
 const AuthMenu = ({ anchorEl, handleClose }: IMenuProps) => {
-	const [compProfile, setCompProfile] = useState<ICompanyInterface>()
 	const LoggedInUser: any = useContext(AuthContext)
 	const navigate = useNavigate()
 	const { logout } = useAuth()
 	const open = Boolean(anchorEl)
-	console.log('user logged in', LoggedInUser?.user?.type)
 	const navigateTo = (to: string) => {
 		handleClose()
 		navigate(to)

@@ -7,29 +7,21 @@ import Button from '@mui/material/Button'
 import { useNavigate } from 'react-router-dom'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { IUserRequestBodyInterface } from '../../config/interfaces/IUserRequestBody.interface'
-import { useParams } from 'react-router-dom'
-import { IUserInterface } from '../../config/interfaces/IUser.interface'
-
+import { useContext } from 'react'
+import AuthContext from '../../contexts/AuthContext'
 import api from '../../config/api'
-import ProfilePictureChanger from '../../components/Profile/ProfilePictureChanger'
-
 const EditUser = () => {
 	const [name, setName] = useState<string>('')
 	const [email, setEmail] = useState('')
 	const [address, setAddress] = useState('')
-	const [gender, setGender] = useState('')
-	const [nationalId, setNationalId] = useState('')
-	const [isGuide, setIsGuide] = useState(false)
-	const [dateOfBirth, setDateOfBirth] = useState('')
 	const navigate = useNavigate()
 	const [userDetails, setUserDetails] = useState<IUserRequestBodyInterface>()
-	const { id } = useParams()
+	const LoggedInUser: any = useContext(AuthContext)
 	const getUserProfileData = async () => {
 		try {
 			const response: IResponseInterface<IUserRequestBodyInterface> =
 				await api<IUserRequestBodyInterface>({
 					url: `/api/users/`,
-					method: 'GET',
 				})
 
 			if (response.success) {
@@ -54,7 +46,6 @@ const EditUser = () => {
 			email,
 			address,
 		}
-		console.log(requestBody)
 
 		try {
 			const response: IResponseInterface<IUserRequestBodyInterface> =
@@ -65,10 +56,7 @@ const EditUser = () => {
 				})
 
 			if (response.success) {
-				if (response.data) {
-					setUserDetails(response.data)
-					navigate('/profile')
-				}
+				navigate(`/${LoggedInUser.user.type}`)
 			}
 		} catch (error: any) {
 			console.log(error)
@@ -115,11 +103,11 @@ const EditUser = () => {
 									id="email"
 									type="email"
 									label="email"
+									value={email}
+									size="small"
 									onChange={(e) => {
 										setEmail(e.target.value)
 									}}
-									value={email}
-									size="small"
 								/>
 							</div>
 							<br />
@@ -133,6 +121,9 @@ const EditUser = () => {
 									label="address"
 									size="small"
 									value={address}
+									onChange={(e) => {
+										setAddress(e.target.value)
+									}}
 								/>
 							</div>
 							<br />

@@ -41,10 +41,10 @@ const UserRoutes = () => {
       <Route path="/show" element={<Show />} />
      <Route path="/profile" element={<UserBaseData />} />
       <Route path="/traveler" element={<TravelerProfile />} />
-      <Route path="/editpassword" element={<EditPassword />} />
-      <Route path="/edituser" element={<EditUser />} />
-      <Route path="/edittraveler" element={<EditTraveler />} />
-      <Route path="/editcompany" element={<EditCompany />} />
+      <Route path="/editPassword" element={<EditPassword />} />
+      <Route path="/editUser" element={<EditUser />} />
+      <Route path="/editTraveler" element={<EditTraveler />} />
+      <Route path="/editCompany" element={<EditCompany />} />
       <Route path="/friends" element={<ListFriends/>} />
       <Route path="/editUser/:id" element={<EditUser />} />
       <Route path="/company/:id" element={<CompanyProfile />} />

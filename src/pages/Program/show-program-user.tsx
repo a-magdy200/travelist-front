@@ -20,7 +20,6 @@ const ShowProgramUser = () => {
 			if (response.success) {
 				if (response.data) {
 					setProgram(response.data)
-					console.log(response.data)
 				}
 			}
 		} catch (error: any) {

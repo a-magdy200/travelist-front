@@ -6,8 +6,17 @@ import { IGroupShowProps } from '../../config/interfaces/IGroupShowProps.interfa
 import Avatar from '@mui/material/Avatar'
 import config from '../../config/app_config/config'
 import ListPosts from '../../pages/post/list_posts'
-const ShowGroupComponent = ({ group }: IGroupShowProps) => {
-	const photoPath = group
+import { useContext } from 'react'
+import { useState } from 'react'
+import { IUserInterface } from '../../config/interfaces/IUser.interface'
+import AuthContext from '../../contexts/AuthContext'
+const ShowGroupComponent = ({ group }:IGroupShowProps) => {
+
+ console.log('group',group)
+
+
+    const photoPath = group
+	
 		? `${config.apiUrl}` + '/uploads/' + `${group.cover_picture}`
 		: ''
 
@@ -24,6 +33,12 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 								</Button>
 							</NavLink>
 						</Grid>
+						 {/* if id of user not in followers array */}
+						{/* const existedUser = group.followers?.find((obj) => {
+			            return obj.id === userId
+		               }) */}
+						{/* {LoggedInUser.user == 'company' ? (console.log('hi'))
+						:(console.log('hi'))} */}
 						<Grid item xs={6}>
 							<Link to='/post/create' state={{ id: group.id }}>
 							<Button className="createButton" variant="contained">
