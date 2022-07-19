@@ -55,8 +55,6 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 						</CardContent>
 					</Card>
 
-					<ListPosts />
-
 					<Grid container spacing={2} xs={6} lg={16} mb={3} mx={25}>
 						<Grid item xs={6}>
 							<Link to="/post/create" state={{ id: group.id }}>
@@ -81,6 +79,9 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 						{/* {LoggedInUser.user == 'company' ? (console.log('hi'))
 						:(console.log('hi'))} */}
 					</Grid>
+
+					<ListPosts />
+
 				</div>
 			) : (
 				<Loader />

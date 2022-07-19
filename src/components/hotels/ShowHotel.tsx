@@ -42,8 +42,7 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 								</Typography>
 
 								<Typography gutterBottom variant="h6" component="div">
-									Hotel Stars :
-									<Rating name="read-only" value={hotel.stars} readOnly />
+									Hotel Stars : {hotel.stars}
 								</Typography>
 
 								<Typography gutterBottom variant="h6" component="div">
@@ -58,7 +57,9 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 						</Card>
 					</div>
 					{/* <div propName={"myValue"} /> */}
+					
 					<ShowHotelReviews hotelReviews={hotel?.reviews || []} />
+
 					<CreateHotelReviews hotelId={hotel.id} />
 
 					<NavLink to={`/hotel/list`}>

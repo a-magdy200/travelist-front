@@ -2,17 +2,19 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../../config/api'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
-import { IHotelReview } from '../../config/interfaces/IHotelReview.interface'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CustomInputField from '../../components/Form/CustomInputField'
 import Button from '@mui/material/Button'
-import { IHotelReviewRequestBody } from '../../config/interfaces/IHotelReviewRequestBody.interface'
+import { ICountryReviewRequestBody } from '../../config/interfaces/ICountryReviewRequestBody.interface'
+import { ICountryReview } from '../../config/interfaces/ICountryReview.interface'
+
 interface Test {
-	hotelId: number;
+	countryId: number;
 }
-const CreateHotelReviews = ({hotelId}: Test) => {
+
+const CreateCountryReviews = ({countryId}: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 
@@ -20,15 +22,15 @@ const CreateHotelReviews = ({hotelId}: Test) => {
 		e.preventDefault()
 		try {
 			
-			const requestBody: IHotelReviewRequestBody = {
+			const requestBody: ICountryReviewRequestBody = {
 				review,
 				rating,
-				hotelId
+				countryId
 			}
 
-			const response: IResponseInterface<IHotelReview> =
-				await api<IHotelReview>({
-					url: `/api/hotel_reviews/create`,
+			const response: IResponseInterface<ICountryReview> =
+				await api<ICountryReview>({
+					url: `/api/country_reviews/create`,
 					method: 'POST',
 					body: JSON.stringify(requestBody),
 
@@ -85,4 +87,4 @@ const CreateHotelReviews = ({hotelId}: Test) => {
 		</div>
 	)
 }
-export default CreateHotelReviews
+export default CreateCountryReviews
