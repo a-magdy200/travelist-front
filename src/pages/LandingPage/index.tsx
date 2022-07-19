@@ -14,7 +14,7 @@ const LandingPage = () => {
 			const response: IResponseInterface<IProgramInterface[]> = await api<
 				IProgramInterface[]
 			>({
-				url: '/programs/all',
+				url: '/api/programs/all',
 			})
 
 			if (response.success) {
@@ -33,8 +33,10 @@ const LandingPage = () => {
 		{
 		programs ? 
         <div>
+			<div >
         <SearchComponent /> 
         <FilterComponent /> 
+		   </div>
         <LandingPageComponent programs={programs} /> 
         <FooterComponent /> 
         </div>

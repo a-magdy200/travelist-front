@@ -1,10 +1,10 @@
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
-import EditMenu from './EditMenu'
-import AuthContext from "../../contexts/AuthContext";
+import EditCompanyMenu from './EditCompanyMenu'
+import AuthContext from '../../contexts/AuthContext'
 import Loader from '../Loader'
 import Typography from '@mui/material/Typography'
-import ProfilePictureChanger from "./ProfilePictureChanger";
+import ProfilePictureChanger from './ProfilePictureChanger'
 import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
 
 const Company = ({ company }: ICompanyShowProps) => {
@@ -17,35 +17,8 @@ const Company = ({ company }: ICompanyShowProps) => {
 					display="flex"
 					alignItems="center"
 				>
-					<Typography variant="h3" component="div" gutterBottom>
-						Profile
-					</Typography>
-					<ProfilePictureChanger profile_picture ={company.user.profile_picture} />
+					<EditCompanyMenu company={company} />
 					<Grid container spacing={2} xs={10} lg={8} mb={3}>
-						<Grid item xs={6}>
-							Name:
-						</Grid>
-						<Grid item xs={6}>
-							{company.user.name}
-						</Grid>
-						<Grid item xs={6}>
-							Email:
-						</Grid>
-						<Grid item xs={6}>
-							{company.user.email}
-						</Grid>
-						<Grid item xs={6}>
-							Type:
-						</Grid>
-						<Grid item xs={6}>
-							{company.user.type}
-						</Grid>
-						<Grid item xs={6}>
-							Location:
-						</Grid>
-						<Grid item xs={6}>
-							{company.user.address}
-						</Grid>
 						<Grid item xs={6}>
 							Description:
 						</Grid>
@@ -53,15 +26,18 @@ const Company = ({ company }: ICompanyShowProps) => {
 							{company.description}
 						</Grid>
 						<Grid item xs={6}>
-							Average Rate:
+							average_rate:
 						</Grid>
 						<Grid item xs={6}>
 							{company.average_rate}
 						</Grid>
+						<Grid item xs={6}>
+							ratings_count:
+						</Grid>
+						<Grid item xs={6}>
+							{company.ratings_count}
+						</Grid>
 					</Grid>
-
-					<EditMenu company = {company}/>
-					
 				</Stack>
 			) : (
 				<Loader />

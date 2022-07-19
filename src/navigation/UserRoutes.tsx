@@ -3,7 +3,6 @@ import ListPrograms from '../pages/Program/index'
 import CreateProgram from '../pages/Program/CreateProgram'
 import Show from '../pages/Program/show'
 import Profile from '../components/Profile/Profile'
-import Traveler from '../components/Profile/Traveler'
 import TravelerProfile from '../pages/Profile/TravelerProfile'
 import EditPassword from '../pages/Profile/EditPassword'
 import EditUser from '../pages/Profile/EditUser'
@@ -17,8 +16,6 @@ import CreateCycle from "../pages/Cycle/create-cycle";
 import ListCycles from "../pages/Cycle/index-cycle";
 import ShowCycle from "../pages/Cycle/show-cycle";
 import EditCycle from "../pages/Cycle/edit-cycle";
-import React from "react";
-import Home from "../pages/Home";
 import ListCompany from "../pages/Company/list-company";
 import CompanyDetails from "../pages/Company/details-company";
 import ShowProgramUser from "../pages/Program/show-program-user";
@@ -32,23 +29,38 @@ import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
 import ListHotelsReviews from '../pages/HotelReviews/list_hotels_reviews'
 
+import ShowCountry from '../pages/Country/showCountry'
+
+import ListPosts from '../pages/post/list_posts'
+import ShowPost from '../pages/post/show_post'
+import EditPost from '../pages/post/EditPost'
+import CreatePost from '../pages/post/create_post'
+import DeletePost from '../pages/post/delete_post'
+import ListFriends from '../pages/Friend/list_friends'
 const UserRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/create" element={<CreateProgram />} />
       <Route path="/show" element={<Show />} />
-      <Route path="/profile" element={<UserBaseData />} />
-      <Route path="/traveler" element={<Traveler />} />
-      <Route path="/travelerprofile" element={<TravelerProfile />} />
-      <Route path="/editpassword" element={<EditPassword />} />
-      <Route path="/edituser" element={<EditUser />} />
-      <Route path="/edittraveler" element={<EditTraveler />} />
-      <Route path="/editcompany" element={<EditCompany />} />
+     <Route path="/profile" element={<UserBaseData />} />
+      <Route path="/traveler" element={<TravelerProfile />} />
+      <Route path="/editPassword" element={<EditPassword />} />
+      <Route path="/editUser" element={<EditUser />} />
+      <Route path="/editTraveler" element={<EditTraveler />} />
+      <Route path="/editCompany" element={<EditCompany />} />
+      <Route path="/friends" element={<ListFriends/>} />
       <Route path="/editUser/:id" element={<EditUser />} />
       <Route path="/company/:id" element={<CompanyProfile />} />
+      <Route path="/editUser" element={<EditUser />} />
+      <Route path="/company" element={<CompanyProfile />} />
       <Route path="/company/list" element={< ListCompany />} />
       <Route path="/company/show/:id" element={< CompanyDetails />} />
+      <Route path="/posts" element={<ListPosts />} />
+      <Route path="/post/show/:id" element={<ShowPost />} />
+      <Route path="/post/edit/:id" element={<EditPost />} />
+      <Route path="/post/delete/:id" element={<DeletePost />} />
+      <Route path="/post/create" element={<CreatePost />} />
       <Route path="/program/list" element={<ListPrograms />} />
       <Route path="/program/cycles/list/:id" element={<ListProgramCycles />} />
       <Route path="/program/create" element={<CreateProgram />} />
@@ -66,6 +78,7 @@ const UserRoutes = () => {
       <Route path="/hotel/list" element={<ListHotels />} />
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
       <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
+      <Route path="/country/show/:id" element={<ShowCountry />} />
     </Routes>
   )
 }
