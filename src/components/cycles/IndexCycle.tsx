@@ -162,7 +162,7 @@ const ListCycleComponent = () => {
 			const response: IResponseInterface<ICycleInterface[]> = await api<
 				ICycleInterface[]
 			>({
-				url: '/cycles/all',
+				url: '/api/cycles/all',
 			})
 
 			if (response.success) {
@@ -184,7 +184,7 @@ const ListCycleComponent = () => {
 			try {
 				const response: IResponseInterface<ICycleInterface> =
 					await api<ICycleInterface>({
-						url: `/cycles/delete/${id}`,
+						url: `/api/cycles/delete/${id}`,
 						method: 'DELETE',
 					})
 

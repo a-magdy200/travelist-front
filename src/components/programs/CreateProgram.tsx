@@ -193,7 +193,7 @@ const CreateProgramComponent = () => {
 		if (!isDisabled()) {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
-					url: '/programs/create',
+					url: '/api/programs/create',
 					method: 'POST',
 					body: formData,
 				})
