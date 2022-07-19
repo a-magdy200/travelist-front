@@ -2,19 +2,19 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../../config/api'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
-import { IHotelReview } from '../../config/interfaces/IHotelReview.interface'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CustomInputField from '../../components/Form/CustomInputField'
 import Button from '@mui/material/Button'
-import { IHotelReviewRequestBody } from '../../config/interfaces/IHotelReviewRequestBody.interface'
+import { ICompanyReviewRequestBody } from '../../config/interfaces/ICompanyReviewRequestBody.interface'
+import { ICompanyReview } from '../../config/interfaces/ICompanyReview.interface'
 
 interface Test {
-	hotelId: number;
+	companyId: number;
 }
 
-const CreateHotelReviews = ({hotelId}: Test) => {
+const CreateCompanyReviews = ({companyId}: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 
@@ -22,15 +22,15 @@ const CreateHotelReviews = ({hotelId}: Test) => {
 		e.preventDefault()
 		try {
 			
-			const requestBody: IHotelReviewRequestBody = {
+			const requestBody: ICompanyReviewRequestBody = {
 				review,
 				rating,
-				hotelId
+				companyId
 			}
 
-			const response: IResponseInterface<IHotelReview> =
-				await api<IHotelReview>({
-					url: `/api/hotel_reviews/create`,
+			const response: IResponseInterface<ICompanyReview> =
+				await api<ICompanyReview>({
+					url: `/api/company_reviews/create`,
 					method: 'POST',
 					body: JSON.stringify(requestBody),
 
@@ -87,4 +87,4 @@ const CreateHotelReviews = ({hotelId}: Test) => {
 		</div>
 	)
 }
-export default CreateHotelReviews
+export default CreateCompanyReviews

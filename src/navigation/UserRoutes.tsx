@@ -37,6 +37,7 @@ import ListFriends from '../pages/Friend/list_friends'
 
 import ListHotelsReviews from '../pages/HotelReviews/list_hotels_reviews'
 import ListCountriesReviews from '../pages/CountryReviews/list_hotels_reviews'
+import ListCompaniesReviews from '../pages/CompanyReviews/list_companies_reviews'
 
 const UserRoutes = () => {
   return (
@@ -81,6 +82,8 @@ const UserRoutes = () => {
       <Route path="/country/show/:id" element={<ShowCountry />} />
       <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
       <Route path="/countryReview/list" element={<ListCountriesReviews />} />
+      <Route path="/companyReview/list" element={<ListCompaniesReviews />} />
+
 
     </Routes>
   )
