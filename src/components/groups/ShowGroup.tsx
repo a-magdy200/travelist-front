@@ -17,7 +17,7 @@ const ShowGroupComponent = ({ group }:IGroupShowProps) => {
 
     const photoPath = group
 	
-		? `${config.apiUrl}` + '/uploads/' + `${group.cover_picture}`
+		? `${config.apiUrl}/uploads/${group.cover_picture}`
 		: ''
 
 	return (

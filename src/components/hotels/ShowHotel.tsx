@@ -10,7 +10,7 @@ import CreateHotelReviews from '../../pages/HotelReviews/create_hotel_review'
 
 const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 	const photoPath = hotel
-		? `${config.apiUrl}` + '/uploads/hotels/' + `${hotel.cover_picture}`
+		? `${config.apiUrl}/uploads/hotels/${hotel.cover_picture}`
 		: ''
 
 	return (
