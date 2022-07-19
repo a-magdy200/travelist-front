@@ -23,8 +23,7 @@ import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 import { ITransportationInterface } from '../../config/interfaces/ITransportation.interface'
 
-let EditProgramComponent = () => {
-
+const EditProgramComponent = () => {
 	let { id } = useParams()
 	const [name, setName] = useState<string>('')
 	const [description, setDescription] = useState<string>('')
@@ -41,7 +40,7 @@ let EditProgramComponent = () => {
 	const [transportationId, setTransportationId] = useState<string>('')
 	const [transportations, setTransportations] = useState<
 		ITransportationInterface[]
-	>([])
+		>([])
 	const [cover_picture, setCoverPicture] = useState<File>()
 	const [program, setProgram] = useState<IProgramInterface>()
 
@@ -83,7 +82,7 @@ let EditProgramComponent = () => {
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
 				IHotelInterface[]
-			>({
+				>({
 				url: '/api/admin/hotels',
 			})
 
@@ -100,7 +99,7 @@ let EditProgramComponent = () => {
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
 				IHotelInterface[]
-			>({
+				>({
 				url: '/api/admin/countries',
 			})
 
@@ -125,9 +124,9 @@ let EditProgramComponent = () => {
 					setTransportations(response.data)
 				}
 			}
+		} catch (error: any) {
+			console.log(error)
 		}
-	} catch (error: any) {
-		console.log(error)
 	}
 	useEffect(() => {
 		getProgram()
@@ -136,35 +135,43 @@ let EditProgramComponent = () => {
 		getTransportations()
 	}, [])
 
-/// styling
-const theme2 = useTheme()
-const Item = styled(Paper)(({ theme }) => ({
-	backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#e8eef7',
-	padding: theme.spacing(1),
-	color: theme.palette.text.secondary,
-}))
+	/// styling
+	const theme2 = useTheme()
+	const Item = styled(Paper)(({ theme }) => ({
+		backgroundColor: theme.palette.mode === 'dark' ? '#fff' : '#e8eef7',
+		padding: theme.spacing(1),
+		color: theme.palette.text.secondary,
+	}))
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-const MenuProps = {
-	PaperProps: {
-		style: {
-			maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-			width: 250,
+	const ITEM_HEIGHT = 48
+	const ITEM_PADDING_TOP = 8
+	const MenuProps = {
+		PaperProps: {
+			style: {
+				maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+				width: 250,
+			},
 		},
-	},
-}
+	}
 
-function getStyles(
-	name: string,
-	personName: readonly string[],
-	theme: Theme
-) {
-	return {
-		fontWeight:
-			personName.indexOf(name) === -1
-				? theme.typography.fontWeightRegular
-				: theme.typography.fontWeightMedium,
+	function getStyles(
+		name: string,
+		personName: readonly string[],
+		theme: Theme
+	) {
+		return {
+			fontWeight:
+				personName.indexOf(name) === -1
+					? theme.typography.fontWeightRegular
+					: theme.typography.fontWeightMedium,
+		}
+	}
+
+	///change methods
+
+	const changeRecurring = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setis_Recurring(!is_Recurring)
+		console.log(is_Recurring)
 	}
 	const changeHotel = (e: SelectChangeEvent<number[]>) => {
 		setSelectedHotels(e.target.value as number[])
@@ -211,7 +218,7 @@ function getStyles(
 		if (!isDisabled()) {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
-					url: `/api/programs/update/${id}`,
+					url: `/programs/update/${id}`,
 					method: 'PUT',
 					body: formData,
 					headers: {
@@ -242,72 +249,22 @@ function getStyles(
 		)
 	}
 
-	for (let item of destination) {
-		formData.append('destinations', item)
-		console.log(item)
-	}
-	/*destinations.forEach(function (item:ICountryInterface) {
-		formData.append('destinations', item.id.toString())
-	});*/
-
-	console.log(formData)
-	if (!isDisabled()) {
-		const response: IResponseInterface<IProgramInterface> =
-			await api<IProgramInterface>({
-				url: `/programs/update/${id}`,
-				method: 'PUT',
-				body: formData,
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-			})
-		navigate('/program/list')
-	} else {
-		alert('error validation')
-	}
-}
-const isDisabled = (): boolean => {
-	console.log(
-		name,
-		description,
-		price,
-		companyId,
-		hotels.length,
-		destination.length,
-		countryId,
-		companyId
-	)
 	return (
-		name === '' ||
-		description === '' ||
-		price === '' ||
-		companyId === '' ||
-		hotels.length === 0 ||
-		destination.length === 0 ||
-		countryId === ''
-	)
-}
-
-return (
-	<div className="createContainer">
-		<form onSubmit={sendData}>
-			<div className="Top">
-				<h1>Edit Program</h1>
-				<TextField
-					className="inputText"
-					label="Program Name"
-					variant="outlined"
-					required
-					value={name}
-					onChange={(e) => {
-						setName(e.target.value)
-					}}
-				/>{' '}
-				<br />
-			</div>
-			<div className="bottom">
-				<div className="bottomHeader">
-					<h2>Program Details</h2>
+		<div className="createContainer">
+			<form onSubmit={sendData}>
+				<div className="Top">
+					<h1>Edit Program</h1>
+					<TextField
+						className="inputText"
+						label="Program Name"
+						variant="outlined"
+						required
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value)
+						}}
+					/>{' '}
+					<br />
 				</div>
 				<div className="bottom">
 					<div className="bottomHeader">
@@ -368,8 +325,8 @@ return (
 							</Grid>
 							<Grid item xs={8}>
 								<FormControl sx={{ m: 1, width: 300 }}>
-									<InputLabel id="demo-simple-select-label">
-										Departure Location
+									<InputLabel id="demo-multiple-destination-label">
+										Destinations
 									</InputLabel>
 									<Select
 										labelId="demo-multiple-country-label"
@@ -406,7 +363,7 @@ return (
 								</FormControl>
 								<br />
 							</Grid>
-							
+
 							<Grid item xs={8}>
 								<FormControl sx={{ m: 1, width: 300 }}>
 									<InputLabel id="demo-multiple-hotel-label">Hotels</InputLabel>
@@ -469,26 +426,40 @@ return (
 									onChange={changeRecurring}
 									inputProps={{ 'aria-label': 'controlled' }}
 								/>
-							</Button>
-						</Grid>
-						<Grid item xs={8}>
-							<NavLink to={`/program/list`}>
-								{' '}
-								<Button className="createButton" variant="contained">
-									Back
+								is_Recurring
+							</Grid>
+							<Grid item xs={2}>
+								<Button variant="contained" component="label">
+									<input
+										name="cover_picture"
+										type="file"
+										accept="image/*"
+										onChange={(e) => {
+											if (e.target.files) {
+												setCoverPicture(e.target.files[0])
+											}
+										}}
+									/>
 								</Button>
-							</NavLink>
+							</Grid>
+							<Grid item xs={8}>
+								<NavLink to={`/program/list`}>
+									{' '}
+									<Button className="createButton" variant="contained">
+										Back
+									</Button>
+								</NavLink>
 
-							<Button variant="contained" type="submit">
-								Edit
-							</Button>
+								<Button variant="contained" type="submit">
+									Edit
+								</Button>
+							</Grid>
 						</Grid>
-					</Grid>
+					</div>
 				</div>
-			</div>
-		</form>
-	</div>
-)
+			</form>
+		</div>
+	)
 }
 
 export default EditProgramComponent
