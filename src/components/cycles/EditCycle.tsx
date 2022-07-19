@@ -114,7 +114,7 @@ const EditCycleComponent = () => {
 				console.log(departure_date)
 				const response: IResponseInterface<ICycleInterface> =
 					await api<ICycleInterface>({
-						url: `/cycles/update/${id}`,
+						url: `/api/cycles/update/${id}`,
 						method: 'PUT',
 						body: JSON.stringify(requestBody),
 					})

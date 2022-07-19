@@ -172,7 +172,7 @@ const ListProgramComponent = () => {
 			try {
 				const response: IResponseInterface<IProgramInterface> =
 					await api<IProgramInterface>({
-						url: `/programs/delete/${id}`,
+						url: `/api/programs/delete/${id}`,
 						method: 'DELETE',
 					})
 
