@@ -29,6 +29,8 @@ import ShowGroup from '../pages/Group/show_group'
 import LandingPage from "../pages/LandingPage";
 import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
+import ShowCountry from '../pages/Country/showCountry'
+
 const UserRoutes = () => {
   return (
     <Routes>
@@ -62,6 +64,7 @@ const UserRoutes = () => {
       <Route path="/group/show/:id" element={<ShowGroup />} />
       <Route path="/hotel/list" element={<ListHotels />} />
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
+      <Route path="/country/show/:id" element={<ShowCountry />} />
     </Routes>
   )
 }
