@@ -76,7 +76,7 @@ let CreateCycleComponent = () => {
 			try {
 				const response: IResponseInterface<ICycleInterface> =
 					await api<ICycleInterface>({
-						url: '/cycles/create',
+						url: '/api/cycles/create',
 						method: 'POST',
 						body: JSON.stringify(requestBody),
 					})

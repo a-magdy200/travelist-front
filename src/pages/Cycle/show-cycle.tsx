@@ -13,7 +13,7 @@ const ShowCycle = () => {
 		try {
 			const response: IResponseInterface<ICycleInterface> =
 				await api<ICycleInterface>({
-					url: `/cycles/show/${id}`,
+					url: `/api/cycles/show/${id}`,
 				})
 
 			if (response.success) {

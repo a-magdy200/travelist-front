@@ -14,13 +14,12 @@ const ShowProgramUser = () => {
 		try {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
-					url: `/programs/show/${id}`,
+					url: `/api/programs/show/${id}`,
 				})
 	
 			if (response.success) {
 				if (response.data) {
 					setProgram(response.data)
-					console.log(response.data)
 				}
 			}
 		} catch (error: any) {

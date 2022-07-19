@@ -41,6 +41,10 @@ const EditCycleComponent = () => {
 				if (response.data) {
 					setCycle(response.data)
 					setName(response.data.name)
+					if(response.data.program)
+					{
+						setProgramId(response.data.program.id)
+					}
 					setMaxSeats(response.data.max_seats)
 					setDepartureLocation(response.data.departure_location)
 					setArrivalLocation(response.data.arrival_location)
@@ -110,7 +114,7 @@ const EditCycleComponent = () => {
 				console.log(departure_date)
 				const response: IResponseInterface<ICycleInterface> =
 					await api<ICycleInterface>({
-						url: `/cycles/update/${id}`,
+						url: `/api/cycles/update/${id}`,
 						method: 'PUT',
 						body: JSON.stringify(requestBody),
 					})

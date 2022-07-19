@@ -13,7 +13,7 @@ const ListProgramCycles = () => {
 		try {
 			const response: IResponseInterface<ICycleInterface[]> =
 				await api<ICycleInterface[]>({
-					url: `/programs/show/cycles/${id}`,
+					url: `/api/programs/show/cycles/${id}`,
 				})
 	
 			if (response.success) {

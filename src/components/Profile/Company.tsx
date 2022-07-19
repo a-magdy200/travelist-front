@@ -1,10 +1,10 @@
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
-import EditMenu from './EditMenu'
-import AuthContext from "../../contexts/AuthContext";
+import EditCompanyMenu from './EditCompanyMenu'
+import AuthContext from '../../contexts/AuthContext'
 import Loader from '../Loader'
 import Typography from '@mui/material/Typography'
-import ProfilePictureChanger from "./ProfilePictureChanger";
+import ProfilePictureChanger from './ProfilePictureChanger'
 import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
 
 const Company = ({ company }: ICompanyShowProps) => {
@@ -17,29 +17,27 @@ const Company = ({ company }: ICompanyShowProps) => {
 					display="flex"
 					alignItems="center"
 				>
+					<EditCompanyMenu company={company} />
 					<Grid container spacing={2} xs={10} lg={8} mb={3}>
 						<Grid item xs={6}>
-						Description:
+							Description:
 						</Grid>
 						<Grid item xs={6}>
 							{company.description}
 						</Grid>
 						<Grid item xs={6}>
-						average_rate:
+							average_rate:
 						</Grid>
 						<Grid item xs={6}>
-						{company.average_rate}
+							{company.average_rate}
 						</Grid>
 						<Grid item xs={6}>
-						ratings_count:
+							ratings_count:
 						</Grid>
 						<Grid item xs={6}>
-						{company.ratings_count}
-						</Grid>				
+							{company.ratings_count}
+						</Grid>
 					</Grid>
-
-					<EditMenu company = {company}/>
-					
 				</Stack>
 			) : (
 				<Loader />

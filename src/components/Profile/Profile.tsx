@@ -18,10 +18,9 @@ const Profile = ({ user }: IUserShowProps) => {
 					direction="column"
 					spacing={2}
 					display="flex"
-					// justifyContent="center"
 					alignItems="center"
 				>
-					<Typography variant="h3" component="div" gutterBottom>
+					<Typography variant="h5" component="div" gutterBottom>
 						Profile
 					</Typography>
 					<ProfilePictureChanger />
