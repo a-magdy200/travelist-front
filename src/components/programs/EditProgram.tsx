@@ -49,7 +49,7 @@ let EditProgramComponent = () => {
 		try {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
-					url: `/programs/show/${id}`,
+					url: `/api/programs/show/${id}`,
 				})
 
 			if (response.success) {
@@ -218,7 +218,7 @@ let EditProgramComponent = () => {
 		if (!isDisabled()) {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
-					url: `/programs/update/${id}`,
+					url: `/api/programs/update/${id}`,
 					method: 'PUT',
 					body: formData,
 					headers: {
