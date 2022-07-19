@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
@@ -18,28 +18,84 @@ import api from '../../config/api'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
+import { ITransportationInterface } from '../../config/interfaces/ITransportation.interface'
 
 const CreateProgramComponent = () => {
 	const [name, setName] = useState<string>('')
 	const [description, setDescription] = useState<string>('')
 	const [price, setPrice] = useState<string>('')
 	const [is_Recurring, setis_Recurring] = useState(true)
-	const [companyId, setCompanyId] = useState<string>('1')
 	const [countryId, setCountryId] = useState<string>('')
-	const [transportationId, setTransportationId] = useState<string>('1')
-	const [hotel, setHotel] = React.useState<string[]>([])
-	const [destination, setDestination] = useState<string[]>([])
+	const [hotels, setHotels] = React.useState<IHotelInterface[]>([])
+	const [filteredHotels, setFilteredHotels] = React.useState<IHotelInterface[]>(
+		[]
+	)
+	const [countries, setCountries] = React.useState<ICountryInterface[]>([])
+	const [selectedHotels, setSelectedHotels] = React.useState<number[]>([])
+	const [destination, setDestination] = useState<number[]>([])
+	const [transportationId, setTransportationId] = useState<string>('')
+	const [transportations, setTransportations] = useState<
+		ITransportationInterface[]
+	>([])
 	const [cover_picture, setCoverPicture] = useState<File>()
 	const navigate = useNavigate()
-	const hotels = [
-		{ id: 1, value: 'h1' },
-		{ id: 2, value: 'h2' },
-	]
+	const getHotels = async () => {
+		try {
+			const response: IResponseInterface<IHotelInterface[]> = await api<
+				IHotelInterface[]
+			>({
+				url: '/api/admin/hotels',
+			})
 
-	const countries = [
-		{ id: 1, value: 'c1' },
-		{ id: 2, value: 'c2' },
-	]
+			if (response.success) {
+				if (response.data) {
+					setHotels(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	const getCountries = async () => {
+		try {
+			const response: IResponseInterface<IHotelInterface[]> = await api<
+				IHotelInterface[]
+			>({
+				url: '/api/admin/countries',
+			})
+
+			if (response.success) {
+				if (response.data) {
+					setCountries(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	const getTransportations = async () => {
+		try {
+			const response: IResponseInterface<ITransportationInterface[]> =
+				await api<ITransportationInterface[]>({
+					url: '/api/admin/transportations',
+				})
+
+			if (response.success) {
+				if (response.data) {
+					setTransportations(response.data)
+				}
+			}
+		} catch (error: any) {
+			console.log(error)
+		}
+	}
+	useEffect(() => {
+		getHotels()
+		getCountries()
+		getTransportations()
+	}, [])
 
 	/// styling
 	const theme2 = useTheme()
@@ -76,18 +132,22 @@ const CreateProgramComponent = () => {
 	const changeDepartureCountry = (event: SelectChangeEvent) => {
 		setCountryId(event.target.value)
 	}
-	const changeHotel = (event: SelectChangeEvent<typeof hotel>) => {
-		const {
-			target: { value },
-		} = event
-		setHotel(typeof value === 'string' ? value.split(',') : value)
+	const changeTransportation = (event: SelectChangeEvent) => {
+		setTransportationId(event.target.value)
+	}
+	const changeHotel = (e: SelectChangeEvent<number[]>) => {
+		setSelectedHotels(e.target.value as number[])
+		console.log(e.target.value as number[])
 	}
 
-	const changeDestination = (event: SelectChangeEvent<typeof destination>) => {
-		const {
-			target: { value },
-		} = event
-		setDestination(typeof value === 'string' ? value.split(',') : value)
+	const changeDestination = (e: SelectChangeEvent<number[]>) => {
+		const newDestinations = e.target.value as number[]
+		setDestination(newDestinations)
+		setFilteredHotels(
+			hotels.filter(
+				(hotelItem) => newDestinations.indexOf(hotelItem?.countryId || 0) !== -1
+			)
+		)
 	}
 
 	const isDisabled = (): boolean => {
@@ -95,17 +155,14 @@ const CreateProgramComponent = () => {
 			name,
 			description,
 			price,
-			companyId,
 			hotels.length,
 			destination.length,
-			countryId,
-			companyId
+			countryId
 		)
 		return (
 			name === '' ||
 			description === '' ||
 			price === '' ||
-			companyId === '' ||
 			hotels.length === 0 ||
 			destination.length === 0 ||
 			countryId === ''
@@ -123,12 +180,11 @@ const CreateProgramComponent = () => {
 		}
 		formData.append('price', price)
 		formData.append('is_Recurring', is_Recurring ? '1' : '0')
-		formData.append('companyId', '1')
 		formData.append('transportationId', '1')
 		formData.append('countryId', countryId)
-		for (let item of hotel) {
+		for (let item of selectedHotels) {
 			formData.append('hotels', item.toString())
-			console.log(item)
+			console.log('items', item)
 		}
 		for (let item of destination) {
 			formData.append('destinations', item.toString())
@@ -195,40 +251,7 @@ const CreateProgramComponent = () => {
 								/>
 								<br />
 							</Grid>
-							<Grid item xs={8}>
-								<FormControl sx={{ m: 1, width: 300 }}>
-									<InputLabel id="demo-multiple-hotel-label">Hotels</InputLabel>
-									<Select
-										labelId="demo-multiple-hotel-label"
-										id="demo-multiple-hotel"
-										multiple
-										value={hotel}
-										onChange={changeHotel}
-										input={
-											<OutlinedInput id="select-multiple-chip" label="Chip" />
-										}
-										renderValue={(selected) => (
-											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-												{selected.map((value) => (
-													<Chip key={value} label={value} />
-												))}
-											</Box>
-										)}
-										MenuProps={MenuProps}
-									>
-										{hotels.map((hotelItem) => (
-											<MenuItem
-												key={hotelItem.id}
-												value={hotelItem.id}
-												style={getStyles(hotelItem.value, hotel, theme2)}
-											>
-												{hotelItem.value}
-											</MenuItem>
-										))}
-									</Select>
-								</FormControl>
-								<br />
-							</Grid>
+
 							<Grid item xs={8}>
 								<Box sx={{ minWidth: 120 }}>
 									<FormControl sx={{ m: 1, width: 300 }}>
@@ -239,12 +262,14 @@ const CreateProgramComponent = () => {
 											labelId="demo-simple-select-label"
 											id="demo-simple-select"
 											value={countryId?.toString()}
-											label="Arrival Location"
+											label="Departure Location"
 											onChange={changeDepartureCountry}
 										>
-											<MenuItem value={1}>Egypt</MenuItem>
-											<MenuItem value={2}>London</MenuItem>
-											<MenuItem value={3}>Japan</MenuItem>
+											{countries.map((destinationItem) => (
+												<MenuItem value={destinationItem.id}>
+													{destinationItem.name}
+												</MenuItem>
+											))}
 										</Select>
 									</FormControl>
 								</Box>
@@ -255,8 +280,8 @@ const CreateProgramComponent = () => {
 										Destinations
 									</InputLabel>
 									<Select
-										labelId="demo-multiple-destination-label"
-										id="demo-multiple-destination"
+										labelId="demo-multiple-country-label"
+										id="demo-multiple-country"
 										multiple
 										value={destination}
 										onChange={changeDestination}
@@ -265,31 +290,85 @@ const CreateProgramComponent = () => {
 										}
 										renderValue={(selected) => (
 											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-												{selected.map((value) => (
-													<Chip key={value} label={value} />
-												))}
+												{destination.map((destinationId: number) => {
+													const destination = countries.find(
+														(item) => item.id === destinationId
+													)
+													return (
+														<Chip
+															key={destinationId}
+															label={destination?.name}
+														/>
+													)
+												})}
 											</Box>
 										)}
 										MenuProps={MenuProps}
 									>
-										{countries.map((destinationItem) => (
-											<MenuItem
-												key={destinationItem.id}
-												value={destinationItem.id}
-												style={getStyles(
-													destinationItem.value,
-													destination,
-													theme2
-												)}
-											>
-												{destinationItem.value}
+										{countries.map((country) => (
+											<MenuItem key={country.id} value={country.id}>
+												{country.name}
 											</MenuItem>
 										))}
 									</Select>
 								</FormControl>
 								<br />
 							</Grid>
-
+							<Grid item xs={8}>
+								<FormControl sx={{ m: 1, width: 300 }}>
+									<InputLabel id="demo-multiple-hotel-label">Hotels</InputLabel>
+									<Select
+										labelId="demo-multiple-hotel-label"
+										id="demo-multiple-hotel"
+										multiple
+										value={selectedHotels}
+										onChange={changeHotel}
+										input={
+											<OutlinedInput id="select-multiple-chip" label="Chip" />
+										}
+										renderValue={(selected) => (
+											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+												{selectedHotels.map((hotelId: number) => {
+													const hotel = hotels.find(
+														(item) => item.id === hotelId
+													)
+													return <Chip key={hotelId} label={hotel?.name} />
+												})}
+											</Box>
+										)}
+										MenuProps={MenuProps}
+									>
+										{filteredHotels.map((hotel) => (
+											<MenuItem key={hotel.id} value={hotel.id}>
+												{hotel.name}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+								<br />
+							</Grid>
+							<Grid item xs={8}>
+								<Box sx={{ minWidth: 120 }}>
+									<FormControl sx={{ m: 1, width: 300 }}>
+										<InputLabel id="demo-simple-select-label">
+											Transportations
+										</InputLabel>
+										<Select
+											labelId="demo-simple-select-label"
+											id="demo-simple-select"
+											value={transportationId?.toString()}
+											label="Arrival Location"
+											onChange={changeTransportation}
+										>
+											{transportations.map((transportationItem) => (
+												<MenuItem value={transportationItem.id}>
+													{transportationItem.name}
+												</MenuItem>
+											))}
+										</Select>
+									</FormControl>
+								</Box>
+							</Grid>
 							<Grid item xs={8}>
 								<Checkbox
 									checked={is_Recurring}
