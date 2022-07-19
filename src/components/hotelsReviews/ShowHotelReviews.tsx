@@ -1,36 +1,30 @@
 import Loader from '../Loader'
-import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent/CardContent'
 import { IHotelReviewShowProps } from '../../config/interfaces/IHotelReviewShowProps.interface'
+import Typography from '@mui/material/Typography'
+import Rating from '@mui/material/Rating'
 
-const ShowHotelReviewsComponent= ({ hotelReview }: IHotelReviewShowProps) => {
+const ShowHotelReviewsComponent = ({ hotelReview }: IHotelReviewShowProps) => {
 	return (
 		<div>
 			{hotelReview ? (
 				<div>
-					<Card>
+					<Card sx={{ maxWidth: 500,minWidth:345 ,mx:30,my:2}}>
+					
 						<CardContent className="bottom">
+							
+							{/* <Typography gutterBottom variant="h5" component="div">
+								{hotelReview}
+							</Typography> */}
 
-							<Grid
-								container
-								direction="column"
-								spacing={2}
-								xs={10}
-								lg={8}
-								mb={3}
-							>
-								<Grid item xs={6}>
-									Hotel Review : {hotelReview.review}
-								</Grid>
+							<Typography gutterBottom variant="h6" component="div">
+								{hotelReview.review}
+							</Typography>
 
-								<Grid item xs={6}>
-									Review Rating : {hotelReview.rating}
-								</Grid>
+							<Rating name="read-only" value={hotelReview.rating} readOnly />
 
-							</Grid>
 						</CardContent>
-
 					</Card>
 					<div>
 						<p></p>

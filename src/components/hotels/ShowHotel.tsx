@@ -1,12 +1,15 @@
 import Loader from '../Loader'
 import { NavLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
-import Grid from '@mui/material/Grid'
-import Avatar from '@mui/material/Avatar'
 import config from '../../config/app_config/config'
 import { IHotelShowProps } from '../../config/interfaces/IHotelShowProps.interface'
 import ShowHotelReviews from '../../pages/HotelReviews/show_hotel_reviews'
 import CreateHotelReviews from '../../pages/HotelReviews/create_hotel_review'
+import Rating from '@mui/material/Rating'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Typography from '@mui/material/Typography'
 
 const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 	const photoPath = hotel
@@ -18,52 +21,41 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 			{hotel ? (
 				<div>
 					<div>
-						<h1>Hotel Details</h1>
+						<h1>{hotel.name} Hotel Details</h1>
 					</div>
-
 					<div className="bottom">
-						<h2 className="header">{hotel.name}</h2>
+						<Card sx={{ maxWidth: 945, minWidth: 345, m: 2 }}>
+							<CardMedia
+								component="img"
+								height="140"
+								image={photoPath}
+								alt="program Cover"
+							/>
 
-						<Avatar
-							className="header"
-							alt=""
-							src={photoPath}
-							sx={{ width: 112, height: 112 }}
-						/>
+							<CardContent>
+								<Typography gutterBottom variant="h6" component="div">
+									Hotel located in Country : {hotel.country?.name}
+								</Typography>
 
-						<Grid
-							container
-							direction="column"
-							spacing={2}
-							xs={10}
-							lg={8}
-							mb={3}
-						>
-							<Grid item xs={6}>
-								Hotel located in Country : {hotel.country?.name}
-							</Grid>
+								<Typography gutterBottom variant="h6" component="div">
+									Hotel Address : {hotel.address}
+								</Typography>
 
-							<Grid item xs={6}>
-								Hotel Address : {hotel.address}
-							</Grid>
+								<Typography gutterBottom variant="h6" component="div">
+									Hotel Stars :
+									<Rating name="read-only" value={hotel.stars} readOnly />
+								</Typography>
 
-							<Grid item xs={6}>
-								Hotel Stars : {hotel.stars}
-							</Grid>
-
-							<Grid item xs={6}>
-								Hotel Average Rating : {hotel.average_rate}
-							</Grid>
-
-							{/* <Grid item xs={6}>
-								{hotel.reviews?.map((review, index) => (
-									<div>
-										<div>Review: {review.review}</div>
-										<div>Review Rating: {review.rating}</div>
-									</div>
-								))}
-							</Grid> */}
-						</Grid>
+								<Typography gutterBottom variant="h6" component="div">
+									Hotel Average Rating :
+									<Rating
+										name="read-only"
+										value={hotel.average_rate}
+										readOnly
+									/>
+								</Typography>
+							</CardContent>
+						</Card>
 					</div>
 					{/* <div propName={"myValue"} /> */}
 					<ShowHotelReviews hotelReviews={hotel?.reviews || []} />
