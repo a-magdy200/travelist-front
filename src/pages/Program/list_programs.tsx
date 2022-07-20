@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import Loader from '../../components/Loader'
 import ListProgramsComponent from '../../components/programs/ListPrograms'
+import ProgramCard from '../../components/programs/ProgramCard'
 import api from '../../config/api'
 import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
@@ -31,7 +33,14 @@ const ListProgramsPage = () => {
 	return (
 		<div>
 			<h1>Programs Page</h1>
-			{programs? programs.map((program,index) =>(<ListProgramsComponent program={program} key={index} />)) : <div></div>}
+			{
+			programs?
+			programs.map((program,index) =>(
+			<ProgramCard  program={program} key={index} />
+			)) 
+			:
+			<Loader/>
+			}
 		</div>
 	)
 }

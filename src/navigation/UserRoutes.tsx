@@ -34,6 +34,7 @@ import EditPost from '../pages/post/EditPost'
 import CreatePost from '../pages/post/create_post'
 import DeletePost from '../pages/post/delete_post'
 import ListFriends from '../pages/Friend/list_friends'
+import ListTravelerBookings from '../pages/booking/TravelerBooking'
 
 import ListHotelsReviews from '../pages/HotelReviews/list_hotels_reviews'
 import ListCountriesReviews from '../pages/CountryReviews/list_hotels_reviews'
@@ -50,7 +51,6 @@ import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
 const UserRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
       <Route path="/create" element={<CreateProgram />} />
       <Route path="/show" element={<Show />} />
      <Route path="/profile" element={<UserBaseData />} />
@@ -88,6 +88,7 @@ const UserRoutes = () => {
       <Route path="/hotel/list" element={<ListHotels />} />
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
       <Route path="/country/show/:id" element={<ShowCountry />} />
+      <Route path="/traveler/booking" element={<ListTravelerBookings />} />
 
       {/* for admin usage */}
       <Route path="/hotelReview/list" element={<ListHotelsReviews />} />

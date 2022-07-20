@@ -36,7 +36,6 @@ function a11yProps(index: number) {
 		'aria-controls': `simple-tabpanel-${index}`,
 	}
 }
-
 const ShowCompanyComponent = ({ company }: ICompanyShowProps) => {
 	const [value, setValue] = React.useState(0)
 

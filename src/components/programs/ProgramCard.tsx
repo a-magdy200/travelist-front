@@ -11,7 +11,7 @@ import * as React from 'react';
 const ProgramCard=({program}:IProgramShowProps)=>{
     const [rate, setRate] = React.useState<number>(0);
     return(
-        <Card sx={{ maxWidth: 945,minWidth:345 ,m:2}}>
+        <Card sx={{ maxWidth: 1000,minWidth:345 ,m:2}}>
         <CardMedia
           component="img"
           height="140"
@@ -32,11 +32,7 @@ const ProgramCard=({program}:IProgramShowProps)=>{
 								{' '}
             <Button size="small">More Details</Button>
         </NavLink>   
-        <NavLink to={`/program/cycles/list/${program.id}`}>
-								{' '} 
-            <Button size="small">Show Cycles</Button>
-            </NavLink>   
-
+        
         </CardActions>
       </Card>
 )

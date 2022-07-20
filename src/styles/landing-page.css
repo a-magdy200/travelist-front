@@ -19,15 +19,11 @@
     width:30%;
     display:flex;
 	justify-content: space-around;
-    position: fixed;
-    top:10%;
 }
 .FilterContainer
 {
     display: flex;
     justify-content: space-evenly;
-    position: fixed;
-    top:20%;
     background-color: aliceblue;
     width: 100%;
 
