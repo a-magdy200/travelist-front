@@ -23,7 +23,7 @@ const CompanyCard=({company}:ICompanyShowProps)=>{
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {company.user.name}
+            {company.user?.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {company.description}
