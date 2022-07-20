@@ -1,9 +1,13 @@
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
 import EditTravelerMenu from './EditTravelerMenu'
-import { ITravelerShowProps } from '../../config/interfaces/ITravelerShowProps.interface'
+// import { ITravelerShowProps } from '../../config/interfaces/ITravelerShowProps.interface'
+import { ITravelerReviewShowProps } from '../../config/interfaces/ITravelerReviewShowProps.interface'
 
-const Traveler = ({ traveler }: ITravelerShowProps) => {
+import ShowGuideReviews from '../../pages/GuideReviews/show_guide_reviews'
+import CreateGuideReviews from '../../pages/GuideReviews/create_guide_review'
+
+const Traveler = ({ traveler }: ITravelerReviewShowProps) => {
 	return (
 		<Stack direction="column" spacing={2} display="flex" alignItems="center">
 			<Grid container spacing={2} xs={10} lg={8} mb={3}>
@@ -33,6 +37,10 @@ const Traveler = ({ traveler }: ITravelerShowProps) => {
 				</Grid>
 			</Grid>
 			<EditTravelerMenu traveler={traveler} />
+
+			<ShowGuideReviews guideReviews={traveler.reviews || []} />
+
+			<CreateGuideReviews guideId={traveler.id} />
 		</Stack>
 	)
 }

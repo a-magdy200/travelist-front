@@ -22,6 +22,9 @@ import ListProgramsComponent from '../../components/programs/ListPrograms'
 import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
 import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
 import ListHotelsComponent from '../../components/hotels/ListHotels'
+import ShowCountryReviews from '../CountryReviews/show_country_reviews'
+import { ICountryReview } from '../../config/interfaces/ICountryReview.interface'
+import CreateCountryReviews from '../CountryReviews/create_country_review'
 
 export interface IShowCountryProps {
 	success: boolean
@@ -39,6 +42,9 @@ export default function ShowCountry() {
 		country && country.programs ? [...country.programs] : null
 	const hotels: IHotelInterface[] | null =
 		country && country.hotels ? [...country?.hotels] : null
+
+	const reviews: ICountryReview[] | null =
+		country && country.reviews ? [...country?.reviews] : null
 
 	const coverPic: string | null =
 		country && country.group
@@ -125,7 +131,16 @@ export default function ShowCountry() {
 						</TabList>
 					</Box>
 					<TabPanel value="1">
-						{/* <Reviews review={country.reviews} /> */} Reviews
+						{reviews ? (
+							<ShowCountryReviews countryReviews={reviews} />
+						) : (
+							<div>Error</div>
+						)}
+						{country ? (
+							<CreateCountryReviews countryId={country.id} />
+						) : (
+							<div>Error</div>
+						)}
 					</TabPanel>
 					<TabPanel value="2">
 						{programs ? (
