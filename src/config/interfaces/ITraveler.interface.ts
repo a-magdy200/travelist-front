@@ -1,7 +1,10 @@
 import { GenderType } from "../types/gender.type"
+// import { IGuideReview } from "./IGuideReview.interface"
 import { IUserInterface } from "./IUser.interface"
 export interface  ITravelerInterface
 {
+    // id?:number
+
     national_id: string
 	gender: GenderType
 	date_of_birth: string
@@ -11,5 +14,7 @@ export interface  ITravelerInterface
     average_rate:number
     userId:number
     user:IUserInterface
-    
+
+    // reviews?:IGuideReview[]
+
 }

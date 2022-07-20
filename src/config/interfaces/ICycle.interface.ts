@@ -4,6 +4,7 @@ export interface ICycleInterface {
     id?:number;
     name:string;
     max_seats:number;
+    // programId:number;
     program?:IProgramInterface;
     programId?:number
     current_seats?:number;

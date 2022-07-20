@@ -3,11 +3,14 @@ import { ICycleShowProps } from '../../config/interfaces/ICycleShowProps.interfa
 import { NavLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import ShowCycleReviews from '../../pages/CycleReviews/show_cycle_reviews'
+import CreateCycleReviews from '../../pages/CycleReviews/create_cycle_review'
+
 
 const ShowCycleComponent = ({ cycle }: ICycleShowProps) => {
 	return (
 		<div className="createContainer">
-			{cycle ? (
+			{cycle && cycle.id ? (
 				<div>
 					<div className="TopCycle">
 						<h1 className="header">{cycle.name}</h1>
@@ -63,8 +66,13 @@ const ShowCycleComponent = ({ cycle }: ICycleShowProps) => {
 							</Grid>
 						</Grid>
 					</div>
-				
+
+					<ShowCycleReviews cycleId={cycle.id}/>
+
+					<CreateCycleReviews cycleId={cycle.id}/>
+
 				</div>
+
 			) : (
 				<Loader />
 			)}

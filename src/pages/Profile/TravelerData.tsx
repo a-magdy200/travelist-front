@@ -2,15 +2,16 @@ import Profile from '../../components/Profile/Profile'
 import Company from '../../components/Profile/Company'
 import { useEffect, useState } from 'react'
 import api from '../../config/api'
-import { ITravelerRegisterRequestBody } from '../../config/interfaces/ITravelerRegisterRequestBody'
+// import { ITravelerRegisterRequestBody } from '../../config/interfaces/ITravelerRegisterRequestBody'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Traveler from '../../components/Profile/Traveler'
+import { ITravelerReview } from '../../config/interfaces/ITravelerReview.interface'
 const TravelerData = () => {
-	const [traveler, setTravelerProfile] = useState<ITravelerRegisterRequestBody>()
+	const [traveler, setTravelerProfile] = useState<ITravelerReview>()
 	const getMyProfile = async () => {
 		try {
-			const response: IResponseInterface<ITravelerRegisterRequestBody> =
-				await api<ITravelerRegisterRequestBody>({
+			const response: IResponseInterface<ITravelerReview> =
+				await api<ITravelerReview>({
 					url: `/api/travelers/profile`,
 					method: 'GET',
 				})
