@@ -13,15 +13,17 @@ import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import api from '../../config/api'
 import { IBookCycleRequestBody } from '../../config/interfaces/IBookCycleRequestBody.interface'
 import { LoadingButton } from '@mui/lab'
+import StripeCheckout from 'react-stripe-checkout'
 
 const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 	const [rate, setRate] = React.useState<number>(0)
-  const [isLoading, setIsLoading] = React.useState(false)
-	async function bookCycle() {
+	const [isLoading, setIsLoading] = React.useState(false)
+/*	async function bookCycle(token:any) {
 		try {
 			if (cycle.id) {
 				const requestBody: IBookCycleRequestBody = {
 					cycleId: cycle.id,
+					token
 				}
 
 				const response: IResponseInterface<ICycleInterface> =
@@ -30,17 +32,40 @@ const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 						method: 'POST',
 						body: JSON.stringify(requestBody),
 					})
-          if (response.success) {
-            alert("booked successfully")
-          }
+				if (response.success) {
+					alert('booked successfully')
+				}
 			}
 		} catch (error: any) {
-      alert("you booked before")
+			alert('you booked before')
+			console.log(JSON.stringify(error))
+		}
+	}*/
+	 const bookCycle =async (token:any)=>{
+		try {
+			if (cycle.id) {
+				const requestBody: IBookCycleRequestBody = {
+					cycleId: cycle.id,
+					token
+				}
+
+				const response: IResponseInterface<ICycleInterface> =
+					await api<ICycleInterface>({
+						url: '/api/cycles/book',
+						method: 'POST',
+						body: JSON.stringify(requestBody),
+					})
+				if (response.success) {
+					alert('booked successfully')
+				}
+			}
+		} catch (error: any) {
+			alert('you booked before')
 			console.log(JSON.stringify(error))
 		}
 	}
-  const isDisabled = (): boolean => {
-		return isLoading 
+	const isDisabled = (): boolean => {
+		return isLoading
 	}
 	return (
 		<Card>
@@ -61,18 +86,12 @@ const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 					{' '}
 					<Button size="small">Show More</Button>
 				</NavLink>
-        <LoadingButton
-								disabled={isDisabled()}
-								loading={isLoading}
-								variant="contained"
-					onClick={() => {
-					bookCycle()
-					}}
-					size="small"
-				>
-					Book
-          </LoadingButton>
-
+				<StripeCheckout
+				 stripeKey="pk_test_51LNL5KAolBbZGsicA33sip9053jvrTpZvK6nzMAts5ZwJPvYJZlAD0yPBptJdrAACPVpMIMQ2QxYTXh9HAz0Vnpf0062y97oQ2"
+					token={bookCycle}
+					name="book"
+				/>
+				
 			</CardActions>
 		</Card>
 	)
