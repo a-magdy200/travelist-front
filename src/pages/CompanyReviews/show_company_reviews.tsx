@@ -2,7 +2,7 @@ import ShowCompanyReviewsComponent from '../../components/companiesReviews/ShowC
 import { ICompanyReview } from '../../config/interfaces/ICompanyReview.interface'
 
 interface ICompanyReviewProps {
-	companyReviews: ICompanyReview[]
+	companyReviews: ICompanyReview[] | undefined
 }
 
 const ShowCompanyReviews = ({companyReviews}: ICompanyReviewProps) => {

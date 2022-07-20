@@ -22,17 +22,16 @@ const CompanyData = () => {
 		} catch (error: any) {
 			console.log(error)
 		}
-	}	
-  useEffect(() => {
+	}
+	useEffect(() => {
 		getMyProfile()
 	}, [])
 	return (
+		<>
+			{/* to view all base data from user and company */}
 
-			<>
-				{/* to view all base data from user and company */}
-
-					{company ? <Company company={company} /> : <div>not found</div>}
-			</>
+			{company ? <Company company={company} /> : <div>not found</div>}
+		</>
 	)
 }
 

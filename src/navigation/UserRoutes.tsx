@@ -83,6 +83,7 @@ const UserRoutes = () => {
       <Route path="/hotel/list" element={<ListHotels />} />
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
       <Route path="/country/show/:id" element={<ShowCountry />} />
+      {/* for admin usage */}
       <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
       <Route path="/countryReview/list" element={<ListCountriesReviews />} />
       <Route path="/companyReview/list" element={<ListCompaniesReviews />} />

@@ -1,4 +1,5 @@
 import { ICompanyInterface } from './ICompany.interface'
+import { ITravelerInterface } from './ITraveler.interface'
 
 export interface ICompanyReview {
 	id: number
@@ -6,6 +7,6 @@ export interface ICompanyReview {
 	review: string
 	updated_at: Date
 	created_at: Date
-	// traveler: ITravelerRequestBodyInterface
+	traveler: ITravelerInterface
 	company: ICompanyInterface
 }
