@@ -45,6 +45,7 @@ const ShowBookingComponent = ({ booking }: IBookingShowProps) => {
 								<Grid item xs={6}>
 									transaction_token : {booking.transaction?.payment_id}
 								</Grid>
+								
 							</Grid>
 						</Typography>
 					</CardContent>
