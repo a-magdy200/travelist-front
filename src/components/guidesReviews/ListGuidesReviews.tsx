@@ -41,6 +41,12 @@ const ListGuidesReviewsComponent = ({ guideReview }: IGuideReviewShowProps) => {
 									Show Guide Reviews
 								</Button>
 							</NavLink> */}
+							<NavLink to={`/guideReview/delete/${guideReview.id}`}>
+								{' '}
+								<Button className="createButton" variant="contained">
+									Delete
+								</Button>
+							</NavLink>
 						</CardActions>
 					</Card>
 					<div>

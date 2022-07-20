@@ -64,10 +64,19 @@ const ShowCompanyComponent = ({ company }: ICompanyShowProps) => {
 					<TabPanel value={value} index={1}>
 						<CompanyProgramComponent programs={company.programs} />
 					</TabPanel>
-					<TabPanel value={value} index={2}>
-						<ShowCompanyReviews companyReviews={company.reviews} />
 
-						<CreateCompanyReviews companyId={company.id} />
+					<TabPanel value={value} index={2}>
+						{company.reviews ? (
+							<div>
+								<ShowCompanyReviews companyReviews={company.reviews} />
+								<CreateCompanyReviews companyId={company.id} />
+							</div>
+						) : (
+							<div>
+								<p>No reviews</p>
+								<CreateCompanyReviews companyId={company.id} />
+							</div>
+						)}
 					</TabPanel>
 				</Box>
 			) : (

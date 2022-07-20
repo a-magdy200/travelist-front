@@ -41,6 +41,12 @@ const ListCountriesReviewsComponent = ({ countryReview }: ICountryReviewShowProp
 									Show Country Reviews
 								</Button>
 							</NavLink> */}
+							<NavLink to={`/countryReview/delete/${countryReview.id}`}>
+								{' '}
+								<Button className="createButton" variant="contained">
+									Delete
+								</Button>
+							</NavLink>
 						</CardActions>
 					</Card>
 					<div>

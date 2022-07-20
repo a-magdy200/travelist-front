@@ -39,8 +39,7 @@ const CreateCompanyReviews = ({companyId}: Test) => {
 			if (response.success) {
 				if (response.data) {
 					console.log(response.data)
-					// refresh page
-					// reload page
+					// window.location.reload()
 				}
 			}
 		} catch (error: any) {

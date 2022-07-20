@@ -41,6 +41,12 @@ const ListCyclesReviewsComponent = ({ cycleReview }: ICycleReviewShowProps) => {
 									Show Cycle Reviews
 								</Button>
 							</NavLink> */}
+							<NavLink to={`/cycleReview/delete/${cycleReview.id}`}>
+								{' '}
+								<Button className="createButton" variant="contained">
+									Delete
+								</Button>
+							</NavLink>
 						</CardActions>
 					</Card>
 					<div>

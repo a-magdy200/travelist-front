@@ -41,6 +41,12 @@ const ListHotelsReviewsComponent = ({ hotelReview }: IHotelReviewShowProps) => {
 									Show Hotel Reviews
 								</Button>
 							</NavLink> */}
+							<NavLink to={`/hotelReview/delete/${hotelReview.id}`}>
+								{' '}
+								<Button className="createButton" variant="contained">
+									Delete
+								</Button>
+							</NavLink>
 						</CardActions>
 					</Card>
 					<div>
