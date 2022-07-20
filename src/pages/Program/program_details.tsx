@@ -4,6 +4,7 @@ import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import ProgramDetailsComponent from '../../components/programs/ProgramDetails'
+import Loader from '../../components/Loader'
 
 const ProgramDetailsPage = () => {
 	const [program, setProgram] = useState<IProgramInterface>()
@@ -30,7 +31,7 @@ const ProgramDetailsPage = () => {
 
 	return (
 		<div>
-			{program? <ProgramDetailsComponent program={program} /> : <div></div>}
+			{program? <ProgramDetailsComponent program={program} /> : <Loader/>}
 		</div>
 	)
 }

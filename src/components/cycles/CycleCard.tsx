@@ -18,30 +18,7 @@ import StripeCheckout from 'react-stripe-checkout'
 const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 	const [rate, setRate] = React.useState<number>(0)
 	const [isLoading, setIsLoading] = React.useState(false)
-/*	async function bookCycle(token:any) {
-		try {
-			if (cycle.id) {
-				const requestBody: IBookCycleRequestBody = {
-					cycleId: cycle.id,
-					token
-				}
-
-				const response: IResponseInterface<ICycleInterface> =
-					await api<ICycleInterface>({
-						url: '/api/cycles/book',
-						method: 'POST',
-						body: JSON.stringify(requestBody),
-					})
-				if (response.success) {
-					alert('booked successfully')
-				}
-			}
-		} catch (error: any) {
-			alert('you booked before')
-			console.log(JSON.stringify(error))
-		}
-	}*/
-	 const bookCycle =async (token:any)=>{
+    const bookCycle =async (token:any)=>{
 		try {
 			if (cycle.id) {
 				const requestBody: IBookCycleRequestBody = {

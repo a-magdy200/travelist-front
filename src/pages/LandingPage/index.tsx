@@ -6,6 +6,8 @@ import LandingPageComponent from "../../components/LandingPage"
 import FooterComponent from "../../components/Footer"
 import SearchComponent from "../../components/search.tsx"
 import FilterComponent from "../../components/FilterBar"
+import Loader from "../../components/Loader"
+import Box from '@mui/material/Box';
 
 const LandingPage = () => {
     const [programs, setPrograms] = useState<IProgramInterface[]>([])
@@ -30,26 +32,23 @@ const LandingPage = () => {
 		getPrograms()
 	}, [])
     return <div>
+		<Box  sx={{position: 'fixed',top:'12%',width:'100%'}}>
+		<div>
+        <SearchComponent /> 
+        <FilterComponent /> 
+		</div>
+		</Box>
+        <div>
 		{
-		programs ? 
-        <div>
-			<div >
-        <SearchComponent /> 
-        <FilterComponent /> 
-		   </div>
-        <LandingPageComponent programs={programs} /> 
-        <FooterComponent /> 
-        </div>
-		:
-        <div>
-        <SearchComponent /> 
-        <FilterComponent /> 
-		 <div>not found</div>
-         <FooterComponent /> 
-        </div> 
-
+           programs?
+		   <LandingPageComponent programs={programs} /> 
+           :
+		   <Loader/>
 	    }
-		 </div>
-   
+
+        <FooterComponent /> 
+		</div>
+	  </div>
+
 }
 export default LandingPage
