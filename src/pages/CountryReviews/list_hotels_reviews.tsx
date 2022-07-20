@@ -10,7 +10,7 @@ const ListCountriesReviews = () => {
 	const getCountriesReviews = async () => {
 		try {
 			const response: IResponseInterface<ICountryReview[]> = await api<
-			ICountryReview[]
+				ICountryReview[]
 			>({
 				url: '/api/country_reviews/all',
 			})
@@ -34,7 +34,10 @@ const ListCountriesReviews = () => {
 			<h1>Hotels Reviews Page</h1>
 			{countriesReviews ? (
 				countriesReviews.map((countryReview, index) => (
-					<ListCountriesReviewsComponent countryReview={countryReview} key={index} />
+					<ListCountriesReviewsComponent
+						countryReview={countryReview}
+						key={index}
+					/>
 				))
 			) : (
 				<div></div>

@@ -11,21 +11,20 @@ import { ICompanyReview } from '../../config/interfaces/ICompanyReview.interface
 import { ICycleReviewRequestBody } from '../../config/interfaces/ICycleReviewRequestBody.interface'
 
 interface Test {
-	cycleId: number;
+	cycleId: number
 }
 
-const CreateCycleReviews = ({cycleId}: Test) => {
+const CreateCycleReviews = ({ cycleId }: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 
 	async function sendData(e: any) {
 		e.preventDefault()
 		try {
-			
 			const requestBody: ICycleReviewRequestBody = {
 				review,
 				rating,
-				cycleId
+				cycleId,
 			}
 
 			const response: IResponseInterface<ICompanyReview> =
@@ -33,7 +32,6 @@ const CreateCycleReviews = ({cycleId}: Test) => {
 					url: `/api/cycle_reviews/create`,
 					method: 'POST',
 					body: JSON.stringify(requestBody),
-
 				})
 
 			if (response.success) {

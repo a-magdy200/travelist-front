@@ -11,21 +11,20 @@ import Button from '@mui/material/Button'
 import { IHotelReviewRequestBody } from '../../config/interfaces/IHotelReviewRequestBody.interface'
 
 interface Test {
-	hotelId: number;
+	hotelId: number
 }
 
-const CreateHotelReviews = ({hotelId}: Test) => {
+const CreateHotelReviews = ({ hotelId }: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 
 	async function sendData(e: any) {
 		e.preventDefault()
 		try {
-			
 			const requestBody: IHotelReviewRequestBody = {
 				review,
 				rating,
-				hotelId
+				hotelId,
 			}
 
 			const response: IResponseInterface<IHotelReview> =
@@ -33,7 +32,6 @@ const CreateHotelReviews = ({hotelId}: Test) => {
 					url: `/api/hotel_reviews/create`,
 					method: 'POST',
 					body: JSON.stringify(requestBody),
-
 				})
 
 			if (response.success) {

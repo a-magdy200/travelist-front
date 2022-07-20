@@ -5,14 +5,16 @@ interface ICountryReviewProps {
 	countryReviews: ICountryReview[]
 }
 
-const ShowCountryReviews = ({countryReviews}: ICountryReviewProps) => {
-
+const ShowCountryReviews = ({ countryReviews }: ICountryReviewProps) => {
 	return (
 		<div>
 			<h1>Country Reviews</h1>
 			{countryReviews ? (
 				countryReviews.map((countryReview, index) => (
-					<ShowCountryReviewsComponent countryReview={countryReview} key={index} />
+					<ShowCountryReviewsComponent
+						countryReview={countryReview}
+						key={index}
+					/>
 				))
 			) : (
 				<div></div>

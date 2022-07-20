@@ -11,21 +11,20 @@ import { ICountryReviewRequestBody } from '../../config/interfaces/ICountryRevie
 import { ICountryReview } from '../../config/interfaces/ICountryReview.interface'
 
 interface Test {
-	countryId: number;
+	countryId: number
 }
 
-const CreateCountryReviews = ({countryId}: Test) => {
+const CreateCountryReviews = ({ countryId }: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 
 	async function sendData(e: any) {
 		e.preventDefault()
 		try {
-			
 			const requestBody: ICountryReviewRequestBody = {
 				review,
 				rating,
-				countryId
+				countryId,
 			}
 
 			const response: IResponseInterface<ICountryReview> =
@@ -33,7 +32,6 @@ const CreateCountryReviews = ({countryId}: Test) => {
 					url: `/api/country_reviews/create`,
 					method: 'POST',
 					body: JSON.stringify(requestBody),
-
 				})
 
 			if (response.success) {

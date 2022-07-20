@@ -10,7 +10,7 @@ const ListCompaniesReviews = () => {
 	const getCompaniesReviews = async () => {
 		try {
 			const response: IResponseInterface<ICompanyReview[]> = await api<
-			ICompanyReview[]
+				ICompanyReview[]
 			>({
 				url: '/api/company_reviews/all',
 			})
@@ -34,7 +34,10 @@ const ListCompaniesReviews = () => {
 			<h1>Companies Reviews Page</h1>
 			{companiesReviews ? (
 				companiesReviews.map((companyReview, index) => (
-					<ListCompaniesReviewsComponent companyReview={companyReview} key={index} />
+					<ListCompaniesReviewsComponent
+						companyReview={companyReview}
+						key={index}
+					/>
 				))
 			) : (
 				<div></div>

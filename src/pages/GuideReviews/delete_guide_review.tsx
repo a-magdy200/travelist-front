@@ -41,7 +41,7 @@ const DeleteGuideReview = () => {
 		>
 			<div className="left">
 				<Card sx={{ maxWidth: 700 }} style={{ minHeight: '25vh' }}>
-					<form onSubmit={sendData} >
+					<form onSubmit={sendData}>
 						<CardContent>
 							<div>
 								<h2> Are you sure you want to delete this?</h2>
@@ -49,7 +49,7 @@ const DeleteGuideReview = () => {
 							<br />
 						</CardContent>
 						<CardActions>
-							<Button variant="contained" type="submit"  sx={{ mx: "auto" }}>
+							<Button variant="contained" type="submit" sx={{ mx: 'auto' }}>
 								Delete
 							</Button>
 						</CardActions>

@@ -5,9 +5,7 @@ import { ICycleReview } from '../../config/interfaces/ICycleReview.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 
 interface ICycleReviewProps {
-	cycleId: number 
-	// cycleId: number | undefined
-
+	cycleId: number
 }
 
 const ShowCycleReviews = ({ cycleId }: ICycleReviewProps) => {

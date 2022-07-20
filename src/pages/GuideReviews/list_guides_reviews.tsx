@@ -10,7 +10,7 @@ const ListGuidesReviews = () => {
 	const getGuidesReviews = async () => {
 		try {
 			const response: IResponseInterface<IGuideReview[]> = await api<
-			IGuideReview[]
+				IGuideReview[]
 			>({
 				url: '/api/guide_reviews/all',
 			})

@@ -11,21 +11,20 @@ import { ICompanyReviewRequestBody } from '../../config/interfaces/ICompanyRevie
 import { ICompanyReview } from '../../config/interfaces/ICompanyReview.interface'
 
 interface Test {
-	companyId: number;
+	companyId: number
 }
 
-const CreateCompanyReviews = ({companyId}: Test) => {
+const CreateCompanyReviews = ({ companyId }: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 
 	async function sendData(e: any) {
 		e.preventDefault()
 		try {
-			
 			const requestBody: ICompanyReviewRequestBody = {
 				review,
 				rating,
-				companyId
+				companyId,
 			}
 
 			const response: IResponseInterface<ICompanyReview> =
@@ -33,7 +32,6 @@ const CreateCompanyReviews = ({companyId}: Test) => {
 					url: `/api/company_reviews/create`,
 					method: 'POST',
 					body: JSON.stringify(requestBody),
-
 				})
 
 			if (response.success) {

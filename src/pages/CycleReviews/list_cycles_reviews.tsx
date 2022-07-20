@@ -10,7 +10,7 @@ const ListCyclesReviews = () => {
 	const getCyclesReviews = async () => {
 		try {
 			const response: IResponseInterface<ICycleReview[]> = await api<
-			ICycleReview[]
+				ICycleReview[]
 			>({
 				url: '/api/cycle_reviews/all',
 			})

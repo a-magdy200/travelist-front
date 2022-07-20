@@ -11,21 +11,20 @@ import { IGuideReview } from '../../config/interfaces/IGuideReview.interface'
 import { IGuideReviewRequestBody } from '../../config/interfaces/IGuideReviewRequestBody.interface'
 
 interface Test {
-	guideId: number;
+	guideId: number
 }
 
-const CreateGuideReviews = ({guideId}: Test) => {
+const CreateGuideReviews = ({ guideId }: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 
 	async function sendData(e: any) {
 		e.preventDefault()
 		try {
-			
 			const requestBody: IGuideReviewRequestBody = {
 				review,
 				rating,
-				guideId
+				guideId,
 			}
 
 			const response: IResponseInterface<IGuideReview> =
@@ -33,7 +32,6 @@ const CreateGuideReviews = ({guideId}: Test) => {
 					url: `/api/guide_reviews/create`,
 					method: 'POST',
 					body: JSON.stringify(requestBody),
-
 				})
 
 			if (response.success) {

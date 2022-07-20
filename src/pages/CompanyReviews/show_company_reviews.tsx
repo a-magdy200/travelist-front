@@ -5,14 +5,16 @@ interface ICompanyReviewProps {
 	companyReviews: ICompanyReview[]
 }
 
-const ShowCompanyReviews = ({companyReviews}: ICompanyReviewProps) => {
-
+const ShowCompanyReviews = ({ companyReviews }: ICompanyReviewProps) => {
 	return (
 		<div>
 			<h1>Company Reviews</h1>
 			{companyReviews ? (
 				companyReviews.map((companyReview, index) => (
-					<ShowCompanyReviewsComponent companyReview={companyReview} key={index} />
+					<ShowCompanyReviewsComponent
+						companyReview={companyReview}
+						key={index}
+					/>
 				))
 			) : (
 				<div></div>
