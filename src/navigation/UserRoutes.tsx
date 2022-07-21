@@ -34,7 +34,7 @@ import EditPost from '../pages/post/EditPost'
 import CreatePost from '../pages/post/create_post'
 import DeletePost from '../pages/post/delete_post'
 import ListFriends from '../pages/Friend/list_friends'
-import ListTravelerBookings from '../pages/booking/TravelerBooking'
+import ListTravelerBookings from '../pages/booking/traveler-booking'
 
 import ListHotelsReviews from '../pages/HotelReviews/list_hotels_reviews'
 import ListCountriesReviews from '../pages/CountryReviews/list_hotels_reviews'
@@ -46,7 +46,10 @@ import DeleteCountryReview from '../pages/CountryReviews/delete_country_review'
 import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
+import ListBookings from '../pages/booking/show-bookings'
+import ShowBooking from '../pages/booking/show-one-booking'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
+
 
 
 const UserRoutes = () => {
@@ -90,8 +93,9 @@ const UserRoutes = () => {
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
       <Route path="/country/show/:id" element={<ShowCountry />} />
       <Route path="/traveler/booking" element={<ListTravelerBookings />} />
+      <Route path="/booking/list" element={<ListBookings />} />
+      <Route path="/booking/show/:id" element={<ShowBooking />} />
       <Route path="/countryReview/create/:id" element={<CreateCountryReviews />} />
-
 
       {/* for admin usage */}
       <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
