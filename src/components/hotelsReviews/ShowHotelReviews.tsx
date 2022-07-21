@@ -10,10 +10,8 @@ const ShowHotelReviewsComponent = ({ hotelReview }: IHotelReviewShowProps) => {
 		<div>
 			{hotelReview ? (
 				<div>
-					<Card sx={{ maxWidth: 500,minWidth:345 ,mx:30,my:2}}>
-					
+					<Card sx={{ maxWidth: 500, minWidth: 345, mx: 30, my: 2 }}>
 						<CardContent className="bottom">
-							
 							{/* <Typography gutterBottom variant="h5" component="div">
 								{hotelReview}
 							</Typography> */}
@@ -23,7 +21,6 @@ const ShowHotelReviewsComponent = ({ hotelReview }: IHotelReviewShowProps) => {
 							</Typography>
 
 							<Rating name="read-only" value={hotelReview.rating} readOnly />
-
 						</CardContent>
 					</Card>
 					<div>

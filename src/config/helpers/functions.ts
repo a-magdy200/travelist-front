@@ -1,6 +1,3 @@
 export const someFunction = (): void => {
-// something
-};
-
-
-
+	// something
+}

@@ -24,15 +24,12 @@ const TravelerData = () => {
 		} catch (error: any) {
 			console.log(error)
 		}
-	}	
-  useEffect(() => {
+	}
+	useEffect(() => {
 		getMyProfile()
 	}, [])
 	return (
-
-			<>
-					{traveler ? <Traveler traveler={traveler} /> : <div>not found</div>}
-			</>
+		<>{traveler ? <Traveler traveler={traveler} /> : <div>not found</div>}</>
 	)
 }
 

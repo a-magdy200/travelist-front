@@ -8,10 +8,11 @@ const ListPosts = () => {
 	const [posts, setPosts] = useState<IPostInterface[]>()
 	const getPosts = async () => {
 		try {
-			const response: IResponseInterface<IPostInterface[]> =
-				await api<IPostInterface[]>({
-					url: '/api/posts/',
-				})
+			const response: IResponseInterface<IPostInterface[]> = await api<
+				IPostInterface[]
+			>({
+				url: '/api/posts/',
+			})
 
 			if (response.success) {
 				if (response.data) {
@@ -28,7 +29,13 @@ const ListPosts = () => {
 	}, [])
 	return (
 		<div>
-			{posts? posts.map((post,index) =>(<ListPostsComponent post={post} key={index} />)) : <div></div>}
+			{posts ? (
+				posts.map((post, index) => (
+					<ListPostsComponent post={post} key={index} />
+				))
+			) : (
+				<div></div>
+			)}
 		</div>
 	)
 }

@@ -1,8 +1,7 @@
-import {createContext} from "react";
-import {APP_NAME} from "../config/helpers/constants";
+import { createContext } from 'react'
 export const DEFAULT_APP_CONTEXT_STATE = {
-  pageTitle: APP_NAME,
-  setPageTitle: (title: string) => {}
-};
-const AppContext = createContext(DEFAULT_APP_CONTEXT_STATE);
-export default AppContext;
+	pageTitle: 'Travelist',
+	setPageTitle: (title: string) => {},
+}
+const AppContext = createContext(DEFAULT_APP_CONTEXT_STATE)
+export default AppContext

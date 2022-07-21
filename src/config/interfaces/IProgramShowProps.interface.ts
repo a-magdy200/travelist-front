@@ -1,5 +1,5 @@
-import {IProgramInterface} from "./IProgram.interface";
+import { IProgramInterface } from './IProgram.interface'
 
 export interface IProgramShowProps {
-	program: IProgramInterface;
+	program: IProgramInterface
 }

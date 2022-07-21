@@ -81,7 +81,6 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 					</Grid>
 
 					<ListPosts />
-
 				</div>
 			) : (
 				<Loader />

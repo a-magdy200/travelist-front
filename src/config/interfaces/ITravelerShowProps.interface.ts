@@ -1,5 +1,5 @@
-import {ITravelerRequestBodyInterface} from "./ITravelerRequestBody.interface";
+import { ITravelerRequestBodyInterface } from './ITravelerRequestBody.interface'
 
 export interface ITravelerShowProps {
-	traveler: ITravelerRequestBodyInterface;
+	traveler: ITravelerRequestBodyInterface
 }

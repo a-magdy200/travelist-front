@@ -5,7 +5,6 @@ import { IProgramShowProps } from '../../config/interfaces/IProgramShowProps.int
 import CardActions from '@mui/material/CardActions'
 import ProgramDataComponent from './ProgramData'
 const ShowProgramComponent = ({ program }: IProgramShowProps) => {
-	
 	return (
 		<div>
 			{program ? (
@@ -19,18 +18,16 @@ const ShowProgramComponent = ({ program }: IProgramShowProps) => {
 					) : (
 						<></>
 					)}
-					
-					<ProgramDataComponent program={program}/>
-						<CardActions>
-							<NavLink to={`/program/list`}>
-								{' '}
-								<Button className="createButton" variant="contained">
-									Back
-								</Button>
-								</NavLink>
-							
-							
-						</CardActions>
+
+					<ProgramDataComponent program={program} />
+					<CardActions>
+						<NavLink to={`/program/list`}>
+							{' '}
+							<Button className="createButton" variant="contained">
+								Back
+							</Button>
+						</NavLink>
+					</CardActions>
 				</div>
 			) : (
 				<Loader />

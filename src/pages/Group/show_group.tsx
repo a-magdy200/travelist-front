@@ -11,9 +11,9 @@ const ShowGroup = () => {
 	const [userId, setUserId] = useState<IUserInterface>()
 	const { id } = useParams()
 	let props = {
-		group:group,
-		userId:userId
-		}
+		group: group,
+		userId: userId,
+	}
 	const getGroup = async () => {
 		try {
 			const response: IResponseInterface<IGroupInterface> =
@@ -42,7 +42,7 @@ const ShowGroup = () => {
 			if (response.success) {
 				if (response.data) {
 					setUserId(response.data)
-					console.log('response data',response.data)
+					console.log('response data', response.data)
 				}
 			}
 		} catch (error: any) {
@@ -53,10 +53,6 @@ const ShowGroup = () => {
 		getUserId()
 	}, [])
 
-	return (
-		<div>
-			{group ? <ShowGroupComponent group={group} /> : <div></div>}
-		</div>
-	)
+	return <div>{group ? <ShowGroupComponent group={group} /> : <div></div>}</div>
 }
 export default ShowGroup

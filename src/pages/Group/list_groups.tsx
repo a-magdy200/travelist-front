@@ -10,10 +10,11 @@ const ListGroups = () => {
 
 	const getGroups = async () => {
 		try {
-			const response: IResponseInterface<IGroupInterface[]> =
-				await api<IGroupInterface[]>({
-					url: '/api/groups/all',
-				})
+			const response: IResponseInterface<IGroupInterface[]> = await api<
+				IGroupInterface[]
+			>({
+				url: '/api/groups/all',
+			})
 
 			if (response.success) {
 				if (response.data) {
@@ -32,7 +33,13 @@ const ListGroups = () => {
 	return (
 		<div>
 			<h1>Groups Page</h1>
-			{groups? groups.map((group,index) =>(<ListGroupsComponent group={group} key={index} />)) : <div>No groups yet</div>}
+			{groups ? (
+				groups.map((group, index) => (
+					<ListGroupsComponent group={group} key={index} />
+				))
+			) : (
+				<div>No groups yet</div>
+			)}
 		</div>
 	)
 }

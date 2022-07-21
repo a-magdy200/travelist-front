@@ -10,7 +10,9 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 
 export default function CountrySelect() {
 	const [country, setCountry] = useState<ICountryInterface | null>(null)
-	const [countries, setCountries] = useState<ICountryInterface[]>([{id:0, name:''}])
+	const [countries, setCountries] = useState<ICountryInterface[]>([
+		{ id: 0, name: '' },
+	])
 
 	const getCountries = async () => {
 		try {
@@ -58,7 +60,7 @@ export default function CountrySelect() {
 						label="Country"
 						inputProps={{
 							...params.inputProps,
-							autoComplete: 'new-password'
+							autoComplete: 'new-password',
 						}}
 					/>
 				)}

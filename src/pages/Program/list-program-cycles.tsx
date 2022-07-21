@@ -7,15 +7,16 @@ import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import Loader from '../../components/Loader'
 
 const ListProgramCycles = () => {
-    const [cycles, setCycles] = useState<ICycleInterface[]>([])
-    const { id } = useParams()
+	const [cycles, setCycles] = useState<ICycleInterface[]>([])
+	const { id } = useParams()
 	const getCycles = async () => {
 		try {
-			const response: IResponseInterface<ICycleInterface[]> =
-				await api<ICycleInterface[]>({
-					url: `/api/programs/show/cycles/${id}`,
-				})
-	
+			const response: IResponseInterface<ICycleInterface[]> = await api<
+				ICycleInterface[]
+			>({
+				url: `/api/programs/show/cycles/${id}`,
+			})
+
 			if (response.success) {
 				if (response.data) {
 					setCycles(response.data)
@@ -29,15 +30,11 @@ const ListProgramCycles = () => {
 	useEffect(() => {
 		getCycles()
 	}, [])
-	
-    return<div>
-       { 
-        cycles?
-		<ListProgramCyclesComponent cycles={cycles} /> 
-        :
-        <Loader/>
 
-       }
-	</div>
+	return (
+		<div>
+			{cycles ? <ListProgramCyclesComponent cycles={cycles} /> : <Loader />}
+		</div>
+	)
 }
 export default ListProgramCycles

@@ -1,8 +1,6 @@
 import CreateProgramComponent from '../../components/programs/CreateProgram'
 
 const CreateProgram = () => {
-	return(
-     <CreateProgramComponent/>
-	)
+	return <CreateProgramComponent />
 }
 export default CreateProgram

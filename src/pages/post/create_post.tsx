@@ -4,16 +4,16 @@ import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import { useNavigate } from 'react-router-dom'
 import Button from '@mui/material/Button'
-import TextareaAutosize from '@mui/base/TextareaAutosize';
+import TextareaAutosize from '@mui/base/TextareaAutosize'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { IPostInterface } from '../../config/interfaces/IPost.interface'
 import { useLocation } from 'react-router-dom'
-const CreatePost= () => {
+const CreatePost = () => {
 	const [content, setContent] = useState<string>('')
 	const navigate = useNavigate()
 	const location = useLocation()
-	type LocationState = { id: number; };
+	type LocationState = { id: number }
 	const { id } = location.state as LocationState
 	const sendData = async function createPost(
 		e: React.FormEvent<HTMLFormElement>
@@ -21,7 +21,7 @@ const CreatePost= () => {
 		e.preventDefault()
 		const requestBody = {
 			content,
-			groupId:id
+			groupId: id,
 		}
 		try {
 			const response: IResponseInterface<IPostInterface> =
@@ -33,7 +33,7 @@ const CreatePost= () => {
 
 			if (response.success) {
 				if (response.data) {
-						navigate(`/group/show/${id}`)
+					navigate(`/group/show/${id}`)
 				}
 			}
 		} catch (error: any) {
@@ -62,7 +62,7 @@ const CreatePost= () => {
 									onChange={(e) => {
 										setContent(e.target.value)
 									}}
-								   style={{width: 300,height:100}}
+									style={{ width: 300, height: 100 }}
 								/>
 							</div>
 							<br />

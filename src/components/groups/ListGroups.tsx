@@ -12,19 +12,17 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
 		<div>
 			{group ? (
 				<div>
-					<Card >
-
-						<CardContent className="bottom" >
-
+					<Card>
+						<CardContent className="bottom">
 							<h2 className="header">{group.country?.name}</h2>
 
 							<Grid
-							container
-							direction="column"
-							spacing={2}
-							xs={10}
-							lg={8}
-							mb={3}
+								container
+								direction="column"
+								spacing={2}
+								xs={10}
+								lg={8}
+								mb={3}
 							>
 								<Grid item xs={6}>
 									Country : {group.country?.name}
@@ -34,7 +32,6 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
 									Followers Count : {group.followers_count}
 								</Grid>
 							</Grid>
-
 						</CardContent>
 
 						<CardActions className="bottom">
@@ -45,9 +42,7 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
 								</Button>
 							</NavLink>
 						</CardActions>
-
 					</Card>
-					
 				</div>
 			) : (
 				<Loader />

@@ -7,7 +7,9 @@ import CardActions from '@mui/material/CardActions/CardActions'
 import { NavLink } from 'react-router-dom'
 import { ICountryReviewShowProps } from '../../config/interfaces/ICountryReviewShowProps.interface'
 
-const ListCountriesReviewsComponent = ({ countryReview }: ICountryReviewShowProps) => {
+const ListCountriesReviewsComponent = ({
+	countryReview,
+}: ICountryReviewShowProps) => {
 	return (
 		<div>
 			{countryReview ? (

@@ -1,17 +1,17 @@
-import { IProgramInterface } from "../../config/interfaces/IProgram.interface"
+import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
 import { useEffect, useState } from 'react'
-import { IResponseInterface } from "../../config/interfaces/IResponse.interface"
-import api from "../../config/api"
-import LandingPageComponent from "../../components/LandingPage"
-import FooterComponent from "../../components/Footer"
-import SearchComponent from "../../components/search.tsx"
-import FilterComponent from "../../components/FilterBar"
-import Loader from "../../components/Loader"
-import Box from '@mui/material/Box';
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import api from '../../config/api'
+import LandingPageComponent from '../../components/LandingPage'
+import FooterComponent from '../../components/Footer'
+import SearchComponent from '../../components/search.tsx'
+import FilterComponent from '../../components/FilterBar'
+import Loader from '../../components/Loader'
+import Box from '@mui/material/Box'
 
 const LandingPage = () => {
-    const [programs, setPrograms] = useState<IProgramInterface[]>([])
-    const getPrograms = async () => {
+	const [programs, setPrograms] = useState<IProgramInterface[]>([])
+	const getPrograms = async () => {
 		try {
 			const response: IResponseInterface<IProgramInterface[]> = await api<
 				IProgramInterface[]
@@ -31,24 +31,20 @@ const LandingPage = () => {
 	useEffect(() => {
 		getPrograms()
 	}, [])
-    return <div>
-		<Box  sx={{position: 'fixed',top:'12%',width:'100%'}}>
+	return (
 		<div>
-        <SearchComponent /> 
-        <FilterComponent /> 
-		</div>
-		</Box>
-        <div>
-		{
-           programs?
-		   <LandingPageComponent programs={programs} /> 
-           :
-		   <Loader/>
-	    }
+			<Box sx={{ position: 'fixed', top: '12%', width: '100%' }}>
+				<div>
+					<SearchComponent />
+					<FilterComponent />
+				</div>
+			</Box>
+			<div>
+				{programs ? <LandingPageComponent programs={programs} /> : <Loader />}
 
-        <FooterComponent /> 
+				<FooterComponent />
+			</div>
 		</div>
-	  </div>
-
+	)
 }
 export default LandingPage

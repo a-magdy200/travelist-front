@@ -16,7 +16,7 @@ function Login() {
 	const [email, setEmail] = useState('')
 	const [password, setPass] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
-	const { login } = useAuth()
+	const { makeAuth } = useAuth()
 	const navigate = useNavigate()
 
 	async function sendData(e: any) {
@@ -37,8 +37,7 @@ function Login() {
 
 			if (response.success) {
 				if (response.data) {
-					const { user, access_token } = response.data
-					login(user, access_token)
+					makeAuth(response.data)
 				}
 			}
 		} catch (error: any) {
