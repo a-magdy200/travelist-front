@@ -1,0 +1,1 @@
+export type SearchType = 'traveler' | 'company' | 'program' | 'country' | 'hotel'

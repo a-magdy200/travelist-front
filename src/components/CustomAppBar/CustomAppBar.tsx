@@ -16,6 +16,7 @@ import GuestMenu from "./GuestMenu";
 import {useNavigate} from "react-router-dom";
 import {APP_NAME} from "../../config/helpers/constants";
 import UserNotifications from "./UserNotifications";
+import SearchField from "../Search/SearchField";
 
 const CustomAppBar = () => {
   const navigate = useNavigate();
@@ -57,6 +58,8 @@ const CustomAppBar = () => {
               {pageTitle}
             </Button>
           </Typography>
+          <SearchField />
+
           <div>
             <UserNotifications />
             <Button
