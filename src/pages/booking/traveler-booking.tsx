@@ -14,7 +14,7 @@ const ListTravelerBookings = () => {
 			const response: IResponseInterface<IBookingInterface[]> = await api<
 				IBookingInterface[]
 			>({
-				url: '/api/cycles/traveler/bookings',
+				url: '/api/cycles/bookings/traveler',
 			})
 	
 			if (response.success) {
