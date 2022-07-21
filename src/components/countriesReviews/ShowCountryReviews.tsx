@@ -13,12 +13,12 @@ const ShowCountryReviewsComponent = ({ countryReview }: ICountryReviewShowProps)
 					<Card sx={{ maxWidth: 500,minWidth:345 ,mx:30,my:2}}>
 					
 						<CardContent className="bottom">
+							
+							<Rating name="read-only" value={countryReview.rating} precision={0.5} readOnly />
 
 							<Typography gutterBottom variant="h6" component="div">
 								{countryReview.review}
 							</Typography>
-
-							<Rating name="read-only" value={countryReview.rating} readOnly />
 
 						</CardContent>
 					</Card>
