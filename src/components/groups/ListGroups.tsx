@@ -16,7 +16,7 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
 
 						<CardContent className="bottom" >
 
-							<h2 className="header">{group.country.name}</h2>
+							<h2 className="header">{group.country?.name}</h2>
 
 							<Grid
 							container
@@ -27,7 +27,7 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
 							mb={3}
 							>
 								<Grid item xs={6}>
-									Country : {group.country.name}
+									Country : {group.country?.name}
 								</Grid>
 
 								<Grid item xs={6}>
@@ -47,9 +47,7 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
 						</CardActions>
 
 					</Card>
-					<div>
-						<p></p>
-					</div>
+					
 				</div>
 			) : (
 				<Loader />

@@ -40,11 +40,12 @@ export default function ShowCountry() {
 	const rating: number | undefined = country ? country.average_rate : 0
 	const programs: IProgramInterface[] | null =
 		country && country.programs ? [...country.programs] : null
-	const hotels: IHotelInterface[] | null =
+	
+		const hotels: IHotelInterface[] | null =
 		country && country.hotels ? [...country?.hotels] : null
 
 	const reviews: ICountryReview[] | null =
-		country && country.reviews ? [...country?.reviews] : null
+	country && country.reviews ? [...country?.reviews] : null
 
 	const coverPic: string | null =
 		country && country.group
@@ -52,14 +53,14 @@ export default function ShowCountry() {
 			  '/uploads/programs/' +
 			  `${country.group.cover_picture}`
 			: ''
-
+	
 	const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
 		setTabValue(newValue)
 	}
 	const getCountry = async () => {
 		try {
 			const response: IResponseInterface<any> = await api({
-				url: `/api/countries/get_country/${id}`,
+				url: `/api/countries/country/${id}`,
 			})
 
 			if (response.success) {
@@ -136,11 +137,22 @@ export default function ShowCountry() {
 						) : (
 							<div>Error</div>
 						)}
-						{country ? (
+						<Button
+							variant="contained"
+							color="primary"
+							size="medium"
+							onClick={() => {
+								navigate(`/countryReview/create/${country?.id}`)
+							}}
+						>
+							Add Review
+						</Button>
+
+						{/* {country ? (
 							<CreateCountryReviews countryId={country.id} />
 						) : (
 							<div>Error</div>
-						)}
+						)} */}
 					</TabPanel>
 					<TabPanel value="2">
 						{programs ? (

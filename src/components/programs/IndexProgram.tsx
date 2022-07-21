@@ -151,7 +151,7 @@ const ListProgramComponent = () => {
 			const response: IResponseInterface<IProgramInterface[]> = await api<
 				IProgramInterface[]
 			>({
-				url: '/api/programs/all',
+				url: '/api/programs/company/programs',
 			})
 
 			if (response.success) {
