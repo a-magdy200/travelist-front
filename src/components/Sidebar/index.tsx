@@ -38,34 +38,39 @@ const Sidebar = () => {
 			<List>
 				<SidebarItem title={'home'} icon={<HomeOutlined />} to={'/'} />
 				<SidebarItem
-					title={'programs'}
+					title={'All Programs'}
 					icon={<HomeOutlined />}
 					to={'/program/list'}
 				/>
 				<SidebarItem
-					title={'groups'}
+					title={'All Groups'}
 					icon={<HomeOutlined />}
 					to={'/group/list'}
 				/>
 				<SidebarItem
-					title={'Hotels'}
+					title={'All Hotels'}
 					icon={<HomeOutlined />}
 					to={'/hotel/list'}
 				/>
 					<SidebarItem
-					title={'posts'}
+					title={'My Posts'}
 					icon={<HomeOutlined />}
 					to={'/posts'}
 				/>
 				<SidebarItem
-					title={'bookings'}
+					title={'My Bookings'}
 					icon={<HomeOutlined />}
 					to={'/traveler/booking'}
 				/>
 				<SidebarItem
-					title={'friends'}
+					title={'My Friends'}
 					icon={<HomeOutlined />}
 					to={'/friends'}
+				/>
+				<SidebarItem
+					title={'All Companies'}
+					icon={<HomeOutlined />}
+					to={'/comapny/list'}
 				/>
 				<SidebarItem
 					title={'List Bookings'}
