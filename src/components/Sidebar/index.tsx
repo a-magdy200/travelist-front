@@ -68,6 +68,11 @@ const Sidebar = () => {
 					icon={<HomeOutlined />}
 					to={'/comapny/list'}
 				/>
+				<SidebarItem
+					title={'List Bookings'}
+					icon={<HomeOutlined />}
+					to={'/booking/list'}
+				/>
 				<SidebarItem title={'My home'} icon={<HomeOutlined />} to={'/feed'} />
 			</List>
 		</Drawer>
