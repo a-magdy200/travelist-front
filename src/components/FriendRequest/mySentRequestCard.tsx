@@ -4,7 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { IFriendRequestShowProps } from '../../config/interfaces/IFriendRequestShowProps.interface';
+import { ISentRequestShowProps } from '../../config/interfaces/ISentRequestShowProps.interface';
 import Avatar from '@mui/material/Avatar';
 import { useEffect, useState } from 'react';
 import { IUserInterface } from '../../config/interfaces/IUser.interface';
@@ -12,7 +12,7 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api';
 import { IFriendRequestInterface } from '../../config/interfaces/IFriendRequest.interface';
 
-const FriendRequestCard=({friendRequest}:IFriendRequestShowProps)=>{
+const MySentRequestCard=({mySentRequest}:ISentRequestShowProps)=>{
     const [currentUser, setCurrentUser] = useState<IUserInterface>()
     const getCurrentUser  = async () => {
         try {
@@ -32,38 +32,22 @@ const FriendRequestCard=({friendRequest}:IFriendRequestShowProps)=>{
         }
     }
 
-   const acceptRequest = async (id: number | undefined) => {
+   const cancelRequest = async (id: number | undefined) => {
 			try {
 				const response: IResponseInterface<IFriendRequestInterface> =
 					await api<IFriendRequestInterface>({
-						url: `/api/friendrequests/accept/${id}`,
-						method: 'PUT',
+						url: `/api/friendrequests/cancel/${id}`,
+						method: 'DELETE',
 					})
 
 				if (response.success) {
-					alert('You are now friends')
+					alert('Request is cancelled')
 				}
 			} catch (error: any) {
 				console.log(error)
 			}
 		}
 	
-
-    const rejectRequest = async (id: number | undefined) => {
-        try {
-            const response: IResponseInterface<IFriendRequestInterface> =
-                await api<IFriendRequestInterface>({
-                    url: `/api/friendrequests/reject/${id}`,
-                    method: 'PUT',
-                })
-
-            if (response.success) {
-                alert('Request is declined')
-            }
-        } catch (error: any) {
-            console.log(error)
-        }
-    }
 
 
 useEffect(() => {
@@ -74,41 +58,33 @@ useEffect(() => {
 
     return<div>
         
-       { currentUser?.id===friendRequest.receiver.user.id?
+       { currentUser?.id===mySentRequest.sender.user.id?
         
         <Card sx={{ maxWidth: 300 ,m:2}}>
         <Avatar
           alt=""
-          src={`http://localhost:4000/${friendRequest.sender.user.profile_picture}`}
+          src={`http://localhost:4000/${mySentRequest.receiver.user.profile_picture}`}
           sx={{ width: 56, height: 56 }}
           
         />
-        <Box>{friendRequest.sender.user.name}</Box>
+        <Box>{mySentRequest.receiver.user.name}</Box>
           <Button
-				variant="contained"
-                size="medium"
-               onClick={() => {
-                    acceptRequest(friendRequest.sender.user.id)
-                    }}
-				>
-			Accept
-		</Button>
-        <Button
 				variant="outlined"
                 size="medium"
-                    onClick={() => {
-                    rejectRequest(friendRequest.sender.user.id)
+               onClick={() => {
+                    cancelRequest(mySentRequest.receiver.user.id)
                     }}
 				>
-			Reject
+			Cancel Friend Request
 		</Button>
+       
         <CardActions>
         </CardActions>
       </Card>
        :
-    <div></div>
+    <div> Can not load card</div>
                 }    
 </div>
                 
                 }
-export default FriendRequestCard
+export default MySentRequestCard

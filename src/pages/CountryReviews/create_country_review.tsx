@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import api from '../../config/api'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Card from '@mui/material/Card'
@@ -9,15 +9,24 @@ import CustomInputField from '../../components/Form/CustomInputField'
 import Button from '@mui/material/Button'
 import { ICountryReviewRequestBody } from '../../config/interfaces/ICountryReviewRequestBody.interface'
 import { ICountryReview } from '../../config/interfaces/ICountryReview.interface'
+import Rating from '@mui/material/Rating'
+import Typography from '@mui/material/Typography'
 
-interface Test {
-	countryId: number
-}
+// interface Test {
+// 	countryId: number
+// }
 
-const CreateCountryReviews = ({ countryId }: Test) => {
+const CreateCountryReviews = () => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
+	const navigate = useNavigate()
+	let { id }  = useParams()
+	let countryId: number = 0
 
+	if(typeof id !== 'undefined'){
+		countryId = +id
+	}
+	
 	async function sendData(e: any) {
 		e.preventDefault()
 		try {
@@ -37,8 +46,7 @@ const CreateCountryReviews = ({ countryId }: Test) => {
 			if (response.success) {
 				if (response.data) {
 					console.log(response.data)
-					// refresh page
-					// reload page
+					navigate(`/country/show/${id}`)
 				}
 			}
 		} catch (error: any) {
@@ -54,6 +62,16 @@ const CreateCountryReviews = ({ countryId }: Test) => {
 						<CardContent>
 							<h2>Add Your Review</h2>
 
+							<Typography component="legend">Star rating</Typography>
+							<Rating
+							name="simple-controlled"
+							value={+rating}
+							onChange={(event, newValue) => {
+								setRating(newValue!.toString());
+							}}
+							/>
+							<br/><br/>
+
 							<div>
 								<CustomInputField
 									type={'text'}
@@ -64,17 +82,17 @@ const CreateCountryReviews = ({ countryId }: Test) => {
 							</div>
 							<br />
 
-							<div>
+							{/* <div>
 								<CustomInputField
 									type={'number'}
 									label={'Review Rating'}
 									value={rating}
 									setValue={setRating}
 								/>
-							</div>
+							</div> */}
 						</CardContent>
 
-						<CardActions>
+						<CardActions sx={{ justifyContent: 'center' }}>
 							<Button variant="contained" type="submit">
 								Create Review
 							</Button>

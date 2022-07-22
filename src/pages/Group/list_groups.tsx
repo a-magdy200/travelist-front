@@ -32,7 +32,7 @@ const ListGroups = () => {
 	return (
 		<div>
 			<h1>Groups Page</h1>
-			{groups? groups.map((group,index) =>(<ListGroupsComponent group={group} key={index} />)) : <div></div>}
+			{groups? groups.map((group,index) =>(<ListGroupsComponent group={group} key={index} />)) : <div>No groups yet</div>}
 		</div>
 	)
 }

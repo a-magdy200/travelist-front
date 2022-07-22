@@ -20,6 +20,7 @@ const ListCompany = () => {
 			if (response.success) {
 				if (response.data) {
 					setCompanies(response.data)
+
 					console.log(response.data)
 				}
 			}
