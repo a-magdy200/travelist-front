@@ -24,7 +24,7 @@ const TravelerSidebar = () => {
       <SidebarItem
         title={'My Posts'}
         icon={<HomeOutlined />}
-        to={'/posts'}
+        to={'/myPosts'}
       />
       <SidebarItem
         title={'My Bookings'}

@@ -16,7 +16,7 @@ const ListGroups = () => {
       if (response.success) {
         if (response.data) {
           setGroups(response.data);
-          // console.log(response.data)
+           console.log('groups',response.data)
         }
       }
     } catch (error: any) {
