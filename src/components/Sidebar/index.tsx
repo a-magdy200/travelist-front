@@ -70,12 +70,17 @@ const Sidebar = () => {
 				<SidebarItem
 					title={'All Companies'}
 					icon={<HomeOutlined />}
-					to={'/comapny/list'}
+					to={'/company/list'}
 				/>
 				<SidebarItem
 					title={'List Bookings'}
 					icon={<HomeOutlined />}
 					to={'/booking/list'}
+				/>
+				<SidebarItem
+					title={'Programs'}
+					icon={<HomeOutlined />}
+					to={'/program/all'}
 				/>
 			</List>
 		</Drawer>

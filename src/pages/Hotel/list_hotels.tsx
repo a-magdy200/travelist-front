@@ -25,7 +25,7 @@ const ListHotels = () => {
 			if (response.success) {
 				if (response.data) {
 					setHotels(response.data)
-					// console.log(response.data)
+					setFilteredHotels([...response.data])
 				}
 			}
 		} catch (error: any) {

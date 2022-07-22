@@ -25,6 +25,7 @@ const RateFilter=({setRate}:IRateSetProps)=>{
             label="Rate"
             onChange={changeRate}
           >
+            <MenuItem value={0}>All</MenuItem>
             <MenuItem value={5}>5 Stars </MenuItem>
             <MenuItem value={4}>4 Stars or Above </MenuItem>
             <MenuItem value={3}>3 Stars or Above  </MenuItem>

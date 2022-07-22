@@ -7,27 +7,28 @@ import { useEffect, useState } from 'react';
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface';
 import api from '../../config/api';
-import { ICountrySetProps } from '../../config/interfaces/ICountrySetProps.interface';
+import { ICompanySetProps } from '../../config/interfaces/ICompanySetProps.interface';
+import { ICompanyInterface } from '../../config/interfaces/ICompany.interface';
 
-const CountryFilter=({setCountry,label}:ICountrySetProps)=>{
+const CompanyFilter=({setCompany}:ICompanySetProps)=>{
     const [value, setValue] = useState('');
-    const [countries, setCountries] = useState<ICountryInterface[]>([]);
+    const [companies, setCompanies] = useState<ICompanyInterface[]>([]);
 
-    const changeCountry = (event: SelectChangeEvent) => {
-      setCountry(Number(event.target.value) );
+    const changeCompany = (event: SelectChangeEvent) => {
+      setCompany(Number(event.target.value) );
       setValue(event.target.value as string)
     };
-    const getCountries = async () => {
+    const getCompanies = async () => {
 		try {
-			const response: IResponseInterface<ICountryInterface[]> = await api<
-				ICountryInterface[]
+			const response: IResponseInterface<ICompanyInterface[]> = await api<
+				ICompanyInterface[]
 			>({
-				url: '/api/admin/countries',
+				url: '/api/companies/',
 			})
 
 			if (response.success) {
 				if (response.data) {
-					setCountries(response.data)
+					setCompanies(response.data)
 				}
 			}
 		} catch (error: any) {
@@ -35,26 +36,26 @@ const CountryFilter=({setCountry,label}:ICountrySetProps)=>{
 		}
 	}
     useEffect(() => {
-		getCountries()
+		getCompanies()
 	}, [])
 
     return(
         
         <Box sx={{ width: 200 }}>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+          <InputLabel id="demo-simple-select-label">Company</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={value}
             label="country"
-            onChange={changeCountry}
+            onChange={changeCompany}
           >
            <MenuItem value={0}>All</MenuItem>
             {
-             countries.map((country) => (
-                <MenuItem value={country.id}>
-                    {country.name}
+             companies.map((company) => (
+                <MenuItem value={company.id}>
+                    {company.user?.name}
                 </MenuItem>
             ))
             }
@@ -64,4 +65,4 @@ const CountryFilter=({setCountry,label}:ICountrySetProps)=>{
       </Box>
       );
 }
-export default CountryFilter
+export default CompanyFilter

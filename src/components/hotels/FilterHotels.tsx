@@ -5,11 +5,10 @@ import { IHotelInterface } from '../../config/interfaces/IHotel.interface';
 import { IHotelListProps } from '../../config/interfaces/IHotelListProps.interface';
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
 import CountryFilter from '../FilterBar/CountryFilter';
-import PriceFilter from '../FilterBar/PriceFilter';
 import RateFilter from '../FilterBar/RateFilter';
 import StarFilter from '../FilterBar/StarFilter';
 
-const FilterHotelsComponent=({hotels, setFilteredHotels}:IHotelListProps)=>{
+const FilterCompanyComponent=({hotels, setFilteredHotels}:IHotelListProps)=>{
     const [star, setStar] = useState<number>(0)
     const [country, setCountry] = useState<number>(0)
     const [rate, setRate] = useState<number>(0)
@@ -41,7 +40,11 @@ const FilterHotelsComponent=({hotels, setFilteredHotels}:IHotelListProps)=>{
       return false;
       }))
       }
-    
+    if(rate===0&&country===0&&star===0)
+    {
+      setFilteredHotels([...hotels])
+ 
+    }
 
     }
     useEffect(() => {
@@ -49,11 +52,11 @@ const FilterHotelsComponent=({hotels, setFilteredHotels}:IHotelListProps)=>{
 	}, [star,rate,country])
     return (
           <Box display={"flex"}>
-				<CountryFilter setCountry={setCountry}/>
+				<CountryFilter setCountry={setCountry} label="Country"/>
 				<StarFilter setStar={setStar}/>
 				<RateFilter setRate={setRate}/>
 			
 			</Box>
     );
 }
-export default FilterHotelsComponent
+export default FilterCompanyComponent

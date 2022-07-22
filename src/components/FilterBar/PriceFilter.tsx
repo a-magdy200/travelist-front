@@ -16,7 +16,7 @@ const PriceFilter=({setPrice}:IPriceSetProps)=>{
    
     return(
 
-        <Box sx={{ width: 300 }}>
+        <Box sx={{ width: 200 }}>
         <Slider max={100000}
           getAriaLabel={() => 'Price range'}
           value={value}
