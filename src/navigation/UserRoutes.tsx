@@ -50,6 +50,7 @@ import ListBookings from '../pages/booking/show-bookings'
 import ShowBooking from '../pages/booking/show-one-booking'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
 import FeedHome from '../pages/FeedPage'
+import FollowGroup from '../pages/Group/follow_group'
 
 
 const UserRoutes = () => {
@@ -72,6 +73,8 @@ const UserRoutes = () => {
 			<Route path="/program/all" element={<ListProgramsPage />} />
 
 			<Route path="/feed" element={<FeedHome />} />
+
+			<Route path="/group/follow/:id" element={<FollowGroup />} />
 
 			{/*  company  */}
 			<Route path="/company" element={<CompanyProfile />} />

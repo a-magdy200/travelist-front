@@ -37,7 +37,7 @@ const FeedHome = () => {
 					<FeedPageComponent feedPost={feedPost} key={index} />
 				))
 			) : (
-				<div></div>
+				<div>No followed groups</div>
 			)}
 		</div>
 	)

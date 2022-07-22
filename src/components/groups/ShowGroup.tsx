@@ -62,8 +62,15 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 									Create post
 								</Button>
 							</Link>
-							<div></div>
+
+							<NavLink to={`/group/follow/${group.id}`}>
+								{' '}
+								<Button className="createButton" variant="contained">
+									Follow Group
+								</Button>
+							</NavLink>
 						</Grid>
+
 						<Grid item xs={6}>
 							<NavLink to={`/group/list`}>
 								{' '}
@@ -72,6 +79,7 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 								</Button>
 							</NavLink>
 						</Grid>
+
 						{/* if id of user not in followers array */}
 						{/* const existedUser = group.followers?.find((obj) => {
 			            return obj.id === userId
@@ -81,7 +89,6 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 					</Grid>
 
 					<ListPosts />
-
 				</div>
 			) : (
 				<Loader />

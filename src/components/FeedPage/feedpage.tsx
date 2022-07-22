@@ -12,14 +12,11 @@ import Typography from '@mui/material/Typography'
 interface IFeedPostProps {
 	feedPost: IFeedPost
 }
-// export interface ICycleReviewShowProps {
-// 	cycleReview: ICycleReview;
-// }
 
 const FeedPageComponent = ({ feedPost }: IFeedPostProps) => {
 	return (
 		<div>
-			{feedPost ? (
+			{feedPost? (
 				<div>
 					<Card sx={{ maxWidth: 500, minWidth: 345, mx: 30, my: 2 }}>
 						<CardContent className="bottom">
@@ -27,12 +24,10 @@ const FeedPageComponent = ({ feedPost }: IFeedPostProps) => {
 								{feedPost.content}
 							</Typography>
 
-							<Typography gutterBottom variant="h6" component="div">
+							{/* <Typography gutterBottom variant="h6" component="div">
 								{feedPost.travelerName}
-							</Typography>
+							</Typography> */}
 						</CardContent>
-
-						
 					</Card>
 					<div>
 						<p></p>
