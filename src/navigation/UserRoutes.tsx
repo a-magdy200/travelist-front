@@ -47,6 +47,7 @@ import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
+import FeedHome from '../pages/FeedPage'
 
 const UserRoutes = () => {
 	return (
@@ -67,6 +68,7 @@ const UserRoutes = () => {
 			
 			<Route path="/program/all" element={<ListProgramsPage />} />
 
+			<Route path="/feed" element={<FeedHome />} />
 
 			{/*  company  */}
 			<Route path="/company" element={<CompanyProfile />} />
