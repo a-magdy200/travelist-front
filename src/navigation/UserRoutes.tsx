@@ -34,7 +34,7 @@ import EditPost from '../pages/post/EditPost'
 import CreatePost from '../pages/post/create_post'
 import DeletePost from '../pages/post/delete_post'
 import ListFriends from '../pages/Friend/list_friends'
-import ListTravelerBookings from '../pages/booking/TravelerBooking'
+import ListTravelerBookings from '../pages/booking/traveler-booking'
 
 import ListHotelsReviews from '../pages/HotelReviews/list_hotels_reviews'
 import ListCountriesReviews from '../pages/CountryReviews/list_hotels_reviews'
@@ -46,6 +46,8 @@ import DeleteCountryReview from '../pages/CountryReviews/delete_country_review'
 import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
+import ListBookings from '../pages/booking/show-bookings'
+import ShowBooking from '../pages/booking/show-one-booking'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
 import ShowProfile from "../pages/Profile/ShowProfile";
 import EditProfile from "../pages/Profile/EditProfile";
@@ -53,69 +55,75 @@ import EditProfile from "../pages/Profile/EditProfile";
 const UserRoutes = () => {
 	return (
 		<Routes>
-			<Route path="/create" element={<CreateProgram />} />
-			<Route path="/show" element={<Show />} />
-			<Route path="/profile" element={<ShowProfile />} />
-			<Route path="/profile/edit" element={<EditProfile />} />
-			{/*<Route path="/profile" element={<UserBaseData />} />*/}
+			{/*  traveler  */}
 			{/*<Route path="/traveler" element={<TravelerProfile />} />*/}
-			{/*<Route path="/editPassword" element={<EditPassword />} />*/}
-			{/*<Route path="/editUser" element={<EditUser />} />*/}
 			{/*<Route path="/editTraveler" element={<EditTraveler />} />*/}
-			{/*<Route path="/editCompany" element={<EditCompany />} />*/}
-			<Route path="/friends" element={<ListFriends />} />
-			{/*<Route path="/editUser/:id" element={<EditUser />} />*/}
-			<Route path="/company/:id" element={<CompanyProfile />} />
-			{/*<Route path="/editUser" element={<EditUser />} />*/}
-			{/*<Route path="/company" element={<CompanyProfile />} />*/}
-			<Route path="/company/list" element={<ListCompany />} />
-			<Route path="/company/show/:id" element={<CompanyDetails />} />
-			<Route path="/posts" element={<ListPosts />} />
-			<Route path="/post/show/:id" element={<ShowPost />} />
+     <Route path="/profile" element={<ShowProfile />} />
+     <Route path="/profile/edit" element={<EditProfile />} />
+
+     <Route path="/post/show/:id" element={<ShowPost />} />
 			<Route path="/post/edit/:id" element={<EditPost />} />
 			<Route path="/post/delete/:id" element={<DeletePost />} />
 			<Route path="/post/create" element={<CreatePost />} />
-			<Route path="/program/list" element={<ListPrograms />} />
-			<Route path="/program/cycles/list/:id" element={<ListProgramCycles />} />
+			<Route path="/posts" element={<ListPosts />} />
+
+			<Route path="/traveler/booking" element={<ListTravelerBookings />} />
+
+			<Route path="/friends" element={<ListFriends />} />
+
+			<Route path="/program/all" element={<ListProgramsPage />} />
+
+
+			{/*  company  */}
+			{/*<Route path="/company" element={<CompanyProfile />} />*/}
+			{/*<Route path="/editCompany" element={<EditCompany />} />*/}
+
+			{/* <Route path="/create" element={<CreateProgram />} /> */}
 			<Route path="/program/create" element={<CreateProgram />} />
-			<Route path="/program/show/:id" element={<ShowProgram />} />
-			<Route path="/program/show/user/:id" element={<ShowProgramUser />} />
 			<Route path="/program/edit/:id" element={<EditProgram />} />
+			<Route path="/program/list" element={<ListPrograms />} />
+
 			<Route path="/cycle/create/:id" element={<CreateCycle />} />
+			<Route path="/cycle/edit/:id" element={<EditCycle />} />
+
+
+			{/*  both  */}
+			{/*<Route path="/profile" element={<UserBaseData />} />*/}
+			{/*<Route path="/editUser" element={<EditUser />} />*/}
+			{/* <Route path="/editUser/:id" element={<EditUser />} /> */}
+			{/*<Route path="/editPassword" element={<EditPassword />} />*/}
+
+			<Route path="/program/show/user/:id" element={<ShowProgramUser />} />
+			<Route path="/program/details/:id" element={<ProgramDetailsPage />} />
+			{/* <Route path="/show" element={<Show />} /> */}
+
+			<Route path="/country/show/:id" element={<ShowCountry />} />
+
 			<Route path="/cycle/list" element={<ListCycles />} />
 			<Route path="/cycle/show/:id" element={<ShowCycle />} />
-			<Route path="/cycle/edit/:id" element={<EditCycle />} />
-			<Route path="/program/all" element={<ListProgramsPage />} />
-			<Route path="/program/details/:id" element={<ProgramDetailsPage />} />
+
+			<Route path="/company/show/:id" element={<CompanyDetails />} />
+
 			<Route path="/group/list" element={<ListGroups />} />
 			<Route path="/group/show/:id" element={<ShowGroup />} />
+
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
-			<Route path="/country/show/:id" element={<ShowCountry />} />
-			<Route path="/traveler/booking" element={<ListTravelerBookings />} />
-			<Route
-				path="/countryReview/create/:id"
-				element={<CreateCountryReviews />}
-			/>
 
-			{/* for admin usage */}
-			<Route path="/hotelReview/list" element={<ListHotelsReviews />} />
-			<Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />
-			<Route path="/countryReview/list" element={<ListCountriesReviews />} />
-			<Route
-				path="/countryReview/delete/:id"
-				element={<DeleteCountryReview />}
-			/>
-			<Route path="/companyReview/list" element={<ListCompaniesReviews />} />
-			<Route
-				path="/companyReview/delete/:id"
-				element={<DeleteCompanyReview />}
-			/>
-			<Route path="/guideReview/list" element={<ListGuidesReviews />} />
-			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
-			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
-			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
-		</Routes>
-	)
+
+      {/* for admin usage */}
+      <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
+      <Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />
+      <Route path="/countryReview/list" element={<ListCountriesReviews />} />
+      <Route path="/countryReview/delete/:id" element={<DeleteCountryReview />} />
+      <Route path="/companyReview/list" element={<ListCompaniesReviews />} />
+      <Route path="/companyReview/delete/:id" element={<DeleteCompanyReview />} />
+      <Route path="/guideReview/list" element={<ListGuidesReviews />} />
+      <Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
+      <Route path="/cycleReview/list" element={<ListCyclesReviews />} />
+      <Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
+
+    </Routes>
+  )
 }
 export default UserRoutes

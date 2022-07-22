@@ -17,6 +17,7 @@ const ListPosts = () => {
 			if (response.success) {
 				if (response.data) {
 					setPosts(response.data)
+					console.log(response.data)
 				}
 			}
 		} catch (error: any) {
