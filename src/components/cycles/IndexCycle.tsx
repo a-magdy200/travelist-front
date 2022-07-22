@@ -231,7 +231,6 @@ const ListCycleComponent = () => {
 		<div>
 			{cycles ? (
 				<div>
-					
 					<Box className="listPrograms" sx={{ width: '97%' }}>
 						<Paper sx={{ width: '100%', mb: 1 }}>
 							<TablePagination

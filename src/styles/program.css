@@ -53,17 +53,14 @@
 .bottomContent {
 	padding: 100px;
 }
-.header
-{
+.header {
 	margin-left: 40%;
 	color: rgb(27, 27, 245);
 }
-.programsContainer
-{
-	display:flex;
+.programsContainer {
+	display: flex;
 	justify-content: space-evenly;
 	flex-wrap: wrap;
-	padding:0;
+	padding: 0;
 	margin-top: 3%;
-	
 }

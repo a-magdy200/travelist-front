@@ -8,7 +8,7 @@ import ShowPostComponent from '../../components/post/ShowPost'
 const ShowPost = () => {
 	const [post, setPost] = useState<IPostInterface>()
 	const { id } = useParams()
-	const getPost= async () => {
+	const getPost = async () => {
 		try {
 			const response: IResponseInterface<IPostInterface> =
 				await api<IPostInterface>({
@@ -27,10 +27,6 @@ const ShowPost = () => {
 		getPost()
 	}, [])
 
-	return (
-		<div>
-			{post ? <ShowPostComponent post={post} /> : <div></div>}
-		</div>
-	)
+	return <div>{post ? <ShowPostComponent post={post} /> : <div></div>}</div>
 }
 export default ShowPost

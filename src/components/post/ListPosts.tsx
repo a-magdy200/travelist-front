@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import moment from 'moment'
 import CardContent from '@mui/material/CardContent/CardContent'
 import CardActions from '@mui/material/CardActions/CardActions'
-import { NavLink ,Link} from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -30,8 +30,11 @@ const ListPostsComponent = ({ post }: IPostShowProps) => {
 										<EditIcon />
 									</NavLink>
 									{/* <NavLink to={`/post/delete/${post.id}`}> */}
-									<Link to={'/post/delete/' +post.id} state={{ groupId: post.groupId}}>
-									<DeleteIcon />
+									<Link
+										to={'/post/delete/' + post.id}
+										state={{ groupId: post.groupId }}
+									>
+										<DeleteIcon />
 									</Link>
 									{/* </NavLink> */}
 								</Grid>

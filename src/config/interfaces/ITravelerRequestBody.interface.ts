@@ -1,4 +1,4 @@
-import { GenderType } from "../types/gender.type"
+import { GenderType } from '../types/gender.type'
 
 export interface ITravelerRequestBodyInterface {
 	national_id: string

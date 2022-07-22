@@ -57,7 +57,7 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 						</Card>
 					</div>
 					{/* <div propName={"myValue"} /> */}
-					
+
 					<ShowHotelReviews hotelReviews={hotel?.reviews || []} />
 
 					<CreateHotelReviews hotelId={hotel.id} />

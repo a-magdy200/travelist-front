@@ -41,8 +41,7 @@ const EditCycleComponent = () => {
 				if (response.data) {
 					setCycle(response.data)
 					setName(response.data.name)
-					if(response.data.program)
-					{
+					if (response.data.program) {
 						setProgramId(response.data.program.id)
 					}
 					setMaxSeats(response.data.max_seats)

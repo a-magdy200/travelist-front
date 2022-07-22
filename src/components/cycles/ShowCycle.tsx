@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid'
 import ShowCycleReviews from '../../pages/CycleReviews/show_cycle_reviews'
 import CreateCycleReviews from '../../pages/CycleReviews/create_cycle_review'
 
-
 const ShowCycleComponent = ({ cycle }: ICycleShowProps) => {
 	return (
 		<div className="createContainer">
@@ -67,12 +66,10 @@ const ShowCycleComponent = ({ cycle }: ICycleShowProps) => {
 						</Grid>
 					</div>
 
-					<ShowCycleReviews cycleId={cycle.id}/>
+					<ShowCycleReviews cycleId={cycle.id} />
 
-					<CreateCycleReviews cycleId={cycle.id}/>
-
+					<CreateCycleReviews cycleId={cycle.id} />
 				</div>
-
 			) : (
 				<Loader />
 			)}

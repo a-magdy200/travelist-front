@@ -5,8 +5,6 @@ import Loader from '../../components/Loader'
 import { IFriendInterface } from '../../config/interfaces/IFriend.interface'
 import ListFriendsComponent from '../../components/Friend/ListFriends'
 
-
-
 const ListFriends = () => {
 	const [friends, setFriends] = useState<IFriendInterface[]>([])
 	const getFriends = async () => {
@@ -16,7 +14,7 @@ const ListFriends = () => {
 			>({
 				url: '/api/travelers/friends',
 			})
-	
+
 			if (response.success) {
 				if (response.data) {
 					setFriends(response.data)
@@ -30,13 +28,10 @@ const ListFriends = () => {
 	useEffect(() => {
 		getFriends()
 	}, [])
-	return <div>
-		{
-		friends ? 
-		<ListFriendsComponent friends={friends} /> 
-		:
-		<Loader/>
-	    }
-		 </div>
+	return (
+		<div>
+			{friends ? <ListFriendsComponent friends={friends} /> : <Loader />}
+		</div>
+	)
 }
 export default ListFriends

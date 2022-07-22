@@ -18,6 +18,7 @@ import Loader from '../Loader'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
+import Typography from "@mui/material/Typography";
 
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
@@ -168,7 +169,6 @@ const ListProgramComponent = () => {
 	}, [])
 	const removeProgram = async (id: number | undefined) => {
 		if (window.confirm('Are you sure?')) {
-			console.log(id)
 			try {
 				const response: IResponseInterface<IProgramInterface> =
 					await api<IProgramInterface>({
@@ -177,8 +177,7 @@ const ListProgramComponent = () => {
 					})
 
 				if (response.success) {
-					alert('deleted successfuly')
-					window.location.reload();
+					setPrograms(previous => previous.filter((program: IProgramInterface) => program.id !== id));
 				}
 			} catch (error: any) {
 				console.log(error)
@@ -219,14 +218,20 @@ const ListProgramComponent = () => {
 		<div>
 			{programs ? (
 				<div>
-					<NavLink to={`/program/create`}>
-						{' '}
-						<Button className="createButton" variant="contained">
-							Create
-						</Button>
-					</NavLink>
-					<Box className="listPrograms" sx={{ width: '97%' }}>
-						<Paper sx={{ width: '100%', mb: 1 }}>
+					<Box display={"flex"} alignItems={"center"} mb={2}>
+						<Typography variant={"h4"}>
+							My Company Programs
+						</Typography>
+						<Box ml={2}>
+							<NavLink to={`/program/create`}>
+								<Button variant="contained">
+									Create
+								</Button>
+							</NavLink>
+						</Box>
+					</Box>
+					<Box>
+						<Paper sx={{ width: '100%', mb: 1 }} elevation={0} variant={"outlined"}>
 							<TablePagination
 								rowsPerPageOptions={[10, 20, 30]}
 								component="div"
@@ -246,59 +251,58 @@ const ListProgramComponent = () => {
 										onRequestSort={handleRequestSort}
 										rowCount={programs.length}
 									/>
-
-				<TableBody>
-					{stableSort(programs, getComparator(order, orderBy))
-						.slice(
-							page * rowsPerPage,
-							page * rowsPerPage + rowsPerPage
-						)
-						.map((program: IProgramInterface, index) => {
-							return (
-								<TableRow>
-									<TableCell align="center">{program.id}</TableCell>
-									<TableCell align="center">{program.name}</TableCell>
-									<TableCell align="center">
-										{program.company?.user?.name}
-									</TableCell>
-									<TableCell align="center">
-										{program.price}
-									</TableCell>
-									<TableCell align="center">
-										<NavLink to={`/program/show/${program.id}`}>
-											<Button
-												className="createButton"
-												variant="contained"
-												color="success"
-											>
-												Show
-											</Button>
-										</NavLink>
-										<NavLink to={`/program/edit/${program.id}`}>
-											{' '}
-											<Button
-												className="createButton"
-												variant="contained"
-											>
-												Edit
-											</Button>
-										</NavLink>
-										<Button
-											className="createButton"
-											variant="contained"
-											color="error"
-											onClick={() => {
-												removeProgram(program.id)
-											}}
-										>
-											Delete
-										</Button>
-									</TableCell>
-								</TableRow>
-							)
-						})}
-					{emptyRows > 0 && <TableCell colSpan={6} />}
-				</TableBody>
+									<TableBody>
+										{stableSort(programs, getComparator(order, orderBy))
+											.slice(
+												page * rowsPerPage,
+												page * rowsPerPage + rowsPerPage
+											)
+											.map((program: IProgramInterface, index) => {
+												return (
+													<TableRow>
+														<TableCell align="center">{program.id}</TableCell>
+														<TableCell align="center">{program.name}</TableCell>
+														<TableCell align="center">
+															{program.company?.user?.name}
+														</TableCell>
+														<TableCell align="center">
+															{program.price}
+														</TableCell>
+														<TableCell align="center">
+															<NavLink to={`/program/show/${program.id}`}>
+																<Button
+																	className="createButton"
+																	variant="contained"
+																	color="success"
+																>
+																	Show
+																</Button>
+															</NavLink>
+															<NavLink to={`/program/edit/${program.id}`}>
+																{' '}
+																<Button
+																	className="createButton"
+																	variant="contained"
+																>
+																	Edit
+																</Button>
+															</NavLink>
+															<Button
+																className="createButton"
+																variant="contained"
+																color="error"
+																onClick={async () => {
+																	await removeProgram(program.id)
+																}}
+															>
+																Delete
+															</Button>
+														</TableCell>
+													</TableRow>
+												)
+											})}
+										{emptyRows > 0 && <TableCell colSpan={6} />}
+									</TableBody>
 								</Table>
 							</TableContainer>
 						</Paper>

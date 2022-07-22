@@ -5,21 +5,25 @@ import Typography from '@mui/material/Typography'
 import Rating from '@mui/material/Rating'
 import { ICountryReviewShowProps } from '../../config/interfaces/ICountryReviewShowProps.interface'
 
-const ShowCountryReviewsComponent = ({ countryReview }: ICountryReviewShowProps) => {
+const ShowCountryReviewsComponent = ({
+	countryReview,
+}: ICountryReviewShowProps) => {
 	return (
 		<div>
 			{countryReview ? (
 				<div>
-					<Card sx={{ maxWidth: 500,minWidth:345 ,mx:30,my:2}}>
-					
+					<Card sx={{ maxWidth: 500, minWidth: 345, mx: 30, my: 2 }}>
 						<CardContent className="bottom">
-							
-							<Rating name="read-only" value={countryReview.rating} precision={0.5} readOnly />
+							<Rating
+								name="read-only"
+								value={countryReview.rating}
+								precision={0.5}
+								readOnly
+							/>
 
 							<Typography gutterBottom variant="h6" component="div">
 								{countryReview.review}
 							</Typography>
-
 						</CardContent>
 					</Card>
 					<div>

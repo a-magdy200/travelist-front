@@ -49,16 +49,17 @@ import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
 import ListBookings from '../pages/booking/show-bookings'
 import ShowBooking from '../pages/booking/show-one-booking'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
-import FeedHome from '../pages/FeedPage'
-import FollowGroup from '../pages/Group/follow_group'
-
+import ShowProfile from '../pages/Profile/ShowProfile'
+import EditProfile from '../pages/Profile/EditProfile'
 
 const UserRoutes = () => {
 	return (
 		<Routes>
 			{/*  traveler  */}
-			<Route path="/traveler" element={<TravelerProfile />} />
-			<Route path="/editTraveler" element={<EditTraveler />} />
+			{/*<Route path="/traveler" element={<TravelerProfile />} />*/}
+			{/*<Route path="/editTraveler" element={<EditTraveler />} />*/}
+			<Route path="/profile" element={<ShowProfile />} />
+			<Route path="/profile/edit" element={<EditProfile />} />
 
 			<Route path="/post/show/:id" element={<ShowPost />} />
 			<Route path="/post/edit/:id" element={<EditPost />} />
@@ -69,7 +70,7 @@ const UserRoutes = () => {
 			<Route path="/traveler/booking" element={<ListTravelerBookings />} />
 
 			<Route path="/friends" element={<ListFriends />} />
-			
+
 			<Route path="/program/all" element={<ListProgramsPage />} />
 
 			<Route path="/feed" element={<FeedHome />} />
@@ -77,8 +78,8 @@ const UserRoutes = () => {
 			<Route path="/group/follow/:id" element={<FollowGroup />} />
 
 			{/*  company  */}
-			<Route path="/company" element={<CompanyProfile />} />
-			<Route path="/editCompany" element={<EditCompany />} />
+			{/*<Route path="/company" element={<CompanyProfile />} />*/}
+			{/*<Route path="/editCompany" element={<EditCompany />} />*/}
 
 			{/* <Route path="/create" element={<CreateProgram />} /> */}
 			<Route path="/program/create" element={<CreateProgram />} />
@@ -88,12 +89,11 @@ const UserRoutes = () => {
 			<Route path="/cycle/create/:id" element={<CreateCycle />} />
 			<Route path="/cycle/edit/:id" element={<EditCycle />} />
 
-
 			{/*  both  */}
-			<Route path="/profile" element={<UserBaseData />} />
-			<Route path="/editUser" element={<EditUser />} />
+			{/*<Route path="/profile" element={<UserBaseData />} />*/}
+			{/*<Route path="/editUser" element={<EditUser />} />*/}
 			{/* <Route path="/editUser/:id" element={<EditUser />} /> */}
-			<Route path="/editPassword" element={<EditPassword />} />
+			{/*<Route path="/editPassword" element={<EditPassword />} />*/}
 
 			<Route path="/program/show/user/:id" element={<ShowProgramUser />} />
 			<Route path="/program/details/:id" element={<ProgramDetailsPage />} />
@@ -112,29 +112,23 @@ const UserRoutes = () => {
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
 
-            {/*  admin  */}
-     		<Route path="/hotelReview/list" element={<ListHotelsReviews />} />
+			{/* for admin usage */}
+			<Route path="/hotelReview/list" element={<ListHotelsReviews />} />
 			<Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />
-
 			<Route path="/countryReview/list" element={<ListCountriesReviews />} />
-			<Route path="/countryReview/delete/:id" element={<DeleteCountryReview />}/>
-
+			<Route
+				path="/countryReview/delete/:id"
+				element={<DeleteCountryReview />}
+			/>
 			<Route path="/companyReview/list" element={<ListCompaniesReviews />} />
-			<Route path="/companyReview/delete/:id" element={<DeleteCompanyReview />}/>
-
+			<Route
+				path="/companyReview/delete/:id"
+				element={<DeleteCompanyReview />}
+			/>
 			<Route path="/guideReview/list" element={<ListGuidesReviews />} />
 			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
-
 			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
 			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
-
-			<Route path="/program/cycles/list/:id" element={<ListProgramCycles />} />
-			<Route path="/program/show/:id" element={<ShowProgram />} />
-			<Route path="/company/list" element={<ListCompany />} />
-
-			{/* <Route path="/company/:id" element={<CompanyProfile />} /> */}
-			<Route path="/countryReview/create/:id" element={<CreateCountryReviews />} />
-
 		</Routes>
 	)
 }

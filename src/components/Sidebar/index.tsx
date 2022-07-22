@@ -10,8 +10,13 @@ import useSidebarContext from '../../hooks/useSidebarContext'
 import Box from '@mui/material/Box'
 import { APP_NAME, DRAWER_WIDTH } from '../../config/helpers/constants'
 import Typography from '@mui/material/Typography'
+import useAuth from "../../hooks/useAuth";
+import CompanySidebar from "./CompanySidebar";
+import TravelerSidebar from "./TravelerSidebar";
+
 const Sidebar = () => {
 	const { isOpen, handleToggle } = useSidebarContext()
+	const {user} = useAuth();
 	return (
 		<Drawer variant="permanent" open={isOpen}>
 			<DrawerHeader>
@@ -37,43 +42,11 @@ const Sidebar = () => {
 			<Divider />
 			<List>
 				<SidebarItem title={'home'} icon={<HomeOutlined />} to={'/'} />
-				<SidebarItem
-					title={'All Programs'}
-					icon={<HomeOutlined />}
-					to={'/program/list'}
-				/>
-				<SidebarItem
-					title={'All Groups'}
-					icon={<HomeOutlined />}
-					to={'/group/list'}
-				/>
-				<SidebarItem
-					title={'All Hotels'}
-					icon={<HomeOutlined />}
-					to={'/hotel/list'}
-				/>
-				<SidebarItem title={'My Posts'} icon={<HomeOutlined />} to={'/posts'} />
-				<SidebarItem
-					title={'My Bookings'}
-					icon={<HomeOutlined />}
-					to={'/traveler/booking'}
-				/>
-				<SidebarItem
-					title={'My Friends'}
-					icon={<HomeOutlined />}
-					to={'/friends'}
-				/>
-				<SidebarItem
-					title={'All Companies'}
-					icon={<HomeOutlined />}
-					to={'/comapny/list'}
-				/>
-				<SidebarItem
-					title={'List Bookings'}
-					icon={<HomeOutlined />}
-					to={'/booking/list'}
-				/>
-				<SidebarItem title={'My home'} icon={<HomeOutlined />} to={'/feed'} />
+				{user.type === 'company' ? (
+					<CompanySidebar />
+				): (
+					<TravelerSidebar />
+				)}
 			</List>
 		</Drawer>
 	)
