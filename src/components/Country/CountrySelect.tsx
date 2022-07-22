@@ -5,7 +5,6 @@ import api from '../../config/api'
 import { useEffect, useState } from 'react'
 import { Stack } from '@mui/material'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
-
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { ICountrySetProps } from '../../config/interfaces/ICountrySetProps.interface'
 
@@ -13,6 +12,7 @@ export default function CountrySelect({setCountry,label}:ICountrySetProps) {
 	//const [country, setCountry] = useState<ICountryInterface >('')
     const [value, setValue] = useState<ICountryInterface >()
 	const [countries, setCountries] = useState<ICountryInterface[]>([{id:0, name:''}])
+
 
 	const getCountries = async () => {
 		try {
@@ -34,7 +34,6 @@ export default function CountrySelect({setCountry,label}:ICountrySetProps) {
 	useEffect(() => {
 		getCountries()
 	}, [])
-
 
 	return (
 		<Stack>
@@ -59,7 +58,7 @@ export default function CountrySelect({setCountry,label}:ICountrySetProps) {
 						label={label}
 						inputProps={{
 							...params.inputProps,
-							autoComplete: 'new-password'
+							autoComplete: 'new-password',
 						}}
 					/>
 				)}

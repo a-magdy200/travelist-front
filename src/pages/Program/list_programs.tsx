@@ -10,13 +10,13 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 const ListProgramsPage = () => {
 	const [programs, setPrograms ] = useState<IProgramInterface[]>([])
 	const [filteredPrograms, setFilteredPrograms] = useState<IProgramInterface[]>([])
-
-	const getPrograms= async () => {
+	const getPrograms = async () => {
 		try {
-			const response: IResponseInterface<IProgramInterface[]> =
-				await api<IProgramInterface[]>({
-					url: '/api/programs/all',
-				})
+			const response: IResponseInterface<IProgramInterface[]> = await api<
+				IProgramInterface[]
+			>({
+				url: '/api/programs/all',
+			})
 
 			if (response.success) {
 				if (response.data) {

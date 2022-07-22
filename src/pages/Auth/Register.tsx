@@ -36,7 +36,7 @@ function Register() {
 	const [is_guide, set_is_guide] = useState(false)
 	const [date_of_birth, set_date_of_birth] = useState('')
 	const [description, set_description] = useState('')
-	const { login } = useAuth()
+	const { makeAuth } = useAuth()
 	const [isLoading, setIsLoading] = useState(false)
 
 	async function sendData(e: any) {
@@ -50,6 +50,7 @@ function Register() {
 
 		if (checkSubmit) {
 			try {
+				let response: IResponseInterface<IUserAuthenticationResponse>
 				if (type === 'traveler') {
 					const requestBody: ITravelerRegisterRequestBody = {
 						name,
@@ -63,19 +64,11 @@ function Register() {
 						is_guide,
 					}
 
-					const response: IResponseInterface<IUserAuthenticationResponse> =
-						await api<IUserAuthenticationResponse>({
-							url: '/auth/register',
-							method: 'POST',
-							body: JSON.stringify(requestBody),
-						})
-
-					if (response.success) {
-						if (response.data) {
-							const { user, access_token } = response.data
-							login(user, access_token)
-						}
-					}
+					response = await api<IUserAuthenticationResponse>({
+						url: '/auth/register',
+						method: 'POST',
+						body: JSON.stringify(requestBody),
+					})
 				} else {
 					const requestBody: ICompanyRegisterRequestBody = {
 						name,
@@ -86,18 +79,15 @@ function Register() {
 						description,
 					}
 
-					const response: IResponseInterface<IUserAuthenticationResponse> =
-						await api<IUserAuthenticationResponse>({
-							url: '/auth/register',
-							method: 'POST',
-							body: JSON.stringify(requestBody),
-						})
-
-					if (response.success) {
-						if (response.data) {
-							const { user, access_token } = response.data
-							login(user, access_token)
-						}
+					response = await api<IUserAuthenticationResponse>({
+						url: '/auth/register',
+						method: 'POST',
+						body: JSON.stringify(requestBody),
+					})
+				}
+				if (response.success) {
+					if (response.data) {
+						makeAuth(response.data)
 					}
 				}
 			} catch (error: any) {

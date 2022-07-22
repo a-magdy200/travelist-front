@@ -1,5 +1,5 @@
-import { IFriendInterface } from "./IFriend.interface";
+import { IFriendInterface } from './IFriend.interface'
 
 export interface IFriendShowProps {
-	friend: IFriendInterface;
+	friend: IFriendInterface
 }

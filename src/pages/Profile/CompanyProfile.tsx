@@ -12,10 +12,10 @@ const CompanyProfile = () => {
 		// 	alignItems="center"
 
 		// >
-			<>
-				<UserBaseData />
-				<CompanyData />
-			</>
+		<>
+			<UserBaseData />
+			<CompanyData />
+		</>
 		// </Stack>
 	)
 }

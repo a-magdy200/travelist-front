@@ -7,6 +7,7 @@ export interface IGroupInterface {
 	followers_count: number
 	cover_picture?: string
 	post: IPostInterface
+	posts?: IPostInterface[]
 	country: ICountryInterface
 	followers?: IUserInterface[]
 }

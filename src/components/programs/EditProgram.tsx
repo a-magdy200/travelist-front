@@ -40,7 +40,7 @@ const EditProgramComponent = () => {
 	const [transportationId, setTransportationId] = useState<string>('')
 	const [transportations, setTransportations] = useState<
 		ITransportationInterface[]
-		>([])
+	>([])
 	const [cover_picture, setCoverPicture] = useState<File>()
 	const [program, setProgram] = useState<IProgramInterface>()
 
@@ -72,7 +72,6 @@ const EditProgramComponent = () => {
 					console.log('res', response.data)
 					console.log('program', program)
 				}
-
 			}
 		} catch (error: any) {
 			console.log(error)
@@ -82,7 +81,7 @@ const EditProgramComponent = () => {
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
 				IHotelInterface[]
-				>({
+			>({
 				url: '/api/admin/hotels',
 			})
 
@@ -99,7 +98,7 @@ const EditProgramComponent = () => {
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
 				IHotelInterface[]
-				>({
+			>({
 				url: '/api/admin/countries',
 			})
 

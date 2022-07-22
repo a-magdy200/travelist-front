@@ -5,55 +5,71 @@ import Card from '@mui/material/Card'
 import moment from 'moment'
 import CardContent from '@mui/material/CardContent/CardContent'
 import CardActions from '@mui/material/CardActions/CardActions'
-import { NavLink ,Link} from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import useAuth from "../../hooks/useAuth";
+import Paper from "@mui/material/Paper";
+import { blue, blueGrey } from "@mui/material/colors";
 const ListPostsComponent = ({ post }: IPostShowProps) => {
-	// console.log('post ', post)
+	const {user} = useAuth();
 	return (
-		<div>
+		<Box mb={2}>
 			{post ? (
 				<div>
-					<Card>
-						<CardContent className="bottom">
+					<Card variant={"outlined"}>
+						<CardContent>
 							<Grid
 								container
-								direction="column"
 								spacing={2}
-								xs={6}
-								lg={8}
-								mb={3}
 							>
-								<Grid item xs={6} lg={8}>
-									<NavLink to={`/post/edit/${post.id}`}>
-										<EditIcon />
-									</NavLink>
-									{/* <NavLink to={`/post/delete/${post.id}`}> */}
-									<Link to={'/post/delete/' +post.id} state={{ groupId: post.groupId}}>
-									<DeleteIcon />
-									</Link>
-									{/* </NavLink> */}
-								</Grid>
-
+								{post.traveler.userId === user.id ? (
 								<Grid item xs={12}>
-									post creator : {post.traveler.user.name}
+									<Box display={"flex"} alignItems={"center"}>
+
+									<Link to={`/post/edit/${post.id}`}>
+										<Button color={"secondary"} variant={"contained"}>
+
+										Edit
+										<EditIcon />
+										</Button>
+									</Link>
+									<Box ml={2}>
+									<Link
+										to={'/post/delete/' + post.id}
+										state={{ groupId: post.groupId }}
+									>
+										<Button color={"error"} variant={"contained"}>
+											Delete
+											<DeleteIcon />
+										</Button>
+									</Link>
+									</Box>
+									</Box>
 								</Grid>
-								<Grid item xs={6}>
-									created at : {moment(post.created_at).format('MMM Do YY')}
+									) : null }
+								<Grid item xs={12}>
+									<Box p={2} sx={{
+										backgroundColor: blueGrey[50]
+									}}>
+										<Typography variant={"body1"}>{post.content}</Typography>
+									</Box>
 								</Grid>
-								<h2 className="header">{post.content}</h2>
+								<Grid item xs={12}>
+									<Grid container spacing={2}>
+										<Grid item xs={6}>
+											Created By: {post.traveler.user.name}
+										</Grid>
+										<Grid item xs={6}>
+											Created At: {moment(post.created_at).format('MM-DD-YYYY, hh:mmA')}
+										</Grid>
+									</Grid>
+								</Grid>
 							</Grid>
 						</CardContent>
-
-						<CardActions className="bottom">
-							<NavLink to={`/post/show/${post.id}`}>
-								{' '}
-								<Button className="createButton" variant="contained">
-									Show Details
-								</Button>
-							</NavLink>
-						</CardActions>
 					</Card>
 					<div>
 						<p></p>
@@ -62,7 +78,7 @@ const ListPostsComponent = ({ post }: IPostShowProps) => {
 			) : (
 				<Loader />
 			)}
-		</div>
+		</Box>
 	)
 }
 export default ListPostsComponent

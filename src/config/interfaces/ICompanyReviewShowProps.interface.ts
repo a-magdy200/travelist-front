@@ -1,5 +1,5 @@
-import { ICompanyReview } from "./ICompanyReview.interface";
+import { ICompanyReview } from './ICompanyReview.interface'
 
 export interface ICompanyReviewShowProps {
-	companyReview: ICompanyReview;
+	companyReview: ICompanyReview
 }

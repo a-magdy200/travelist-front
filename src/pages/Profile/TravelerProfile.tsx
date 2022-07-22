@@ -10,11 +10,10 @@ const TravelerProfile = () => {
 			display="flex"
 			// justifyContent="center"
 			alignItems="center"
-
 		>
 			<>
 				<UserBaseData />
-				<TravelerData/>
+				<TravelerData />
 			</>
 		</Stack>
 	)

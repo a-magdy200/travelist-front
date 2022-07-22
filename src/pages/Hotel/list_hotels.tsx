@@ -9,11 +9,13 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Box from '@mui/material/Box';
 import FilterComponent from '../../components/FilterBar'
 import FilterHotelsComponent from '../../components/hotels/FilterHotels'
+import Loader from "../../components/Loader";
 
 const ListHotels = () => {
 	const [hotels, setHotels] = useState<IHotelInterface[]>([])
 	const [filteredHotels, setFilteredHotels] = useState<IHotelInterface[]>()
 
+	const [isLoading, setIsLoading] = useState(true);
 	const getHotels = async () => {
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
@@ -34,9 +36,11 @@ const ListHotels = () => {
 	}
 
 	useEffect(() => {
-		getHotels()
+		getHotels().then(() => setIsLoading(false))
 	}, [])
-	
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div>
 			<h1>Hotels Page</h1>

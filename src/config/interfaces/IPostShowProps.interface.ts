@@ -1,5 +1,5 @@
-import { IPostInterface } from "./IPost.interface";
+import { IPostInterface } from './IPost.interface'
 
 export interface IPostShowProps {
-	post: IPostInterface;
+	post: IPostInterface
 }

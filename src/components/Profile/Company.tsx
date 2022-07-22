@@ -1,49 +1,29 @@
-import Stack from '@mui/material/Stack'
-import Grid from '@mui/material/Grid'
-import EditCompanyMenu from './EditCompanyMenu'
-import AuthContext from '../../contexts/AuthContext'
-import Loader from '../Loader'
-import Typography from '@mui/material/Typography'
-import ProfilePictureChanger from './ProfilePictureChanger'
-import { ICompanyShowProps } from '../../config/interfaces/ICompanyShowProps.interface'
+import Grid from "@mui/material/Grid";
+import { ICompanyShowProps } from "../../config/interfaces/ICompanyShowProps.interface";
 
 const Company = ({ company }: ICompanyShowProps) => {
-	return (
-		<div>
-			{company ? (
-				<Stack
-					direction="column"
-					spacing={2}
-					display="flex"
-					alignItems="center"
-				>
-					<EditCompanyMenu company={company} />
-					<Grid container spacing={2} xs={10} lg={8} mb={3}>
-						<Grid item xs={6}>
-							Description:
-						</Grid>
-						<Grid item xs={6}>
-							{company.description}
-						</Grid>
-						<Grid item xs={6}>
-							average_rate:
-						</Grid>
-						<Grid item xs={6}>
-							{company.average_rate}
-						</Grid>
-						<Grid item xs={6}>
-							ratings_count:
-						</Grid>
-						<Grid item xs={6}>
-							{company.ratings_count}
-						</Grid>
-					</Grid>
-				</Stack>
-			) : (
-				<Loader />
-			)}
-		</div>
-	)
-}
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
+        Description:
+      </Grid>
+      <Grid item xs={6}>
+        {company.description}
+      </Grid>
+      <Grid item xs={6}>
+        Average rate:
+      </Grid>
+      <Grid item xs={6}>
+        {company.average_rate}
+      </Grid>
+      <Grid item xs={6}>
+        Ratings count:
+      </Grid>
+      <Grid item xs={6}>
+        {company.ratings_count}
+      </Grid>
+    </Grid>
+  );
+};
 
-export default Company
+export default Company;

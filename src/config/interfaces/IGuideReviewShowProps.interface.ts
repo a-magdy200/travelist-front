@@ -1,5 +1,5 @@
-import { IGuideReview } from "./IGuideReview.interface";
+import { IGuideReview } from './IGuideReview.interface'
 
 export interface IGuideReviewShowProps {
-	guideReview: IGuideReview;
+	guideReview: IGuideReview
 }
