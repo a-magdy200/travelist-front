@@ -1,11 +1,11 @@
 import { GroupsOutlined } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 import FilterGroupComponent from '../../components/groups/FilterGroups'
-import ListGroupsComponent from '../../components/groups/ListGroups'
 import api from '../../config/api'
 import { IGroupInterface } from '../../config/interfaces/IGroup.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Loader from "../../components/Loader";
+import SingleGroupComponent from "../../components/groups/SingleGroupComponent";
 
 const ListGroups = () => {
 	const [groups, setGroups] = useState<IGroupInterface[]>([])
@@ -27,7 +27,7 @@ const ListGroups = () => {
 		}
 	}
 
-	
+
   useEffect(() => {
     getGroups().then(() => {
       setIsLoading(false);
@@ -44,7 +44,7 @@ const ListGroups = () => {
 			/>
 			{filteredGroups ? (
 				filteredGroups.map((group, index) => (
-					<ListGroupsComponent group={group} key={index} />
+					<SingleGroupComponent group={group} key={index} />
 				))
 			) : (
 				<div>Not Found Groups</div>
