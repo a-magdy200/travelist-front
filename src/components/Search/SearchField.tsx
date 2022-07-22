@@ -21,7 +21,6 @@ const SearchField = () => {
 
 	return (
 		<Box>
-			{/* <TextField id="outlined-search" label="Search keyword" type="search" /> */}
 			<TextField
                 sx={{ mx: 0.5 }}
 				id="outlined-helperText"
