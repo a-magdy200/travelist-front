@@ -33,8 +33,8 @@ import DeleteCountryReview from '../pages/CountryReviews/delete_country_review'
 import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
-import ShowProfile from "../pages/Profile/ShowProfile";
-import EditProfile from "../pages/Profile/EditProfile";
+import ShowProfile from '../pages/Profile/ShowProfile'
+import EditProfile from '../pages/Profile/EditProfile'
 import CountryList from '../pages/Country/CountryList'
 import SearchList from '../pages/Search/search_list'
 import ListCompanyBookings from "../pages/booking/company-booking";
@@ -45,10 +45,10 @@ const UserRoutes = () => {
 	return (
 		<Routes>
 			{/*  traveler  */}
-     <Route path="/profile" element={<ShowProfile />} />
-     <Route path="/profile/edit" element={<EditProfile />} />
+			<Route path="/profile" element={<ShowProfile />} />
+			<Route path="/profile/edit" element={<EditProfile />} />
 
-     <Route path="/post/show/:id" element={<ShowPost />} />
+			<Route path="/post/show/:id" element={<ShowPost />} />
 			<Route path="/post/edit/:id" element={<EditPost />} />
 			<Route path="/post/delete/:id" element={<DeletePost />} />
 			<Route path="/post/create" element={<CreatePost />} />
@@ -61,6 +61,7 @@ const UserRoutes = () => {
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
 
+			<Route path="/feed" element={<FeedHome />} />
 
 			{/*  company  */}
 			<Route path="/program/create" element={<CreateProgram />} />
@@ -70,8 +71,6 @@ const UserRoutes = () => {
 
 			<Route path="/cycle/create/:id" element={<CreateCycle />} />
 			<Route path="/cycle/edit/:id" element={<EditCycle />} />
-
-
 
 			<Route path="/program/show/user/:id" element={<ShowProgramUser />} />
 			<Route path="/program/details/:id" element={<ProgramDetailsPage />} />
@@ -92,20 +91,24 @@ const UserRoutes = () => {
       
       <Route path="/search/:type" element={<SearchList />} />
 
-
-      {/* for admin usage */}
-      <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
-      <Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />
-      <Route path="/countryReview/list" element={<ListCountriesReviews />} />
-      <Route path="/countryReview/delete/:id" element={<DeleteCountryReview />} />
-      <Route path="/companyReview/list" element={<ListCompaniesReviews />} />
-      <Route path="/companyReview/delete/:id" element={<DeleteCompanyReview />} />
-      <Route path="/guideReview/list" element={<ListGuidesReviews />} />
-      <Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
-      <Route path="/cycleReview/list" element={<ListCyclesReviews />} />
-      <Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
-
-    </Routes>
-  )
+			{/* for admin usage */}
+			<Route path="/hotelReview/list" element={<ListHotelsReviews />} />
+			<Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />
+			<Route path="/countryReview/list" element={<ListCountriesReviews />} />
+			<Route
+				path="/countryReview/delete/:id"
+				element={<DeleteCountryReview />}
+			/>
+			<Route path="/companyReview/list" element={<ListCompaniesReviews />} />
+			<Route
+				path="/companyReview/delete/:id"
+				element={<DeleteCompanyReview />}
+			/>
+			<Route path="/guideReview/list" element={<ListGuidesReviews />} />
+			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
+			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
+			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
+		</Routes>
+	)
 }
 export default UserRoutes
