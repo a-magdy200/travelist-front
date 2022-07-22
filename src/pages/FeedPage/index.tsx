@@ -4,10 +4,12 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { IFeedPost } from '../../config/interfaces/IFeedPost.interface'
 import FeedPageComponent from '../../components/FeedPage/feedpage'
+import Typography from "@mui/material/Typography";
+import Loader from "../../components/Loader";
 
 const FeedHome = () => {
 	const [feedPosts, setFeedPosts] = useState<IFeedPost[]>([])
-
+	const [isLoading, setIsLoading] = useState(true);
 	const getFeedPosts = async () => {
 		try {
 			const response: IResponseInterface<IFeedPost[]> = await api<IFeedPost[]>({
@@ -26,12 +28,14 @@ const FeedHome = () => {
 	}
 
 	useEffect(() => {
-		getFeedPosts()
+		getFeedPosts().then(() => setIsLoading(false))
 	}, [])
-
+	if (isLoading) {
+		return <Loader/>
+	}
 	return (
 		<div>
-			<h1>Feed Page</h1>
+			<Typography variant={"h5"}>Feed Page</Typography>
 			{feedPosts ? (
 				feedPosts.map((feedPost, index) => (
 					<FeedPageComponent feedPost={feedPost} key={index} />

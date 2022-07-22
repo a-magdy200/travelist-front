@@ -41,7 +41,7 @@ const Sidebar = () => {
 			</DrawerHeader>
 			<Divider />
 			<List>
-				<SidebarItem title={'home'} icon={<HomeOutlined />} to={'/feed'} />
+				<SidebarItem title={'home'} icon={<HomeOutlined />} to={'/'} />
 				{user.type === 'company' ? (
 					<CompanySidebar />
 				): (
