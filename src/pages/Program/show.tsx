@@ -4,9 +4,11 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import api from '../../config/api'
+import Loader from "../../components/Loader";
 
 const ShowProgram = () => {
 	const [program, setProgram] = useState<IProgramInterface>()
+	const [isLoading, setIsLoading] = useState(true);
 	const { id } = useParams()
 	const getProgram = async () => {
 		try {
@@ -26,8 +28,11 @@ const ShowProgram = () => {
 		}
 	}
 	useEffect(() => {
-		getProgram()
+		getProgram().then(() => setIsLoading(false))
 	}, [])
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div>
 			{program ? (

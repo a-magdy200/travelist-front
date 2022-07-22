@@ -11,11 +11,13 @@ import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 
 import * as React from 'react'
+import { Fragment } from "react";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 const ProgramDataComponent = ({ program }: IProgramShowProps) => {
 	return (
 		<div>
 			{program ? (
-				<Card sx={{ maxWidth: 645 }}>
+				<Card variant={"outlined"}>
 					<CardMedia
 						component="img"
 						height="140"
@@ -23,18 +25,13 @@ const ProgramDataComponent = ({ program }: IProgramShowProps) => {
 						alt="green iguana"
 					/>
 					<CardContent>
-						<Typography gutterBottom variant="h5" component="div">
+						<Typography mb={3} variant="h5">
 							{program.name}
 						</Typography>
-						<Typography variant="body2" color="text.secondary">
+						<Typography variant="body2">
 							<Grid
-								id="1"
 								container
-								direction="column"
 								spacing={2}
-								xs={12}
-								lg={8}
-								m={3}
 							>
 								<Grid item xs={6}>
 									ID : {program.id}
@@ -49,13 +46,13 @@ const ProgramDataComponent = ({ program }: IProgramShowProps) => {
 									Description : {program.description}
 								</Grid>
 								<Grid item xs={6}>
-									is_Recurring : {program.is_Recurring}
+									Is recurring : {program.is_Recurring ? <CheckOutlined /> : <CloseOutlined/>}
 								</Grid>
 								<Grid item xs={6}>
-									total_rate_value : {program.total_rate}
+									Total rate : {program.total_rate}
 								</Grid>
 								<Grid item xs={6}>
-									average_rate : {program.average_rate}
+									Average rate : {program.average_rate}
 								</Grid>
 								<Grid item xs={6}>
 									Departure Country : {program.country?.name}
@@ -65,15 +62,24 @@ const ProgramDataComponent = ({ program }: IProgramShowProps) => {
 									Transportation : {program.transportation?.name}
 								</Grid>
 
-								<Grid item xs={6}>
-									Hotels :
-									{program.hotels.map((hotel: IHotelInterface) => hotel.name)}
+								<Grid item xs={12}>
+									<Typography variant={"h6"}>
+										Destinations
+									</Typography>
 								</Grid>
-								<Grid item xs={6}>
-									Destinations :
-									{program.destinations?.map(
-										(destination: ICountryInterface) => destination.name
-									)}
+								<Grid item xs={12}>
+									<Grid container spacing={1}>
+										{program.hotels.map((hotel) => (
+											<Fragment key={hotel.id}>
+										<Grid item xs={6}>
+											Country: {hotel?.country?.name}
+										</Grid>
+										<Grid item xs={6}>
+											Hotel: {hotel.name}
+										</Grid>
+											</Fragment>
+										))}
+									</Grid>
 								</Grid>
 							</Grid>
 						</Typography>

@@ -36,9 +36,9 @@ import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
 import ShowProfile from '../pages/Profile/ShowProfile'
 import EditProfile from '../pages/Profile/EditProfile'
 import CountryList from '../pages/Country/CountryList'
-import ListCompanyBookings from '../pages/booking/company-booking'
-import UserPosts from '../pages/post/UserPosts'
-import FeedHome from '../pages/FeedPage'
+import ListCompanyBookings from "../pages/booking/company-booking";
+import UserPosts from "../pages/post/UserPosts";
+import ShowProgram from "../pages/Program/show";
 
 const UserRoutes = () => {
 	return (
@@ -65,6 +65,7 @@ const UserRoutes = () => {
 			{/*  company  */}
 			<Route path="/program/create" element={<CreateProgram />} />
 			<Route path="/program/edit/:id" element={<EditProgram />} />
+			<Route path="/program/show/:id" element={<ShowProgram />} />
 			<Route path="/program/list" element={<ListPrograms />} />
 
 			<Route path="/cycle/create/:id" element={<CreateCycle />} />
