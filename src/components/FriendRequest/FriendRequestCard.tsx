@@ -88,7 +88,7 @@ useEffect(() => {
 				variant="contained"
                 size="medium"
                onClick={() => {
-                    acceptRequest(friendRequest.sender.user.id)
+                    acceptRequest(friendRequest.sender.id)
                     }}
 				>
 			Accept
@@ -97,7 +97,7 @@ useEffect(() => {
 				variant="outlined"
                 size="medium"
                     onClick={() => {
-                    rejectRequest(friendRequest.sender.user.id)
+                    rejectRequest(friendRequest.sender.id)
                     }}
 				>
 			Reject

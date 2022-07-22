@@ -51,7 +51,7 @@ import ShowBooking from '../pages/booking/show-one-booking'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
 import ListFriendRequests from '../pages/FriendRequests/list_friend_requests'
 import ListSentRequests from '../pages/FriendRequests/list_sent_requests'
-
+import AddFriendComponent from '../components/FriendRequest/AddFriend'
 
 const UserRoutes = () => {
 	return (
@@ -73,8 +73,7 @@ const UserRoutes = () => {
 			<Route path="/program/all" element={<ListProgramsPage />} />
       <Route path="/traveler/friendrequests" element={<ListFriendRequests />} />
       <Route path="/traveler/sentrequests" element={<ListSentRequests />} />
-
-
+	  <Route path="/traveler/testadd/:id" element={<AddFriendComponent />} />
 			{/*  company  */}
 			<Route path="/company" element={<CompanyProfile />} />
 			<Route path="/editCompany" element={<EditCompany />} />

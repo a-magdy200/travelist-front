@@ -4,16 +4,18 @@ import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { ISentRequestShowProps } from '../../config/interfaces/ISentRequestShowProps.interface';
 import Avatar from '@mui/material/Avatar';
 import { useEffect, useState } from 'react';
 import { IUserInterface } from '../../config/interfaces/IUser.interface';
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
 import api from '../../config/api';
 import { IFriendRequestInterface } from '../../config/interfaces/IFriendRequest.interface';
+import { IAddFriendRequestBody } from '../../config/interfaces/IAddFriendRequestBody.interface';
+import { useParams } from 'react-router-dom'
 
-const MySentRequestCard=({mySentRequest}:ISentRequestShowProps)=>{
+const AddFriendComponent=()=>{
     const [currentUser, setCurrentUser] = useState<IUserInterface>()
+    const { oppsiteUserId } = useParams()   
     const getCurrentUser  = async () => {
         try {
             const response: IResponseInterface<IUserInterface> = await api<
@@ -32,23 +34,27 @@ const MySentRequestCard=({mySentRequest}:ISentRequestShowProps)=>{
         }
     }
 
-   const cancelRequest = async (id: number | undefined) => {
-			try {
-				const response: IResponseInterface<IFriendRequestInterface> =
-					await api<IFriendRequestInterface>({
-						url: `/api/friendrequests/cancel/${id}`,
-						method: 'DELETE',
-					})
-
-				if (response.success) {
-					alert('Request is cancelled')
-				}
-			} catch (error: any) {
-				console.log(error)
-			}
-		}
 	
-
+        const sendRequest= async (id: string| undefined)=> {
+            try {
+               
+            const response:IResponseInterface<IFriendRequestInterface> =
+                await api<IFriendRequestInterface>({
+                        url: `/api/friendrequests/send/${id}`,
+                        method: 'POST',
+                    })
+    
+                if (response.success) {
+                    if (response.data) {
+                        alert('Request sent successfully')
+                    }
+                }
+            } catch (error: any) {
+                console.log(error)
+            }
+        }
+    
+   
 
 useEffect(() => {
     getCurrentUser()
@@ -56,35 +62,19 @@ useEffect(() => {
 
    
 
-    return<div>
-        
-       { currentUser?.id===mySentRequest.sender.user.id?
-        
-        <Card sx={{ maxWidth: 300 ,m:2}}>
-        <Avatar
-          alt=""
-          src={`http://localhost:4000/${mySentRequest.receiver.user.profile_picture}`}
-          sx={{ width: 56, height: 56 }}
-          
-        />
-        <Box>{mySentRequest.receiver.user.name}</Box>
-          <Button
+    return(<div>   
+        <Button
 				variant="outlined"
                 size="medium"
-               onClick={() => {
-                    cancelRequest(mySentRequest.receiver.id)
+                    onClick={() => {
+                    sendRequest(oppsiteUserId)
                     }}
 				>
-			Cancel Friend Request
+		Add as a Friend
 		</Button>
-       
-        <CardActions>
-        </CardActions>
-      </Card>
-       :
-    <div> Can not load card</div>
-                }    
-</div>
+    
+                    
+</div>)
                 
-                }
-export default MySentRequestCard
+                }    
+export default AddFriendComponent
