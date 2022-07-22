@@ -36,6 +36,7 @@ import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
 import ShowProfile from "../pages/Profile/ShowProfile";
 import EditProfile from "../pages/Profile/EditProfile";
 import CountryList from '../pages/Country/CountryList'
+import SearchList from '../pages/Search/search_list'
 import ListCompanyBookings from "../pages/booking/company-booking";
 import UserPosts from "../pages/post/UserPosts";
 import ShowProgram from "../pages/Program/show";
@@ -88,6 +89,8 @@ const UserRoutes = () => {
 
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
+      
+      <Route path="/search/:type" element={<SearchList />} />
 
 
       {/* for admin usage */}
