@@ -51,6 +51,7 @@ import ShowBooking from '../pages/booking/show-one-booking'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
 import ShowProfile from "../pages/Profile/ShowProfile";
 import EditProfile from "../pages/Profile/EditProfile";
+import CountryList from '../pages/Country/CountryList'
 
 const UserRoutes = () => {
 	return (
@@ -98,6 +99,7 @@ const UserRoutes = () => {
 			{/* <Route path="/show" element={<Show />} /> */}
 
 			<Route path="/country/show/:id" element={<ShowCountry />} />
+			<Route path="/country/list" element={<CountryList />} />
 
 			<Route path="/cycle/list" element={<ListCycles />} />
 			<Route path="/cycle/show/:id" element={<ShowCycle />} />

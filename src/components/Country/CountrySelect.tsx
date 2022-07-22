@@ -5,7 +5,6 @@ import api from '../../config/api'
 import { useEffect, useState } from 'react'
 import { Stack } from '@mui/material'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
-
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 
 export default function CountrySelect() {
@@ -34,8 +33,6 @@ export default function CountrySelect() {
 	useEffect(() => {
 		getCountries()
 	}, [])
-
-	console.log(country)
 
 	return (
 		<Stack>
