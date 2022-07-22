@@ -1,6 +1,6 @@
 import { ComponentProps, useEffect, useState } from 'react'
 import AuthContext from '../contexts/AuthContext'
-import { IUserInterface } from '../config/interfaces/entities/IUser.interface'
+import { IUserInterface } from '../config/interfaces/IUser.interface'
 import { ACCESS_TOKEN } from '../config/helpers/constants'
 import { useNavigate } from 'react-router-dom'
 import { LoginCredentials } from '../config/interfaces/props/ILoginFormProps'
@@ -14,7 +14,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 	const [userDetails, setUserDetails] = useState<IUserInterface>({
 		name: '',
 		profile_picture: '',
-		role: '',
+		type: '',
 	})
 	const navigate = useNavigate()
 	const makeAuth = (data: IUserAuthenticationResponse) => {
@@ -34,7 +34,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 			setUserDetails({
 				name: '',
 				profile_picture: '',
-				role: '',
+				type: '',
 			})
 		},
 		getUser: async () => {
@@ -83,6 +83,17 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 				}
 			}
 		},
+		updateCoverPicture: async (file?: File) => {
+			if (file) {
+				const formData = new FormData()
+				formData.append('cover_picture', file)
+				await api({
+					url: '/api/admin/user/update-cover-picture',
+					method: 'patch',
+					body: formData,
+				})
+			}
+		},
 		login: async (credentials: LoginCredentials) => {
 			const response: IResponseInterface<IUserAuthenticationResponse> =
 				await api({
@@ -109,8 +120,9 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 	useEffect(() => {
 		const token = localStorage.getItem(ACCESS_TOKEN) ?? ''
 		if (token !== '') {
-			setIsLoggedIn(true)
-			authContextValue.getUser()
+			authContextValue.getUser().then(() => {
+				setIsLoggedIn(true)
+			})
 		}
 	}, [])
 	return (

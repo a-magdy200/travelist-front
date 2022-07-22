@@ -16,13 +16,14 @@ import GuestMenu from './GuestMenu'
 import { useNavigate } from 'react-router-dom'
 import { APP_NAME } from '../../config/helpers/constants'
 import UserNotifications from './UserNotifications'
+import config from "../../config/app_config/config";
 
 const CustomAppBar = () => {
 	const navigate = useNavigate()
 	const { isOpen, handleToggle } = useSidebarContext()
 	const { pageTitle, setPageTitle } = useAppContext()
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-	const { isLoggedIn } = useAuth()
+	const { isLoggedIn, user } = useAuth()
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget)
 	}
@@ -70,7 +71,13 @@ const CustomAppBar = () => {
 							onClick={handleClick}
 							endIcon={<KeyboardArrowDownIcon />}
 						>
-							<Avatar alt="Profile Picture" src={defaultImage} />
+							<Avatar
+								alt="User Avatar"
+								src={user?.profile_picture ? `${config.apiUrl}/${user.profile_picture}` : undefined}
+								color={"primary"}
+							>
+								{!user?.profile_picture ? (user?.name ? user?.name.substring(0,1) : '') : null}
+							</Avatar>
 						</Button>
 						{isLoggedIn ? (
 							<AuthMenu anchorEl={anchorEl} handleClose={handleClose} />

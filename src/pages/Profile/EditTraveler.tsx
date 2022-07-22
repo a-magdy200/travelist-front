@@ -22,12 +22,15 @@ import { formatDate } from '../../config/helpers/formatDateFunction'
 import api from '../../config/api'
 import { useContext } from 'react'
 import AuthContext from '../../contexts/AuthContext'
+import Loader from "../../components/Loader";
 const EditTraveler = () => {
 	const LoggedInUser: any = useContext(AuthContext)
 	const [gender, set_gender] = useState<GenderType>('male')
 	const [national_id, set_national_id] = useState('')
 	const [is_guide, set_is_guide] = useState(false)
 	const [date_of_birth, set_date_of_birth] = useState('')
+	const [isLoading, setIsLoading] = useState(true);
+
 	const navigate = useNavigate()
 	const getTravelerData = async () => {
 		try {
@@ -49,7 +52,9 @@ const EditTraveler = () => {
 		}
 	}
 	useEffect(() => {
-		getTravelerData()
+		getTravelerData().then(() => {
+			setIsLoading(false);
+		})
 	}, [])
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
@@ -76,6 +81,9 @@ const EditTraveler = () => {
 		}
 	}
 
+	if (isLoading) {
+		return <Loader/>
+	}
 	return (
 		<div
 			className="container"
@@ -86,11 +94,8 @@ const EditTraveler = () => {
 			}}
 		>
 			<div className="left">
-				<Card sx={{ maxWidth: 700 }} style={{ minHeight: '150vh' }}>
 					<form onSubmit={sendData}>
-						<CardContent>
 							<h2>Edit Details</h2>
-							<ProfilePictureChanger />
 							<div>
 								<TextField
 									id="outlined-multiline-flexible"
@@ -147,21 +152,17 @@ const EditTraveler = () => {
 							</div>
 							<div>
 								<FormControlLabel
-									control={<Checkbox defaultChecked />}
+									control={<Checkbox checked={is_guide} />}
 									label="Is Guide"
 									onChange={(e) => {
 										set_is_guide(!is_guide)
 									}}
 								/>
 							</div>
-						</CardContent>
-						<CardActions>
 							<Button variant="contained" type="submit">
 								Update
 							</Button>
-						</CardActions>
 					</form>
-				</Card>
 			</div>
 		</div>
 	)

@@ -1,4 +1,4 @@
-import { IUserInterface } from './IUser.interface'
+import { IUserInterface } from '../IUser.interface'
 import { IProgramInterface } from './IProgram.interface'
 
 export interface ICompanyInterface {

@@ -6,8 +6,10 @@ import api from '../../config/api'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Traveler from '../../components/Profile/Traveler'
 import { ITravelerReview } from '../../config/interfaces/ITravelerReview.interface'
+import Loader from "../../components/Loader";
 const TravelerData = () => {
 	const [traveler, setTravelerProfile] = useState<ITravelerReview>()
+	const [isLoading, setIsLoading] = useState(true);
 	const getMyProfile = async () => {
 		try {
 			const response: IResponseInterface<ITravelerReview> =
@@ -26,8 +28,13 @@ const TravelerData = () => {
 		}
 	}
 	useEffect(() => {
-		getMyProfile()
+		getMyProfile().then(() => {
+			setIsLoading(false);
+		})
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	}
 	return (
 		<>{traveler ? <Traveler traveler={traveler} /> : <div>not found</div>}</>
 	)

@@ -7,6 +7,7 @@ import Loader from '../../components/Loader'
 
 const ListCompany = () => {
 	const [companies, setCompanies] = useState<ICompanyInterface[]>([])
+	const [isLoading, setIsLoading] = useState(true);
 	const getCompanies = async () => {
 		try {
 			const response: IResponseInterface<ICompanyInterface[]> = await api<
@@ -26,11 +27,14 @@ const ListCompany = () => {
 		}
 	}
 	useEffect(() => {
-		getCompanies()
+		getCompanies().then(() => setIsLoading(false))
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	}
 	return (
 		<div>
-			{companies ? <ListCompanyComponent companies={companies} /> : <Loader />}
+			<ListCompanyComponent companies={companies} />
 		</div>
 	)
 }

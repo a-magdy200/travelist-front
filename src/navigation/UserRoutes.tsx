@@ -47,23 +47,27 @@ import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
+import ShowProfile from "../pages/Profile/ShowProfile";
+import EditProfile from "../pages/Profile/EditProfile";
 
 const UserRoutes = () => {
 	return (
 		<Routes>
 			<Route path="/create" element={<CreateProgram />} />
 			<Route path="/show" element={<Show />} />
-			<Route path="/profile" element={<UserBaseData />} />
-			<Route path="/traveler" element={<TravelerProfile />} />
-			<Route path="/editPassword" element={<EditPassword />} />
-			<Route path="/editUser" element={<EditUser />} />
-			<Route path="/editTraveler" element={<EditTraveler />} />
-			<Route path="/editCompany" element={<EditCompany />} />
+			<Route path="/profile" element={<ShowProfile />} />
+			<Route path="/profile/edit" element={<EditProfile />} />
+			{/*<Route path="/profile" element={<UserBaseData />} />*/}
+			{/*<Route path="/traveler" element={<TravelerProfile />} />*/}
+			{/*<Route path="/editPassword" element={<EditPassword />} />*/}
+			{/*<Route path="/editUser" element={<EditUser />} />*/}
+			{/*<Route path="/editTraveler" element={<EditTraveler />} />*/}
+			{/*<Route path="/editCompany" element={<EditCompany />} />*/}
 			<Route path="/friends" element={<ListFriends />} />
-			<Route path="/editUser/:id" element={<EditUser />} />
+			{/*<Route path="/editUser/:id" element={<EditUser />} />*/}
 			<Route path="/company/:id" element={<CompanyProfile />} />
-			<Route path="/editUser" element={<EditUser />} />
-			<Route path="/company" element={<CompanyProfile />} />
+			{/*<Route path="/editUser" element={<EditUser />} />*/}
+			{/*<Route path="/company" element={<CompanyProfile />} />*/}
 			<Route path="/company/list" element={<ListCompany />} />
 			<Route path="/company/show/:id" element={<CompanyDetails />} />
 			<Route path="/posts" element={<ListPosts />} />

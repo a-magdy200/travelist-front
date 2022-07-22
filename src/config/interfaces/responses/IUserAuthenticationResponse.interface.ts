@@ -1,4 +1,4 @@
-import { IUserInterface } from '../entities/IUser.interface'
+import { IUserInterface } from '../IUser.interface'
 
 export interface IUserAuthenticationResponse {
 	access_token: string
