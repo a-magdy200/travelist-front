@@ -60,7 +60,7 @@ const DeletePost = () => {
 							<br />
 						</CardContent>
 						<CardActions>
-							<Button variant="contained" type="submit"  sx={{ mx: "auto" }}>
+							<Button variant="contained" type="submit" sx={{ mx: 'auto' }}>
 								Delete
 							</Button>
 						</CardActions>

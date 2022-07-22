@@ -1,5 +1,5 @@
-import { ICycleReview } from "./ICycleReview.interface";
+import { ICycleReview } from './ICycleReview.interface'
 
 export interface ICycleReviewShowProps {
-	cycleReview: ICycleReview;
+	cycleReview: ICycleReview
 }

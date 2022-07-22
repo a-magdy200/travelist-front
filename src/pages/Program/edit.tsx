@@ -1,8 +1,6 @@
 import EditProgramComponent from '../../components/programs/EditProgram'
 
 const EditProgram = () => {
-	return(
-     <EditProgramComponent/>
-	)
+	return <EditProgramComponent />
 }
 export default EditProgram

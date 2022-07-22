@@ -1,4 +1,4 @@
 export interface IBookCycleRequestBody {
-    cycleId:number
-    token?:any
-  }
+	cycleId: number
+	token?: any
+}

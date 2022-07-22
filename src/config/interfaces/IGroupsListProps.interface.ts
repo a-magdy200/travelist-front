@@ -1,5 +1,6 @@
-import { IGroupInterface } from "./IGroup.interface";
+import { IGroupInterface } from './IGroup.interface'
 
 export interface IGroupsListProps {
-	group: IGroupInterface[];
+	groups: IGroupInterface[];
+	setFilteredGroups?:any
 }

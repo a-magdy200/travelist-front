@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 import Checkbox from '@mui/material/Checkbox'
-import { Theme, useTheme } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
@@ -21,6 +20,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 import { ITransportationInterface } from '../../config/interfaces/ITransportation.interface'
+import Loader from "../Loader";
 
 const CreateProgramComponent = () => {
 	const [name, setName] = useState<string>('')
@@ -32,6 +32,7 @@ const CreateProgramComponent = () => {
 	const [filteredHotels, setFilteredHotels] = React.useState<IHotelInterface[]>(
 		[]
 	)
+	const [isLoading, setIsLoading] = useState(true);
 	const [countries, setCountries] = React.useState<ICountryInterface[]>([])
 	const [selectedHotels, setSelectedHotels] = React.useState<number[]>([])
 	const [destination, setDestination] = useState<number[]>([])
@@ -60,8 +61,8 @@ const CreateProgramComponent = () => {
 	}
 	const getCountries = async () => {
 		try {
-			const response: IResponseInterface<IHotelInterface[]> = await api<
-				IHotelInterface[]
+			const response: IResponseInterface<ICountryInterface[]> = await api<
+				ICountryInterface[]
 			>({
 				url: '/api/admin/countries',
 			})
@@ -72,7 +73,6 @@ const CreateProgramComponent = () => {
 				}
 			}
 		} catch (error: any) {
-			console.log(error)
 		}
 	}
 	const getTransportations = async () => {
@@ -81,24 +81,26 @@ const CreateProgramComponent = () => {
 				await api<ITransportationInterface[]>({
 					url: '/api/admin/transportations',
 				})
-
 			if (response.success) {
 				if (response.data) {
 					setTransportations(response.data)
 				}
 			}
 		} catch (error: any) {
-			console.log(error)
+			console.error(error);
 		}
 	}
 	useEffect(() => {
-		getHotels()
-		getCountries()
-		getTransportations()
+		(async () => {
+			await Promise.all([
+				getHotels(),
+				getCountries(),
+				getTransportations(),
+			])
+			setIsLoading(false);
+		})();
 	}, [])
 
-	/// styling
-	const theme2 = useTheme()
 
 	const ITEM_HEIGHT = 48
 	const ITEM_PADDING_TOP = 8
@@ -111,21 +113,6 @@ const CreateProgramComponent = () => {
 		},
 	}
 
-	function getStyles(
-		name: string,
-		personName: readonly string[],
-		theme: Theme
-	) {
-		return {
-			fontWeight:
-				personName.indexOf(name) === -1
-					? theme.typography.fontWeightRegular
-					: theme.typography.fontWeightMedium,
-		}
-	}
-
-	///change methods
-
 	const changeRecurring = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setis_Recurring(!is_Recurring)
 	}
@@ -137,7 +124,6 @@ const CreateProgramComponent = () => {
 	}
 	const changeHotel = (e: SelectChangeEvent<number[]>) => {
 		setSelectedHotels(e.target.value as number[])
-		console.log(e.target.value as number[])
 	}
 
 	const changeDestination = (e: SelectChangeEvent<number[]>) => {
@@ -151,14 +137,6 @@ const CreateProgramComponent = () => {
 	}
 
 	const isDisabled = (): boolean => {
-		console.log(
-			name,
-			description,
-			price,
-			hotels.length,
-			destination.length,
-			countryId
-		)
 		return (
 			name === '' ||
 			description === '' ||
@@ -182,17 +160,16 @@ const CreateProgramComponent = () => {
 		formData.append('is_Recurring', is_Recurring ? '1' : '0')
 		formData.append('transportationId', '1')
 		formData.append('countryId', countryId)
-		for (let item of selectedHotels) {
+		for (const item of selectedHotels) {
 			formData.append('hotels', item.toString())
 			console.log('items', item)
 		}
-		for (let item of destination) {
+		for (const item of destination) {
 			formData.append('destinations', item.toString())
 			console.log(item)
 		}
 		if (!isDisabled()) {
-			const response: IResponseInterface<IProgramInterface> =
-				await api<IProgramInterface>({
+			await api<IProgramInterface>({
 					url: '/api/programs/create',
 					method: 'POST',
 					body: formData,
@@ -202,7 +179,9 @@ const CreateProgramComponent = () => {
 			alert('error in validation')
 		}
 	}
-
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
@@ -289,13 +268,13 @@ const CreateProgramComponent = () => {
 										renderValue={(selected) => (
 											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
 												{destination.map((destinationId: number) => {
-													const destination = countries.find(
+													const d = countries.find(
 														(item) => item.id === destinationId
 													)
 													return (
 														<Chip
 															key={destinationId}
-															label={destination?.name}
+															label={d?.name}
 														/>
 													)
 												})}
@@ -336,7 +315,7 @@ const CreateProgramComponent = () => {
 										)}
 										MenuProps={MenuProps}
 									>
-										{filteredHotels.map((hotel) => (
+										{hotels.map((hotel) => (
 											<MenuItem key={hotel.id} value={hotel.id}>
 												{hotel.name}
 											</MenuItem>

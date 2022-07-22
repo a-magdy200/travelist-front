@@ -1,4 +1,4 @@
-import { UserType } from "../types/user.type"
+import { UserType } from '../types/user.type'
 
 export interface IUserRequestBodyInterface {
 	name: string

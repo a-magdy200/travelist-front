@@ -1,5 +1,8 @@
-import {ICompanyInterface} from "./ICompany.interface";
+import { ICompanyInterface } from './ICompany.interface'
 
 export interface ICompanyListProps {
 	companies: ICompanyInterface[];
+	setFilteredCompanies?:any
+	
+
 }
