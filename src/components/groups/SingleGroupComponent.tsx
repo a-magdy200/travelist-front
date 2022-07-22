@@ -8,22 +8,36 @@ import { NavLink } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
+import { useState } from "react";
+import useAuth from "../../hooks/useAuth";
+import Chip from "@mui/material/Chip";
+import { CheckOutlined } from "@ant-design/icons";
 
 const SingleGroupComponent = ({ group }: IGroupShowProps) => {
+  const { user } = useAuth();
+  const isFollowing: boolean =!!group?.followers?.length && !!group.followers.find(({ id }) => id === user.id);
   return (
     <Box mb={2}>
       <Card variant={"outlined"}>
         <CardContent>
 					<Box display={"flex"} mb={2} alignItems={"center"}>
-						<Typography variant={"h4"}>{group.country?.name}</Typography>
-						<Rating name="read-only" value={group.country.average_rate} readOnly />
+						<Typography variant={"h4"}>{group?.country?.name}</Typography>
+						<Rating name="read-only" value={group?.country?.average_rate} readOnly />
 					</Box>
           <Grid
             container
             spacing={2}
           >
             <Grid item xs={12}>
-              Followers Count : {group.followers_count}
+              <Box display={"flex"} alignItems={"center"}>
+                <span>Followers Count :</span>
+                <span>{group?.followers_count}</span>
+                {isFollowing ? (
+                  <Box ml={2}>
+                    <Chip label={<Box>Following <CheckOutlined/></Box>} color={"secondary"} />
+                  </Box>
+                ) : null}
+              </Box>
             </Grid>
             <Grid item xs={12}>
               Posts Count : {group?.posts?.length}
@@ -31,7 +45,7 @@ const SingleGroupComponent = ({ group }: IGroupShowProps) => {
           </Grid>
         </CardContent>
         <CardActions>
-          <NavLink to={`/group/show/${group.id}`}>
+          <NavLink to={`/group/show/${group?.id}`}>
             <Button className="createButton" variant="contained">
               Show Group
             </Button>

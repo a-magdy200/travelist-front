@@ -4,8 +4,9 @@ import api from '../../config/api'
 import Loader from '../../components/Loader'
 import { IBookingInterface } from '../../config/interfaces/IBooking.Interface'
 import ListTravelerBookingsComponent from '../../components/Booking/TravelerBooking'
+import CompanyBookingsList from "../../components/Booking/CompanyBookingsList";
 
-const ListTravelerBookings = () => {
+const ListCompanyBookings = () => {
 	const [bookings, setBookings] = useState<IBookingInterface[]>([])
 	const [isLoading, setIsLoading] = useState(true);
 	const getBookings = async () => {
@@ -13,7 +14,7 @@ const ListTravelerBookings = () => {
 			const response: IResponseInterface<IBookingInterface[]> = await api<
 				IBookingInterface[]
 			>({
-				url: '/api/cycles/bookings/traveler',
+				url: '/api/cycles/bookings/company',
 			})
 
 			if (response.success) {
@@ -36,9 +37,9 @@ const ListTravelerBookings = () => {
 	}
 	return (
 		<div>
-			<h1>My Bookings</h1>
-			<ListTravelerBookingsComponent bookings={bookings} />
+			<h1>Bookings</h1>
+			<CompanyBookingsList bookings={bookings} />
 		</div>
 	)
 }
-export default ListTravelerBookings
+export default ListCompanyBookings

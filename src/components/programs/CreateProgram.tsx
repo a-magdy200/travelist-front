@@ -61,8 +61,8 @@ const CreateProgramComponent = () => {
 	}
 	const getCountries = async () => {
 		try {
-			const response: IResponseInterface<IHotelInterface[]> = await api<
-				IHotelInterface[]
+			const response: IResponseInterface<ICountryInterface[]> = await api<
+				ICountryInterface[]
 			>({
 				url: '/api/admin/countries',
 			})

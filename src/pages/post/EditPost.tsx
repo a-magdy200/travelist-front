@@ -12,10 +12,14 @@ import { useParams } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import api from '../../config/api'
 import { IPostInterface } from '../../config/interfaces/IPost.interface'
+import Box from "@mui/material/Box";
+import { TextField } from "@mui/material";
+import Loader from "../../components/Loader";
 
 const EditPost = () => {
 	const [post, setPost] = useState<IPostInterface>()
 	const [content, setContent] = useState<string>('')
+	const [isLoading, setIsLoading] = useState(true);
 	const { id } = useParams()
 	const navigate = useNavigate()
 	const getPostDetails = async () => {
@@ -36,7 +40,9 @@ const EditPost = () => {
 		}
 	}
 	useEffect(() => {
-		getPostDetails()
+		getPostDetails().then(() => {
+			setIsLoading(false);
+		})
 	}, [])
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
@@ -58,44 +64,37 @@ const EditPost = () => {
 			console.log(error)
 		}
 	}
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
-		<div
-			className="container"
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
-		>
-			<div className="left">
-				<Card sx={{ maxWidth: 700 }} style={{ minHeight: '50vh' }}>
-					<form onSubmit={sendData}>
-						<CardContent>
-							<h2>Edit Basic Info</h2>
-							<div>
-								<TextareaAutosize
-									maxRows={8}
-									aria-label="maximum height"
-									value={content}
-									placeholder="what is in your mind?"
-									onChange={(e) => {
-										setContent(e.target.value)
-									}}
-									style={{ width: 300, height: 100 }}
-								/>
-							</div>
-							<br />
-						</CardContent>
-
-						<CardActions>
-							<Button variant="contained" type="submit">
-								Post
-							</Button>
-						</CardActions>
-					</form>
-				</Card>
-			</div>
-		</div>
+		<Card variant={"outlined"}>
+			<CardContent>
+				<form onSubmit={sendData}>
+					<Box p={4} display={"flex"} flexDirection={"column"} alignItems={"center"}>
+						<h2>Edit post content</h2>
+						<Box mb={2} width={"100%"}>
+							<TextField
+								multiline={true}
+								fullWidth={true}
+								rows={8}
+								value={content}
+								label={"Content"}
+								variant={"outlined"}
+								aria-label="maximum height"
+								placeholder="what is in your mind?"
+								onChange={(e) => {
+									setContent(e.target.value);
+								}}
+							/>
+						</Box>
+						<Button variant="contained" type="submit">
+							Post
+						</Button>
+					</Box>
+				</form>
+			</CardContent>
+		</Card>
 	)
 }
 export default EditPost
