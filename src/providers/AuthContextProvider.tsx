@@ -15,6 +15,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		name: '',
 		profile_picture: '',
 		type: '',
+		id: 0,
 	})
 	const navigate = useNavigate()
 	const makeAuth = (data: IUserAuthenticationResponse) => {
@@ -35,6 +36,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 				name: '',
 				profile_picture: '',
 				type: '',
+				id: 0,
 			})
 		},
 		getUser: async () => {

@@ -9,7 +9,7 @@ const ShowBookingComponent = ({ booking }: IBookingShowProps) => {
 	return (
 		<div className="createContainer">
 			{booking ? (
-				<Card sx={{ maxWidth: 645 }}>
+				<Card>
 					<CardContent>
 						<Typography variant="body2" color="text.secondary">
 							<Grid
@@ -45,7 +45,6 @@ const ShowBookingComponent = ({ booking }: IBookingShowProps) => {
 								<Grid item xs={6}>
 									transaction_token : {booking.transaction?.payment_id}
 								</Grid>
-								
 							</Grid>
 						</Typography>
 					</CardContent>

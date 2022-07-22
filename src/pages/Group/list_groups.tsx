@@ -3,10 +3,11 @@ import SingleGroupComponent from "../../components/groups/SingleGroupComponent";
 import api from "../../config/api";
 import { IGroupInterface } from "../../config/interfaces/IGroup.interface";
 import { IResponseInterface } from "../../config/interfaces/IResponse.interface";
+import Loader from "../../components/Loader";
 
 const ListGroups = () => {
   const [groups, setGroups] = useState<IGroupInterface[]>([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   const getGroups = async () => {
     try {
       const response: IResponseInterface<IGroupInterface[]> = await api<IGroupInterface[]>({
@@ -25,8 +26,13 @@ const ListGroups = () => {
   };
 
   useEffect(() => {
-    getGroups();
+    getGroups().then(() => {
+      setIsLoading(false);
+    });
   }, []);
+  if (isLoading) {
+    return <Loader />
+  }
   return (
     <div>
       <h1>Groups Page</h1>
