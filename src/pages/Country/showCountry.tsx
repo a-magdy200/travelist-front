@@ -147,12 +147,6 @@ export default function ShowCountry() {
 						>
 							Add Review
 						</Button>
-
-						{/* {country ? (
-							<CreateCountryReviews countryId={country.id} />
-						) : (
-							<div>Error</div>
-						)} */}
 					</TabPanel>
 					<TabPanel value="2">
 						{programs ? (

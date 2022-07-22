@@ -35,6 +35,7 @@ import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
 import ShowProfile from "../pages/Profile/ShowProfile";
 import EditProfile from "../pages/Profile/EditProfile";
+import CountryList from '../pages/Country/CountryList'
 import ListCompanyBookings from "../pages/booking/company-booking";
 import UserPosts from "../pages/post/UserPosts";
 
@@ -73,6 +74,7 @@ const UserRoutes = () => {
 			<Route path="/program/details/:id" element={<ProgramDetailsPage />} />
 
 			<Route path="/country/show/:id" element={<ShowCountry />} />
+			<Route path="/country/list" element={<CountryList />} />
 
 			<Route path="/cycle/list" element={<ListCycles />} />
 			<Route path="/cycle/show/:id" element={<ShowCycle />} />
