@@ -8,7 +8,6 @@ import { NavLink } from 'react-router-dom'
 import { IFeedPost } from '../../config/interfaces/IFeedPost.interface'
 import Typography from '@mui/material/Typography'
 
-
 interface IFeedPostProps {
 	feedPost: IFeedPost
 }
@@ -16,17 +15,29 @@ interface IFeedPostProps {
 const FeedPageComponent = ({ feedPost }: IFeedPostProps) => {
 	return (
 		<div>
-			{feedPost? (
+			{feedPost ? (
 				<div>
 					<Card sx={{ maxWidth: 500, minWidth: 345, mx: 30, my: 2 }}>
 						<CardContent className="bottom">
+							
 							<Typography gutterBottom variant="h6" component="div">
 								{feedPost.content}
 							</Typography>
 
-							{/* <Typography gutterBottom variant="h6" component="div">
+							<Typography gutterBottom variant="h6" component="div">
 								{feedPost.travelerName}
-							</Typography> */}
+							</Typography>
+
+							{/* <Typography gutterBottom variant="h6" component="div">
+								{feedPost.postCreationTime}
+							</Typography>  */}
+
+							<NavLink to={`/group/show/${feedPost.groupId}`}>
+								{' '}
+								<Button className="createButton" variant="contained">
+									Show Group Posts
+								</Button>
+							</NavLink>
 						</CardContent>
 					</Card>
 					<div>

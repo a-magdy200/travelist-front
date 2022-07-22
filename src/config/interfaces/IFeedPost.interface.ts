@@ -3,5 +3,8 @@ export interface IFeedPost {
 	content: string
 	travelerName: String
 	groupId: number
+	postCreationTime: Date
+	postUpdationTime: Date
+	postStatus: String
 }
 

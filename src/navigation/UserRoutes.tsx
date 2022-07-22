@@ -51,6 +51,7 @@ import ShowBooking from '../pages/booking/show-one-booking'
 import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
 import ShowProfile from '../pages/Profile/ShowProfile'
 import EditProfile from '../pages/Profile/EditProfile'
+import FeedHome from '../pages/FeedPage'
 
 const UserRoutes = () => {
 	return (
@@ -75,7 +76,6 @@ const UserRoutes = () => {
 
 			<Route path="/feed" element={<FeedHome />} />
 
-			<Route path="/group/follow/:id" element={<FollowGroup />} />
 
 			{/*  company  */}
 			{/*<Route path="/company" element={<CompanyProfile />} />*/}
