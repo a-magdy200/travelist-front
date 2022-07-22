@@ -1,5 +1,5 @@
-import { IHotelInterface } from "./IHotel.interface";
+import { IHotelInterface } from './IHotel.interface'
 
 export interface IHotelShowProps {
-	hotel: IHotelInterface;
+	hotel: IHotelInterface
 }

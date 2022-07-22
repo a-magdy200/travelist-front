@@ -5,8 +5,6 @@ import Loader from '../../components/Loader'
 import { IBookingInterface } from '../../config/interfaces/IBooking.Interface'
 import ListTravelerBookingsComponent from '../../components/Booking/TravelerBooking'
 
-
-
 const ListTravelerBookings = () => {
 	const [bookings, setBookings] = useState<IBookingInterface[]>([])
 	const getCompanies = async () => {
@@ -16,7 +14,7 @@ const ListTravelerBookings = () => {
 			>({
 				url: '/api/cycles/bookings/traveler',
 			})
-	
+
 			if (response.success) {
 				if (response.data) {
 					setBookings(response.data)
@@ -30,16 +28,15 @@ const ListTravelerBookings = () => {
 	useEffect(() => {
 		getCompanies()
 	}, [])
-	return <div>
-		<h1>Bookings</h1>
-		{
-		bookings ? 
-		<ListTravelerBookingsComponent bookings={bookings} /> 
-		:
-		<Loader/>
-	    }
-
-
-		 </div>
+	return (
+		<div>
+			<h1>Bookings</h1>
+			{bookings ? (
+				<ListTravelerBookingsComponent bookings={bookings} />
+			) : (
+				<Loader />
+			)}
+		</div>
+	)
 }
 export default ListTravelerBookings

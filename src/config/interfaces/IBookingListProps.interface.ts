@@ -1,5 +1,5 @@
-import { IBookingInterface } from "./IBooking.Interface";
+import { IBookingInterface } from './IBooking.Interface'
 
 export interface IBookingListProps {
-	bookings: IBookingInterface[];
+	bookings: IBookingInterface[]
 }

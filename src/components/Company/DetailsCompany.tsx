@@ -12,7 +12,7 @@ const CompanyDetailsComponent = ({ company }: ICompanyShowProps) => {
 	return (
 		<div>
 			{company ? (
-				<Card sx={{ maxWidth: 845,ml:6 }}>
+				<Card sx={{ maxWidth: 845, ml: 6 }}>
 					<CardMedia
 						component="img"
 						height="200"
@@ -48,14 +48,14 @@ const CompanyDetailsComponent = ({ company }: ICompanyShowProps) => {
 							</Grid>
 						</Typography>
 					</CardContent>
-                    <CardActions>
-                    <NavLink to={`/company/list`}>
-						{' '}
-						<Button className="createButton" variant="contained">
-							Back
-						</Button>
-					</NavLink>
-                    </CardActions>
+					<CardActions>
+						<NavLink to={`/company/list`}>
+							{' '}
+							<Button className="createButton" variant="contained">
+								Back
+							</Button>
+						</NavLink>
+					</CardActions>
 				</Card>
 			) : (
 				<div>Not Found</div>

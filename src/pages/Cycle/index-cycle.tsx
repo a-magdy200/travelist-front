@@ -1,8 +1,6 @@
 import ListCycleComponent from '../../components/cycles/IndexCycle'
 
 const ListCycles = () => {
-	return(
-     <ListCycleComponent/>
-	)
+	return <ListCycleComponent />
 }
 export default ListCycles

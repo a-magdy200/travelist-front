@@ -1,4 +1,4 @@
-import { ITravelerReview } from "./ITravelerReview.interface";
+import { ITravelerReview } from './ITravelerReview.interface'
 
 export interface ITravelerReviewShowProps {
 	traveler: ITravelerReview

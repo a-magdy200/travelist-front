@@ -31,7 +31,7 @@ const ProgramDetailsPage = () => {
 
 	return (
 		<div>
-			{program? <ProgramDetailsComponent program={program} /> : <Loader/>}
+			{program ? <ProgramDetailsComponent program={program} /> : <Loader />}
 		</div>
 	)
 }

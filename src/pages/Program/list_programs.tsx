@@ -7,14 +7,15 @@ import { IProgramInterface } from '../../config/interfaces/IProgram.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 
 const ListProgramsPage = () => {
-	const [programs, setPrograms ] = useState<IProgramInterface[]>()
+	const [programs, setPrograms] = useState<IProgramInterface[]>()
 
-	const getPrograms= async () => {
+	const getPrograms = async () => {
 		try {
-			const response: IResponseInterface<IProgramInterface[]> =
-				await api<IProgramInterface[]>({
-					url: '/api/programs/all',
-				})
+			const response: IResponseInterface<IProgramInterface[]> = await api<
+				IProgramInterface[]
+			>({
+				url: '/api/programs/all',
+			})
 
 			if (response.success) {
 				if (response.data) {
@@ -33,14 +34,13 @@ const ListProgramsPage = () => {
 	return (
 		<div>
 			<h1>Programs Page</h1>
-			{
-			programs?
-			programs.map((program,index) =>(
-			<ProgramCard  program={program} key={index} />
-			)) 
-			:
-			<Loader/>
-			}
+			{programs ? (
+				programs.map((program, index) => (
+					<ProgramCard program={program} key={index} />
+				))
+			) : (
+				<Loader />
+			)}
 		</div>
 	)
 }

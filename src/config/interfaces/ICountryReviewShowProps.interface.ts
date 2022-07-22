@@ -1,5 +1,5 @@
-import { ICountryReview } from "./ICountryReview.interface";
+import { ICountryReview } from './ICountryReview.interface'
 
 export interface ICountryReviewShowProps {
-	countryReview: ICountryReview;
+	countryReview: ICountryReview
 }

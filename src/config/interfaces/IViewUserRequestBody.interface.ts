@@ -1,3 +1,1 @@
-export interface IViewUserRequestBody {
-
-}
+export interface IViewUserRequestBody {}

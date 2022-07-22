@@ -20,13 +20,13 @@ const CreateCountryReviews = () => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
 	const navigate = useNavigate()
-	let { id }  = useParams()
+	let { id } = useParams()
 	let countryId: number = 0
 
-	if(typeof id !== 'undefined'){
+	if (typeof id !== 'undefined') {
 		countryId = +id
 	}
-	
+
 	async function sendData(e: any) {
 		e.preventDefault()
 		try {
@@ -64,13 +64,14 @@ const CreateCountryReviews = () => {
 
 							<Typography component="legend">Star rating</Typography>
 							<Rating
-							name="simple-controlled"
-							value={+rating}
-							onChange={(event, newValue) => {
-								setRating(newValue!.toString());
-							}}
+								name="simple-controlled"
+								value={+rating}
+								onChange={(event, newValue) => {
+									setRating(newValue!.toString())
+								}}
 							/>
-							<br/><br/>
+							<br />
+							<br />
 
 							<div>
 								<CustomInputField

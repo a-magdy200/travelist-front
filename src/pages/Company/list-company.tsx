@@ -5,10 +5,9 @@ import { ICompanyInterface } from '../../config/interfaces/ICompany.interface'
 import ListCompanyComponent from '../../components/Company/ListCompany'
 import Loader from '../../components/Loader'
 
-
-
 const ListCompany = () => {
 	const [companies, setCompanies] = useState<ICompanyInterface[]>([])
+	const [isLoading, setIsLoading] = useState(true);
 	const getCompanies = async () => {
 		try {
 			const response: IResponseInterface<ICompanyInterface[]> = await api<
@@ -16,7 +15,7 @@ const ListCompany = () => {
 			>({
 				url: '/api/companies/',
 			})
-	
+
 			if (response.success) {
 				if (response.data) {
 					setCompanies(response.data)
@@ -29,15 +28,15 @@ const ListCompany = () => {
 		}
 	}
 	useEffect(() => {
-		getCompanies()
+		getCompanies().then(() => setIsLoading(false))
 	}, [])
-	return <div>
-		{
-		companies ? 
-		<ListCompanyComponent companies={companies} /> 
-		:
-		<Loader/>
-	    }
-		 </div>
+	if (isLoading) {
+		return <Loader/>
+	}
+	return (
+		<div>
+			<ListCompanyComponent companies={companies} />
+		</div>
+	)
 }
 export default ListCompany

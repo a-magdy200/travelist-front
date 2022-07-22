@@ -5,18 +5,16 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import api from '../../config/api'
 
-
-
 const ShowProgram = () => {
 	const [program, setProgram] = useState<IProgramInterface>()
-    const { id } = useParams()
+	const { id } = useParams()
 	const getProgram = async () => {
 		try {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
 					url: `/api/programs/show/${id}`,
 				})
-	
+
 			if (response.success) {
 				if (response.data) {
 					setProgram(response.data)
@@ -30,13 +28,14 @@ const ShowProgram = () => {
 	useEffect(() => {
 		getProgram()
 	}, [])
-	return <div>
-		{
-		program ? 
-		<ShowProgramComponent program={program} /> 
-		:
-		 <div>not found</div>
-	    }
-		 </div>
+	return (
+		<div>
+			{program ? (
+				<ShowProgramComponent program={program} />
+			) : (
+				<div>not found</div>
+			)}
+		</div>
+	)
 }
 export default ShowProgram

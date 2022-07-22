@@ -1,7 +1,6 @@
 import { ICompanyReview } from './ICompanyReview.interface'
 import { IProgramInterface } from './IProgram.interface'
-import { IUserInterface } from './IUser.interface'
-
+import { IUserInterface } from "./IUser.interface";
 export interface ICompanyInterface {
 	id: number
 	description: string

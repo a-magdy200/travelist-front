@@ -1,5 +1,5 @@
-import { IFriendInterface } from "./IFriend.interface";
+import { IFriendInterface } from './IFriend.interface'
 
 export interface IFriendListProps {
-	friends: IFriendInterface[];
+	friends: IFriendInterface[]
 }

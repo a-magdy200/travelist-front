@@ -18,12 +18,12 @@ import StripeCheckout from 'react-stripe-checkout'
 const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 	const [rate, setRate] = React.useState<number>(0)
 	const [isLoading, setIsLoading] = React.useState(false)
-    const bookCycle =async (token:any)=>{
+	const bookCycle = async (token: any) => {
 		try {
 			if (cycle.id) {
 				const requestBody: IBookCycleRequestBody = {
 					cycleId: cycle.id,
-					token
+					token,
 				}
 
 				const response: IResponseInterface<ICycleInterface> =
@@ -64,11 +64,10 @@ const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 					<Button size="small">Show More</Button>
 				</NavLink>
 				<StripeCheckout
-				 stripeKey="pk_test_51LNL5KAolBbZGsicA33sip9053jvrTpZvK6nzMAts5ZwJPvYJZlAD0yPBptJdrAACPVpMIMQ2QxYTXh9HAz0Vnpf0062y97oQ2"
+					stripeKey="pk_test_51LNL5KAolBbZGsicA33sip9053jvrTpZvK6nzMAts5ZwJPvYJZlAD0yPBptJdrAACPVpMIMQ2QxYTXh9HAz0Vnpf0062y97oQ2"
 					token={bookCycle}
 					name="book"
 				/>
-				
 			</CardActions>
 		</Card>
 	)
