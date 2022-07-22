@@ -14,10 +14,12 @@ import api from '../../config/api'
 import { IBookCycleRequestBody } from '../../config/interfaces/IBookCycleRequestBody.interface'
 import { LoadingButton } from '@mui/lab'
 import StripeCheckout from 'react-stripe-checkout'
+import useAuth from '../../hooks/useAuth'
 
 const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 	const [rate, setRate] = React.useState<number>(0)
 	const [isLoading, setIsLoading] = React.useState(false)
+	const {user}=useAuth()
 	const bookCycle = async (token: any) => {
 		try {
 			if (cycle.id) {
@@ -34,10 +36,11 @@ const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 					})
 				if (response.success) {
 					alert('booked successfully')
+					console.log(response.data)
 				}
 			}
 		} catch (error: any) {
-			alert('you booked before')
+			alert('error in booking')
 			console.log(JSON.stringify(error))
 		}
 	}
@@ -63,11 +66,16 @@ const CycleCardComponent = ({ cycle }: ICycleShowProps) => {
 					{' '}
 					<Button size="small">Show More</Button>
 				</NavLink>
+				{
+					user.type==='traveler'?
 				<StripeCheckout
 					stripeKey="pk_test_51LNL5KAolBbZGsicA33sip9053jvrTpZvK6nzMAts5ZwJPvYJZlAD0yPBptJdrAACPVpMIMQ2QxYTXh9HAz0Vnpf0062y97oQ2"
 					token={bookCycle}
 					name="book"
 				/>
+				:
+				<></>
+               }
 			</CardActions>
 		</Card>
 	)
