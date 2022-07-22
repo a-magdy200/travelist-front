@@ -2,9 +2,11 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import ListCompanyComponent from '../../components/Company/ListCompany';
+import CountryListComponent from '../../components/Country/CountryListComponent';
 import ListHotelsComponent from '../../components/hotels/ListHotels';
 import ListProgramsComponent from '../../components/programs/ListPrograms';
 import api from '../../config/api';
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface';
 import { IHotelInterface } from '../../config/interfaces/IHotel.interface';
 import { IProgramInterface } from '../../config/interfaces/IProgram.interface';
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
@@ -42,7 +44,7 @@ const SearchList = () => {
 	}
 	useEffect(() => {
 		getData()
-	}, [])
+	}, [keyword])
 
     const showData = (type: SearchType) => {
         switch (type) {
@@ -65,7 +67,14 @@ const SearchList = () => {
                 )
 
             case 'country':
-                return <div>Country list</div>
+                return data ? (
+                    data.map((country: ICountryInterface, index: number) => (
+                        <CountryListComponent country={country} key={index} />
+                    ))
+                ) : (
+                    <div>No result found</div>
+                )
+                    
 
             case 'hotel':
                 return data ? (

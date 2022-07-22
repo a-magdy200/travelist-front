@@ -52,6 +52,7 @@ import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
 import ShowProfile from "../pages/Profile/ShowProfile";
 import EditProfile from "../pages/Profile/EditProfile";
 import CountryList from '../pages/Country/CountryList'
+import SearchList from '../pages/Search/search_list'
 
 const UserRoutes = () => {
 	return (
@@ -111,6 +112,8 @@ const UserRoutes = () => {
 
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
+      
+      <Route path="/search/:type" element={<SearchList />} />
 
 
       {/* for admin usage */}
