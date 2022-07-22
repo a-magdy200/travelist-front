@@ -46,7 +46,7 @@ import DeleteCountryReview from '../pages/CountryReviews/delete_country_review'
 import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
-
+import ListFriendRequests from '../pages/FriendRequests/list_friend_requests'
 
 const UserRoutes = () => {
   return (
@@ -89,6 +89,7 @@ const UserRoutes = () => {
       <Route path="/hotel/show/:id" element={<ShowHotel />} />
       <Route path="/country/show/:id" element={<ShowCountry />} />
       <Route path="/traveler/booking" element={<ListTravelerBookings />} />
+      <Route path="/traveler/friendrequests" element={<ListFriendRequests />} />
 
       {/* for admin usage */}
       <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
