@@ -27,6 +27,7 @@ const CompanySidebar = () => {
         icon={<HomeOutlined />}
         to={'/booking/list'}
       />
+     
     </>
   )
 }

@@ -65,22 +65,22 @@ function Login() {
 							<Box py={4}>
 								<Typography variant={"h4"}>Welcome Back</Typography>
 							</Box>
-              <div>
+              <Box mb={2}>
                 <CustomInputField
                   type={"email"}
                   label={"Email"}
                   value={email}
                   setValue={setEmail}
                 />
-              </div>
-              <div>
+              </Box>
+              <Box mb={2}>
                 <CustomInputField
                   type={"password"}
                   label={"Password"}
                   value={password}
                   setValue={setPass}
                 />
-              </div>
+              </Box>
             </CardContent>
             <CardActions>
               <LoadingButton

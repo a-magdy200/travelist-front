@@ -16,10 +16,12 @@ import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
 import ShowCountry from '../pages/Country/showCountry'
 import ListPosts from '../pages/post/list_posts'
+import ListMyPosts from '../pages/post/list_my_posts'
 import ShowPost from '../pages/post/show_post'
 import EditPost from '../pages/post/EditPost'
 import CreatePost from '../pages/post/create_post'
 import DeletePost from '../pages/post/delete_post'
+import ReportPost from '../pages/post/report_post'
 import ListFriends from '../pages/Friend/list_friends'
 import ListTravelerBookings from '../pages/booking/traveler-booking'
 
@@ -39,10 +41,15 @@ import CountryList from '../pages/Country/CountryList'
 import SearchList from '../pages/Search/search_list'
 import ListCompanyBookings from "../pages/booking/company-booking";
 import UserPosts from "../pages/post/UserPosts";
+import TravelerList from '../pages/Traveler/TravelerList'
 import ShowProgram from "../pages/Program/show";
-import FeedHome from '../pages/FeedPage'
+import BookCycle from '../pages/Cycle/book-cycle'
+import FeedHome from "../pages/FeedPage";
+import useAuth from "../hooks/useAuth";
+import HomePage from "../pages/HomePage";
 
 const UserRoutes = () => {
+	const {user} =  useAuth();
 	return (
 		<Routes>
 			{/*  traveler  */}
@@ -52,7 +59,9 @@ const UserRoutes = () => {
 			<Route path="/post/show/:id" element={<ShowPost />} />
 			<Route path="/post/edit/:id" element={<EditPost />} />
 			<Route path="/post/delete/:id" element={<DeletePost />} />
+			<Route path="/post/report/:id" element={<ReportPost />} />
 			<Route path="/post/create" element={<CreatePost />} />
+			<Route path="/myPosts" element={<ListMyPosts />} />
 			<Route path="/posts" element={<UserPosts />} />
 
 			<Route path="/traveler/booking" element={<ListTravelerBookings />} />
@@ -61,8 +70,7 @@ const UserRoutes = () => {
 			<Route path="/friends" element={<ListFriends />} />
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
-
-			<Route path="/feed" element={<FeedHome />} />
+			<Route path="/cycle/book/:id" element={<BookCycle />} />
 
 			{/*  company  */}
 			<Route path="/program/create" element={<CreateProgram />} />
@@ -89,7 +97,9 @@ const UserRoutes = () => {
 
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
-      
+
+      <Route path="/traveler/list" element={<TravelerList />} />
+      <Route path="/traveler/:id" element={<TravelerList />} />
       <Route path="/search/:type" element={<SearchList />} />
 
 			{/* for admin usage */}
@@ -109,6 +119,8 @@ const UserRoutes = () => {
 			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
 			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
 			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
+			{/*<Route path={"/"} element={<FeedHome/>}/>*/}
+			<Route path={"/"} element={user.type === 'company' ? <HomePage/> : <FeedHome/>}/>
 		</Routes>
 	)
 }
