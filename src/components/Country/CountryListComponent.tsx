@@ -24,7 +24,6 @@ const CountryListComponent = ({ country }: ICountryShowProps) => {
 					<NavLink to={`/country/show/${country?.id}`}>
 						<Button
 							className="show-country"
-                            
 							variant="contained"
 							endIcon={<KeyboardDoubleArrowRightIcon fontSize="large" />}
 						>
