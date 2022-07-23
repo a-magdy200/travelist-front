@@ -17,8 +17,7 @@ const EditCompany = () => {
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
   const getMyProfile = async () => {
-   
-    try {
+       try {
       const response: IResponseInterface<ICompanyInterface> =
         await api<ICompanyInterface>({
           url: `/api/companies/profile`,
@@ -29,6 +28,7 @@ const EditCompany = () => {
           setDescription(response.data.description)
         }
       }
+      
     } catch (error: any) {
       console.log(error)
     }

@@ -23,14 +23,17 @@ import api from '../../config/api'
 import { useContext } from 'react'
 import AuthContext from '../../contexts/AuthContext'
 import Loader from "../../components/Loader";
+import { toast } from 'react-toastify'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 const EditTraveler = () => {
 	const LoggedInUser: any = useContext(AuthContext)
 	const [gender, set_gender] = useState<GenderType>('male')
 	const [national_id, set_national_id] = useState('')
 	const [is_guide, set_is_guide] = useState(false)
 	const [date_of_birth, set_date_of_birth] = useState('')
-	const [isLoading, setIsLoading] = useState(true);
-
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
+  
 	const navigate = useNavigate()
 	const getTravelerData = async () => {
 		try {
@@ -58,6 +61,9 @@ const EditTraveler = () => {
 	}, [])
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		toast.info("Editing Profile....");
+        setErrors([]);
+        setIsLoading(true);
 		const requestBody = {
 			date_of_birth,
 			gender,
@@ -76,10 +82,16 @@ const EditTraveler = () => {
 			if (response.success) {
 				navigate(`/${LoggedInUser.user.type}`)
 			}
+		toast.success("Editing Successfully");
 		} catch (error: any) {
+			setErrors(error?.response?.data?.errors || []);
+            toast.error("An error has occurred");
 			console.log(error)
 		}
+	    setIsLoading(false);
+
 	}
+
 
 	if (isLoading) {
 		return <Loader/>
@@ -97,6 +109,7 @@ const EditTraveler = () => {
 					<form onSubmit={sendData}>
 							<h2>Edit Details</h2>
 							<div>
+							<DisplayErrorsList errors={errors} />
 								<TextField
 									id="outlined-multiline-flexible"
 									type="number"
