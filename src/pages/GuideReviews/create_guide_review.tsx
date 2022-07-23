@@ -9,6 +9,8 @@ import CustomInputField from '../../components/Form/CustomInputField'
 import Button from '@mui/material/Button'
 import { IGuideReview } from '../../config/interfaces/IGuideReview.interface'
 import { IGuideReviewRequestBody } from '../../config/interfaces/IGuideReviewRequestBody.interface'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
 
 interface Test {
 	guideId: number
@@ -17,9 +19,15 @@ interface Test {
 const CreateGuideReviews = ({ guideId }: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 
 	async function sendData(e: any) {
 		e.preventDefault()
+		toast.info('Creating Review....')
+		setErrors([])
+		setIsLoading(true)
+
 		try {
 			const requestBody: IGuideReviewRequestBody = {
 				review,
@@ -37,13 +45,20 @@ const CreateGuideReviews = ({ guideId }: Test) => {
 			if (response.success) {
 				if (response.data) {
 					console.log(response.data)
+
 					// refresh page
 					// reload page
 				}
 			}
+			toast.success('Created Successfully')
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
+		setIsLoading(false)
+	}
+	if (isLoading) {
+		return <Loader />
 	}
 
 	return (
@@ -53,7 +68,7 @@ const CreateGuideReviews = ({ guideId }: Test) => {
 					<form onSubmit={sendData}>
 						<CardContent>
 							<h2>Add Your Review</h2>
-
+							<DisplayErrorsList errors={errors} />
 							<div>
 								<CustomInputField
 									type={'text'}

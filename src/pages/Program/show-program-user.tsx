@@ -12,6 +12,8 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import ListProgramCyclesComponent from '../../components/programs/ListProgramCycles'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
 
 function TabPanel(props: TabPanelProps) {
 	const { children, value, index, ...other } = props
@@ -43,8 +45,11 @@ const ShowProgramUser = () => {
 	const [program, setProgram] = useState<IProgramInterface>()
 	const [cycles, setCycles] = useState<ICycleInterface[]>([])
 	const [value, setValue] = useState(0)
+	const [isLoading, setIsLoading] = useState(false);
 	const { id } = useParams()
 	const getProgram = async () => {
+		toast.info("Creating post....");
+    setIsLoading(true);
 		try {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
@@ -56,9 +61,12 @@ const ShowProgramUser = () => {
 					setProgram(response.data)
 				}
 			}
+			toast.success("Get Program Successfully");
 		} catch (error: any) {
 			console.log(error)
+			toast.error("An error has occurred");
 		}
+		setIsLoading(false);
 	}
 	const getCycles = async () => {
 		try {
@@ -85,6 +93,9 @@ const ShowProgramUser = () => {
 	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue)
 	}
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div>
 			{program ? (

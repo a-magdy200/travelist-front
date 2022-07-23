@@ -5,11 +5,14 @@ import api from '../../config/api'
 import { ICompanyInterface } from '../../config/interfaces/ICompany.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Loader from "../../components/Loader";
+import { toast } from 'react-toastify'
 const CompanyData = () => {
 	const [company, setCompProfile] = useState<ICompanyInterface>()
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const getMyProfile = async () => {
+		toast.info("Getting your Profile....");
+		setIsLoading(true);
 		try {
 			const response: IResponseInterface<ICompanyInterface> =
 				await api<ICompanyInterface>({
@@ -21,7 +24,10 @@ const CompanyData = () => {
 					setCompProfile(response.data)
 				}
 			}
+			toast.success("Get Profile Successfully");
+
 		} catch (error: any) {
+			toast.error("An error has occurred");
 			console.log(error)
 		}
 	}
