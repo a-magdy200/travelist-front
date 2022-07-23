@@ -1,4 +1,3 @@
-import { IChatInterface } from "../../config/interfaces/entities/IChat.interface";
 import Grid from "@mui/material/Grid";
 import ChatUserItem from "./ChatUserItem";
 import useChat from "../../hooks/useChat";

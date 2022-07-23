@@ -4,11 +4,19 @@ import { IPostInterface } from '../../config/interfaces/IPost.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import ShowPostComponent from '../../components/post/ShowPost'
+import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
+import { toast } from 'react-toastify'
 
 const ShowPost = () => {
 	const [post, setPost] = useState<IPostInterface>()
 	const { id } = useParams()
+	const [isLoading, setIsLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 	const getPost = async () => {
+		toast.info('Getting post....')
+		setErrors([])
+		setIsLoading(true)
 		try {
 			const response: IResponseInterface<IPostInterface> =
 				await api<IPostInterface>({
@@ -19,14 +27,28 @@ const ShowPost = () => {
 					setPost(response.data)
 				}
 			}
+			toast.success('Got Post Successfully')
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
+		setIsLoading(false)
 	}
 	useEffect(() => {
 		getPost()
 	}, [])
+	if (isLoading) {
+		return <Loader />
+	}
 
-	return <div>{post ? <ShowPostComponent post={post} /> : <div></div>}</div>
+	return (
+		<div>
+			{post ? (
+				<ShowPostComponent post={post} />
+			) : (
+				<DisplayErrorsList errors={errors} />
+			)}
+		</div>
+	)
 }
 export default ShowPost

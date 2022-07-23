@@ -1,4 +1,4 @@
-import Profile from '../../components/Profile/Profile'
+import UserBasicInfo from '../../components/Profile/UserBasicInfo'
 import { useEffect, useState } from 'react'
 import api from '../../config/api'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
@@ -29,7 +29,7 @@ const UserBaseData = () => {
 		<>
 			{/* to view company data */}
 
-			<div>{user ? <Profile user={user} /> : <div>not found</div>}</div>
+			{/*<div>{user ? <UserBasicInfo user={user} /> : <div>not found</div>}</div>*/}
 		</>
 	)
 }

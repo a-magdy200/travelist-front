@@ -4,13 +4,18 @@ import api from '../../config/api'
 import Loader from '../../components/Loader'
 import { IFriendRequestInterface } from '../../config/interfaces/IFriendRequest.interface'
 import ListSentRequestsComponent from '../../components/FriendRequest/ListSentRequests'
+import { toast } from 'react-toastify'
 
 
 
 const ListSentRequests = () => {
 	const [mySentRequests, setMySentRequests] = useState<IFriendRequestInterface[]>([])
 	const [isLoading, setIsLoading] = useState(true);
+	const [errors, setErrors] = useState([]);
 	const getMySentRequests = async () => {
+		toast.info("Getting List....");
+		setErrors([]);
+		setIsLoading(true);
 		try {
 			const response: IResponseInterface<IFriendRequestInterface[]> = await api<
 				IFriendRequestInterface[]
@@ -24,8 +29,11 @@ const ListSentRequests = () => {
 					console.log(response.data)
 				}
 			}
+			toast.success("Getting Requests Successfully");
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || []);
+			toast.error("An error has occurred");
+	  
 		}
 	}
 	useEffect(() => {
@@ -39,7 +47,7 @@ const ListSentRequests = () => {
 		mySentRequests ?
 		<ListSentRequestsComponent mySentRequests={mySentRequests} />
 		:
-		<Loader/>
+		<div>No Send Requests yet</div>
 	    }
 		 </div>
 }

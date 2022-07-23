@@ -1,114 +1,98 @@
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { IFriendRequestShowProps } from '../../config/interfaces/IFriendRequestShowProps.interface';
-import Avatar from '@mui/material/Avatar';
-import { useEffect, useState } from 'react';
-import { IUserInterface } from '../../config/interfaces/IUser.interface';
-import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
-import api from '../../config/api';
-import { IFriendRequestInterface } from '../../config/interfaces/IFriendRequest.interface';
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { IFriendRequestShowProps } from "../../config/interfaces/IFriendRequestShowProps.interface";
+import Avatar from "@mui/material/Avatar";
+import { IResponseInterface } from "../../config/interfaces/IResponse.interface";
+import api from "../../config/api";
+import { IFriendRequestInterface } from "../../config/interfaces/IFriendRequest.interface";
+import Typography from "@mui/material/Typography";
+import config from "../../config/app_config/config";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const FriendRequestCard=({friendRequest}:IFriendRequestShowProps)=>{
-    const [currentUser, setCurrentUser] = useState<IUserInterface>()
-    const getCurrentUser  = async () => {
-        try {
-            const response: IResponseInterface<IUserInterface> = await api<
-                IUserInterface
-            >({
-                url: '/api/users/current/user',
-            })
-    
-            if (response.success) {
-                if (response.data) {
-                  setCurrentUser(response.data)
-                }
-            }
-        } catch (error: any) {
-         console.log(error)
-        }
+const FriendRequestCard = ({ friendRequest }: IFriendRequestShowProps) => {
+  const acceptRequest = async (id: number | undefined) => {
+    try {
+      toast.info("Accepting request");
+      const response: IResponseInterface<IFriendRequestInterface> =
+        await api<IFriendRequestInterface>({
+          url: `/api/friendrequests/accept/${id}`,
+          method: "PUT"
+        });
+
+      if (response.success) {
+        toast.success("Accepted")
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error("An error has occurred");
     }
+  };
 
-   const acceptRequest = async (id: number | undefined) => {
-			try {
-				const response: IResponseInterface<IFriendRequestInterface> =
-					await api<IFriendRequestInterface>({
-						url: `/api/friendrequests/accept/${id}`,
-						method: 'PUT',
-					})
 
-				if (response.success) {
-					alert('You are now friends')
-				}
-			} catch (error: any) {
-				console.log(error)
-			}
-		}
-	
+  const rejectRequest = async (id: number | undefined) => {
+    try {
+      toast.info("Rejecting request");
+      const response: IResponseInterface<IFriendRequestInterface> =
+        await api<IFriendRequestInterface>({
+          url: `/api/friendrequests/reject/${id}`,
+          method: "PUT"
+        });
 
-    const rejectRequest = async (id: number | undefined) => {
-        try {
-            const response: IResponseInterface<IFriendRequestInterface> =
-                await api<IFriendRequestInterface>({
-                    url: `/api/friendrequests/reject/${id}`,
-                    method: 'PUT',
-                })
-
-            if (response.success) {
-                alert('Request is declined')
-            }
-        } catch (error: any) {
-            console.log(error)
-        }
+      if (response.success) {
+        toast.success("Rejected")
+        window.location.reload();
+      }
+    } catch (error: any) {
+      console.log(error);
+      toast.error("An error has occurred");
     }
+  };
+  return (
 
+    <Box mb={2}>
+      <Card variant={"outlined"}>
+        <Box display={"flex"} alignItems={"center"} p={2}>
+          <Avatar
+            alt=""
+            src={`${config.apiUrl}/${friendRequest.sender.user.profile_picture}`}
+            sx={{ width: 56, height: 56 }}
 
-useEffect(() => {
-    getCurrentUser()
-}, [])
-
-   
-
-    return<div>
-        
-       { currentUser?.id===friendRequest.receiver.user.id?
-        
-        <Card sx={{ maxWidth: 300 ,m:2}}>
-        <Avatar
-          alt=""
-          src={`http://localhost:4000/${friendRequest.sender.user.profile_picture}`}
-          sx={{ width: 56, height: 56 }}
-          
-        />
-        <Box>{friendRequest.sender.user.name}</Box>
-          <Button
-				variant="contained"
+          />
+          <Box ml={2} display={"flex"} alignItems={"center"}>
+            <Link to={`/traveler/${friendRequest.sender.id}`}>
+              <Typography variant={"h5"}>
+                {friendRequest.sender.user.name}
+              </Typography>
+            </Link>
+            <Box ml={2}>
+              <Button
+                variant="contained"
                 size="medium"
-               onClick={() => {
-                    acceptRequest(friendRequest.sender.id)
-                    }}
-				>
-			Accept
-		</Button>
-        <Button
-				variant="outlined"
+                onClick={() => {
+                  acceptRequest(friendRequest.sender.id);
+                }}
+              >
+                Accept
+              </Button>
+            </Box>
+            <Box ml={2}>
+
+              <Button
+                variant="outlined"
                 size="medium"
-                    onClick={() => {
-                    rejectRequest(friendRequest.sender.id)
-                    }}
-				>
-			Reject
-		</Button>
-        <CardActions>
-        </CardActions>
+                onClick={() => {
+                  rejectRequest(friendRequest.sender.id);
+                }}
+              >
+                Reject
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </Card>
-       :
-    <div></div>
-                }    
-</div>
-                
-                }
-export default FriendRequestCard
+    </Box>
+  );
+};
+export default FriendRequestCard;

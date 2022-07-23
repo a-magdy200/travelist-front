@@ -9,6 +9,9 @@ import CardContent from '@mui/material/CardContent'
 import CustomInputField from '../../components/Form/CustomInputField'
 import Button from '@mui/material/Button'
 import { IHotelReviewRequestBody } from '../../config/interfaces/IHotelReviewRequestBody.interface'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 interface Test {
 	hotelId: number
@@ -17,9 +20,14 @@ interface Test {
 const CreateHotelReviews = ({ hotelId }: Test) => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 
 	async function sendData(e: any) {
 		e.preventDefault()
+		toast.info('Creating Review....')
+		setErrors([])
+		setIsLoading(true)
 		try {
 			const requestBody: IHotelReviewRequestBody = {
 				review,
@@ -36,16 +44,20 @@ const CreateHotelReviews = ({ hotelId }: Test) => {
 
 			if (response.success) {
 				if (response.data) {
-					console.log(response.data)
+					toast.success('Created Successfully')
 					// refresh page
 					// reload page
 				}
 			}
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
+		setIsLoading(false)
 	}
-
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div className="container">
 			<div>
@@ -53,7 +65,7 @@ const CreateHotelReviews = ({ hotelId }: Test) => {
 					<form onSubmit={sendData}>
 						<CardContent>
 							<h2>Add Your Review</h2>
-
+							<DisplayErrorsList errors={errors} />
 							<div>
 								<CustomInputField
 									type={'text'}

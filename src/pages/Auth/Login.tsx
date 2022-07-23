@@ -16,17 +16,22 @@ import {ReactComponent as LoginImage} from '../../assets/images/login.svg';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
   const { makeAuth } = useAuth();
   const navigate = useNavigate();
 
   async function sendData(e: any) {
     e.preventDefault();
     setIsLoading(true);
+    toast.info("Login....");
+    setErrors([]);
     try {
       const requestBody: ILoginRequestBody = {
         email,
@@ -45,17 +50,23 @@ function Login() {
           makeAuth(response.data);
         }
       }
+      toast.success("Login successfully");
     } catch (error: any) {
-      console.log(JSON.stringify(error));
-    }
+      setErrors(error?.response?.data?.errors || []);
+      toast.error("An error has occurred"); 
+       }
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
-  }
+    setIsLoading(false);
 
+  }
   const isDisabled = (): boolean => {
     return isLoading || email === "" || password === "";
   };
+  if (isLoading) {
+    return <Loader/>
+  }
   return (
     <Grid container spacing={4} alignItems={"center"}>
       <Grid item md={6} xs={12}>

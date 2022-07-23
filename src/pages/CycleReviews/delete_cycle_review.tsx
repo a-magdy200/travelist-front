@@ -8,13 +8,22 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { useParams } from 'react-router-dom'
 import api from '../../config/api'
 import { ICycleReview } from '../../config/interfaces/ICycleReview.interface'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
+import Loader from '../../components/Loader'
 
 const DeleteCycleReview = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
-
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
+	
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		toast.info("Deleting Review....");
+		setErrors([]);
+		setIsLoading(true);
 		try {
 			const response: IResponseInterface<ICycleReview> =
 				await api<ICycleReview>({
@@ -26,10 +35,17 @@ const DeleteCycleReview = () => {
 				// console.log(response)
 				navigate('/cycleReview/list')
 			}
+			toast.success("Deleting Successfully");
+
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || []);
+			toast.error("An error has occurred");
 		}
+		setIsLoading(false);
 	}
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div
 			className="container"
@@ -43,6 +59,8 @@ const DeleteCycleReview = () => {
 				<Card sx={{ maxWidth: 700 }} style={{ minHeight: '25vh' }}>
 					<form onSubmit={sendData}>
 						<CardContent>
+						<DisplayErrorsList errors={errors} />
+
 							<div>
 								<h2> Are you sure you want to delete this?</h2>
 							</div>

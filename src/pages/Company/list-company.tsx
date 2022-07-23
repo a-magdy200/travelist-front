@@ -5,13 +5,19 @@ import { ICompanyInterface } from '../../config/interfaces/ICompany.interface'
 import ListCompanyComponent from '../../components/Company/ListCompany'
 import Loader from '../../components/Loader'
 import FilterCompanyComponent from '../../components/Company/FilterCompany'
+import { toast } from 'react-toastify'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 const ListCompany = () => {
 	const [companies, setCompanies] = useState<ICompanyInterface[]>([])
-	const [filteredCompanies, setFilteredCompanies] = useState<ICompanyInterface[]>()
-
-	const [isLoading, setIsLoading] = useState(true);
+	const [filteredCompanies, setFilteredCompanies] =
+		useState<ICompanyInterface[]>()
+	const [errors, setErrors] = useState([])
+	const [isLoading, setIsLoading] = useState(false)
 	const getCompanies = async () => {
+		toast.info('Getting Companies....')
+		setErrors([])
+		setIsLoading(true)
 		try {
 			const response: IResponseInterface<ICompanyInterface[]> = await api<
 				ICompanyInterface[]
@@ -26,29 +32,31 @@ const ListCompany = () => {
 					console.log(response.data)
 				}
 			}
+			toast.success('Getting Companies Successfully')
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
 	}
 	useEffect(() => {
 		getCompanies().then(() => setIsLoading(false))
 	}, [])
 	if (isLoading) {
-		return <Loader/>
+		return <Loader />
 	}
 	return (
 		<div>
-		<h1>Companies Page</h1>
+			<h1>Companies Page</h1>
 			<FilterCompanyComponent
-			companies={companies}
-			setFilteredCompanies={setFilteredCompanies}
+				companies={companies}
+				setFilteredCompanies={setFilteredCompanies}
 			/>
 			{filteredCompanies ? (
-				<ListCompanyComponent companies={filteredCompanies} /> 
+				<ListCompanyComponent companies={filteredCompanies} />
 			) : (
-				<Loader/>
+				<DisplayErrorsList errors={errors} />
 			)}
-		 </div>
+		</div>
 	)
 }
 export default ListCompany

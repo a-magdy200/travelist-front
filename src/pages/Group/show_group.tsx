@@ -5,12 +5,15 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import ShowGroupComponent from '../../components/groups/ShowGroup'
 import Loader from "../../components/Loader";
+import { toast } from 'react-toastify'
 
 const ShowGroup = () => {
 	const [group, setGroup] = useState<IGroupInterface>()
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const { id } = useParams()
 	const getGroup = async () => {
+		toast.info("Getting Group....");
+		setIsLoading(true);
 		try {
 			const response: IResponseInterface<IGroupInterface> =
 				await api<IGroupInterface>({
@@ -22,8 +25,10 @@ const ShowGroup = () => {
 					// console.log('response data',response.data)
 				}
 			}
+			toast.success("Get Group Successfully");
+
 		} catch (error: any) {
-			console.log(error)
+			toast.error("An error has occurred");
 		}
 	}
 	useEffect(() => {

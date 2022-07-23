@@ -1,90 +1,66 @@
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { ISentRequestShowProps } from '../../config/interfaces/ISentRequestShowProps.interface';
-import Avatar from '@mui/material/Avatar';
-import { useEffect, useState } from 'react';
-import { IUserInterface } from '../../config/interfaces/IUser.interface';
-import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
-import api from '../../config/api';
-import { IFriendRequestInterface } from '../../config/interfaces/IFriendRequest.interface';
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { ISentRequestShowProps } from "../../config/interfaces/ISentRequestShowProps.interface";
+import Avatar from "@mui/material/Avatar";
+import { IResponseInterface } from "../../config/interfaces/IResponse.interface";
+import api from "../../config/api";
+import { IFriendRequestInterface } from "../../config/interfaces/IFriendRequest.interface";
+import config from "../../config/app_config/config";
+import { Link } from "react-router-dom";
+import Typography from "@mui/material/Typography";
+import { toast } from "react-toastify";
 
-const MySentRequestCard=({mySentRequest}:ISentRequestShowProps)=>{
-    const [currentUser, setCurrentUser] = useState<IUserInterface>()
-    const getCurrentUser  = async () => {
-        try {
-            const response: IResponseInterface<IUserInterface> = await api<
-                IUserInterface
-            >({
-                url: '/api/users/current/user',
-            })
-    
-            if (response.success) {
-                if (response.data) {
-                  setCurrentUser(response.data)
-                }
-            }
-        } catch (error: any) {
-         console.log(error)
-        }
+const MySentRequestCard = ({ mySentRequest }: ISentRequestShowProps) => {
+  const cancelRequest = async (id: number | undefined) => {
+    try {
+      toast.info("Cancelling request...");
+      const response: IResponseInterface<IFriendRequestInterface> =
+        await api<IFriendRequestInterface>({
+          url: `/api/friendrequests/cancel/${id}`,
+          method: "DELETE"
+        });
+
+      if (response.success) {
+        toast.success("Request cancelled");
+      }
+    } catch (error: any) {
+      toast.error("An error has occurred");
+      console.log(error);
     }
+  };
 
-   const cancelRequest = async (id: number | undefined) => {
-			try {
-				const response: IResponseInterface<IFriendRequestInterface> =
-					await api<IFriendRequestInterface>({
-						url: `/api/friendrequests/cancel/${id}`,
-						method: 'DELETE',
-					})
+  return (
+    <Box mb={2}>
+      <Card variant={"outlined"}>
+        <Box display={"flex"} alignItems={"center"} p={2}>
+          <Avatar
+            alt=""
+            src={`${config.apiUrl}/${mySentRequest.receiver.user.profile_picture}`}
+            sx={{ width: 56, height: 56 }}
 
-				if (response.success) {
-					alert('Request is cancelled')
-				}
-			} catch (error: any) {
-				console.log(error)
-			}
-		}
-	
-
-
-useEffect(() => {
-    getCurrentUser()
-}, [])
-
-   
-
-    return<div>
-        
-       { currentUser?.id===mySentRequest.sender.user.id?
-        
-        <Card sx={{ maxWidth: 300 ,m:2}}>
-        <Avatar
-          alt=""
-          src={`http://localhost:4000/${mySentRequest.receiver.user.profile_picture}`}
-          sx={{ width: 56, height: 56 }}
-          
-        />
-        <Box>{mySentRequest.receiver.user.name}</Box>
-          <Button
-				variant="outlined"
+          />
+          <Box ml={2} display={"flex"} alignItems={"center"}>
+            <Link to={`/traveler/${mySentRequest.receiver.id}`}>
+              <Typography variant={"h5"}>
+                {mySentRequest.receiver.user.name}
+              </Typography>
+            </Link>
+            <Box ml={2}>
+              <Button
+                variant="outlined"
                 size="medium"
-               onClick={() => {
-                    cancelRequest(mySentRequest.receiver.id)
-                    }}
-				>
-			Cancel Friend Request
-		</Button>
-       
-        <CardActions>
-        </CardActions>
+                onClick={() => {
+                  cancelRequest(mySentRequest.receiver.id);
+                }}
+              >
+                Cancel Friend Request
+              </Button>
+            </Box>
+          </Box>
+        </Box>
       </Card>
-       :
-    <div> Can not load card</div>
-                }    
-</div>
-                
-                }
-export default MySentRequestCard
+    </Box>
+  );
+};
+export default MySentRequestCard;

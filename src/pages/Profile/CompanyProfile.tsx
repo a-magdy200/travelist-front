@@ -4,19 +4,12 @@ import CompanyData from './CompanyData'
 
 const CompanyProfile = () => {
 	return (
-		// <Stack
-		// 	direction="column"
-		// 	spacing={2}
-		// 	display="flex"
-		// 	// justifyContent="center"
-		// 	alignItems="center"
-
-		// >
+		
 		<>
-			<UserBaseData />
+			{/*<UserBaseData />*/}
 			<CompanyData />
 		</>
-		// </Stack>
+		
 	)
 }
 

@@ -55,8 +55,9 @@ import FeedHome from '../pages/FeedPage'
 import useAuth from '../hooks/useAuth'
 import HomePage from '../pages/HomePage'
 import TravelerProfile from '../pages/Profile/TravelerProfile'
-import Chat from '../pages/Chat'
-import Notifications from '../pages/Notifications'
+import Chat from "../pages/Chat";
+import Notifications from "../pages/Notifications";
+import ListCompany from "../pages/Company/list-company";
 
 const UserRoutes = () => {
 	const { user } = useAuth()
@@ -106,6 +107,7 @@ const UserRoutes = () => {
 			<Route path="/cycle/list" element={<ListCycles />} />
 			<Route path="/cycle/show/:id" element={<ShowCycle />} />
 
+			<Route path="/company/list" element={<ListCompany />} />
 			<Route path="/company/show/:id" element={<CompanyDetails />} />
 
 			<Route path="/group/list" element={<ListGroups />} />
