@@ -9,6 +9,7 @@ import { NavLink, Link } from 'react-router-dom'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import ReportIcon from '@mui/icons-material/Report';
 const ListPostsComponent = ({ post }: IPostShowProps) => {
 	// console.log('post ', post)
 	return (
@@ -29,14 +30,18 @@ const ListPostsComponent = ({ post }: IPostShowProps) => {
 									<NavLink to={`/post/edit/${post.id}`}>
 										<EditIcon />
 									</NavLink>
-									{/* <NavLink to={`/post/delete/${post.id}`}> */}
 									<Link
 										to={'/post/delete/' + post.id}
 										state={{ groupId: post.groupId }}
 									>
 										<DeleteIcon />
 									</Link>
-									{/* </NavLink> */}
+									<Link
+										to={'/post/report/' + post.id}
+										state={{ groupId: post.groupId }}
+									>
+										<ReportIcon />
+									</Link>
 								</Grid>
 
 								<Grid item xs={12}>

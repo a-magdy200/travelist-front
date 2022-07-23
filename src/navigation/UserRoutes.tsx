@@ -34,6 +34,7 @@ import ShowPost from '../pages/post/show_post'
 import EditPost from '../pages/post/EditPost'
 import CreatePost from '../pages/post/create_post'
 import DeletePost from '../pages/post/delete_post'
+import ReportPost from '../pages/post/report_post'
 import ListFriends from '../pages/Friend/list_friends'
 import ListTravelerBookings from '../pages/booking/traveler-booking'
 
@@ -65,6 +66,7 @@ const UserRoutes = () => {
      <Route path="/post/show/:id" element={<ShowPost />} />
 			<Route path="/post/edit/:id" element={<EditPost />} />
 			<Route path="/post/delete/:id" element={<DeletePost />} />
+			<Route path="/post/report/:id" element={<ReportPost />} />
 			<Route path="/post/create" element={<CreatePost />} />
 			<Route path="/posts" element={<ListPosts />} />
 			<Route path="/myPosts" element={<ListMyPosts />} />

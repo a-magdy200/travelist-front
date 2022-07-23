@@ -53,7 +53,7 @@ const CreatePost = () => {
 				<Card sx={{ maxWidth: 700 }} style={{ minHeight: '50vh' }}>
 					<form onSubmit={sendData}>
 						<CardContent>
-							<h2>Edit Basic Info</h2>
+							<h2>Add your post now !</h2>
 							<div>
 								<TextareaAutosize
 									maxRows={8}
