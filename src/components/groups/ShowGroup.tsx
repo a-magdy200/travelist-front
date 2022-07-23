@@ -55,9 +55,11 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 						<Box mx={2}>
 							<Typography variant={'h5'}>Group Details</Typography>
 						</Box>
-						<Link to="/post/create" state={{ id: group?.id }}>
-							<Button variant="contained">Create post</Button>
-						</Link>
+						{user.type === 'traveler' ? (
+							<Link to="/post/create" state={{ id: group?.id }}>
+								<Button variant="contained">Create post</Button>
+							</Link>
+							) : null }
 						<Box ml={2}>
 							{isFollowing ? (
 								<Button onClick={unfollowGroup} variant="contained">

@@ -40,6 +40,7 @@ const LoginForm = ({onSubmit}: ILoginFormProps) => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
+              <Box p={2}>
               <TextField
                 fullWidth={true}
                 error={!!(errors.email && touched.email)}
@@ -53,8 +54,10 @@ const LoginForm = ({onSubmit}: ILoginFormProps) => {
                 onBlur={handleBlur}
                 value={values.email}
               />
+              </Box>
             </Grid>
             <Grid item xs={12}>
+              <Box p={2}>
               <TextField
                 fullWidth={true}
                 error={!!(errors.password && touched.password)}
@@ -68,6 +71,7 @@ const LoginForm = ({onSubmit}: ILoginFormProps) => {
                 onBlur={handleBlur}
                 value={values.password}
               />
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>

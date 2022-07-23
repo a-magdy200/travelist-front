@@ -1,62 +1,64 @@
-import { useState } from 'react'
-import Button from '@mui/material/Button'
-import { Box } from '@mui/system'
-import CustomInputField from '../../components/Form/CustomInputField'
-import { IForgetPasswordRequest } from '../../config/interfaces/IForgetPasswordRequest.interface'
-import { IForgetPasswordResponse } from '../../config/interfaces/IForgetPasswordResponse.interface'
-import api from '../../config/api'
+import { useState } from "react";
+import Button from "@mui/material/Button";
+import { Box } from "@mui/system";
+import CustomInputField from "../../components/Form/CustomInputField";
+import { IForgetPasswordRequest } from "../../config/interfaces/IForgetPasswordRequest.interface";
+import { IForgetPasswordResponse } from "../../config/interfaces/IForgetPasswordResponse.interface";
+import api from "../../config/api";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 function ForgetPassword() {
-	const [email, setEmail] = useState('')
+  const [email, setEmail] = useState("");
 
-	async function sendData(e: any) {
-		e.preventDefault()
+  async function sendData(e: any) {
+    e.preventDefault();
 
-		try {
-			const requestBody: IForgetPasswordRequest = {
-				email,
-			}
+    try {
+      const requestBody: IForgetPasswordRequest = {
+        email
+      };
 
-			const response: IForgetPasswordResponse = await api({
-				url: '/auth/forget_password',
-				method: 'POST',
-				body: JSON.stringify(requestBody),
-			})
+      const response: IForgetPasswordResponse = await api({
+        url: "/auth/forget_password",
+        method: "POST",
+        body: JSON.stringify(requestBody)
+      });
 
-			if (response.success) {
-				console.log('check your mail, verification code has been sent')
-			}
-		} catch (error) {
-			console.log(error)
-		}
-	}
+      if (response.success) {
+        console.log("check your mail, verification code has been sent");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-	return (
-		<div className="container">
-			<h3>Forget your Password?</h3>
-			{/* <p>
-				We will send you mail with verification code to reset your password and
-				activate your account, please write your mail and check it the get the
-				code
-			</p> */}
-			<Box sx={{ m: 3 }}>
-				<form onSubmit={sendData}>
-					<div>
-						<CustomInputField
-							type={'email'}
-							label={'Email'}
-							value={email}
-							setValue={setEmail}
-						/>
-					</div>
-					<br />
-					<Button variant="contained" type="submit">
-						Send
-					</Button>
-				</form>
-			</Box>
-		</div>
-	)
+  return (
+    <Box width={"100%"}>
+      <form onSubmit={sendData}>
+        <Grid container spacing={2} justifyContent={"center"} width={"100%"}>
+          <Grid item xs={12}>
+            <Typography variant={"h5"}>
+              Forget your Password?
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <CustomInputField
+              type={"email"}
+              label={"Email"}
+              value={email}
+              setValue={setEmail}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" type="submit">
+              Send
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </Box>
+  );
 }
 
-export default ForgetPassword
+export default ForgetPassword;

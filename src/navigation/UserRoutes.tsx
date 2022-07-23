@@ -94,7 +94,6 @@ const UserRoutes = () => {
 
       <Route path="/traveler/list" element={<TravelerList />} />
       <Route path="/traveler/:id" element={<TravelerList />} />
-      
       <Route path="/search/:type" element={<SearchList />} />
 
 			{/* for admin usage */}
@@ -114,7 +113,8 @@ const UserRoutes = () => {
 			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
 			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
 			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
-			<Route path={"/"} element={user.type === 'company' ? <HomePage/> : <FeedHome/>}/>
+			<Route path={"/"} element={<FeedHome/>}/>
+			{/*<Route path={"/"} element={user.type === 'company' ? <HomePage/> : <FeedHome/>}/>*/}
 		</Routes>
 	)
 }
