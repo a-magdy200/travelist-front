@@ -39,6 +39,7 @@ import CountryList from '../pages/Country/CountryList'
 import ListCompanyBookings from "../pages/booking/company-booking";
 import UserPosts from "../pages/post/UserPosts";
 import ShowProgram from "../pages/Program/show";
+import BookCycle from '../pages/Cycle/book-cycle'
 
 const UserRoutes = () => {
 	return (
@@ -59,6 +60,7 @@ const UserRoutes = () => {
 			<Route path="/friends" element={<ListFriends />} />
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
+			<Route path="/cycle/book/:id" element={<BookCycle />} />
 
 
 			{/*  company  */}
