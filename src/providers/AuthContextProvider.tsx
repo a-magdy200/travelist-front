@@ -8,6 +8,9 @@ import api from '../config/api'
 import { IResponseInterface } from '../config/interfaces/responses/IResponse.interface'
 import { IUserAuthenticationResponse } from '../config/interfaces/responses/IUserAuthenticationResponse.interface'
 import { RegisterCredentials } from '../config/interfaces/props/IRegisterFormProps'
+import  { Socket } from "socket.io-client";
+import socketListeners from "../config/helpers/socket-listeners";
+import socket from "../config/socket";
 
 const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
@@ -24,6 +27,18 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		setUserDetails(user)
 		localStorage.setItem(ACCESS_TOKEN, access_token)
 		navigate('/')
+		socket.auth = { userId: user.id };
+		socket.connect();
+		console.log(socket);
+
+		socketListeners(socket)
+		socket.on('connect', () => {
+		});
+		socket.onAny((s: Socket) => {
+			console.log(s);
+		})
+		socket.on('disconnect', () => {
+		});
 	}
 	const authContextValue = {
 		isLoggedIn,
@@ -44,7 +59,9 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 				url: '/api/admin/user/profile',
 			})
 			if (response.data) {
-				setUserDetails(response.data)
+				const token = localStorage.getItem(ACCESS_TOKEN) ?? ''
+
+				makeAuth({user: response.data, access_token: token});
 			}
 		},
 		updateUser: async (values: IUserInterface) => {
@@ -123,8 +140,12 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		const token = localStorage.getItem(ACCESS_TOKEN) ?? ''
 		if (token !== '') {
 			authContextValue.getUser().then(() => {
-				setIsLoggedIn(true)
+				// setIsLoggedIn(true)
 			})
+		}
+		return () => {
+			socket.off('connect');
+			socket.off('disconnect');
 		}
 	}, [])
 	return (

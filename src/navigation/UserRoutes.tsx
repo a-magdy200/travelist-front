@@ -55,6 +55,7 @@ import FeedHome from "../pages/FeedPage";
 import useAuth from "../hooks/useAuth";
 import HomePage from "../pages/HomePage";
 import TravelerProfile from "../pages/Profile/TravelerProfile";
+import Chat from "../pages/Chat";
 
 const UserRoutes = () => {
 	const {user} =  useAuth();
@@ -76,6 +77,7 @@ const UserRoutes = () => {
 			<Route path="/booking/list" element={<ListCompanyBookings />} />
 
 			<Route path="/friends" element={<ListFriends />} />
+			<Route path="/chat" element={<Chat />} />
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
       <Route path="/traveler/friendrequests" element={<ListFriendRequests />} />
