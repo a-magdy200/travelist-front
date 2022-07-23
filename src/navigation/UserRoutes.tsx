@@ -46,21 +46,21 @@ import ShowProfile from '../pages/Profile/ShowProfile'
 import EditProfile from '../pages/Profile/EditProfile'
 import CountryList from '../pages/Country/CountryList'
 import SearchList from '../pages/Search/search_list'
-import ListCompanyBookings from "../pages/booking/company-booking";
-import UserPosts from "../pages/post/UserPosts";
+import ListCompanyBookings from '../pages/booking/company-booking'
+import UserPosts from '../pages/post/UserPosts'
 import TravelerList from '../pages/Traveler/TravelerList'
-import ShowProgram from "../pages/Program/show";
+import ShowProgram from '../pages/Program/show'
 import BookCycle from '../pages/Cycle/book-cycle'
-import FeedHome from "../pages/FeedPage";
-import useAuth from "../hooks/useAuth";
-import HomePage from "../pages/HomePage";
-import TravelerProfile from "../pages/Profile/TravelerProfile";
+import FeedHome from '../pages/FeedPage'
+import useAuth from '../hooks/useAuth'
+import HomePage from '../pages/HomePage'
+import TravelerProfile from '../pages/Profile/TravelerProfile'
 import Chat from "../pages/Chat";
 import Notifications from "../pages/Notifications";
 import ListCompany from "../pages/Company/list-company";
 
 const UserRoutes = () => {
-	const {user} =  useAuth();
+	const { user } = useAuth()
 	return (
 		<Routes>
 			{/*  traveler  */}
@@ -82,10 +82,12 @@ const UserRoutes = () => {
 			<Route path="/chat" element={<Chat />} />
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
-      <Route path="/traveler/friendrequests" element={<ListFriendRequests />} />
-      <Route path="/traveler/sentrequests" element={<ListSentRequests />} />
-	  <Route path="/traveler/testadd/:id" element={<AddFriendComponent />} />
+			<Route path="/traveler/friendrequests" element={<ListFriendRequests />} />
+			<Route path="/traveler/sentrequests" element={<ListSentRequests />} />
+			<Route path="/traveler/testadd/:id" element={<AddFriendComponent />} />
 			<Route path="/cycle/book/:id" element={<BookCycle />} />
+
+			<Route path="/countryReview/create/:id" element={<CreateCountryReviews />} />
 
 			{/*  company  */}
 			<Route path="/program/create" element={<CreateProgram />} />
@@ -114,9 +116,9 @@ const UserRoutes = () => {
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
 
-      <Route path="/traveler/list" element={<TravelerList />} />
-      <Route path="/traveler/:id" element={<TravelerProfile />} />
-      <Route path="/search/:type" element={<SearchList />} />
+			<Route path="/traveler/list" element={<TravelerList />} />
+			<Route path="/traveler/:id" element={<TravelerProfile />} />
+			<Route path="/search/:type" element={<SearchList />} />
 
 			{/* for admin usage */}
 			<Route path="/hotelReview/list" element={<ListHotelsReviews />} />
@@ -135,7 +137,10 @@ const UserRoutes = () => {
 			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
 			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
 			{/*<Route path={"/"} element={<FeedHome/>}/>*/}
-			<Route path={"/"} element={user.type === 'company' ? <HomePage/> : <FeedHome/>}/>
+			<Route
+				path={'/'}
+				element={user.type === 'company' ? <HomePage /> : <FeedHome />}
+			/>
 		</Routes>
 	)
 }

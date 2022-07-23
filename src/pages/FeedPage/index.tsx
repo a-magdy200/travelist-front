@@ -4,8 +4,9 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { IFeedPost } from '../../config/interfaces/IFeedPost.interface'
 import FeedPageComponent from '../../components/FeedPage/feedpage'
-import Typography from '@mui/material/Typography'
-import Loader from '../../components/Loader'
+import Typography from "@mui/material/Typography";
+import Loader from "../../components/Loader";
+import io from 'socket.io-client';
 import { toast } from 'react-toastify'
 
 const FeedHome = () => {
@@ -14,6 +15,16 @@ const FeedHome = () => {
 	const [errors, setErrors] = useState([])
 	const getFeedPosts = async () => {
 		try {
+
+			// const socket = io('http://localhost:4000/api/travelers/feed');
+			// socket.on('connect',()=>{
+			// 	socket.emit("custom_event", 'hadeer')
+			// 	socket.on('return_event', (parameter:)=>{
+			// 		console.log
+			// 	})
+
+			// })
+
 			const response: IResponseInterface<IFeedPost[]> = await api<IFeedPost[]>({
 				url: '/api/travelers/feed',
 			})
