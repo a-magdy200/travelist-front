@@ -40,6 +40,7 @@ import SearchList from '../pages/Search/search_list'
 import ListCompanyBookings from "../pages/booking/company-booking";
 import UserPosts from "../pages/post/UserPosts";
 import ShowProgram from "../pages/Program/show";
+import FeedHome from '../pages/FeedPage'
 
 const UserRoutes = () => {
 	return (
