@@ -8,13 +8,19 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { useParams } from 'react-router-dom'
 import api from '../../config/api'
 import { IHotelReview } from '../../config/interfaces/IHotelReview.interface'
+import { useState } from 'react'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
 
 const DeleteHotelReview = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
+	const [isLoading, setIsLoading] = useState(false);
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		toast.info("Deleting Review....");
+		setIsLoading(true);
 		try {
 			const response: IResponseInterface<IHotelReview> =
 				await api<IHotelReview>({
@@ -23,13 +29,19 @@ const DeleteHotelReview = () => {
 				})
 
 			if (response.success) {
-				// console.log(response)
 				navigate('/hotelReview/list')
 			}
+			toast.success("Deleted Successfully");
+
 		} catch (error: any) {
+			toast.error("An error has occurred");
 			console.log(error)
 		}
+		setIsLoading(false);
 	}
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div
 			className="container"

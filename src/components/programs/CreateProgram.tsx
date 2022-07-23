@@ -21,6 +21,8 @@ import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 import { ITransportationInterface } from '../../config/interfaces/ITransportation.interface'
 import Loader from "../Loader";
+import { toast } from 'react-toastify'
+import DisplayErrorsList from '../DisplayErrors/DisplayErrorsList'
 
 const CreateProgramComponent = () => {
 	const [name, setName] = useState<string>('')
@@ -32,7 +34,6 @@ const CreateProgramComponent = () => {
 	const [filteredHotels, setFilteredHotels] = React.useState<IHotelInterface[]>(
 		[]
 	)
-	const [isLoading, setIsLoading] = useState(true);
 	const [countries, setCountries] = React.useState<ICountryInterface[]>([])
 	const [selectedHotels, setSelectedHotels] = React.useState<number[]>([])
 	const [destination, setDestination] = useState<number[]>([])
@@ -41,7 +42,9 @@ const CreateProgramComponent = () => {
 		ITransportationInterface[]
 	>([])
 	const [cover_picture, setCoverPicture] = useState<File>()
-	const navigate = useNavigate()
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
+ 	const navigate = useNavigate()
 	const getHotels = async () => {
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
@@ -149,6 +152,9 @@ const CreateProgramComponent = () => {
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		toast.info("Creating program....");
+		setErrors([]);
+		setIsLoading(true);
 		const formData = new FormData()
 
 		formData.append('name', name)
@@ -169,15 +175,31 @@ const CreateProgramComponent = () => {
 			console.log(item)
 		}
 		if (!isDisabled()) {
+			try{
+		const response: IResponseInterface<IProgramInterface> =
 			await api<IProgramInterface>({
 					url: '/api/programs/create',
 					method: 'POST',
 					body: formData,
 				})
-			navigate('/program/list')
+				if (response.success) {
+					if (response.data) {
+						navigate('/program/list')
+					}
+				  }
+			      toast.success("Created Successfully");
+	  			}
+			catch(error:any)
+			{
+				setErrors(error?.response?.data?.errors || []);
+				toast.error("An error has occurred");
+		  
+			}
 		} else {
-			alert('error in validation')
+			toast.error("An error has occurred");
 		}
+		setIsLoading(false);
+
 	}
 	if (isLoading) {
 		return <Loader />
@@ -187,6 +209,7 @@ const CreateProgramComponent = () => {
 			<form onSubmit={sendData}>
 				<div className="Top">
 					<h1>Create Program</h1>
+					<DisplayErrorsList errors={errors} />
 					<TextField
 						className="inputText"
 						label="Program Name"

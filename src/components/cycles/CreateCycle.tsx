@@ -12,6 +12,9 @@ import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Loader from '../Loader'
+import DisplayErrorsList from '../DisplayErrors/DisplayErrorsList'
 
 let CreateCycleComponent = () => {
 	let { id } = useParams()
@@ -27,6 +30,9 @@ let CreateCycleComponent = () => {
 	const [arrival_date, setArrivalDate] = useState<string>('')
 	const [return_date, setReturnDate] = useState<string>('')
 	const [return_arrival_date, setReturnArrivalDate] = useState<string>('')
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
+  
 	const navigate = useNavigate()
 
 	///change methods
@@ -59,6 +65,9 @@ let CreateCycleComponent = () => {
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		toast.info("Creating cycle....");
+		setErrors([]);
+		setIsLoading(true);
 		const requestBody: ICycleInterface = {
 			name,
 			programId,
@@ -86,12 +95,16 @@ let CreateCycleComponent = () => {
 						navigate(`/program/show/${programId}`)
 					}
 				}
+				toast.success("Created successfully");
 			} catch (error: any) {
-				console.log(error)
+				setErrors(error?.response?.data?.errors || []);
+				toast.error("An error has occurred");
+		   
 			}
 		} else {
-			alert('validation error')
+			toast.error("Validation error");
 		}
+		setIsLoading(false);
 	}
 	const isDisabled = (): boolean => {
 		return (
@@ -107,12 +120,16 @@ let CreateCycleComponent = () => {
 			return_arrival_date === ''
 		)
 	}
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
 				<div className="TopCycle">
 					<h1>Create Cycle</h1>
 					<Grid container direction="column" spacing={2}>
+					<DisplayErrorsList errors={errors} />
 						<Grid item xs={8}>
 							<CustomInputField
 								type={'text'}

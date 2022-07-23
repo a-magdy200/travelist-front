@@ -17,7 +17,7 @@ const ShowCountryReviews = ({ countryReviews }: ICountryReviewProps) => {
 					/>
 				))
 			) : (
-				<div></div>
+				<div>No Reviews yet</div>
 			)}
 		</div>
 	)

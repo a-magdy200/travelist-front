@@ -10,13 +10,16 @@ import Box from '@mui/material/Box';
 import FilterComponent from '../../components/FilterBar'
 import FilterHotelsComponent from '../../components/hotels/FilterHotels'
 import Loader from "../../components/Loader";
+import { toast } from 'react-toastify'
 
 const ListHotels = () => {
 	const [hotels, setHotels] = useState<IHotelInterface[]>([])
 	const [filteredHotels, setFilteredHotels] = useState<IHotelInterface[]>()
 
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 	const getHotels = async () => {
+		toast.info("Getting Hotels....");
+    setIsLoading(true);
 		try {
 			const response: IResponseInterface<IHotelInterface[]> = await api<
 				IHotelInterface[]
@@ -30,11 +33,14 @@ const ListHotels = () => {
 					setFilteredHotels([...response.data])
 				}
 			}
+			toast.success("Get Hotels Successfully");
 		} catch (error: any) {
-			console.log(error)
+			toast.error("An error has occurred");
 		}
-	}
+		setIsLoading(false);
 
+	}
+	
 	useEffect(() => {
 		getHotels().then(() => setIsLoading(false))
 	}, [])
@@ -53,7 +59,7 @@ const ListHotels = () => {
 					<ListHotelsComponent hotel={hotel} key={index} />
 				))
 			) : (
-				<div></div>
+				<div>No Hotels yet</div>
 			)}
 		</div>
 	)

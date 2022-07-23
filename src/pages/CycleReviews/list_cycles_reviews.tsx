@@ -1,13 +1,20 @@
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import ListCyclesReviewsComponent from '../../components/cyclesReviews/ListCountriesReviews'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
+import Loader from '../../components/Loader'
 import api from '../../config/api'
 import { ICycleReview } from '../../config/interfaces/ICycleReview.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 
 const ListCyclesReviews = () => {
 	const [cyclesReviews, setCyclesReviews] = useState<ICycleReview[]>()
-
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
 	const getCyclesReviews = async () => {
+		toast.info("Getting Reviews....");
+		setErrors([]);
+		setIsLoading(true);
 		try {
 			const response: IResponseInterface<ICycleReview[]> = await api<
 				ICycleReview[]
@@ -21,14 +28,21 @@ const ListCyclesReviews = () => {
 					// console.log(response.data)
 				}
 			}
+			toast.success("Getting Reviews Successfully");
+
 		} catch (error: any) {
-			console.log(error)
-		}
+			setErrors(error?.response?.data?.errors || []);
+			toast.error("An error has occurred");
+	   }
+	   setIsLoading(false);
 	}
 
 	useEffect(() => {
 		getCyclesReviews()
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div>
 			<h1>Cycles Reviews Page</h1>
@@ -37,8 +51,8 @@ const ListCyclesReviews = () => {
 					<ListCyclesReviewsComponent cycleReview={cycleReview} key={index} />
 				))
 			) : (
-				<div></div>
-			)}
+				<DisplayErrorsList errors={errors} />
+				)}
 		</div>
 	)
 }

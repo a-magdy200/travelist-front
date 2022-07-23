@@ -12,7 +12,7 @@ const ShowHotelReviews = ({ hotelReviews }: IHotelReviewProps) => {
 					<ShowHotelReviewsComponent hotelReview={hotelReview} key={index} />
 				))
 			) : (
-				<div></div>
+				<div>No Reviews yet</div>
 			)}
 		</div>
 	)

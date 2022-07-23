@@ -4,12 +4,14 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { IFeedPost } from '../../config/interfaces/IFeedPost.interface'
 import FeedPageComponent from '../../components/FeedPage/feedpage'
-import Typography from "@mui/material/Typography";
-import Loader from "../../components/Loader";
+import Typography from '@mui/material/Typography'
+import Loader from '../../components/Loader'
+import { toast } from 'react-toastify'
 
 const FeedHome = () => {
 	const [feedPosts, setFeedPosts] = useState<IFeedPost[]>([])
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true)
+	const [errors, setErrors] = useState([])
 	const getFeedPosts = async () => {
 		try {
 			const response: IResponseInterface<IFeedPost[]> = await api<IFeedPost[]>({
@@ -22,8 +24,10 @@ const FeedHome = () => {
 					console.log(response.data)
 				}
 			}
+			toast.success('Get Feeds Successfully')
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
 	}
 
@@ -31,11 +35,11 @@ const FeedHome = () => {
 		getFeedPosts().then(() => setIsLoading(false))
 	}, [])
 	if (isLoading) {
-		return <Loader/>
+		return <Loader />
 	}
 	return (
 		<div>
-			<Typography variant={"h5"}>Feed Page</Typography>
+			<Typography variant={'h5'}>Feed Page</Typography>
 			{feedPosts ? (
 				feedPosts.map((feedPost, index) => (
 					<FeedPageComponent feedPost={feedPost} key={index} />

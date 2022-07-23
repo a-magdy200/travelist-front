@@ -3,11 +3,19 @@ import ListPostsComponent from '../../components/post/ListPosts'
 import api from '../../config/api'
 import { IPostInterface } from '../../config/interfaces/IPost.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import { toast } from 'react-toastify'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
+import Loader from '../../components/Loader'
 
 const ListMyPosts = () => {
 	const [posts, setPosts] = useState<IPostInterface[]>()
+	const [isLoading, setIsLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 	const getPosts = async () => {
 		try {
+			toast.info('List posts....')
+			setErrors([])
+			setIsLoading(true)
 			const response: IResponseInterface<IPostInterface[]> = await api<
 				IPostInterface[]
 			>({
@@ -20,14 +28,20 @@ const ListMyPosts = () => {
 					console.log(response.data)
 				}
 			}
+			toast.success('Getting Posts Success')
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
+		setIsLoading(false)
 	}
 
 	useEffect(() => {
 		getPosts()
 	}, [])
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div>
 			{posts ? (
@@ -35,7 +49,7 @@ const ListMyPosts = () => {
 					<ListPostsComponent post={post} key={index} />
 				))
 			) : (
-				<div></div>
+				<DisplayErrorsList errors={errors} />
 			)}
 		</div>
 	)

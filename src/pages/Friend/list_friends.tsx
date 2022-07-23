@@ -4,11 +4,15 @@ import api from '../../config/api'
 import Loader from '../../components/Loader'
 import { IFriendInterface } from '../../config/interfaces/IFriend.interface'
 import ListFriendsComponent from '../../components/Friend/ListFriends'
+import { toast } from 'react-toastify'
 
 const ListFriends = () => {
 	const [friends, setFriends] = useState<IFriendInterface[]>([])
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 	const getFriends = async () => {
+		setErrors([])
+		setIsLoading(true)
 		try {
 			const response: IResponseInterface<IFriendInterface[]> = await api<
 				IFriendInterface[]
@@ -23,18 +27,24 @@ const ListFriends = () => {
 				}
 			}
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
+		setIsLoading(false)
 	}
 	useEffect(() => {
-		getFriends().then(() => setIsLoading(false));
+		getFriends().then(() => setIsLoading(false))
 	}, [])
 	if (isLoading) {
-		return <Loader/>
+		return <Loader />
 	}
 	return (
 		<div>
-			{friends ? <ListFriendsComponent friends={friends} /> : <Loader />}
+			{friends ? (
+				<ListFriendsComponent friends={friends} />
+			) : (
+				<div>No friends yet</div>
+			)}
 		</div>
 	)
 }

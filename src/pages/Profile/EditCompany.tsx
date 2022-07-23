@@ -8,12 +8,16 @@ import { IResponseInterface } from "../../config/interfaces/IResponse.interface"
 import { ICompanyInterface } from "../../config/interfaces/ICompany.interface";
 import api from "../../config/api";
 import Loader from "../../components/Loader";
+import { toast } from "react-toastify";
+import DisplayErrorsList from "../../components/DisplayErrors/DisplayErrorsList";
 
 const EditCompany = () => {
   const [description, setDescription] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
   const getMyProfile = async () => {
+   
     try {
       const response: IResponseInterface<ICompanyInterface> =
         await api<ICompanyInterface>({
@@ -35,7 +39,10 @@ const EditCompany = () => {
     })
   }, [])
   async function sendData(e: any) {
-    e.preventDefault();
+        e.preventDefault();
+        toast.info("Editing Profile....");
+        setErrors([]);
+        setIsLoading(true);
       try {
         setIsLoading(true);
         const response: IResponseInterface<any> = await api<any>({
@@ -44,9 +51,11 @@ const EditCompany = () => {
           url: '/api/companies/'
         });
         setIsLoading(false);
+        toast.success("Edit Successfully");
         console.log(response);
-      } catch (error) {
-        console.log(error);
+      } catch (error:any) {
+        setErrors(error?.response?.data?.errors || []);
+      toast.error("An error has occurred");
     }
   }
 
@@ -65,6 +74,7 @@ const EditCompany = () => {
       <div className="left">
         <form onSubmit={sendData}>
           <h2>Edit Details</h2>
+          <DisplayErrorsList errors={errors} />
           <Box mb={2}>
             <TextField
               id="outlined-multiline-flexible"

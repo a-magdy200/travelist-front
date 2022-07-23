@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface';
 import api from '../../config/api';
-import { ICompanySetProps } from '../../config/interfaces/ICompanySetProps.interface';
-import { ICompanyInterface } from '../../config/interfaces/ICompany.interface';
 import { ICountrySetProps } from '../../config/interfaces/ICountrySetProps.interface';
 
 const CountryFilter=({setCountry,label}:ICountrySetProps)=>{
