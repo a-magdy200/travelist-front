@@ -10,7 +10,7 @@ const CompanySidebar = () => {
       <SidebarItem
         title={'Programs'}
         icon={<HomeOutlined />}
-        to={'/program/all'}
+        to={'/program/list'}
       />
       <SidebarItem
         title={'Countries'}

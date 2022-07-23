@@ -38,7 +38,7 @@ const LoginForm = ({onSubmit}: ILoginFormProps) => {
           isValid,
         }) => (
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={2} justifyContent={"center"}>
+          <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
                 fullWidth={true}
