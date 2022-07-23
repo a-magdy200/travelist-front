@@ -16,6 +16,7 @@ import api from '../../config/api'
 import { IPostInterface } from '../../config/interfaces/IPost.interface'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
 import { toast } from "react-toastify";
+import Loader from '../../components/Loader'
 
 const DeletePost = () => {
 	const { id } = useParams()
