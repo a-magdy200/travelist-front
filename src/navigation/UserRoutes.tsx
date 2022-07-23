@@ -56,6 +56,7 @@ import useAuth from "../hooks/useAuth";
 import HomePage from "../pages/HomePage";
 import TravelerProfile from "../pages/Profile/TravelerProfile";
 import Chat from "../pages/Chat";
+import Notifications from "../pages/Notifications";
 
 const UserRoutes = () => {
 	const {user} =  useAuth();
@@ -124,12 +125,11 @@ const UserRoutes = () => {
 				element={<DeleteCountryReview />}
 			/>
 			<Route path="/companyReview/list" element={<ListCompaniesReviews />} />
-			<Route
-				path="/companyReview/delete/:id"
-				element={<DeleteCompanyReview />}
-			/>
+			<Route path="/notifications" element={<Notifications />} />
+
 			<Route path="/guideReview/list" element={<ListGuidesReviews />} />
 			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
+
 			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
 			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
 			{/*<Route path={"/"} element={<FeedHome/>}/>*/}

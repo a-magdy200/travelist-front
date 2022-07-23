@@ -31,7 +31,7 @@ const UserNotifications = () => {
 			<StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
 				{isLoggedIn ? (
 					<>
-						<MenuItem onClick={() => navigateTo('/chat')}>
+						<MenuItem onClick={() => navigateTo('/notifications')}>
 							<UserIcon />
 							My Notifications
 						</MenuItem>

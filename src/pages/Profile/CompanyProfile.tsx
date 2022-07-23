@@ -13,7 +13,7 @@ const CompanyProfile = () => {
 
 		// >
 		<>
-			<UserBaseData />
+			{/*<UserBaseData />*/}
 			<CompanyData />
 		</>
 		// </Stack>

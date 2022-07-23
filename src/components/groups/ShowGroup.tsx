@@ -38,7 +38,7 @@ const ShowGroupComponent = ({ group }: IGroupShowProps) => {
 	const unfollowGroup = async () => {
 		toast.info('Unfollowing...')
 		await api<void>({
-			url: '',
+			url: `/api/groups/${group?.id}/unfollow`,
 		})
 		setIsFollowing(false)
 		setFollowersCount((prev) => prev - 1)

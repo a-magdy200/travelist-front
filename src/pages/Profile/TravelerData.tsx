@@ -1,10 +1,10 @@
-import Profile from '../../components/Profile/Profile'
+import UserBasicInfo from '../../components/Profile/UserBasicInfo'
 import Company from '../../components/Profile/Company'
 import { useEffect, useState } from 'react'
 import api from '../../config/api'
 // import { ITravelerRegisterRequestBody } from '../../config/interfaces/ITravelerRegisterRequestBody'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
-import Traveler from '../../components/Profile/Traveler'
+import DisplayTravelerData from '../../components/Profile/DisplayTravelerData'
 import { ITravelerReview } from '../../config/interfaces/ITravelerReview.interface'
 import Loader from "../../components/Loader";
 const TravelerData = () => {
@@ -36,7 +36,7 @@ const TravelerData = () => {
 		return <Loader/>
 	}
 	return (
-		<>{traveler ? <Traveler traveler={traveler} /> : <div>not found</div>}</>
+		<>{traveler ? <DisplayTravelerData traveler={traveler} /> : <div>not found</div>}</>
 	)
 }
 
