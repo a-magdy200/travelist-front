@@ -35,6 +35,13 @@ import DeleteCountryReview from '../pages/CountryReviews/delete_country_review'
 import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
+import ListBookings from '../pages/booking/show-bookings'
+import ShowBooking from '../pages/booking/show-one-booking'
+import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
+import ListFriendRequests from '../pages/FriendRequests/list_friend_requests'
+import ListSentRequests from '../pages/FriendRequests/list_sent_requests'
+import AddFriendComponent from '../components/FriendRequest/AddFriend'
+
 import ShowProfile from '../pages/Profile/ShowProfile'
 import EditProfile from '../pages/Profile/EditProfile'
 import CountryList from '../pages/Country/CountryList'
@@ -47,6 +54,8 @@ import BookCycle from '../pages/Cycle/book-cycle'
 import FeedHome from "../pages/FeedPage";
 import useAuth from "../hooks/useAuth";
 import HomePage from "../pages/HomePage";
+import TravelerProfile from "../pages/Profile/TravelerProfile";
+import Chat from "../pages/Chat";
 
 const UserRoutes = () => {
 	const {user} =  useAuth();
@@ -68,8 +77,12 @@ const UserRoutes = () => {
 			<Route path="/booking/list" element={<ListCompanyBookings />} />
 
 			<Route path="/friends" element={<ListFriends />} />
+			<Route path="/chat" element={<Chat />} />
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
+      <Route path="/traveler/friendrequests" element={<ListFriendRequests />} />
+      <Route path="/traveler/sentrequests" element={<ListSentRequests />} />
+	  <Route path="/traveler/testadd/:id" element={<AddFriendComponent />} />
 			<Route path="/cycle/book/:id" element={<BookCycle />} />
 
 			{/*  company  */}
@@ -99,7 +112,7 @@ const UserRoutes = () => {
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
 
       <Route path="/traveler/list" element={<TravelerList />} />
-      <Route path="/traveler/:id" element={<TravelerList />} />
+      <Route path="/traveler/:id" element={<TravelerProfile />} />
       <Route path="/search/:type" element={<SearchList />} />
 
 			{/* for admin usage */}

@@ -7,6 +7,7 @@ import ListFriendsComponent from '../../components/Friend/ListFriends'
 
 const ListFriends = () => {
 	const [friends, setFriends] = useState<IFriendInterface[]>([])
+	const [isLoading, setIsLoading] = useState(true);
 	const getFriends = async () => {
 		try {
 			const response: IResponseInterface<IFriendInterface[]> = await api<
@@ -26,8 +27,11 @@ const ListFriends = () => {
 		}
 	}
 	useEffect(() => {
-		getFriends()
+		getFriends().then(() => setIsLoading(false));
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	}
 	return (
 		<div>
 			{friends ? <ListFriendsComponent friends={friends} /> : <Loader />}

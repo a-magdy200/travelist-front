@@ -1,102 +1,64 @@
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import { IFriendShowProps } from '../../config/interfaces/IFriendShowProps.interface'
-import Avatar from '@mui/material/Avatar'
-import { getCurrentUser } from '../../config/helpers/getCurrentUserFunction'
-import { useEffect, useState } from 'react'
-import { IUserInterface } from '../../config/interfaces/IUser.interface'
-import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
-import api from '../../config/api'
-import { IFriendInterface } from '../../config/interfaces/IFriend.interface'
+import Card from "@mui/material/Card";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { IFriendShowProps } from "../../config/interfaces/IFriendShowProps.interface";
+import Avatar from "@mui/material/Avatar";
+import { IResponseInterface } from "../../config/interfaces/IResponse.interface";
+import api from "../../config/api";
+import { IFriendInterface } from "../../config/interfaces/IFriend.interface";
+import config from "../../config/app_config/config";
+import useAuth from "../../hooks/useAuth";
+import Box from "@mui/material/Box";
 
 const FriendCard = ({ friend }: IFriendShowProps) => {
-	const [currentUser, setCurrentUser] = useState<IUserInterface>()
-	const getCurrentUser = async () => {
-		try {
-			const response: IResponseInterface<IUserInterface> =
-				await api<IUserInterface>({
-					url: '/api/users/current/user',
-				})
+  const { user } = useAuth();
+  const removeFriend = async (id: number | undefined) => {
+    if (window.confirm("Are you sure?")) {
+      console.log(id);
+      try {
+        const response: IResponseInterface<IFriendInterface> =
+          await api<IFriendInterface>({
+            url: `/api/travelers/delete/${id}`,
+            method: "DELETE"
+          });
 
-			if (response.success) {
-				if (response.data) {
-					setCurrentUser(response.data)
-				}
-			}
-		} catch (error: any) {
-			console.log(error)
-		}
-	}
-	const removeFriend = async (id: number | undefined) => {
-		if (window.confirm('Are you sure?')) {
-			console.log(id)
-			try {
-				const response: IResponseInterface<IFriendInterface> =
-					await api<IFriendInterface>({
-						url: `/api/travelers/delete/${id}`,
-						method: 'DELETE',
-					})
+        if (response.success) {
+          alert("deleted successfuly");
+          window.location.reload();
+        }
+      } catch (error: any) {
+        console.log(error);
+      }
+    }
+  };
+  return (
+    <Box mb={2}>
+      <Card variant={"outlined"}>
+        <Box display={"flex"} alignItems={"center"} p={2}>
+          <Avatar
+            src={`${config.apiUrl}/${user.id === friend.traveler_sender.userId ? friend.traveler_receiver.user.profile_picture : friend.traveler_sender.user.profile_picture}`}
+            sx={{ width: 50, height: 50 }}
+          />
+          <Box ml={2} display={"flex"} alignItems={"center"}>
+            <Typography variant={"h5"}>
+              {user.id === friend.traveler_sender.userId ? friend.traveler_receiver.user.name : friend.traveler_sender.user.name}
+            </Typography>
+            <Box ml={2}>
 
-				if (response.success) {
-					alert('deleted successfuly')
-					window.location.reload()
-				}
-			} catch (error: any) {
-				console.log(error)
-			}
-		}
-	}
-	useEffect(() => {
-		getCurrentUser()
-	}, [])
-
-	return (
-		<div>
-			{currentUser?.id === friend.traveler_sender.user.id ? (
-				<Card sx={{ maxWidth: 945, m: 2 }}>
-					<Avatar
-						alt=""
-						src={`http://localhost:4000/${friend.traveler_receiver.user.profile_picture}`}
-						sx={{ width: 50, height: 50 }}
-					/>
-					{friend.traveler_receiver.user.name}
-					<Button
-						className="createButton"
-						variant="contained"
-						color="error"
-						onClick={() => {
-							removeFriend(friend.receiver_id)
-						}}
-					>
-						Delete
-					</Button>
-					<CardActions></CardActions>
-				</Card>
-			) : (
-				<Card sx={{ maxWidth: 945, m: 2 }}>
-					<Avatar
-						alt=""
-						src={`http://localhost:4000/${friend.traveler_sender.user.profile_picture}`}
-						sx={{ width: 50, height: 50 }}
-					/>
-					{friend.traveler_sender.user.name}
-					<Button
-						className="createButton"
-						variant="contained"
-						color="error"
-						onClick={() => {
-							removeFriend(friend.sender_id)
-						}}
-					>
-						Delete
-					</Button>
-					<CardActions></CardActions>
-				</Card>
-			)}
-		</div>
-	)
-}
-export default FriendCard
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  removeFriend(friend.sender_id);
+                }}
+              >
+                Delete
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Card>
+    </Box>
+  );
+};
+export default FriendCard;

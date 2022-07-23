@@ -59,27 +59,27 @@ const ProfilePictureChanger = ({
 				src="/home/nagwa/Documents/new/travelist-backend/uploads/users/1657645987035-382067366-b.png"
 				sx={{ width: 112, height: 112 }}
 			/>
-			<label htmlFor="icon-button-file">
-				<Input
-					accept="image/*"
-					id="icon-button-file"
-					type="file"
-					onChange={(e) => {
-						if (e.target.files && e.target.files[0]) {
-							uploadProfilePicture(e.target.files[0])
-							// console.log('here')
-						}
-					}}
-				/>
+			{/*<label htmlFor="icon-button-file">*/}
+			{/*	<Input*/}
+			{/*		accept="image/*"*/}
+			{/*		id="icon-button-file"*/}
+			{/*		type="file"*/}
+			{/*		onChange={(e) => {*/}
+			{/*			if (e.target.files && e.target.files[0]) {*/}
+			{/*				uploadProfilePicture(e.target.files[0])*/}
+			{/*				// console.log('here')*/}
+			{/*			}*/}
+			{/*		}}*/}
+			{/*	/>*/}
 
-				<IconButton
-					color="primary"
-					aria-label="upload picture"
-					component="span"
-				>
-					<PhotoCamera />
-				</IconButton>
-			</label>
+			{/*	<IconButton*/}
+			{/*		color="primary"*/}
+			{/*		aria-label="upload picture"*/}
+			{/*		component="span"*/}
+			{/*	>*/}
+			{/*		<PhotoCamera />*/}
+			{/*	</IconButton>*/}
+			{/*</label>*/}
 		</div>
 	)
 }

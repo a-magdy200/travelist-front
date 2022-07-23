@@ -6,16 +6,22 @@ import UserIcon from '@mui/icons-material/Person'
 import EditIcon from '@mui/icons-material/Edit'
 import { StyledMenu } from '../styled/header_styled_components'
 import useAuth from '../../hooks/useAuth'
+import { useNavigate } from "react-router-dom";
 
 const UserNotifications = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
 	const { isLoggedIn } = useAuth()
+	const navigate = useNavigate();
 	const open = Boolean(anchorEl)
 	const handleClick = (event: MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget)
 	}
 	const handleClose = () => {
 		setAnchorEl(null)
+	}
+	const navigateTo = (path: string) => {
+		handleClose();
+		navigate(path);
 	}
 	return (
 		<>
@@ -25,11 +31,11 @@ const UserNotifications = () => {
 			<StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
 				{isLoggedIn ? (
 					<>
-						<MenuItem>
+						<MenuItem onClick={() => navigateTo('/chat')}>
 							<UserIcon />
 							My Notifications
 						</MenuItem>
-						<MenuItem>
+						<MenuItem onClick={() => navigateTo('/chat')}>
 							<EditIcon />
 							My Messages
 						</MenuItem>

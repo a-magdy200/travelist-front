@@ -8,9 +8,14 @@ import api from "../../config/api";
 import { IPostInterface } from "../../config/interfaces/IPost.interface";
 import { TextField } from "@mui/material";
 import Box from "@mui/material/Box";
+import Loader from "../../components/Loader";
+import { toast } from "react-toastify";
+import DisplayErrorsList from "../../components/DisplayErrors/DisplayErrorsList";
 
 const CreatePost = () => {
   const [content, setContent] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   type LocationState = { id: number }
@@ -19,6 +24,9 @@ const CreatePost = () => {
     e: React.FormEvent<HTMLFormElement>
   ) {
     e.preventDefault();
+    toast.info("Creating post....");
+    setErrors([]);
+    setIsLoading(true);
     const requestBody = {
       content,
       groupId: id
@@ -36,16 +44,23 @@ const CreatePost = () => {
           navigate(`/group/show/${id}`);
         }
       }
+      toast.success("Created.");
     } catch (error: any) {
-      console.log(error);
+      setErrors(error?.response?.data?.errors || []);
+      toast.error("An error has occurred");
     }
+    setIsLoading(false);
   };
+  if (isLoading) {
+    return <Loader/>
+  }
   return (
     <Card variant={"outlined"}>
       <CardContent>
         <form onSubmit={sendData}>
           <Box p={4} display={"flex"} flexDirection={"column"} alignItems={"center"}>
             <h2>Create a new post</h2>
+            <DisplayErrorsList errors={errors} />
             <Box mb={2} width={"100%"}>
               <TextField
                 multiline={true}
