@@ -119,8 +119,8 @@ const UserRoutes = () => {
 			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
 			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
 			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
-			<Route path={"/"} element={<FeedHome/>}/>
-			{/*<Route path={"/"} element={user.type === 'company' ? <HomePage/> : <FeedHome/>}/>*/}
+			{/*<Route path={"/"} element={<FeedHome/>}/>*/}
+			<Route path={"/"} element={user.type === 'company' ? <HomePage/> : <FeedHome/>}/>
 		</Routes>
 	)
 }
