@@ -22,9 +22,6 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
                 container
                 direction="column"
                 spacing={2}
-                xs={10}
-                lg={8}
-                mb={3}
               >
                 <Grid item xs={6}>
                   Country : {group.country?.name}
@@ -39,7 +36,6 @@ const ListGroupsComponent = ({ group }: IGroupShowProps) => {
 
             <CardActions className="bottom">
               <NavLink to={`/group/show/${group.id}`}>
-                {' '}
                 <Button className="createButton" variant="contained">
                   Show Details
                 </Button>
