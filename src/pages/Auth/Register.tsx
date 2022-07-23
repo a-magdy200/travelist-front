@@ -28,6 +28,7 @@ import { ReactComponent as LoginImage } from "../../assets/images/login.svg";
 import Box from "@mui/material/Box";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader";
+import DisplayErrorsList from "../../components/DisplayErrors/DisplayErrorsList";
 
 function Register() {
   const [name, set_name] = useState("");

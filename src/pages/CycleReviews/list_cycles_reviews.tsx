@@ -36,13 +36,13 @@ const ListCyclesReviews = () => {
 	   }
 	   setIsLoading(false);
 	}
-	if (isLoading) {
-		return <Loader/>
-	  }
 
 	useEffect(() => {
 		getCyclesReviews()
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div>
 			<h1>Cycles Reviews Page</h1>

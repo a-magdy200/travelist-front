@@ -11,6 +11,7 @@ import { IGuideReview } from '../../config/interfaces/IGuideReview.interface'
 import { IGuideReviewRequestBody } from '../../config/interfaces/IGuideReviewRequestBody.interface'
 import { toast } from 'react-toastify'
 import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 interface Test {
 	guideId: number

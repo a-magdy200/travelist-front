@@ -227,7 +227,7 @@ const EditProgramComponent = () => {
 			try{
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
-					url: `/programs/update/${id}`,
+					url: `/api/programs/update/${id}`,
 					method: 'PUT',
 					body: formData,
 					headers: {
