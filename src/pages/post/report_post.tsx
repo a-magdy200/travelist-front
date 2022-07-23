@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import api from '../../config/api'
 import { IPostReportInterface } from '../../config/interfaces/IPostReport.interface'
+import Box from "@mui/material/Box";
 const ReportPost = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
@@ -42,44 +43,33 @@ const ReportPost = () => {
 		}
 	}
 	return (
-		<div
-			className="container"
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
-		>
-			<div className="left">
-				<Card sx={{ maxWidth: 700 }} style={{ minHeight: '25vh' }}>
-					<form onSubmit={sendData}>
-						<CardContent>
-							<div>
-								<h2> Are you sure to report this post?</h2>
-							</div>
-							<br />
-							<div>
-								<TextareaAutosize
-									maxRows={8}
-									aria-label="maximum height"
-									value={reason}
-									placeholder="please enter why do you want to report?"
-									onChange={(e) => {
-										setReason(e.target.value)
-									}}
-									style={{ width: 300, height: 100 }}
-								/>
-							</div>
-						</CardContent>
-						<CardActions>
-							<Button variant="contained" type="submit" sx={{ mx: 'auto' }}>
-								Report
-							</Button>
-						</CardActions>
-					</form>
-				</Card>
-			</div>
-		</div>
+		<Card variant={"outlined"}>
+			<CardContent>
+				<form onSubmit={sendData}>
+					<Box p={4} display={"flex"} flexDirection={"column"} alignItems={"center"}>
+						<h2>Report post</h2>
+						<Box mb={2} width={"100%"}>
+							<TextField
+								multiline={true}
+								fullWidth={true}
+								rows={8}
+								label={"Content"}
+								variant={"outlined"}
+								aria-label="maximum height"
+								value={reason}
+								placeholder="please enter why do you want to report?"
+								onChange={(e) => {
+									setReason(e.target.value)
+								}}
+							/>
+						</Box>
+						<Button variant="contained" type="submit">
+							Report
+						</Button>
+					</Box>
+				</form>
+			</CardContent>
+		</Card>
 	)
 }
 export default ReportPost
