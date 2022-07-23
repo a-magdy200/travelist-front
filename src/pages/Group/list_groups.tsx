@@ -5,7 +5,8 @@ import api from '../../config/api'
 import { IGroupInterface } from '../../config/interfaces/IGroup.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Loader from "../../components/Loader";
-import SingleGroupComponent from "../../components/groups/SingleGroupComponent";
+import ListGroupsComponent from '../../components/groups/ListGroups'
+import SingleGroupComponent from '../../components/groups/SingleGroupComponent'
 
 const ListGroups = () => {
 	const [groups, setGroups] = useState<IGroupInterface[]>([])

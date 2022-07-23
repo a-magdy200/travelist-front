@@ -1,19 +1,24 @@
-import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import Autocomplete from '@mui/material/Autocomplete'
-import api from '../../config/api'
-import { useEffect, useState } from 'react'
-import { Stack } from '@mui/material'
-import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useEffect, useState } from 'react';
+import { IResponseInterface } from '../../config/interfaces/IResponse.interface';
+import { ICountryInterface } from '../../config/interfaces/ICountry.interface';
+import api from '../../config/api';
+import { ICompanySetProps } from '../../config/interfaces/ICompanySetProps.interface';
+import { ICompanyInterface } from '../../config/interfaces/ICompany.interface';
+import { ICountrySetProps } from '../../config/interfaces/ICountrySetProps.interface';
 
-import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
-import { ICountrySetProps } from '../../config/interfaces/ICountrySetProps.interface'
+const CountryFilter=({setCountry,label}:ICountrySetProps)=>{
+    const [value, setValue] = useState('');
+    const [countries, setCountries] = useState<ICountryInterface[]>([]);
 
-export default function CountryFilter({setCountry,label}:ICountrySetProps) {
-	//const [country, setCountry] = useState<ICountryInterface >('')
-    const [value, setValue] = useState<ICountryInterface >()
-	const [countries, setCountries] = useState<ICountryInterface[]>([{id:0, name:''}])
-
+    const changeCountry = (event: SelectChangeEvent) => {
+      setCountry(Number(event.target.value) );
+      setValue(event.target.value as string)
+    };
 	const getCountries = async () => {
 		try {
 			const response: IResponseInterface<ICountryInterface[]> = await api<
@@ -36,34 +41,30 @@ export default function CountryFilter({setCountry,label}:ICountrySetProps) {
 	}, [])
 
 
-	return (
-		<Stack>
-			<Autocomplete
-				id="country-select"
-				sx={{ width: 300 }}
-				options={countries}
-				autoHighlight
-				getOptionLabel={(option) => option.name}
-				renderOption={(props, option) => (
-					<Box component="li" {...props}>
-						{option.name}
-					</Box>
-				)}
-				value={value}
-				onChange={(event: any, newValue: ICountryInterface | null) =>
-					setCountry(newValue?.id)
-				}
-				renderInput={(params) => (
-					<TextField
-						{...params}
-						label={label}
-						inputProps={{
-							...params.inputProps,
-							autoComplete: 'new-password'
-						}}
-					/>
-				)}
-			/>
-		</Stack>
-	)
+    return(
+        
+        <Box sx={{ width: 200 }}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-label">{label}</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={value}
+            label="country"
+            onChange={changeCountry}
+          >
+           <MenuItem value={0}>All</MenuItem>
+            {
+             countries.map((country) => (
+                <MenuItem value={country.id}>
+                    {country.name}
+                </MenuItem>
+            ))
+            }
+            
+          </Select>
+        </FormControl>
+      </Box>
+      );
 }
+export default CountryFilter

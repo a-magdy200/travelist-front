@@ -41,6 +41,7 @@ import ListCompanyBookings from "../pages/booking/company-booking";
 import UserPosts from "../pages/post/UserPosts";
 import TravelerList from '../pages/Traveler/TravelerList'
 import ShowProgram from "../pages/Program/show";
+import BookCycle from '../pages/Cycle/book-cycle'
 import FeedHome from "../pages/FeedPage";
 import useAuth from "../hooks/useAuth";
 import HomePage from "../pages/HomePage";
@@ -65,6 +66,7 @@ const UserRoutes = () => {
 			<Route path="/friends" element={<ListFriends />} />
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
+			<Route path="/cycle/book/:id" element={<BookCycle />} />
 
 			{/*  company  */}
 			<Route path="/program/create" element={<CreateProgram />} />
