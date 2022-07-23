@@ -6,11 +6,12 @@ import { IBookCycleRequestBody } from '../../config/interfaces/IBookCycleRequest
 import { IResponseInterface } from '../../config/interfaces/responses/IResponse.interface'
 import { ICycleInterface } from '../../config/interfaces/entities/ICycle.interface'
 import api from '../../config/api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const BookingFormComponent = () => {
     const [bookingSeats,setBookingSeats]=useState('')
     const { id } = useParams()
+	const navigate = useNavigate()
 
     const confirmPayment=async (token: any) => {
         try {
@@ -31,13 +32,14 @@ const BookingFormComponent = () => {
 				if (response.success) {
 					alert('booked successfully')
 					console.log(response.data)
-				
+			
 			}
         }
         } catch (error: any) {
 			alert('error in booking')
 			console.log(JSON.stringify(error))
 		}
+		navigate(`/program/show/user/${id}`);
 	}
    
 	return (

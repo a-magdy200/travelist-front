@@ -26,6 +26,8 @@ import { LoadingButton } from "@mui/lab";
 import Grid from "@mui/material/Grid";
 import { ReactComponent as LoginImage } from "../../assets/images/login.svg";
 import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
 
 function Register() {
   const [name, set_name] = useState("");
@@ -41,10 +43,12 @@ function Register() {
   const [description, set_description] = useState("");
   const { makeAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [errors, setErrors] = useState([]);
   async function sendData(e: any) {
     e.preventDefault();
     setIsLoading(true);
+    toast.info("Register....");
+    setErrors([]);
     let checkSubmit = true;
 
     if (password !== confirm_password) {
@@ -93,26 +97,23 @@ function Register() {
             makeAuth(response.data);
           }
         }
+        toast.success("Account Created.");
+
       } catch (error: any) {
-        console.log(JSON.stringify(error));
-        // response.errors - div - display
+        setErrors(error?.response?.data?.errors || []);
+        toast.error("An error has occurred");
       }
       setTimeout(() => {
         setIsLoading(false);
       }, 10000);
     }
+    setIsLoading(false);
+
   }
 
-  // if (type === 'traveler') {
-  // 	const isDisabled = (): boolean => {
-  // 		return isLoading || name === '' || email === '' || password === '' || confirm_password === '' || address === '' || national_id === '' || date_of_birth === ''
-  // 	}
-  // }else{
-  // 	const isDisabled = (): boolean => {
-  // 		return isLoading || name === '' || email === '' || password === '' || confirm_password === '' || address === '' || description === ''
-  // 	}
-  // }
-
+  if (isLoading) {
+    return <Loader/>
+  }
   return (
     <Grid container spacing={2}>
       <Grid md={6} xs={12}>
@@ -120,7 +121,7 @@ function Register() {
           <form onSubmit={sendData}>
             <CardContent>
               <h2>Register Now</h2>
-
+              <DisplayErrorsList errors={errors} />
               <Box mb={2}>
                 <CustomInputField
                   type={"text"}

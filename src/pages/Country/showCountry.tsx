@@ -25,6 +25,9 @@ import ListHotelsComponent from '../../components/hotels/ListHotels'
 import ShowCountryReviews from '../CountryReviews/show_country_reviews'
 import { ICountryReview } from '../../config/interfaces/ICountryReview.interface'
 import CreateCountryReviews from '../CountryReviews/create_country_review'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 export interface IShowCountryProps {
 	success: boolean
@@ -34,6 +37,8 @@ export interface IShowCountryProps {
 export default function ShowCountry() {
 	const { id } = useParams()
 	const [country, setCountry] = useState<ICountryInterface | undefined>()
+	const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState([]);
 	const [tabValue, setTabValue] = useState<string>('1')
 	const navigate = useNavigate()
 	const groupId: number | undefined = country ? country.group?.id : 0
@@ -58,6 +63,9 @@ export default function ShowCountry() {
 		setTabValue(newValue)
 	}
 	const getCountry = async () => {
+		toast.info("Getting Country....");
+		setErrors([]);
+		setIsLoading(true);
 		try {
 			const response: IResponseInterface<any> = await api({
 				url: `/api/countries/country/${id}`,
@@ -66,16 +74,22 @@ export default function ShowCountry() {
 			if (response.success) {
 				if (response.data) {
 					setCountry(response.data)
+					toast.success("Getting Country Successfully");
+
 				}
 			}
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || []);
+			toast.error("An error has occurred");
 		}
+		setIsLoading(false);
 	}
 	useEffect(() => {
 		getCountry()
 	}, [])
-
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<Container
 			sx={{
@@ -87,6 +101,7 @@ export default function ShowCountry() {
 		>
 			<Box sx={{ height: 500 }}>
 				<Card sx={{ position: 'relative', width: 900, height: 400 }}>
+				<DisplayErrorsList errors={errors} />
 					<CardMedia
 						component="img"
 						image={coverPic}

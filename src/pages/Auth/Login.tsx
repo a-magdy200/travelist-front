@@ -53,14 +53,14 @@ function Login() {
       toast.success("Login successfully");
     } catch (error: any) {
       setErrors(error?.response?.data?.errors || []);
-      toast.error("An error has occurred");    }
+      toast.error("An error has occurred"); 
+       }
     setTimeout(() => {
       setIsLoading(false);
     }, 3000);
     setIsLoading(false);
 
   }
-
   const isDisabled = (): boolean => {
     return isLoading || email === "" || password === "";
   };

@@ -6,15 +6,23 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { IResetPasswordRequestBody } from '../../config/interfaces/IResetPasswordRequestBody.interface'
 import api from '../../config/api'
 import { IForgetPasswordResponse } from '../../config/interfaces/IForgetPasswordResponse.interface'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 function ResetPassword() {
 	const [password, set_password] = useState('')
 	const [confirm_password, set_confirm_password] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 	const navigate = useNavigate()
 	const { token } = useParams()
 
 	async function sendData(e: any) {
 		e.preventDefault()
+		toast.info('Reset Password....')
+		setErrors([])
+		setIsLoading(true)
 		let checkSubmit = true
 
 		if (password !== confirm_password) {
@@ -35,20 +43,25 @@ function ResetPassword() {
 				})
 
 				if (response.success) {
-					console.log('Reset password is successfully done')
 					navigate('/login')
 				}
-			} catch (error) {
-				console.log(error)
+				toast.success('Reset password is successfully done')
+			} catch (error: any) {
+				setErrors(error?.response?.data?.errors || [])
+				toast.error('An error has occurred')
 			}
 		}
+		setIsLoading(false)
 	}
-
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div className="container">
 			<h3>Reset Password</h3>
 			<Box sx={{ m: 3 }}>
 				<form onSubmit={sendData}>
+					<DisplayErrorsList errors={errors} />
 					<div>
 						<CustomInputField
 							type={'password'}

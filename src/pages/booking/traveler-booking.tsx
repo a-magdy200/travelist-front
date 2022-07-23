@@ -4,12 +4,19 @@ import api from '../../config/api'
 import Loader from '../../components/Loader'
 import { IBookingInterface } from '../../config/interfaces/IBooking.Interface'
 import ListTravelerBookingsComponent from '../../components/Booking/TravelerBooking'
+import { toast } from 'react-toastify'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 const ListTravelerBookings = () => {
 	const [bookings, setBookings] = useState<IBookingInterface[]>([])
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState([]);
 	const getBookings = async () => {
+		toast.info("Getting Bookings....");
+         setErrors([]);
+         setIsLoading(true);
 		try {
+
 			const response: IResponseInterface<IBookingInterface[]> = await api<
 				IBookingInterface[]
 			>({
@@ -19,16 +26,17 @@ const ListTravelerBookings = () => {
 			if (response.success) {
 				if (response.data) {
 					setBookings(response.data)
-					console.log(response.data)
 				}
 			}
+			toast.success("Getting Successfully.");
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || []);
+			toast.error("An error has occurred");
 		}
+		setIsLoading(false);
 	}
 	useEffect(() => {
 		getBookings().then(() => {
-			setIsLoading(false);
 		})
 	}, [])
 	if (isLoading) {
@@ -37,6 +45,7 @@ const ListTravelerBookings = () => {
 	return (
 		<div>
 			<h1>My Bookings</h1>
+			<DisplayErrorsList errors={errors} />
 			<ListTravelerBookingsComponent bookings={bookings} />
 		</div>
 	)

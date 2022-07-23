@@ -11,14 +11,15 @@ import { ICountryReviewRequestBody } from '../../config/interfaces/ICountryRevie
 import { ICountryReview } from '../../config/interfaces/ICountryReview.interface'
 import Rating from '@mui/material/Rating'
 import Typography from '@mui/material/Typography'
-
-// interface Test {
-// 	countryId: number
-// }
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 const CreateCountryReviews = () => {
 	const [review, setReview] = useState('')
 	const [rating, setRating] = useState('')
+	const [isLoading, setIsLoading] = useState(false)
+	const [errors, setErrors] = useState([])
 	const navigate = useNavigate()
 	let { id } = useParams()
 	let countryId: number = 0
@@ -29,6 +30,9 @@ const CreateCountryReviews = () => {
 
 	async function sendData(e: any) {
 		e.preventDefault()
+		toast.info('Creating Review....')
+		setErrors([])
+		setIsLoading(true)
 		try {
 			const requestBody: ICountryReviewRequestBody = {
 				review,
@@ -49,11 +53,16 @@ const CreateCountryReviews = () => {
 					navigate(`/country/show/${id}`)
 				}
 			}
+			toast.success('Created Review Successfully')
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
 		}
+		setIsLoading(false)
 	}
-
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div className="container">
 			<div>
@@ -61,7 +70,7 @@ const CreateCountryReviews = () => {
 					<form onSubmit={sendData}>
 						<CardContent>
 							<h2>Add Your Review</h2>
-
+							<DisplayErrorsList errors={errors} />
 							<Typography component="legend">Star rating</Typography>
 							<Rating
 								name="simple-controlled"
