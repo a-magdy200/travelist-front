@@ -7,7 +7,8 @@ import ListTravelerBookingsComponent from '../../components/Booking/TravelerBook
 
 const ListTravelerBookings = () => {
 	const [bookings, setBookings] = useState<IBookingInterface[]>([])
-	const getCompanies = async () => {
+	const [isLoading, setIsLoading] = useState(true);
+	const getBookings = async () => {
 		try {
 			const response: IResponseInterface<IBookingInterface[]> = await api<
 				IBookingInterface[]
@@ -26,16 +27,17 @@ const ListTravelerBookings = () => {
 		}
 	}
 	useEffect(() => {
-		getCompanies()
+		getBookings().then(() => {
+			setIsLoading(false);
+		})
 	}, [])
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div>
-			<h1>Bookings</h1>
-			{bookings ? (
-				<ListTravelerBookingsComponent bookings={bookings} />
-			) : (
-				<Loader />
-			)}
+			<h1>My Bookings</h1>
+			<ListTravelerBookingsComponent bookings={bookings} />
 		</div>
 	)
 }

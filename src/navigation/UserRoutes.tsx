@@ -1,30 +1,17 @@
 import { Route, Routes } from 'react-router-dom'
 import ListPrograms from '../pages/Program/index'
 import CreateProgram from '../pages/Program/CreateProgram'
-import Show from '../pages/Program/show'
-import Profile from '../components/Profile/Profile'
-import TravelerProfile from '../pages/Profile/TravelerProfile'
-import EditPassword from '../pages/Profile/EditPassword'
-import EditUser from '../pages/Profile/EditUser'
-import EditTraveler from '../pages/Profile/EditTraveler'
-import EditCompany from '../pages/Profile/EditCompany'
-import CompanyProfile from '../pages/Profile/CompanyProfile'
-import UserBaseData from '../pages/Profile/UserBaseData'
-import ShowProgram from '../pages/Program/show'
 import EditProgram from '../pages/Program/edit'
 import CreateCycle from '../pages/Cycle/create-cycle'
 import ListCycles from '../pages/Cycle/index-cycle'
 import ShowCycle from '../pages/Cycle/show-cycle'
 import EditCycle from '../pages/Cycle/edit-cycle'
-import ListCompany from '../pages/Company/list-company'
 import CompanyDetails from '../pages/Company/details-company'
 import ShowProgramUser from '../pages/Program/show-program-user'
-import ListProgramCycles from '../pages/Program/list-program-cycles'
 import ListProgramsPage from '../pages/Program/list_programs'
 import ProgramDetailsPage from '../pages/Program/program_details'
 import ListGroups from '../pages/Group/list_groups'
 import ShowGroup from '../pages/Group/show_group'
-import LandingPage from '../pages/LandingPage'
 import ListHotels from '../pages/Hotel/list_hotels'
 import ShowHotel from '../pages/Hotel/show_hotel'
 import ShowCountry from '../pages/Country/showCountry'
@@ -48,59 +35,54 @@ import DeleteCountryReview from '../pages/CountryReviews/delete_country_review'
 import DeleteCompanyReview from '../pages/CompanyReviews/delete_company_review'
 import DeleteGuideReview from '../pages/GuideReviews/delete_guide_review'
 import DeleteCycleReview from '../pages/CycleReviews/delete_cycle_review'
-import ListBookings from '../pages/booking/show-bookings'
-import ShowBooking from '../pages/booking/show-one-booking'
-import CreateCountryReviews from '../pages/CountryReviews/create_country_review'
-import ShowProfile from "../pages/Profile/ShowProfile";
-import EditProfile from "../pages/Profile/EditProfile";
+import ShowProfile from '../pages/Profile/ShowProfile'
+import EditProfile from '../pages/Profile/EditProfile'
+import CountryList from '../pages/Country/CountryList'
+import SearchList from '../pages/Search/search_list'
+import ListCompanyBookings from "../pages/booking/company-booking";
+import UserPosts from "../pages/post/UserPosts";
+import ShowProgram from "../pages/Program/show";
+import FeedHome from "../pages/FeedPage";
+import useAuth from "../hooks/useAuth";
+import HomePage from "../pages/HomePage";
 
 const UserRoutes = () => {
+	const {user} =  useAuth();
 	return (
 		<Routes>
 			{/*  traveler  */}
-			{/*<Route path="/traveler" element={<TravelerProfile />} />*/}
-			{/*<Route path="/editTraveler" element={<EditTraveler />} />*/}
-     <Route path="/profile" element={<ShowProfile />} />
-     <Route path="/profile/edit" element={<EditProfile />} />
+			<Route path="/profile" element={<ShowProfile />} />
+			<Route path="/profile/edit" element={<EditProfile />} />
 
-     <Route path="/post/show/:id" element={<ShowPost />} />
+			<Route path="/post/show/:id" element={<ShowPost />} />
 			<Route path="/post/edit/:id" element={<EditPost />} />
 			<Route path="/post/delete/:id" element={<DeletePost />} />
 			<Route path="/post/report/:id" element={<ReportPost />} />
 			<Route path="/post/create" element={<CreatePost />} />
-			<Route path="/posts" element={<ListPosts />} />
 			<Route path="/myPosts" element={<ListMyPosts />} />
+			<Route path="/posts" element={<UserPosts />} />
+
 			<Route path="/traveler/booking" element={<ListTravelerBookings />} />
+			<Route path="/booking/list" element={<ListCompanyBookings />} />
 
 			<Route path="/friends" element={<ListFriends />} />
 
 			<Route path="/program/all" element={<ListProgramsPage />} />
 
-
 			{/*  company  */}
-			{/*<Route path="/company" element={<CompanyProfile />} />*/}
-			{/*<Route path="/editCompany" element={<EditCompany />} />*/}
-
-			{/* <Route path="/create" element={<CreateProgram />} /> */}
 			<Route path="/program/create" element={<CreateProgram />} />
 			<Route path="/program/edit/:id" element={<EditProgram />} />
+			<Route path="/program/show/:id" element={<ShowProgram />} />
 			<Route path="/program/list" element={<ListPrograms />} />
 
 			<Route path="/cycle/create/:id" element={<CreateCycle />} />
 			<Route path="/cycle/edit/:id" element={<EditCycle />} />
 
-
-			{/*  both  */}
-			{/*<Route path="/profile" element={<UserBaseData />} />*/}
-			{/*<Route path="/editUser" element={<EditUser />} />*/}
-			{/* <Route path="/editUser/:id" element={<EditUser />} /> */}
-			{/*<Route path="/editPassword" element={<EditPassword />} />*/}
-
 			<Route path="/program/show/user/:id" element={<ShowProgramUser />} />
 			<Route path="/program/details/:id" element={<ProgramDetailsPage />} />
-			{/* <Route path="/show" element={<Show />} /> */}
 
 			<Route path="/country/show/:id" element={<ShowCountry />} />
+			<Route path="/country/list" element={<CountryList />} />
 
 			<Route path="/cycle/list" element={<ListCycles />} />
 			<Route path="/cycle/show/:id" element={<ShowCycle />} />
@@ -113,20 +95,27 @@ const UserRoutes = () => {
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
 
+      <Route path="/search/:type" element={<SearchList />} />
 
-      {/* for admin usage */}
-      <Route path="/hotelReview/list" element={<ListHotelsReviews />} />
-      <Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />
-      <Route path="/countryReview/list" element={<ListCountriesReviews />} />
-      <Route path="/countryReview/delete/:id" element={<DeleteCountryReview />} />
-      <Route path="/companyReview/list" element={<ListCompaniesReviews />} />
-      <Route path="/companyReview/delete/:id" element={<DeleteCompanyReview />} />
-      <Route path="/guideReview/list" element={<ListGuidesReviews />} />
-      <Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
-      <Route path="/cycleReview/list" element={<ListCyclesReviews />} />
-      <Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
-
-    </Routes>
-  )
+			{/* for admin usage */}
+			<Route path="/hotelReview/list" element={<ListHotelsReviews />} />
+			<Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />
+			<Route path="/countryReview/list" element={<ListCountriesReviews />} />
+			<Route
+				path="/countryReview/delete/:id"
+				element={<DeleteCountryReview />}
+			/>
+			<Route path="/companyReview/list" element={<ListCompaniesReviews />} />
+			<Route
+				path="/companyReview/delete/:id"
+				element={<DeleteCompanyReview />}
+			/>
+			<Route path="/guideReview/list" element={<ListGuidesReviews />} />
+			<Route path="/guideReview/delete/:id" element={<DeleteGuideReview />} />
+			<Route path="/cycleReview/list" element={<ListCyclesReviews />} />
+			<Route path="/cycleReview/delete/:id" element={<DeleteCycleReview />} />
+			<Route path={"/"} element={user.type === 'company' ? <HomePage/> : <FeedHome/>}/>
+		</Routes>
+	)
 }
 export default UserRoutes

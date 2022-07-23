@@ -1,86 +1,89 @@
 import Loader from '../Loader'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Button from '@mui/material/Button'
-import Grid from '@mui/material/Grid'
 import { IGroupShowProps } from '../../config/interfaces/IGroupShowProps.interface'
 import config from '../../config/app_config/config'
 import ListPosts from '../../pages/post/list_posts'
-import { useContext } from 'react'
-import { useState } from 'react'
-import { IUserInterface } from '../../config/interfaces/IUser.interface'
-import AuthContext from '../../contexts/AuthContext'
 
 import Typography from '@mui/material/Typography'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent/CardContent'
-import CardMedia from '@mui/material/CardMedia'
+import Box from '@mui/material/Box'
+import useAuth from '../../hooks/useAuth'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import { toast } from 'react-toastify'
+import api from '../../config/api'
+import { useState } from 'react'
 
 const ShowGroupComponent = ({ group }: IGroupShowProps) => {
-	console.log('group', group)
+	const photoPath = `${config.apiUrl}/${group?.cover_picture}`
+	const [followersCount, setFollowersCount] = useState(
+		group?.followers_count || 0
+	)
+	const { user } = useAuth()
 
-	const photoPath = group
-		? `${config.apiUrl}/uploads/${group.cover_picture}`
-		: ''
-
+	const [isFollowing, setIsFollowing] = useState<boolean>(
+		!!group?.followers?.length &&
+			!!group.followers.find(({ id }) => id === user.id)
+	)
+	const followGroup = async () => {
+		toast.info('Following...')
+		await api<void>({
+			url: `/api/groups/${group?.id}/follow`,
+		})
+		setIsFollowing(true)
+		setFollowersCount((prev) => prev + 1)
+		toast.success('Success')
+	}
+	const unfollowGroup = async () => {
+		toast.info('Unfollowing...')
+		await api<void>({
+			url: '',
+		})
+		setIsFollowing(false)
+		setFollowersCount((prev) => prev - 1)
+		toast.success('Success')
+	}
 	return (
 		<div>
 			{group ? (
 				<div>
-					<div>
-						<h1>Group Details</h1>
-					</div>
-					<Card sx={{ maxWidth: 945, minWidth: 345, mx: 10, my: 2 }}>
-						<CardMedia
-							component="img"
-							height="140"
-							image={photoPath}
-							alt="program Cover"
-						/>
-						<CardContent className="bottom">
-							<Typography gutterBottom variant="h6" component="div">
-								Country : {group.country.name}
-							</Typography>
-
-							<Typography gutterBottom variant="h6" component="div">
-								Followers Count : {group.followers_count}
-							</Typography>
-
-							{/* <Grid>
-							{group.followers?.map((follower, index) => (
-								<Grid item xs={6} key={index}>
-									Follower: {follower.name}
-								</Grid>
-							))}
-							</Grid> */}
-						</CardContent>
-					</Card>
-
-					<Grid container spacing={2} xs={6} lg={16} mb={3} mx={25}>
-						<Grid item xs={6}>
-							<Link to="/post/create" state={{ id: group.id }}>
-								<Button className="createButton" variant="contained">
-									Create post
+					<Box display={'flex'} mb={2}>
+						<Link to={`/group/list`}>
+							<Button variant="contained">Back</Button>
+						</Link>
+						<Box mx={2}>
+							<Typography variant={'h5'}>Group Details</Typography>
+						</Box>
+						<Link to="/post/create" state={{ id: group?.id }}>
+							<Button variant="contained">Create post</Button>
+						</Link>
+						<Box ml={2}>
+							{isFollowing ? (
+								<Button onClick={unfollowGroup} variant="contained">
+									Unfollow <CloseOutlined />
 								</Button>
-							</Link>
-							<div></div>
-						</Grid>
-						<Grid item xs={6}>
-							<NavLink to={`/group/list`}>
-								{' '}
-								<Button className="createButton" variant="contained">
-									Back
+							) : (
+								<Button onClick={followGroup} variant="contained">
+									Follow <CheckOutlined />
 								</Button>
-							</NavLink>
-						</Grid>
-						{/* if id of user not in followers array */}
-						{/* const existedUser = group.followers?.find((obj) => {
-			            return obj.id === userId
-		               }) */}
-						{/* {LoggedInUser.user == 'company' ? (console.log('hi'))
-						:(console.log('hi'))} */}
-					</Grid>
+							)}
+						</Box>
+					</Box>
+					<Box mb={2}>
+						<Card variant={'outlined'}>
+							<CardContent>
+								<Typography gutterBottom variant="h6" component="div">
+									Country : {group?.country?.name}
+								</Typography>
 
-					<ListPosts />
+								<Typography gutterBottom variant="h6" component="div">
+									Followers Count : {followersCount}
+								</Typography>
+							</CardContent>
+						</Card>
+					</Box>
+					<ListPosts posts={group?.posts || []} />
 				</div>
 			) : (
 				<Loader />

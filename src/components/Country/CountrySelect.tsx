@@ -5,14 +5,14 @@ import api from '../../config/api'
 import { useEffect, useState } from 'react'
 import { Stack } from '@mui/material'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
-
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
+import { ICountrySetProps } from '../../config/interfaces/ICountrySetProps.interface'
 
-export default function CountrySelect() {
-	const [country, setCountry] = useState<ICountryInterface | null>(null)
-	const [countries, setCountries] = useState<ICountryInterface[]>([
-		{ id: 0, name: '' },
-	])
+export default function CountrySelect({setCountry,label}:ICountrySetProps) {
+	//const [country, setCountry] = useState<ICountryInterface >('')
+    const [value, setValue] = useState<ICountryInterface >()
+	const [countries, setCountries] = useState<ICountryInterface[]>([{id:0, name:''}])
+
 
 	const getCountries = async () => {
 		try {
@@ -35,8 +35,6 @@ export default function CountrySelect() {
 		getCountries()
 	}, [])
 
-	console.log(country)
-
 	return (
 		<Stack>
 			<Autocomplete
@@ -50,14 +48,14 @@ export default function CountrySelect() {
 						{option.name}
 					</Box>
 				)}
-				value={country}
+				value={value}
 				onChange={(event: any, newValue: ICountryInterface | null) =>
-					setCountry(newValue)
+					setCountry(newValue?.id)
 				}
 				renderInput={(params) => (
 					<TextField
 						{...params}
-						label="Country"
+						label={label}
 						inputProps={{
 							...params.inputProps,
 							autoComplete: 'new-password',

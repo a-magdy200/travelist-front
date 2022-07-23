@@ -25,6 +25,7 @@ interface AuthContextInterface {
 export const DEFAULT_AUTH_CONTEXT_STATE: AuthContextInterface = {
   isLoggedIn: false,
   user: {
+    id: 0,
     profile_picture: "",
     name: "",
     type: ""
