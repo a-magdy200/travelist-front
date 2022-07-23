@@ -6,6 +6,8 @@ import TextField from '@mui/material/TextField'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SearchType } from '../../config/types/search.type'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import InputAdornment from '@mui/material/InputAdornment'
 
 const SearchField = () => {
 	const searchTypeOptions = [
@@ -26,6 +28,13 @@ const SearchField = () => {
 				id="outlined-helperText"
 				label="search keyword"
                 size='small'
+                InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchOutlinedIcon />
+                      </InputAdornment>
+                    ),
+                  }}
 				value={keyword}
 				onChange={(
 					event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

@@ -39,6 +39,7 @@ import CountryList from '../pages/Country/CountryList'
 import SearchList from '../pages/Search/search_list'
 import ListCompanyBookings from "../pages/booking/company-booking";
 import UserPosts from "../pages/post/UserPosts";
+import TravelerList from '../pages/Traveler/TravelerList'
 
 const UserRoutes = () => {
 	return (
@@ -87,6 +88,9 @@ const UserRoutes = () => {
 
 			<Route path="/hotel/list" element={<ListHotels />} />
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
+
+      <Route path="/traveler/list" element={<TravelerList />} />
+      <Route path="/traveler/:id" element={<TravelerList />} />
       
       <Route path="/search/:type" element={<SearchList />} />
 
