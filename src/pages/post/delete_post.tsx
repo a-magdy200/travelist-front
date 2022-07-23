@@ -15,23 +15,24 @@ import { useLocation } from 'react-router-dom'
 import api from '../../config/api'
 import { IPostInterface } from '../../config/interfaces/IPost.interface'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify'
 import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 
 const DeletePost = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 	const location = useLocation()
-    const [errors, setErrors] = useState([]);
-	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([])
+	const [isLoading, setIsLoading] = useState(false)
 	type LocationState = { groupId: any }
 	const { groupId } = location.state as LocationState
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
 		try {
-			toast.info("Deleting post....");
-			setErrors([]);
-			setIsLoading(true);
+			toast.info('Deleting post....')
+			setErrors([])
+			setIsLoading(true)
 			const response: IResponseInterface<IPostInterface> =
 				await api<IPostInterface>({
 					url: `/api/posts/${id}`,
@@ -41,18 +42,16 @@ const DeletePost = () => {
 			if (response.success) {
 				navigate(`/group/show/${groupId}`)
 			}
-			toast.success("Deleted");
-
+			toast.success('Deleted')
 		} catch (error: any) {
-			setErrors(error?.response?.data?.errors || []);
-			toast.error("An error has occurred");
-	   }
-	   setIsLoading(false);
-
+			setErrors(error?.response?.data?.errors || [])
+			toast.error('An error has occurred')
+		}
+		setIsLoading(false)
 	}
 	if (isLoading) {
-		return <Loader/>
-	  }
+		return <Loader />
+	}
 	return (
 		<div
 			className="container"
@@ -64,6 +63,7 @@ const DeletePost = () => {
 		>
 			<div className="left">
 				<Card sx={{ maxWidth: 700 }} style={{ minHeight: '25vh' }}>
+				<DisplayErrorsList errors={errors} />
 					<form onSubmit={sendData}>
 						<CardContent>
 							<div>
