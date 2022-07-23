@@ -15,7 +15,6 @@ import { IPostInterface } from '../../config/interfaces/IPost.interface'
 import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 import Loader from "../../components/Loader";
-
 const EditPost = () => {
 	const [post, setPost] = useState<IPostInterface>()
 	const [content, setContent] = useState<string>('')

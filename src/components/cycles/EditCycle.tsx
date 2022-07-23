@@ -12,6 +12,8 @@ import api from '../../config/api'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import CustomInputField from '../Form/CustomInputField'
+import { toast } from 'react-toastify'
+import DisplayErrorsList from '../DisplayErrors/DisplayErrorsList'
 
 const EditCycleComponent = () => {
 	const { id } = useParams()
@@ -28,9 +30,13 @@ const EditCycleComponent = () => {
 	const [return_date, setReturnDate] = useState<string>('')
 	const [return_arrival_date, setReturnArrivalDate] = useState<string>('')
 	const [cycle, setCycle] = useState<ICycleInterface>()
+	const [isLoading, setIsLoading] = useState(false);
+    const [errors, setErrors] = useState([]);
+ 
 	const navigate = useNavigate()
 
 	const getCycle = async () => {
+		
 		try {
 			const response: IResponseInterface<ICycleInterface> =
 				await api<ICycleInterface>({
@@ -94,6 +100,9 @@ const EditCycleComponent = () => {
 	}
 
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
+		toast.info("Editing Cycle....");
+		setErrors([]);
+		setIsLoading(true);
 		e.preventDefault()
 		const requestBody: ICycleInterface = {
 			name,
@@ -124,12 +133,19 @@ const EditCycleComponent = () => {
 						navigate('/cycle/list')
 					}
 				}
+				toast.success("Edited Successfully");
+	
 			} catch (error: any) {
-				console.log(error)
+				setErrors(error?.response?.data?.errors || []);
+				toast.error("An error has occurred");
+		  
 			}
+
 		} else {
-			alert('validation error')
+			toast.error("An error has occurred");
 		}
+		setIsLoading(false);
+
 	}
 	const isDisabled = (): boolean => {
 		console.log(
@@ -163,6 +179,7 @@ const EditCycleComponent = () => {
 				<div className="TopCycle">
 					<h1>Edit Cycle</h1>
 					<Grid container direction="column" spacing={2}>
+					<DisplayErrorsList errors={errors} />
 						<Grid item xs={8}>
 							<CustomInputField
 								type={'text'}

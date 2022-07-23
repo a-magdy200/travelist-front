@@ -7,12 +7,20 @@ import { IForgetPasswordResponse } from "../../config/interfaces/IForgetPassword
 import api from "../../config/api";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import { toast } from "react-toastify";
+import Loader from "../../components/Loader";
+import DisplayErrorsList from "../../components/DisplayErrors/DisplayErrorsList";
 
 function ForgetPassword() {
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   async function sendData(e: any) {
     e.preventDefault();
+    toast.info("Changing Password....");
+    setErrors([]);
+    setIsLoading(true);
 
     try {
       const requestBody: IForgetPasswordRequest = {
@@ -26,17 +34,23 @@ function ForgetPassword() {
       });
 
       if (response.success) {
-        console.log("check your mail, verification code has been sent");
+        toast.success("check your mail, verification code has been sent");
       }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
+    } catch (error:any) {
+      setErrors(error?.response?.data?.errors || []);
+      toast.error("An error has occurred");
+    }
+    setIsLoading(false);
+  }
+  if (isLoading) {
+    return <Loader/>
+  }
   return (
     <Box width={"100%"}>
       <form onSubmit={sendData}>
         <Grid container spacing={2} justifyContent={"center"} width={"100%"}>
+        <DisplayErrorsList errors={errors} />
           <Grid item xs={12}>
             <Typography variant={"h5"}>
               Forget your Password?

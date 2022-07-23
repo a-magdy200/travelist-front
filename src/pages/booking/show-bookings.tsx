@@ -4,11 +4,18 @@ import { useState, useEffect } from 'react'
 import api from '../../config/api'
 import Loader from '../../components/Loader'
 import ListBookingComponent from "../../components/Booking/ListBookings"
+import { toast } from "react-toastify"
+import DisplayErrorsList from "../../components/DisplayErrors/DisplayErrorsList"
 
 const ListBookings = () => {
 	const [bookings, setBookings] = useState<IBookingInterface[]>([])
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
 	const getBookings = async () => {
 		try {
+			toast.info("Getting Bookings....");
+			setErrors([]);
+			setIsLoading(true);
 			const response: IResponseInterface<IBookingInterface[]> = await api<
 				IBookingInterface[]
 			>({
@@ -21,19 +28,28 @@ const ListBookings = () => {
 					console.log(response.data)
 				}
 			}
+			toast.success("Posts Get Successfully");
 		} catch (error: any) {
-			console.log(error)
+			setErrors(error?.response?.data?.errors || []);
+			toast.error("An error has occurred");
 		}
+		setIsLoading(false);
 	}
 	useEffect(() => {
 		getBookings()
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return <div>
 		{
 		bookings ? 
+		
 		<ListBookingComponent bookings={bookings} /> 
+	
 		:
-		<Loader/>
+		<DisplayErrorsList errors={errors} />
+
 	    }
 		 </div>
 }

@@ -18,6 +18,7 @@ import api from '../../config/api'
 import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import Loader from '../Loader'
 import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
+import { toast } from 'react-toastify'
 
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
@@ -156,8 +157,11 @@ const ListCycleComponent = () => {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [cycles, setCycles] = useState<ICycleInterface[]>([])
+	const [isLoading, setIsLoading] = useState(false)
 
 	const getCycles = async () => {
+		toast.info('Getting Cycles....')
+		setIsLoading(true)
 		try {
 			const response: IResponseInterface<ICycleInterface[]> = await api<
 				ICycleInterface[]
@@ -170,9 +174,12 @@ const ListCycleComponent = () => {
 					setCycles(response.data)
 				}
 			}
+			toast.success('Getting Cycles Successfully')
 		} catch (error: any) {
+			toast.error('An error has occurred')
 			console.log(error)
 		}
+		setIsLoading(false)
 	}
 	useEffect(() => {
 		getCycles()
@@ -181,6 +188,8 @@ const ListCycleComponent = () => {
 	const removeCycle = async (id: number | undefined) => {
 		if (window.confirm('Are you sure?')) {
 			console.log(id)
+			toast.info('Deleting Cycle....')
+
 			try {
 				const response: IResponseInterface<ICycleInterface> =
 					await api<ICycleInterface>({
@@ -189,10 +198,10 @@ const ListCycleComponent = () => {
 					})
 
 				if (response.success) {
-					alert('deleted successfuly')
+					toast.success('Deleted Successfully')
 				}
 			} catch (error: any) {
-				console.log(error)
+				toast.error('An error has occurred')
 			}
 		}
 	}
@@ -226,7 +235,9 @@ const ListCycleComponent = () => {
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - cycles.length) : 0
-
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div>
 			{cycles ? (
