@@ -9,6 +9,7 @@ import { NavLink, Link } from 'react-router-dom'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import ReportIcon from '@mui/icons-material/Report';
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useAuth from "../../hooks/useAuth";
@@ -47,6 +48,18 @@ const ListPostsComponent = ({ post }: IPostShowProps) => {
 											<DeleteIcon />
 										</Button>
 									</Link>
+									</Box>
+									<Box ml={2}>
+										<Link
+										to={'/post/report/' + post.id}
+										state={{ groupId: post.groupId }}>
+											<Button variant={"contained"}>
+												Report
+										<ReportIcon />
+										</Button>
+									</Link>
+									
+									
 									</Box>
 									</Box>
 								</Grid>

@@ -1,6 +1,7 @@
 import SidebarItem from "./SidebarItem";
 import { HomeOutlined } from "@ant-design/icons";
 import { GroupOutlined } from "@mui/icons-material";
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import * as React from "react";
 
 const CompanySidebar = () => {
@@ -12,6 +13,11 @@ const CompanySidebar = () => {
         to={'/program/list'}
       />
       <SidebarItem
+        title={'Countries'}
+        icon={<PublicOutlinedIcon />}
+        to={'/country/list'}
+      />
+      <SidebarItem
         title={'Groups'}
         icon={<GroupOutlined />}
         to={'/group/list'}
@@ -21,6 +27,7 @@ const CompanySidebar = () => {
         icon={<HomeOutlined />}
         to={'/booking/list'}
       />
+     
     </>
   )
 }
