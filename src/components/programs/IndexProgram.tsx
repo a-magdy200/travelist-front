@@ -18,7 +18,8 @@ import Loader from '../Loader'
 import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import api from '../../config/api'
 import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
-import Typography from "@mui/material/Typography";
+import Typography from '@mui/material/Typography'
+import { toast } from 'react-toastify'
 
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
@@ -146,8 +147,11 @@ const ListProgramComponent = () => {
 	const [page, setPage] = useState(0)
 	const [rowsPerPage, setRowsPerPage] = useState(10)
 	const [programs, setPrograms] = useState<IProgramInterface[]>([])
+	const [isLoading, setIsLoading] = useState(false)
 
 	const getPrograms = async () => {
+		toast.info('Getting Programs....')
+		setIsLoading(true)
 		try {
 			const response: IResponseInterface<IProgramInterface[]> = await api<
 				IProgramInterface[]
@@ -160,15 +164,19 @@ const ListProgramComponent = () => {
 					setPrograms(response.data)
 				}
 			}
+			toast.success('Get Programs Successfully')
 		} catch (error: any) {
 			console.log(error)
+			toast.error('An error has occurred')
 		}
+		setIsLoading(false)
 	}
 	useEffect(() => {
 		getPrograms()
 	}, [])
 	const removeProgram = async (id: number | undefined) => {
 		if (window.confirm('Are you sure?')) {
+			toast.info('Deleting Programs....')
 			try {
 				const response: IResponseInterface<IProgramInterface> =
 					await api<IProgramInterface>({
@@ -177,9 +185,13 @@ const ListProgramComponent = () => {
 					})
 
 				if (response.success) {
-					setPrograms(previous => previous.filter((program: IProgramInterface) => program.id !== id));
+					setPrograms((previous) =>
+						previous.filter((program: IProgramInterface) => program.id !== id)
+					)
 				}
+				toast.success('Deleted Program Successfully.')
 			} catch (error: any) {
+				toast.error('An error has occurred')
 				console.log(error)
 			}
 		}
@@ -213,25 +225,27 @@ const ListProgramComponent = () => {
 
 	const emptyRows =
 		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - programs.length) : 0
-
+	if (isLoading) {
+		return <Loader />
+	}
 	return (
 		<div>
 			{programs ? (
 				<div>
-					<Box display={"flex"} alignItems={"center"} mb={2}>
-						<Typography variant={"h4"}>
-							My Company Programs
-						</Typography>
+					<Box display={'flex'} alignItems={'center'} mb={2}>
+						<Typography variant={'h4'}>My Company Programs</Typography>
 						<Box ml={2}>
 							<NavLink to={`/program/create`}>
-								<Button variant="contained">
-									Create
-								</Button>
+								<Button variant="contained">Create</Button>
 							</NavLink>
 						</Box>
 					</Box>
 					<Box>
-						<Paper sx={{ width: '100%', mb: 1 }} elevation={0} variant={"outlined"}>
+						<Paper
+							sx={{ width: '100%', mb: 1 }}
+							elevation={0}
+							variant={'outlined'}
+						>
 							<TablePagination
 								rowsPerPageOptions={[10, 20, 30]}
 								component="div"

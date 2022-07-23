@@ -22,6 +22,9 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import { IHotelInterface } from '../../config/interfaces/IHotel.interface'
 import { ICountryInterface } from '../../config/interfaces/ICountry.interface'
 import { ITransportationInterface } from '../../config/interfaces/ITransportation.interface'
+import { toast } from 'react-toastify'
+import Loader from '../Loader'
+import DisplayErrorsList from '../DisplayErrors/DisplayErrorsList'
 
 const EditProgramComponent = () => {
 	let { id } = useParams()
@@ -43,9 +46,12 @@ const EditProgramComponent = () => {
 	>([])
 	const [cover_picture, setCoverPicture] = useState<File>()
 	const [program, setProgram] = useState<IProgramInterface>()
-
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
+   
 	const navigate = useNavigate()
 	const getProgram = async () => {
+		
 		try {
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
@@ -194,6 +200,9 @@ const EditProgramComponent = () => {
 	}
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
+		toast.info("Editing Program....");
+		setErrors([]);
+		setIsLoading(true);
 		const formData = new FormData()
 
 		formData.append('name', name)
@@ -215,6 +224,7 @@ const EditProgramComponent = () => {
 		}
 		console.log(formData)
 		if (!isDisabled()) {
+			try{
 			const response: IResponseInterface<IProgramInterface> =
 				await api<IProgramInterface>({
 					url: `/programs/update/${id}`,
@@ -224,10 +234,26 @@ const EditProgramComponent = () => {
 						'Content-Type': 'multipart/form-data',
 					},
 				})
-			navigate('/program/list')
+				if (response.success) {
+					if (response.data) {
+						navigate('/program/list')
+					}
+					toast.success("Editing Successfully");
+				  }
+				}
+				catch(error:any)
+				  {
+					setErrors(error?.response?.data?.errors || []);
+					toast.error("An error has occurred");
+					console.log(error)
+			   
+				  }
+			
 		} else {
-			alert('error validation')
+			toast.error("Validation Error");
 		}
+		setIsLoading(false);
+
 	}
 	const isDisabled = (): boolean => {
 		console.log(
@@ -247,12 +273,16 @@ const EditProgramComponent = () => {
 			countryId === ''
 		)
 	}
-
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div className="createContainer">
 			<form onSubmit={sendData}>
 				<div className="Top">
 					<h1>Edit Program</h1>
+					<DisplayErrorsList errors={errors} />
+
 					<TextField
 						className="inputText"
 						label="Program Name"
