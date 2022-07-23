@@ -1,4 +1,4 @@
-import Profile from '../../components/Profile/Profile'
+import UserBasicInfo from '../../components/Profile/UserBasicInfo'
 import Company from '../../components/Profile/Company'
 import { useEffect, useState } from 'react'
 import api from '../../config/api'
