@@ -2,8 +2,7 @@ import { GenderType } from '../types/gender.type'
 // import { IGuideReview } from "./IGuideReview.interface"
 import { IUserInterface } from './IUser.interface'
 export interface ITravelerInterface {
-	// id?:number
-
+	id?:number
 	national_id: string
 	gender: GenderType
 	date_of_birth: string
