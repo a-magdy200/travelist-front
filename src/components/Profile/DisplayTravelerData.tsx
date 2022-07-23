@@ -3,9 +3,9 @@ import Grid from "@mui/material/Grid";
 import { ITravelerReviewShowProps } from "../../config/interfaces/ITravelerReviewShowProps.interface";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
-const Traveler = ({ traveler }: ITravelerReviewShowProps) => {
+const DisplayTravelerData = ({ traveler }: ITravelerReviewShowProps) => {
   return (
-    <Grid container spacing={2} xs={10} lg={8} mb={3}>
+    <Grid container spacing={2}>
       <Grid item xs={6}>
         Gender:
       </Grid>
@@ -39,4 +39,4 @@ const Traveler = ({ traveler }: ITravelerReviewShowProps) => {
   );
 };
 
-export default Traveler;
+export default DisplayTravelerData;

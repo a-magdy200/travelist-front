@@ -2,17 +2,18 @@ import { ComponentProps, useEffect, useState } from 'react'
 import AuthContext from '../contexts/AuthContext'
 import { IUserInterface } from '../config/interfaces/IUser.interface'
 import { ACCESS_TOKEN } from '../config/helpers/constants'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { LoginCredentials } from '../config/interfaces/props/ILoginFormProps'
 import api from '../config/api'
 import { IResponseInterface } from '../config/interfaces/responses/IResponse.interface'
 import { IUserAuthenticationResponse } from '../config/interfaces/responses/IUserAuthenticationResponse.interface'
 import { RegisterCredentials } from '../config/interfaces/props/IRegisterFormProps'
-import  { Socket } from "socket.io-client";
 import socketListeners from "../config/helpers/socket-listeners";
 import socket from "../config/socket";
+import Loader from "../components/Loader";
 
 const AuthContextProvider = ({ children }: ComponentProps<any>) => {
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 	const [userDetails, setUserDetails] = useState<IUserInterface>({
 		name: '',
@@ -24,21 +25,14 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 	const makeAuth = (data: IUserAuthenticationResponse) => {
 		const { user, access_token } = data
 		setIsLoggedIn(true)
+		if (user.id !== userDetails.id) {
+			socket.disconnect();
+			localStorage.setItem(ACCESS_TOKEN, access_token)
+			socket.auth = { userId: user.id };
+			socket.connect();
+			socketListeners(socket)
+		}
 		setUserDetails(user)
-		localStorage.setItem(ACCESS_TOKEN, access_token)
-		navigate('/')
-		socket.auth = { userId: user.id };
-		socket.connect();
-		console.log(socket);
-
-		socketListeners(socket)
-		socket.on('connect', () => {
-		});
-		socket.onAny((s: Socket) => {
-			console.log(s);
-		})
-		socket.on('disconnect', () => {
-		});
 	}
 	const authContextValue = {
 		isLoggedIn,
@@ -47,6 +41,8 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		logout: () => {
 			localStorage.removeItem(ACCESS_TOKEN)
 			setIsLoggedIn(false)
+			socket.removeAllListeners()
+			socket.disconnect();
 			setUserDetails({
 				name: '',
 				profile_picture: '',
@@ -123,6 +119,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 			if (response.data) {
 				makeAuth(response.data)
 			}
+			navigate("/")
 		},
 		register: async (credentials: RegisterCredentials) => {
 			const response: IResponseInterface<IUserAuthenticationResponse> =
@@ -134,20 +131,25 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 			if (response.data) {
 				makeAuth(response.data)
 			}
+			navigate("/")
 		},
 	}
 	useEffect(() => {
-		const token = localStorage.getItem(ACCESS_TOKEN) ?? ''
-		if (token !== '') {
-			authContextValue.getUser().then(() => {
-				// setIsLoggedIn(true)
-			})
-		}
+		(async () => {
+			const token = localStorage.getItem(ACCESS_TOKEN) ?? ''
+			if (token !== '') {
+				await authContextValue.getUser()
+			}
+			setIsLoading(false);
+		})();
 		return () => {
 			socket.off('connect');
 			socket.off('disconnect');
 		}
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	}
 	return (
 		<AuthContext.Provider value={authContextValue}>
 			{children}

@@ -9,6 +9,8 @@ import { IFriendInterface } from "../../config/interfaces/IFriend.interface";
 import config from "../../config/app_config/config";
 import useAuth from "../../hooks/useAuth";
 import Box from "@mui/material/Box";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const FriendCard = ({ friend }: IFriendShowProps) => {
   const { user } = useAuth();
@@ -23,8 +25,7 @@ const FriendCard = ({ friend }: IFriendShowProps) => {
           });
 
         if (response.success) {
-          alert("deleted successfuly");
-          window.location.reload();
+          toast.success("deleted successfully");
         }
       } catch (error: any) {
         console.log(error);
@@ -40,11 +41,13 @@ const FriendCard = ({ friend }: IFriendShowProps) => {
             sx={{ width: 50, height: 50 }}
           />
           <Box ml={2} display={"flex"} alignItems={"center"}>
-            <Typography variant={"h5"}>
-              {user.id === friend.traveler_sender.userId ? friend.traveler_receiver.user.name : friend.traveler_sender.user.name}
-            </Typography>
+            <Link
+              to={`/traveler/${user.id === friend.traveler_sender.userId ? friend.traveler_receiver.id : friend.traveler_sender.id}`}>
+              <Typography variant={"h5"}>
+                {user.id === friend.traveler_sender.userId ? friend.traveler_receiver.user.name : friend.traveler_sender.user.name}
+              </Typography>
+            </Link>
             <Box ml={2}>
-
               <Button
                 variant="contained"
                 color="error"

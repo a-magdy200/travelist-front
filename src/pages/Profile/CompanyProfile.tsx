@@ -6,7 +6,7 @@ const CompanyProfile = () => {
 	return (
 		
 		<>
-			<UserBaseData />
+			{/*<UserBaseData />*/}
 			<CompanyData />
 		</>
 		
