@@ -23,7 +23,6 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 	const makeAuth = (data: IUserAuthenticationResponse) => {
 		const { user, access_token } = data
 		setIsLoggedIn(true)
-		setUserDetails(user)
 		if (user.id !== userDetails.id) {
 			socket.disconnect();
 			localStorage.setItem(ACCESS_TOKEN, access_token)
@@ -32,6 +31,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 			socket.connect();
 			socketListeners(socket)
 		}
+		setUserDetails(user)
 	}
 	const authContextValue = {
 		isLoggedIn,
