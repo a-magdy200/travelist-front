@@ -18,10 +18,10 @@ function App() {
 						<HomeLayout>
 							<Navigation />
 						</HomeLayout>
-						<ToastContainer autoClose={3000} />
 					</SidebarContextProvider>
 				</AuthContextProvider>
 			</AppContextProvider>
+			<ToastContainer autoClose={3000} />
 		</BrowserRouter>
 	)
 }
