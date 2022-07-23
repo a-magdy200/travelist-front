@@ -41,7 +41,7 @@ const CreatePost = () => {
 
       if (response.success) {
         if (response.data) {
-          // navigate(`/group/show/${id}`);
+          navigate(`/group/show/${id}`);
         }
       }
       toast.success("Created.");
