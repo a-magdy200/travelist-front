@@ -10,8 +10,8 @@ const socketListeners = (socket: Socket) => {
       toast.info("You have a new message");
     }
   })
-  socket.on("notification", (content) => {
-    toast.info(content);
+  socket.on("notification", (notification) => {
+    toast.info(notification.content);
   })
   socket.onAny((s: Socket) => {
     console.log(s);
