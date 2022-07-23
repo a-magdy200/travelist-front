@@ -166,7 +166,7 @@ const ListCycleComponent = () => {
 			const response: IResponseInterface<ICycleInterface[]> = await api<
 				ICycleInterface[]
 			>({
-				url: '/api/cycles/all',
+				url: '/api/cycles/company/all',
 			})
 
 			if (response.success) {

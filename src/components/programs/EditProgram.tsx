@@ -39,7 +39,8 @@ const EditProgramComponent = () => {
 	)
 	const [countries, setCountries] = React.useState<ICountryInterface[]>([])
 	const [selectedHotels, setSelectedHotels] = React.useState<number[]>([])
-	const [destination, setDestination] = useState<number[]>([])
+	const [destination, setDestination] = useState<ICountryInterface[]>([])
+	const [selectedDestination, setSelectedDestination] = useState<number[]>([])
 	const [transportationId, setTransportationId] = useState<string>('')
 	const [transportations, setTransportations] = useState<
 		ITransportationInterface[]
@@ -60,6 +61,7 @@ const EditProgramComponent = () => {
 
 			if (response.success) {
 				if (response.data) {
+					console.log(response.data)
 					setProgram(response.data)
 					setName(response.data.name)
 					setDescription(response.data.description)
@@ -70,7 +72,7 @@ const EditProgramComponent = () => {
 					setSelectedHotels(
 						response.data.hotels.map((hotel: IHotelInterface) => hotel.id)
 					)
-					setDestination(
+					setSelectedDestination(
 						response.data.destinations.map(
 							(destination: ICountryInterface) => destination.id
 						)
@@ -102,8 +104,8 @@ const EditProgramComponent = () => {
 	}
 	const getCountries = async () => {
 		try {
-			const response: IResponseInterface<IHotelInterface[]> = await api<
-				IHotelInterface[]
+			const response: IResponseInterface<ICountryInterface[]> = await api<
+				ICountryInterface[]
 			>({
 				url: '/api/admin/countries',
 			})
@@ -191,7 +193,7 @@ const EditProgramComponent = () => {
 	}
 	const changeDestination = (e: SelectChangeEvent<number[]>) => {
 		const newDestinations = e.target.value as number[]
-		setDestination(newDestinations)
+		setSelectedDestination(newDestinations)
 		setFilteredHotels(
 			hotels.filter(
 				(hotelItem) => newDestinations.indexOf(hotelItem?.countryId || 0) !== -1
@@ -218,7 +220,7 @@ const EditProgramComponent = () => {
 			formData.append('hotels', item.toString())
 			console.log('items', item)
 		}
-		for (let item of destination) {
+		for (let item of selectedDestination) {
 			formData.append('destinations', item.toString())
 			console.log(item)
 		}
@@ -261,7 +263,7 @@ const EditProgramComponent = () => {
 			description,
 			price,
 			hotels.length,
-			destination.length,
+			selectedDestination.length,
 			countryId
 		)
 		return (
@@ -269,7 +271,7 @@ const EditProgramComponent = () => {
 			description === '' ||
 			price === '' ||
 			hotels.length === 0 ||
-			destination.length === 0 ||
+			selectedDestination.length === 0 ||
 			countryId === ''
 		)
 	}
@@ -361,14 +363,14 @@ const EditProgramComponent = () => {
 										labelId="demo-multiple-country-label"
 										id="demo-multiple-country"
 										multiple
-										value={destination}
+										value={selectedDestination}
 										onChange={changeDestination}
 										input={
 											<OutlinedInput id="select-multiple-chip" label="Chip" />
 										}
 										renderValue={(selected) => (
 											<Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-												{destination.map((destinationId: number) => {
+												{selectedDestination.map((destinationId: number) => {
 													const destination = countries.find(
 														(item) => item.id === destinationId
 													)
