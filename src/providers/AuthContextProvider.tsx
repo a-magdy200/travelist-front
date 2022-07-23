@@ -2,13 +2,12 @@ import { ComponentProps, useEffect, useState } from 'react'
 import AuthContext from '../contexts/AuthContext'
 import { IUserInterface } from '../config/interfaces/IUser.interface'
 import { ACCESS_TOKEN } from '../config/helpers/constants'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 import { LoginCredentials } from '../config/interfaces/props/ILoginFormProps'
 import api from '../config/api'
 import { IResponseInterface } from '../config/interfaces/responses/IResponse.interface'
 import { IUserAuthenticationResponse } from '../config/interfaces/responses/IUserAuthenticationResponse.interface'
 import { RegisterCredentials } from '../config/interfaces/props/IRegisterFormProps'
-import  { Socket } from "socket.io-client";
 import socketListeners from "../config/helpers/socket-listeners";
 import socket from "../config/socket";
 
@@ -29,16 +28,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		navigate('/')
 		socket.auth = { userId: user.id };
 		socket.connect();
-		console.log(socket);
-
 		socketListeners(socket)
-		socket.on('connect', () => {
-		});
-		socket.onAny((s: Socket) => {
-			console.log(s);
-		})
-		socket.on('disconnect', () => {
-		});
 	}
 	const authContextValue = {
 		isLoggedIn,

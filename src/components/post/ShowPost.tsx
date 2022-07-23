@@ -1,16 +1,17 @@
 import Loader from '../Loader'
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import moment from 'moment'
 import { IPostShowProps } from '../../config/interfaces/IPostShowProps.interface'
+import Typography from "@mui/material/Typography";
 const ShowPostComponent = ({ post }: IPostShowProps) => {
 	return (
 		<div>
 			{post ? (
 				<div>
 					<div>
-						<h1>Post Details</h1>
+						<Typography variant={"h5"}>Post Details</Typography>
 					</div>
 
 					<div className="bottom">
@@ -25,18 +26,13 @@ const ShowPostComponent = ({ post }: IPostShowProps) => {
 						</Grid>
 						<Grid
 							container
-							direction="column"
 							spacing={2}
-							xs={10}
-							lg={8}
-							mb={3}
 						>
 							<Grid item xs={6}>
-								<h2 className="header">{post.content}</h2>
+								<Typography variant={"body1"}>{post.content}</Typography>
 							</Grid>
 						</Grid>
 					</div>
-
 					<Link to={`/posts`}>
 						<Button className="createButton" variant="contained">
 							Back
