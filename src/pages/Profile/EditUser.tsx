@@ -10,6 +10,7 @@ import { IUserRequestBodyInterface } from '../../config/interfaces/IUserRequestB
 import { useContext } from 'react'
 import AuthContext from '../../contexts/AuthContext'
 import api from '../../config/api'
+import { toast } from 'react-toastify'
 const EditUser = () => {
 	const [name, setName] = useState<string>('')
 	const [email, setEmail] = useState('')
@@ -41,7 +42,7 @@ const EditUser = () => {
 	}, [])
 	async function sendData(e: React.FormEvent<HTMLFormElement>) {
 		e.preventDefault()
-		const requestBody = {
+    	const requestBody = {
 			name,
 			email,
 			address,
