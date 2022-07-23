@@ -1,5 +1,5 @@
 import Loader from '../Loader'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from "react-router-dom";
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import moment from 'moment'
@@ -37,12 +37,11 @@ const ShowPostComponent = ({ post }: IPostShowProps) => {
 						</Grid>
 					</div>
 
-					<NavLink to={`/posts`}>
-						{' '}
+					<Link to={`/posts`}>
 						<Button className="createButton" variant="contained">
 							Back
 						</Button>
-					</NavLink>
+					</Link>
 				</div>
 			) : (
 				<Loader />

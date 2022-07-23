@@ -1,5 +1,5 @@
 import Loader from '../Loader'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from "react-router-dom";
 import Button from '@mui/material/Button'
 import config from '../../config/app_config/config'
 import { IHotelShowProps } from '../../config/interfaces/IHotelShowProps.interface'
@@ -10,8 +10,12 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
+import Box from "@mui/material/Box";
+import useAuth from "../../hooks/useAuth";
 
 const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
+	const {user} = useAuth();
+	const canUserReview = user.type === 'traveler' && ((hotel?.reviews && !hotel.reviews.find((review) => review?.traveler?.userId === user.id)) || hotel?.reviews?.length === 0);
 	const photoPath = hotel
 		? `${config.apiUrl}/uploads/hotels/${hotel.cover_picture}`
 		: ''
@@ -20,19 +24,26 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 		<div>
 			{hotel ? (
 				<div>
-					<div>
-						<h1>{hotel.name} Hotel Details</h1>
-					</div>
-					<div className="bottom">
-						<Card sx={{ maxWidth: 945, minWidth: 345, m: 2 }}>
-							<CardMedia
-								component="img"
-								height="140"
-								image={photoPath}
-								alt="program Cover"
-							/>
+					<Box mb={2} display={"flex"} alignItems={"center"}>
+						<Box mr={2}>
+							<Link to={`/hotel/list`}>
+								<Button className="createButton" variant="contained">
+									Back
+								</Button>
+							</Link>
+						</Box>
+						<Typography variant={"h5"}>{hotel.name}</Typography>
+					</Box>
+					<Box mb={2}>
+						<Card variant={"outlined"}>
+							{/*<CardMedia*/}
+							{/*	component="img"*/}
+							{/*	height="140"*/}
+							{/*	image={photoPath}*/}
+							{/*	alt="program Cover"*/}
+							{/*/>*/}
 
-							<CardContent className="bottom">
+							<CardContent>
 								<Typography gutterBottom variant="h6" component="div">
 									Hotel located in Country : {hotel.country?.name}
 								</Typography>
@@ -55,19 +66,16 @@ const ShowHotelComponent = ({ hotel }: IHotelShowProps) => {
 								</Typography>
 							</CardContent>
 						</Card>
-					</div>
+					</Box>
 					{/* <div propName={"myValue"} /> */}
 
 					<ShowHotelReviews hotelReviews={hotel?.reviews || []} />
+					{canUserReview ? (
 
 					<CreateHotelReviews hotelId={hotel.id} />
+					) : null}
 
-					<NavLink to={`/hotel/list`}>
-						{' '}
-						<Button className="createButton" variant="contained">
-							Back
-						</Button>
-					</NavLink>
+
 				</div>
 			) : (
 				<Loader />

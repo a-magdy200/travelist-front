@@ -9,6 +9,7 @@ import ListFriendRequestsComponent from '../../components/FriendRequest/ListFrie
 
 const ListFriendRequests = () => {
 	const [friendRequests, setFriendRequests] = useState<IFriendRequestInterface[]>([])
+	const [isLoading, setIsLoading] = useState(true);
 	const getFriendRequests = async () => {
 		try {
 			const response: IResponseInterface<IFriendRequestInterface[]> = await api<
@@ -16,7 +17,7 @@ const ListFriendRequests = () => {
 			>({
 				url: '/api/friendrequests/received',
 			})
-	
+
 			if (response.success) {
 				if (response.data) {
 					setFriendRequests(response.data)
@@ -28,12 +29,15 @@ const ListFriendRequests = () => {
 		}
 	}
 	useEffect(() => {
-		getFriendRequests()
+		getFriendRequests().then(() => setIsLoading(false));
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	}
 	return <div>
 		{
-		friendRequests ? 
-		<ListFriendRequestsComponent friendRequests={friendRequests} /> 
+		friendRequests ?
+		<ListFriendRequestsComponent friendRequests={friendRequests} />
 		:
 		<Loader/>
 	    }

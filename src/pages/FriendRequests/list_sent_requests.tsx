@@ -9,6 +9,7 @@ import ListSentRequestsComponent from '../../components/FriendRequest/ListSentRe
 
 const ListSentRequests = () => {
 	const [mySentRequests, setMySentRequests] = useState<IFriendRequestInterface[]>([])
+	const [isLoading, setIsLoading] = useState(true);
 	const getMySentRequests = async () => {
 		try {
 			const response: IResponseInterface<IFriendRequestInterface[]> = await api<
@@ -16,7 +17,7 @@ const ListSentRequests = () => {
 			>({
 				url: '/api/friendrequests/sent',
 			})
-	
+
 			if (response.success) {
 				if (response.data) {
 					setMySentRequests(response.data)
@@ -28,12 +29,15 @@ const ListSentRequests = () => {
 		}
 	}
 	useEffect(() => {
-		getMySentRequests ()
+		getMySentRequests ().then(() => setIsLoading(false));
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	}
 	return <div>
 		{
-		mySentRequests ? 
-		<ListSentRequestsComponent mySentRequests={mySentRequests} /> 
+		mySentRequests ?
+		<ListSentRequestsComponent mySentRequests={mySentRequests} />
 		:
 		<Loader/>
 	    }

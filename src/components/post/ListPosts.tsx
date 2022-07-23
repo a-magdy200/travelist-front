@@ -53,13 +53,13 @@ const ListPostsComponent = ({ post }: IPostShowProps) => {
 										<Link
 										to={'/post/report/' + post.id}
 										state={{ groupId: post.groupId }}>
-											<Button variant={"contained"}>
+											<Button color={"warning"} variant={"contained"}>
 												Report
 										<ReportIcon />
 										</Button>
 									</Link>
-									
-									
+
+
 									</Box>
 									</Box>
 								</Grid>

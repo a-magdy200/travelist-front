@@ -54,6 +54,7 @@ import BookCycle from '../pages/Cycle/book-cycle'
 import FeedHome from "../pages/FeedPage";
 import useAuth from "../hooks/useAuth";
 import HomePage from "../pages/HomePage";
+import TravelerProfile from "../pages/Profile/TravelerProfile";
 
 const UserRoutes = () => {
 	const {user} =  useAuth();
@@ -109,7 +110,7 @@ const UserRoutes = () => {
 			<Route path="/hotel/show/:id" element={<ShowHotel />} />
 
       <Route path="/traveler/list" element={<TravelerList />} />
-      <Route path="/traveler/:id" element={<TravelerList />} />
+      <Route path="/traveler/:id" element={<TravelerProfile />} />
       <Route path="/search/:type" element={<SearchList />} />
 
 			{/* for admin usage */}

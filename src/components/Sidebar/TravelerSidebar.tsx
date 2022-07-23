@@ -23,10 +23,15 @@ const TravelerSidebar = () => {
         to={'/group/list'}
       />
       <SidebarItem
-        title={'All Hotels'}
+        title={'Hotels'}
         icon={<HomeOutlined />}
         to={'/hotel/list'}
       />
+        <SidebarItem
+          title={'Companies'}
+          icon={<HomeOutlined />}
+          to={'/company/list'}
+        />
       <SidebarItem
         title={'My Posts'}
         icon={<HomeOutlined />}
@@ -43,10 +48,15 @@ const TravelerSidebar = () => {
         to={'/friends'}
       />
       <SidebarItem
-        title={'All Companies'}
+        title={'Received Friend Requests'}
         icon={<HomeOutlined />}
-        to={'/company/list'}
+        to={'/traveler/friendrequests'}
       />
+      <SidebarItem
+      title={'Sent Friend Requests'}
+      icon={<HomeOutlined />}
+      to={'/traveler/sentrequests'}
+    />
     </>
   )
 }
