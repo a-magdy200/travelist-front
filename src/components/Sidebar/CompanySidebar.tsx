@@ -27,6 +27,11 @@ const CompanySidebar = () => {
         icon={<HomeOutlined />}
         to={'/booking/list'}
       />
+       <SidebarItem
+        title={'List cycles'}
+        icon={<HomeOutlined />}
+        to={'/cycle/list'}
+      />
      
     </>
   )

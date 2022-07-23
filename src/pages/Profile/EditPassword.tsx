@@ -7,10 +7,15 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
 const EditPassword = () => {
 	const [password, setPass] = useState('')
 	const [confirmPassword, setPassConfirm] = useState('')
-
+	const [isLoading, setIsLoading] = useState(false);
+	const [errors, setErrors] = useState([]);
+  
 	async function sendData(e: any) {
 		e.preventDefault()
 		let checkSubmit = true
@@ -20,6 +25,9 @@ const EditPassword = () => {
 		}
 
 		if (checkSubmit) {
+			toast.info("Changing Password....");
+	    	setErrors([]);
+		    setIsLoading(true);
 			try {
 				const response = await fetch('http://localhost:4000/', {
 					method: 'PUT',
@@ -31,12 +39,20 @@ const EditPassword = () => {
 					console.log(response.status)
 					console.log('done')
 				}
-			} catch (error) {
+				toast.success("Editing Password Successfully");
+			} catch (error:any) {
 				console.log(error)
+				setErrors(error?.response?.data?.errors || []);
+				toast.error("An error has occurred");
+		  
 			}
 		}
+	    setIsLoading(false);
+	
 	}
-
+	if (isLoading) {
+		return <Loader/>
+	  }
 	return (
 		<div
 			className="container"
@@ -52,6 +68,7 @@ const EditPassword = () => {
 						<CardContent>
 							<h2>Change Password</h2>
 							<div>
+							<DisplayErrorsList errors={errors} />
 								<TextField
 									required
 									fullWidth

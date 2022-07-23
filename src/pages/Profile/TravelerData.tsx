@@ -7,10 +7,13 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import DisplayTravelerData from '../../components/Profile/DisplayTravelerData'
 import { ITravelerReview } from '../../config/interfaces/ITravelerReview.interface'
 import Loader from "../../components/Loader";
+import { toast } from 'react-toastify'
 const TravelerData = () => {
 	const [traveler, setTravelerProfile] = useState<ITravelerReview>()
-	const [isLoading, setIsLoading] = useState(true);
-	const getMyProfile = async () => {
+	const [isLoading, setIsLoading] = useState(false);
+	   const getMyProfile = async () => {
+		toast.info("Getting Data....");
+        setIsLoading(true);
 		try {
 			const response: IResponseInterface<ITravelerReview> =
 				await api<ITravelerReview>({
@@ -23,8 +26,9 @@ const TravelerData = () => {
 					setTravelerProfile(response.data)
 				}
 			}
+		toast.success("Getting Data Successfully");
 		} catch (error: any) {
-			console.log(error)
+			toast.error("An error has occurred");
 		}
 	}
 	useEffect(() => {
