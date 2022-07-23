@@ -10,8 +10,10 @@ import { IUserAuthenticationResponse } from '../config/interfaces/responses/IUse
 import { RegisterCredentials } from '../config/interfaces/props/IRegisterFormProps'
 import socketListeners from "../config/helpers/socket-listeners";
 import socket from "../config/socket";
+import Loader from "../components/Loader";
 
 const AuthContextProvider = ({ children }: ComponentProps<any>) => {
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 	const [userDetails, setUserDetails] = useState<IUserInterface>({
 		name: '',
@@ -26,7 +28,6 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		if (user.id !== userDetails.id) {
 			socket.disconnect();
 			localStorage.setItem(ACCESS_TOKEN, access_token)
-			navigate('/')
 			socket.auth = { userId: user.id };
 			socket.connect();
 			socketListeners(socket)
@@ -118,6 +119,7 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 			if (response.data) {
 				makeAuth(response.data)
 			}
+			navigate("/")
 		},
 		register: async (credentials: RegisterCredentials) => {
 			const response: IResponseInterface<IUserAuthenticationResponse> =
@@ -129,20 +131,25 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 			if (response.data) {
 				makeAuth(response.data)
 			}
+			navigate("/")
 		},
 	}
 	useEffect(() => {
-		const token = localStorage.getItem(ACCESS_TOKEN) ?? ''
-		if (token !== '') {
-			authContextValue.getUser().then(() => {
-				// setIsLoggedIn(true)
-			})
-		}
+		(async () => {
+			const token = localStorage.getItem(ACCESS_TOKEN) ?? ''
+			if (token !== '') {
+				await authContextValue.getUser()
+			}
+			setIsLoading(false);
+		})();
 		return () => {
 			socket.off('connect');
 			socket.off('disconnect');
 		}
 	}, [])
+	if (isLoading) {
+		return <Loader/>
+	}
 	return (
 		<AuthContext.Provider value={authContextValue}>
 			{children}

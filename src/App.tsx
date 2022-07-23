@@ -9,19 +9,22 @@ import SidebarContextProvider from './providers/SidebarContextProvider'
 import HomeLayout from './layout/home.layout'
 import Navigation from './navigation'
 import { ToastContainer } from "react-toastify";
+import ChatContextProvider from "./providers/ChatContextProvider";
 function App() {
 	return (
 		<BrowserRouter>
 			<AppContextProvider>
 				<AuthContextProvider>
 					<SidebarContextProvider>
-						<HomeLayout>
-							<Navigation />
-						</HomeLayout>
+						<ChatContextProvider>
+							<HomeLayout>
+								<Navigation />
+							</HomeLayout>
+						</ChatContextProvider>
 					</SidebarContextProvider>
 				</AuthContextProvider>
 			</AppContextProvider>
-			<ToastContainer autoClose={3000} />
+			<ToastContainer autoClose={3000} pauseOnHover={false} />
 		</BrowserRouter>
 	)
 }
