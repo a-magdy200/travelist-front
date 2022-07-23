@@ -26,6 +26,7 @@ import { LoadingButton } from "@mui/lab";
 import Grid from "@mui/material/Grid";
 import { ReactComponent as LoginImage } from "../../assets/images/login.svg";
 import Box from "@mui/material/Box";
+import DisplayErrorsList from "../../components/DisplayErrors/DisplayErrorsList";
 
 function Register() {
   const [name, set_name] = useState("");
@@ -41,7 +42,7 @@ function Register() {
   const [description, set_description] = useState("");
   const { makeAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [errors, setErrors] = useState([]);
   async function sendData(e: any) {
     e.preventDefault();
     setIsLoading(true);
@@ -64,7 +65,7 @@ function Register() {
             national_id,
             date_of_birth,
             gender,
-            is_guide
+            is_guide: is_guide ? "1" : "0"
           };
 
           response = await api<IUserAuthenticationResponse>({
@@ -94,6 +95,7 @@ function Register() {
           }
         }
       } catch (error: any) {
+        setErrors((error?.response?.data?.errors || []))
         console.log(JSON.stringify(error));
         // response.errors - div - display
       }
@@ -120,7 +122,7 @@ function Register() {
           <form onSubmit={sendData}>
             <CardContent>
               <h2>Register Now</h2>
-
+              <DisplayErrorsList errors={errors}/>
               <Box mb={2}>
                 <CustomInputField
                   type={"text"}
