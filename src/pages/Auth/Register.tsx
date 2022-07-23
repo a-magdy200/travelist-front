@@ -69,7 +69,7 @@ function Register() {
             national_id,
             date_of_birth,
             gender,
-            is_guide
+            is_guide: is_guide ? '1' : '0'
           };
 
           response = await api<IUserAuthenticationResponse>({
