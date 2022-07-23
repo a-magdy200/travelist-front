@@ -24,11 +24,14 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		const { user, access_token } = data
 		setIsLoggedIn(true)
 		setUserDetails(user)
-		localStorage.setItem(ACCESS_TOKEN, access_token)
-		navigate('/')
-		socket.auth = { userId: user.id };
-		socket.connect();
-		socketListeners(socket)
+		if (user.id !== userDetails.id) {
+			socket.disconnect();
+			localStorage.setItem(ACCESS_TOKEN, access_token)
+			navigate('/')
+			socket.auth = { userId: user.id };
+			socket.connect();
+			socketListeners(socket)
+		}
 	}
 	const authContextValue = {
 		isLoggedIn,
@@ -37,6 +40,8 @@ const AuthContextProvider = ({ children }: ComponentProps<any>) => {
 		logout: () => {
 			localStorage.removeItem(ACCESS_TOKEN)
 			setIsLoggedIn(false)
+			socket.removeAllListeners()
+			socket.disconnect();
 			setUserDetails({
 				name: '',
 				profile_picture: '',
