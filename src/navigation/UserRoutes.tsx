@@ -118,6 +118,9 @@ const UserRoutes = () => {
       <Route path="/traveler/:id" element={<TravelerProfile />} />
       <Route path="/search/:type" element={<SearchList />} />
 
+      {/* Create Review routes */}
+      <Route path="/countryReview/create/:id" element={<CreateCountryReviews />} />
+
 			{/* for admin usage */}
 			<Route path="/hotelReview/list" element={<ListHotelsReviews />} />
 			<Route path="/hotelReview/delete/:id" element={<DeleteHotelReview />} />

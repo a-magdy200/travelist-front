@@ -27,13 +27,14 @@ const SearchField = () => {
   return (
     <Box p={1}
           display={"flex"} alignItems={"flex-end"}
-         sx={{ mx: 0.5, backgroundColor: blue[50] }}>
+         sx={{ mx: 0.5 }}>
       <TextField
-        variant={"standard"}
+        variant={"outlined"}
         sx={{ mx: 0.5 }}
         id="outlined-helperText"
         label="search keyword"
         size="small"
+        color="primary"
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -47,12 +48,11 @@ const SearchField = () => {
         ) => setKeyword(event.target.value)}
       />
       <FormControl>
-        <InputLabel id="demo-simple-select-label">Type</InputLabel>
-
+        <InputLabel id="type-select">Type</InputLabel>
         <Select
           sx={{ mx: 0.5 }}
           id="type-select"
-          color={"primary"}
+          size="small"
           value={type}
           label="Type"
           onChange={(event: any) => setType(event.target.value)}
@@ -64,21 +64,6 @@ const SearchField = () => {
           ))}
         </Select>
       </FormControl>
-      {/* <TextField
-				id="outlined-select-currency"
-				select
-                size='small'
-                variant='outlined'
-				label="Select"
-				value={type}
-				onChange={(event: any) => setType(event.target.value)}
-			>
-				{searchTypeOptions.map((option) => (
-					<MenuItem key={option} value={option}>
-						{option}
-					</MenuItem>
-				))}
-			</TextField> */}
       <Button
         sx={{ mx: 0.5 }}
         variant="contained"
@@ -87,6 +72,7 @@ const SearchField = () => {
         disableElevation
         onClick={() => {
           navigate(`/search/${type}?keyword=${keyword}`);
+          setKeyword('')
         }}
       >
         Search
