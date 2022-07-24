@@ -100,20 +100,20 @@ export default function ShowCountry() {
 			}}
 		>
 			<Box >
-				<Card variant={"outlined"}>
+				<Card sx={{ position: 'relative', width: 900, height: 400 }}>
 				<DisplayErrorsList errors={errors} />
-					{/*<CardMedia*/}
-					{/*	component="img"*/}
-					{/*	image={coverPic}*/}
-					{/*	alt="Egypt"*/}
-					{/*	sx={{*/}
-					{/*		position: 'absolute',*/}
-					{/*		top: 0,*/}
-					{/*		right: 0,*/}
-					{/*		height: '100%',*/}
-					{/*		width: '100%',*/}
-					{/*	}}*/}
-					{/*/>*/}
+					<CardMedia
+						component="img"
+						image={coverPic}
+						alt={country?.name}
+						sx={{
+							position: 'absolute',
+							top: 0,
+							right: 0,
+							height: '100%',
+							width: '100%',
+						}}
+					/>
 					<CardContent sx={{ position: 'relative' }}>
 						<Typography gutterBottom variant="h3" sx={{ fontWeight: 'bold' }}>
 							{country && country.name + ' '}

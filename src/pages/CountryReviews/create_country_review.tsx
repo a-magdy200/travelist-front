@@ -5,7 +5,6 @@ import { IResponseInterface } from '../../config/interfaces/IResponse.interface'
 import Card from '@mui/material/Card'
 import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
-import CustomInputField from '../../components/Form/CustomInputField'
 import Button from '@mui/material/Button'
 import { ICountryReviewRequestBody } from '../../config/interfaces/ICountryReviewRequestBody.interface'
 import { ICountryReview } from '../../config/interfaces/ICountryReview.interface'
@@ -14,6 +13,9 @@ import Typography from '@mui/material/Typography'
 import { toast } from 'react-toastify'
 import Loader from '../../components/Loader'
 import DisplayErrorsList from '../../components/DisplayErrors/DisplayErrorsList'
+import Container from '@mui/material/Container'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
 
 const CreateCountryReviews = () => {
 	const [review, setReview] = useState('')
@@ -64,9 +66,11 @@ const CreateCountryReviews = () => {
 		return <Loader />
 	}
 	return (
-		<div className="container">
-			<div>
-				<Card sx={{ maxWidth: 700 }}>
+		<Container
+			sx={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}
+		>
+			<Box>
+				<Card sx={{ width: 700 }}>
 					<form onSubmit={sendData}>
 						<CardContent>
 							<h2>Add Your Review</h2>
@@ -83,23 +87,22 @@ const CreateCountryReviews = () => {
 							<br />
 
 							<div>
-								<CustomInputField
+								<TextField
 									type={'text'}
 									label={'Review Content'}
+									variant="outlined"
+									fullWidth
+									multiline
+									required
 									value={review}
-									setValue={setReview}
+									onChange={(
+										event: React.ChangeEvent<
+											HTMLInputElement | HTMLTextAreaElement
+										>
+									) => setReview(event.target.value)}
 								/>
 							</div>
 							<br />
-
-							{/* <div>
-								<CustomInputField
-									type={'number'}
-									label={'Review Rating'}
-									value={rating}
-									setValue={setRating}
-								/>
-							</div> */}
 						</CardContent>
 
 						<CardActions sx={{ justifyContent: 'center' }}>
@@ -109,8 +112,8 @@ const CreateCountryReviews = () => {
 						</CardActions>
 					</form>
 				</Card>
-			</div>
-		</div>
+			</Box>
+		</Container>
 	)
 }
 export default CreateCountryReviews
