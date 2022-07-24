@@ -19,6 +19,7 @@ import { ICycleInterface } from '../../config/interfaces/ICycle.interface'
 import Loader from '../Loader'
 import { HeadCellInterface } from '../../config/interfaces/IHeadCell.interface'
 import { toast } from 'react-toastify'
+import moment from 'moment'
 
 function descendingComparator<Data>(a: Data, b: Data, orderBy: keyof Data) {
 	if (b[orderBy] < a[orderBy]) {
@@ -76,10 +77,10 @@ const headCells: readonly HeadCellInterface<ICycleInterface>[] = [
 		label: 'Departure Date',
 	},
 	{
-		id: 'arrival_date',
+		id: 'return_arrival_date',
 		numeric: true,
 		disablePadding: false,
-		label: 'Arrival Date',
+		label: 'Return Arrival Date',
 	},
 	{
 		id: 'departure_location',
@@ -276,11 +277,9 @@ const ListCycleComponent = () => {
 														<TableCell align="center">{cycle.id}</TableCell>
 														<TableCell align="center">{cycle.name}</TableCell>
 														<TableCell align="center">
-															{cycle.departure_date}
-														</TableCell>
+														{moment(cycle.departure_date).format('MMM Do YY')}														</TableCell>
 														<TableCell align="center">
-															{cycle.arrival_date}
-														</TableCell>
+														{moment(cycle.return_arrival_date).format('MMM Do YY')}														</TableCell>
 														<TableCell align="center">
 															{cycle.departure_location}
 														</TableCell>

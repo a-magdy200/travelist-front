@@ -5,6 +5,7 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import ShowCycleReviews from '../../pages/CycleReviews/show_cycle_reviews'
 import CreateCycleReviews from '../../pages/CycleReviews/create_cycle_review'
+import moment from 'moment'
 
 const ShowCycleComponent = ({ cycle }: ICycleShowProps) => {
 	return (
@@ -33,19 +34,18 @@ const ShowCycleComponent = ({ cycle }: ICycleShowProps) => {
 							</Grid>
 
 							<Grid item xs={6}>
-								Departure Date : {cycle.departure_date}
+								Departure Date : {moment(cycle.departure_date).format('MMM Do YY')}
+							</Grid>
+							<Grid item xs={6}>
+								Arrival Date : {moment(cycle.arrival_date).format('MMM Do YY')}
 							</Grid>
 
 							<Grid item xs={6}>
-								Arrival Date : {cycle.arrival_date}
+								Return Date : {moment(cycle.return_date).format('MMM Do YY')}
 							</Grid>
 
 							<Grid item xs={6}>
-								Return Date : {cycle.return_date}
-							</Grid>
-
-							<Grid item xs={6}>
-								Return Arrival Date : {cycle.return_arrival_date}
+								Return Arrival Date : {moment(cycle.return_arrival_date).format('MMM Do YY')}
 							</Grid>
 
 							<Grid item xs={6}>

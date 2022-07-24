@@ -37,16 +37,20 @@ const BookingFormComponent = () => {
 						body: JSON.stringify(requestBody),
 					})
 				if (response.success) {
-					alert('booked successfully')
+					if(response.data)
+					{
+					toast.success('Booking Successfully')
 					console.log(response.data)
+					navigate(`/program/all`)
+				   }
+
 				}
 			}
-			toast.success('Booking Successfully')
 		} catch (error: any) {
 			setErrors(error?.response?.data?.errors || [])
 			toast.error('An error has occurred')
+			console.log(error)
 		}
-		navigate(`/program/show/user/${id}`)
 		setIsLoading(false)
 	}
 	if (isLoading) {
